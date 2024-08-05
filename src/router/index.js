@@ -6,6 +6,11 @@ const routes = [
         path: '/home',
         name: 'HOME',
         component: HomeComponent
+    },
+    {
+        path: '/',
+        name: 'ROOT',
+        component: HomeComponent
     }
 ]
 

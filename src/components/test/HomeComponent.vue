@@ -36,8 +36,8 @@
     </v-row> 
 
     <v-row>
-
-    </v-row>  
+      <FooterComponent/>
+    </v-row>
 
   </v-container>
 </template>
@@ -45,11 +45,13 @@
 <script>
 import CloseableChip from '@/components/chip/CloseableChip.vue';
 import BasicChip from '@/components/chip/BasicChip.vue';
+import FooterComponent from '@/components/footer/FooterComponent.vue'
 
 export default {
   components: {
     CloseableChip,
-    BasicChip
+    BasicChip,
+    FooterComponent
   }
 }
 </script>

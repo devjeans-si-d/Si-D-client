@@ -8,12 +8,10 @@
     </v-app>
 </template>
 <script>
-
 export default{
     props: {
         title: String,
         color: String
     },
-
 }
 </script>

@@ -14,6 +14,11 @@
         <v-btn color="sid_btn2">버튼 색2</v-btn>
       </v-col>
     </v-row>
+
+    <v-row>
+      <v-col>사람칩</v-col>
+      <v-col><AvatarChip url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/sid-practice/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2024-08-05+%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE+10.08.49.png" name="최세호"/></v-col>
+    </v-row>
     
     <v-row>
       <v-col>기술 스택 칩(closeable)</v-col>
@@ -35,6 +40,8 @@
       </v-col>
     </v-row> 
 
+
+    <!-- Footer입니다 -->
     <v-row>
       <FooterComponent/>
     </v-row>
@@ -45,13 +52,15 @@
 <script>
 import CloseableChip from '@/components/chip/CloseableChip.vue';
 import BasicChip from '@/components/chip/BasicChip.vue';
-import FooterComponent from '@/components/footer/FooterComponent.vue'
+import FooterComponent from '@/components/footer/FooterComponent.vue';
+import AvatarChip from '@/components/chip/AvatarChip.vue';
 
 export default {
   components: {
     CloseableChip,
     BasicChip,
-    FooterComponent
+    FooterComponent,
+    AvatarChip
   }
 }
 </script>

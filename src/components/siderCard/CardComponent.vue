@@ -2,7 +2,7 @@
     <v-card class="text-center fixed-card">
         <v-card-item class="card-avatar">
             <v-avatar class="mx-auto" size="120">
-                <img src=image alt="Profile Image" />
+                <img :src="image" alt="Profile Image" style="height:100px; width:auto;"/>
             </v-avatar>
         </v-card-item>
         <v-card-item class="card-text">

@@ -4,9 +4,21 @@
         <v-card class="my-page-card" color="#F3F3F3">
             <v-text>
                 <v-container>
-                    <v-row class="item-wrap" style="margin: auto">
-                      <v-col><span class="text-center">수신용 이메일</span></v-col>
-                      <v-col>{{ email }}</v-col>
+                    <v-row class="item-wrap-field" style="margin: auto">
+                      <v-col cols="auto"><span class="text-center">수신용 이메일</span></v-col>
+                      <v-col cols="auto">{{ email }}</v-col>
+                    </v-row>
+                    <v-row class="item-wrap-field" style="margin: auto">
+                      <v-col cols="auto"><span class="text-center">닉네임</span></v-col>
+                      <v-col cols="auto"><v-text-field density=compact v-model="nickname"></v-text-field></v-col>
+                    </v-row>
+                    <v-row class="item-wrap-field" style="margin: auto">
+                      <v-col cols="auto"><span class="text-center">이름</span></v-col>
+                      <v-col cols="auto"><v-text-field density=compact v-model="name"></v-text-field></v-col>
+                    </v-row>
+                    <v-row class="item-wrap-field" style="margin: auto">
+                      <v-col cols="auto"><span class="text-center">전화번호</span></v-col>
+                      <v-col cols="auto"><v-text-field density=compact v-model="phone"></v-text-field></v-col>
                     </v-row>
             <v-row class="item-wrap">
                 <ButtonComponent content="저장"/>
@@ -41,6 +53,10 @@
   </script>
   
   <style>
+  .v-text-field {
+    height: 10px;
+    width: 150px;
+  }
   .my-page-card{
     color: #E3E3E3;
     width: 500px;
@@ -54,6 +70,15 @@
     justify-content: center;
     padding-top: 20px;
     padding-bottom: 20px;
+  
+  }
+  .item-wrap-field {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #D4D4D4;
+    width: 80%;
   }
   /* 중앙 정렬을 위한 스타일 */
   .text-center {

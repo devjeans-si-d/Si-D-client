@@ -85,21 +85,22 @@
   .text-center {
     text-align: center;
     width: 300px;
-    padding-bottom: 10px;
-    padding-top: 10px;
+    padding-bottom: 20px;
+    padding-top: 20px;
     font-weight: bold;
   }
   
   .text-left {
     text-align: left;
     width: 300px;
-    padding-bottom: 10px;
-    padding-top: 10px;
+    padding-bottom: 20px;
+    padding-top: 20px;
   }
 
   .bordered-table th,
   .bordered-table td {
     border-bottom: 1px solid #D4D4D4;
+    height: 60px;
   }
   
   /* 열 너비 스타일 */

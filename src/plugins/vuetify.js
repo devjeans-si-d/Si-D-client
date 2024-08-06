@@ -19,7 +19,7 @@ export default createVuetify({
                     deep: colors.green.darken4,
                     sid_green: "#E6FFE3",
                     sid_btn1: "#A4DEC6",
-                    sid_btn2: "094F08"
+                    sid_btn2: "#094F08"
                 }
             },
         },

@@ -29,10 +29,30 @@
 
                 <v-col class="d-flex justify-end">
                     <!-- 오른쪽 정렬 -->
+                    <v-menu v-if="!isLogin" offset-y> 
+                        <!-- 아직 api 안갖다 붙여서 !isLogin 해놓음 이후 isLogin으로 바꿔야됨. -->
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn text v-bind="attrs" v-on="on">
+                            <v-avatar size="40">
+                              <!-- 로그인api 갖다붙일 때 프로필 이미지+닉네임 가져오는 부분 수정필요 -->
+                              <img src='@/assets/default_profile_image.png' alt="profileImageUrl" class="avatar-image">
+                            </v-avatar>
+                            <span class="ml-2">{{ nickname }}</span>
+                          </v-btn>
+                        </template>
+
+                        <v-list>
+                          <v-list-item :to="{ path: '/mypage' }">
+                            <v-list-item-title>마이페이지</v-list-item-title>
+                          </v-list-item>
+                          <v-list-item @click="doLogout">
+                            <v-list-item-title>로그아웃</v-list-item-title>
+                          </v-list-item>
+                        </v-list>
+
+                      </v-menu>
                     <v-btn class="custom-button" v-if="!isLogin" :to="{path:'/member/create'}">회원가입</v-btn>
                     <v-btn class="custom-button" v-if="!isLogin" :to="{path:'/login'}">로그인</v-btn>
-    
-                    <v-btn v-if="isLogin" @click="doLogout">로그아웃</v-btn>
                 </v-col>
 
             </v-row>
@@ -45,20 +65,31 @@
   export default{
     data(){
         return{
-            isLogin : false
-        }
+            isLogin : false,
+            nickname : 'devjeans', // 임시 닉네임 이후에 빈값으로 두기
+            profileImageUrl: '@/assets/default_profile_image.png',
+        };
     },
     created(){
         const token = localStorage.getItem("token");
         if(token){
             // localStorage에 token이 있으면 로그인된 상태
             this.isLogin = true;
+            this.loadUserProfile();
         }
     },
     methods:{
         doLogout(){
             localStorage.clear();
+            this.isLogin = false;
+            this.nickname = '';
+            this.profileImageUrl = '';
             window.location.reload();
+        },
+        loadUserProfile(){
+            // api 갖다붙일 때 수정해야 됨
+            this.nickname = 'devjeans'; // 로그인한 사용자 닉네임
+            this.profileImageUrl = ''
         }
     }
   };
@@ -72,6 +103,11 @@
         color: #094F08 !important; /* 글씨 색 */
         text-transform: none !important; /* 대문자 변환 방지 */
     }
+    .avatar-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
   /* 미디어 쿼리: 화면이 600px 이하일 때 적용할 CSS 스타일*/
   @media (max-width: 600px) {
     .v-app-bar .v-row {

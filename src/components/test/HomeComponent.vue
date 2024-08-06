@@ -55,7 +55,7 @@ import CloseableChip from '@/components/chip/CloseableChip.vue';
 import BasicChip from '@/components/chip/BasicChip.vue';
 import FooterComponent from '@/components/footer/FooterComponent.vue';
 import AvatarChip from '@/components/chip/AvatarChip.vue';
-import ButtonComponent from './ButtonComponent.vue';
+import ButtonComponent from '../button/ButtonComponent.vue';
 
 export default {
   components: {

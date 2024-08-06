@@ -1,5 +1,8 @@
 <template>
     <v-container>
+        <v-row class="d-flex">
+            <v-col>회원 정보 변경</v-col>
+        </v-row>
         <MyPageCardComponent />
     </v-container>
 </template>

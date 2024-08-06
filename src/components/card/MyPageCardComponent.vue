@@ -2,10 +2,10 @@
     <v-flex xs12 sm6 offset-sm3>
     <v-container>
        
-        <v-card width="80%">
-            <v-text>
+        <v-card width="80%" class="my-page-card" color="#F3F3F3">
+            <v-text class="v-text-class">
                 <v-container>
-                    <v-row>
+                    <v-row class="item-wrap">
                     <v-col cols="8" style="margin: auto">
                     <v-simple-table class="bordered-table">
                         <tr>
@@ -32,8 +32,12 @@
                 </v-simple-table>
             </v-col>
             </v-row>
-            <v-row>
-                
+            <v-row class="item-wrap">
+                <ButtonComponent content="저장"/>
+            </v-row>
+            <v-row class="item-wrap">
+                    <PlainButtonComponent content="회원 탈퇴"/>
+                    <PlainButtonComponent content="로그아웃"/>
             </v-row>
             </v-container>
             </v-text>
@@ -45,7 +49,14 @@
 
   
   <script>
+  import ButtonComponent from '@/components/button/ButtonComponent.vue';
+  import PlainButtonComponent from '@/components/button/PlainButtonComponent.vue';
+
   export default {
+    components: {
+        ButtonComponent,
+        PlainButtonComponent
+    },
     data() {
         return {
             email: "default@devjeans.com",
@@ -59,6 +70,15 @@
   </script>
   
   <style>
+  .my-page-card{
+    color: #E3E3E3;
+  }
+  .item-wrap {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
   /* 중앙 정렬을 위한 스타일 */
   .text-center {
     text-align: center;
@@ -76,7 +96,7 @@
 
   .bordered-table th,
   .bordered-table td {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #D4D4D4;
   }
   
   /* 열 너비 스타일 */

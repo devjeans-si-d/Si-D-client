@@ -5,19 +5,19 @@
             <v-text>
                 <v-container>
                     <v-row class="item-wrap-field" style="margin: auto">
-                      <v-col cols="auto"><span class="text-center">수신용 이메일</span></v-col>
+                      <v-col cols="4"><span class="text-center">수신용이메일</span></v-col>
                       <v-col cols="auto">{{ email }}</v-col>
                     </v-row>
                     <v-row class="item-wrap-field" style="margin: auto">
-                      <v-col cols="auto"><span class="text-center">닉네임</span></v-col>
+                      <v-col cols="4"><span class="text-center">닉네임</span></v-col>
                       <v-col cols="auto"><v-text-field density=compact v-model="nickname"></v-text-field></v-col>
                     </v-row>
                     <v-row class="item-wrap-field" style="margin: auto">
-                      <v-col cols="auto"><span class="text-center">이름</span></v-col>
+                      <v-col cols="4"><span class="text-center">이름</span></v-col>
                       <v-col cols="auto"><v-text-field density=compact v-model="name"></v-text-field></v-col>
                     </v-row>
                     <v-row class="item-wrap-field" style="margin: auto">
-                      <v-col cols="auto"><span class="text-center">전화번호</span></v-col>
+                      <v-col cols="4"><span class="text-center">전화번호</span></v-col>
                       <v-col cols="auto"><v-text-field density=compact v-model="phone"></v-text-field></v-col>
                     </v-row>
             <v-row class="item-wrap">

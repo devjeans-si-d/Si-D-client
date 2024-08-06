@@ -1,8 +1,8 @@
 <template>
-    <v-card class="text-center fixed-card">
+    <v-card class="rounded-xl text-center fixed-card">
         <v-card-item class="card-avatar">
-            <v-avatar class="mx-auto" size="120">
-                <img :src="image" alt="Profile Image" style="height:100px; width:auto;"/>
+            <v-avatar class="mx-auto" size="150">
+                <img :src="image" alt="Profile Image" style="height:150px; width:auto;"/>
             </v-avatar>
         </v-card-item>
         <v-card-item class="card-text">
@@ -32,9 +32,9 @@ export default {
 
 <style scoped>
 .fixed-card {
-    width: 286px;
+    width: 186px;
     /* 고정 너비 */
-    height: 286px;
+    height: 186px;
     /* 고정 높이 */
 }
 

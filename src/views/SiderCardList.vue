@@ -1,14 +1,12 @@
 <template>
     <v-container>
-        <v-container>
-            <v-row>
-                <v-col cols="12" md="3" v-for="(card, index) in cards" :key="index">
-                    <CardComponent :name="card.member_nickname" :jobField="card.member_jobField" :image="card.member_image"/>
-                </v-col>
-            </v-row>
-        </v-container>
+        <v-row>
+            <v-col cols="12" md="3" v-for="(card, index) in cards" :key="index">
+                <CardComponent :name="card.member_nickname" :jobField="card.member_jobField"
+                    :image="card.member_image" />
+            </v-col>
+        </v-row>
     </v-container>
-
 </template>
 
 <script>
@@ -29,7 +27,7 @@ export default {
         try {
             const token = `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MjI5NDY1MzEsImV4cCI6MTcyNTUzODUzMX0.vP8jv4v6FcBxxNB_o6-Q8mhUjt4aZf2HjXNUZ0v5Hl0`
             const headers = { Authorization: `Bearer ${token}` }
-            const response = await axios.get(`http://localhost:8080/api/sider-card/list`, {headers})
+            const response = await axios.get(`http://localhost:8080/api/sider-card/list`, { headers })
             console.log(response.data.result);
             this.cards = response.data.result.content
         } catch (e) {

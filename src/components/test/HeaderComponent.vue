@@ -28,11 +28,11 @@
                 </v-col>
 
                 <v-col class="d-flex justify-end">
-                    <!-- 오른쪽 정렬 -->
-                    <v-menu v-if="!isLogin" offset-y> 
+                    <!-- 오른쪽 정렬 --> 
+                    <v-menu v-if="!isLogin" open-on-hover> 
                         <!-- 아직 api 안갖다 붙여서 !isLogin 해놓음 이후 isLogin으로 바꿔야됨. -->
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn text v-bind="attrs" v-on="on">
+                        <template v-slot:activator="{ props }">
+                          <v-btn text v-bind="props" height="60">
                             <v-avatar size="40">
                               <!-- 로그인api 갖다붙일 때 프로필 이미지+닉네임 가져오는 부분 수정필요 -->
                               <img src='@/assets/default_profile_image.png' alt="profileImageUrl" class="avatar-image">
@@ -42,17 +42,26 @@
                         </template>
 
                         <v-list>
-                          <v-list-item :to="{ path: '/mypage' }">
+                          <v-list-item :to="{ path: '/sider-card'}">
+                            <v-list-item-title>나의 커리어 카드</v-list-item-title>
+                          </v-list-item>
+                          <v-list-item :to="{ path: '/mypage'}">
                             <v-list-item-title>마이페이지</v-list-item-title>
+                          </v-list-item>
+                          <v-list-item :to="{ path: '/chat'}">
+                            <v-list-item-title>내 채팅</v-list-item-title>
                           </v-list-item>
                           <v-list-item @click="doLogout">
                             <v-list-item-title>로그아웃</v-list-item-title>
                           </v-list-item>
                         </v-list>
-
                       </v-menu>
-                    <v-btn class="custom-button" v-if="!isLogin" :to="{path:'/member/create'}">회원가입</v-btn>
-                    <v-btn class="custom-button" v-if="!isLogin" :to="{path:'/login'}">로그인</v-btn>
+
+                </v-col>
+
+                <v-col class="d-flex justify-end">
+                  <v-btn class="custom-button" v-if="!isLogin" :to="{path:'/member/create'}">회원가입</v-btn>
+                  <v-btn class="custom-button" v-if="!isLogin" :to="{path:'/login'}">로그인</v-btn>
                 </v-col>
 
             </v-row>
@@ -61,22 +70,21 @@
   </template>
   
   <script>
-
   export default{
     data(){
         return{
             isLogin : false,
-            nickname : 'devjeans', // 임시 닉네임 이후에 빈값으로 두기
+            nickname : 'devjeans', // 임시 닉네임. 이후에 빈값으로 두기
             profileImageUrl: '@/assets/default_profile_image.png',
         };
     },
-    created(){
-        const token = localStorage.getItem("token");
-        if(token){
-            // localStorage에 token이 있으면 로그인된 상태
-            this.isLogin = true;
-            this.loadUserProfile();
-        }
+    created(){ // 토큰때문에 테스트가 제대로 안되서 token 관련한 부분 주석처리 해놓음
+        // const token = localStorage.getItem("token");
+        // if(token){
+        //     // localStorage에 token이 있으면 로그인된 상태
+        //     this.isLogin = true;
+        //     this.loadUserProfile();
+        // }
     },
     methods:{
         doLogout(){

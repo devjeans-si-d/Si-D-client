@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeComponent from '@/components/test/HomeComponent.vue'
-
+import { siderCardRouter } from './siderCardRouter';
 const routes = [
     {
         path: '/home',
@@ -11,7 +11,8 @@ const routes = [
         path: '/',
         name: 'ROOT',
         component: HomeComponent
-    }
+    },
+    ...siderCardRouter
 ]
 
 const router = createRouter({

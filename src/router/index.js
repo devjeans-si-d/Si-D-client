@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeComponent from '@/components/test/HomeComponent.vue'
 
+import { memberRouter } from './memberRouter';
+
 const routes = [
     {
         path: '/home',
@@ -11,7 +13,8 @@ const routes = [
         path: '/',
         name: 'ROOT',
         component: HomeComponent
-    }
+    },
+    ...memberRouter,
 ]
 
 const router = createRouter({

@@ -3,17 +3,20 @@
   <v-app>
     <v-main>
       <RouterView></RouterView>
+      <FooterComponent/>
     </v-main>
   </v-app>
 </template>
 
 <script>
+import FooterComponent from './components/footer/FooterComponent.vue';
+
 // import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
-    // HelloWorld
+    FooterComponent
   }
 }
 </script>

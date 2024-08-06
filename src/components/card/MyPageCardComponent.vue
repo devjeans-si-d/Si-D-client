@@ -1,9 +1,9 @@
 <template>
-    <v-flex xs12 sm6 offset-sm3>
+  
     <v-container>
-       
-        <v-card width="80%" class="my-page-card" color="#F3F3F3">
-            <v-text class="v-text-class">
+
+        <v-card class="my-page-card" color="#F3F3F3">
+            <v-text>
                 <v-container>
                     <v-row class="item-wrap">
                     <v-col cols="8" style="margin: auto">
@@ -43,7 +43,6 @@
             </v-text>
         </v-card>
     </v-container>
-</v-flex>
   </template>
 
 
@@ -72,6 +71,7 @@
   <style>
   .my-page-card{
     color: #E3E3E3;
+    width: 500px;
   }
   .item-wrap {
     display: flex;
@@ -85,9 +85,10 @@
     width: 300px;
     padding-bottom: 10px;
     padding-top: 10px;
+    font-weight: bold;
   }
   
-  .text-center {
+  .text-left {
     text-align: left;
     width: 300px;
     padding-bottom: 10px;

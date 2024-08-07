@@ -57,7 +57,9 @@
   <!-- 모달창을 위한 v-dialog -->
   <v-dialog v-model="dialog" max-width="600px">
     <v-card>
-      <v-form @submit.prevent="searchMembers">
+      <v-card-title class="d-flex justify-center align-center" >멤버 추가</v-card-title>
+      <v-divider class="mb-4"></v-divider>
+      <v-form @submit.prevent="searchMembers" rounded="xl">
         <v-row>
           <v-col cols="auto">
             <v-select
@@ -74,7 +76,11 @@
           <v-col cols="auto">
             <v-btn type="submit">검색</v-btn>
           </v-col>
-          <v-data-table :headers="tableHeaders" :items="memberList">
+          <v-data-table
+            :headers="tableHeaders"
+            :items="memberList"
+            @click:row="logMemberId"
+          >
           </v-data-table>
         </v-row>
       </v-form>
@@ -116,11 +122,18 @@ export default {
   components: {
     CloseableChip,
     BasicChip,
-    FooterComponent,
+    FooterComponent, 
     AvatarChip,
     ButtonComponent,
   },
   methods: {
+    async logMemberId( item ) {
+    console.log(this.memberList[item.pointerId]);
+    // const response = await axios.post(
+    //     `${process.env.VUE_APP_API_BASE_URL}/api/member/list`
+       
+    //   );
+  },
     test() {
       alert("test");
     },
@@ -128,12 +141,9 @@ export default {
       this.dialog = true;
     },
     async searchMembers() {
-      if(this.isLastPage) return; 
+      if (this.isLastPage) return;
       this.memberList = [];
-      let params = {
-        // size: this.pageSize,
-        // page: this.currentPage,
-      };
+      let params = {};
       if (this.searchType == "name") {
         params.name = this.searchValue;
       } else if (this.searchType == "email") {
@@ -148,7 +158,7 @@ export default {
         { params }
       );
       this.isLastPage = response?.data?.result?.last;
-      this.memberList=response?.data?.content;
+      this.memberList = response?.data?.content;
     },
   },
 };

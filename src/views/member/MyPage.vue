@@ -30,7 +30,7 @@
             </v-row>
             <v-row class="item-wrap">
                 <v-col cols="auto"><ButtonComponent content="이메일 변경" /></v-col>
-                <v-col cols="auto"><ButtonComponent content="정보 수정"/></v-col>
+                <v-col cols="auto"><ButtonComponent @click="moveToEdit" content="정보 수정"/></v-col>
             </v-row>
             <v-row class="item-wrap">
                     <PlainButtonComponent content="회원 탈퇴"/>
@@ -61,6 +61,12 @@
             careerCardId: "hypedev",
             phone: "010-1234-5678"
         }
+    },
+    methods: {
+      moveToEdit() {
+            this.$router.push("/member/edit");
+        },
+
     }
   }
   </script>

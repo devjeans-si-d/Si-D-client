@@ -42,11 +42,6 @@
       </v-col>
     </v-row> 
 
-
-    <!-- Footer입니다 -->
-    <v-row>
-      <FooterComponent/>
-    </v-row>
   </v-container>
 
 </template>
@@ -54,7 +49,6 @@
 <script>
 import CloseableChip from '@/components/chip/CloseableChip.vue';
 import BasicChip from '@/components/chip/BasicChip.vue';
-import FooterComponent from '@/components/footer/FooterComponent.vue';
 import AvatarChip from '@/components/chip/AvatarChip.vue';
 import ButtonComponent from '../button/ButtonComponent.vue';
 
@@ -65,7 +59,6 @@ export default {
   components: {
     CloseableChip,
     BasicChip,
-    FooterComponent,
     AvatarChip,
     ButtonComponent
   },

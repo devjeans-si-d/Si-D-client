@@ -1,6 +1,7 @@
 <template>
 
   <v-app>
+    <HeaderComponent />
     <v-main>
       <RouterView></RouterView>
     </v-main>
@@ -9,11 +10,12 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-
+import HeaderComponent from './components/test/HeaderComponent.vue'
 export default {
   name: 'App',
   components: {
     // HelloWorld
+    HeaderComponent
   }
 }
 </script>

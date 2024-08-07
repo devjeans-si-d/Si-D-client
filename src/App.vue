@@ -1,22 +1,22 @@
 <template>
 
   <v-app>
+    <HeaderComponent />
     <v-main>
       <RouterView></RouterView>
-      <FooterComponent/>
     </v-main>
+    <FooterComponent/>
   </v-app>
 </template>
 
 <script>
 import FooterComponent from './components/footer/FooterComponent.vue';
-
-// import HelloWorld from './components/HelloWorld.vue'
-
+import HeaderComponent from './components/test/HeaderComponent.vue'
 export default {
   name: 'App',
   components: {
-    FooterComponent
+    FooterComponent,
+    HeaderComponent
   }
 }
 </script>

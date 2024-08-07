@@ -43,6 +43,7 @@
     </v-row> 
 
   </v-container>
+
 </template>
 
 <script>
@@ -52,6 +53,9 @@ import AvatarChip from '@/components/chip/AvatarChip.vue';
 import ButtonComponent from '../button/ButtonComponent.vue';
 
 export default {
+  data(){
+
+  },
   components: {
     CloseableChip,
     BasicChip,

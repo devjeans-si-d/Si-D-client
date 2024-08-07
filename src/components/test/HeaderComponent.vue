@@ -45,10 +45,10 @@
                           <v-list-item :to="{ path: '/sider-card'}">
                             <v-list-item-title>나의 커리어 카드</v-list-item-title>
                           </v-list-item>
-                          <v-list-item :to="{ path: 'member/mypage'}">
+                          <v-list-item :to="{ path: '/member/mypage'}">
                             <v-list-item-title>마이페이지</v-list-item-title>
                           </v-list-item>
-                          <v-list-item :to="{ path: 'member/chattting'}">
+                          <v-list-item :to="{ path: '/member/chattting'}">
                             <v-list-item-title>내 채팅</v-list-item-title>
                           </v-list-item>
                           <v-list-item @click="doLogout">

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import ButtonComponent from '../common/ButtonComponent.vue';
+import ButtonComponent from '../button/ButtonComponent.vue';
 
 export default {
   components: {

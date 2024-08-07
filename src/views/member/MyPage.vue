@@ -3,7 +3,7 @@
         <v-row class="d-flex">
             <v-col>회원 정보 변경</v-col>
         </v-row>
-        <MyPageCardComponent />
+        <MyPageCardComponent/>
     </v-container>
 </template>
 <script>

@@ -61,7 +61,7 @@
 
                 <v-col class="d-flex justify-end">
                   <v-btn class="custom-button" v-if="!isLogin" :to="{path:'/member/create'}">회원가입</v-btn>
-                  <v-btn class="custom-button" v-if="!isLogin" :to="{path:'/login'}">로그인</v-btn>
+                  <v-btn class="custom-button" v-if="!isLogin" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f1a9f25e347069f2e5fedb6375c0b82d&redirect_uri=http://localhost:8080/api/auth/kakao/callback">로그인</v-btn>
                 </v-col>
 
             </v-row>

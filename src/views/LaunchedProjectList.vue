@@ -1,5 +1,5 @@
 <template>
-    <h2>안냐세요</h2>
+    <v-row>Launched-Project</v-row>
 </template>
 <script>
 export default {

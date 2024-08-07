@@ -1,6 +1,6 @@
 import LaunchedProjectList from '@/views/LaunchedProjectList.vue'
 
-const LaunchedProjectRouter = [
+export const LaunchedProjectRouter = [
     {
         path:'/launched-project/list',
         name: 'LaunchedProjectList',

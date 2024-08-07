@@ -10,7 +10,7 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-import HeaderComponent from './components/test/HeaderComponent.vue'
+import HeaderComponent from './components/header/HeaderComponent.vue'
 export default {
   name: 'App',
   components: {

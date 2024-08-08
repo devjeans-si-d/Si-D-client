@@ -1,11 +1,9 @@
 <template>
-    <v-app>
-      <v-container>
-        <v-chip :color=color>
-          {{ title }}
-        </v-chip>
-      </v-container>
-    </v-app>
+
+<v-chip :color=color>
+  {{ title }}
+</v-chip>
+
 </template>
 <script>
 export default{

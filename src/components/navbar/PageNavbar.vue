@@ -1,29 +1,32 @@
 <template>
     <v-container class="title-con">
         <v-row class="title-row" justify="center" md="8" sm="6">
-            <v-col cols="auto"  class="title-col"> {{title}} </v-col>
+            <v-col v-for="m in menus" :key="m.menu">
+            <v-btn v-if="m.selected === false" :href="m.url" variant="plain">{{m.menu}}</v-btn>
+            <span v-if="m.selected === true" class="selected-menu" :href="m.url" variant="plain">{{m.menu}}</span>
+            </v-col>
         </v-row>
     </v-container>
 
 </template>
 <script>
 export default{
-    props: [ 'title' ],
+    props: [ 
+        'menus' // [{'menu', 'url'}, {'menu', 'url'}, ... ]
+     ],
     data() {
         return {
         }
     },
     methods: {
 
+    },
+    created() {
+        console.log(this.menus);
     }
 }
 </script>
 <style>
-.title-con {
-    justify-content: center;
-    display: flex;
-
-}
 
 .title-row {
     border-bottom: 1px solid #D4D4D4;
@@ -31,13 +34,13 @@ export default{
     padding-top: 20px;
 }
 
-.title-col {
+.selected-menu {
     color: #094F08;
     font-weight: 700;
-    font-size: large;
     text-align: center;
     border-bottom: 2px solid #094F08;
     margin-bottom: 10px;
     height: 40px;
 }
+
 </style>

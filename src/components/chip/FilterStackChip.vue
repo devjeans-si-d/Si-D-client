@@ -1,8 +1,6 @@
 <template>
-<v-chip 
-:color=color size="x-large" 
-filter>
-  <v-avatar start>
+<v-chip class="mx-2"  :color=color size="x-large" filter>
+  <v-avatar start class="custom-avatar">
     <v-img :src=url></v-img>
   </v-avatar>
   {{ title }}
@@ -18,3 +16,10 @@ export default{
 
 }
 </script>
+<style>
+.custom-avatar img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+</style>

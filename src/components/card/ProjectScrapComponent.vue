@@ -17,9 +17,14 @@
                                     <BasicSmallChip :title="project.myJob" :color="this.getJobColor(project.myJob)"/>
                                 </div>
                             </div>
-                              
                           </div>
+                          <v-col class="project-status">
+                            <BasicChip :title="project.status" :color="this.getChipColor(project.status)"/>
+                            <!--mdi-->
+                            <v-icon icon="mdi-bookmark" class="scrap-icon" @click="this.cancelBookmark(project.id)"></v-icon>
+                          </v-col>
                       </v-col>
+
                   </v-row>
               </v-container>
           </v-text>
@@ -28,12 +33,14 @@
 </template>
 <script>
 import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
+import BasicChip from '@/components/chip/BasicChip.vue';
 import ProjectSidebar from '../navbar/ProjectSidebar.vue';
 
 export default{
   props: ['projectList'],
   components: {
       BasicSmallChip,
+      BasicChip,
       ProjectSidebar
   },
   data() {
@@ -73,6 +80,10 @@ export default{
             } else {
                 return 'white';
             }
+        },
+        cancelBookmark(id) {
+            console.log(id);
+            alert("북마크 취소??");
         }
   },
   created() {
@@ -87,6 +98,7 @@ export default{
   justify-content: flex-start;
   padding: 10px;
   border-bottom: 1px solid #D4D4D4;
+  align-items: center;
 }
 
 .project-img {
@@ -124,13 +136,22 @@ export default{
     width: 270px;
 }
 
+.project-status {
+    align-items: center;
+    margin-right: 10px;
+    display: flex;
+    justify-content: space-evenly;
+}
 
 .outer-box {
     display: flex;
 }
 
 .my-page-card {
-    min-width: 550px;
+    min-width: 600px;
 }
 
-</style>s
+.scrap-icon {
+}
+
+</style>

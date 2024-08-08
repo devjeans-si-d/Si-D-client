@@ -14,7 +14,7 @@
                                 <h3>{{ project.name }}</h3>
                                 <p class="project-description">{{ project.content }}</p>
                                 <div class="chip-wrap">
-                                    <BasicSmallChip :title="project.myJob" color="fe_yellow"/>
+                                    <BasicSmallChip :title="project.myJob" :color="this.getJobColor(project.myJob)"/>
                                 </div>
                             </div>
                               

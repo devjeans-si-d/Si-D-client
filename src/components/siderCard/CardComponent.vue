@@ -32,9 +32,9 @@ export default {
 
 <style scoped>
 .fixed-card {
-    width: 186px;
+    width: 286px;
     /* 고정 너비 */
-    height: 186px;
+    height: 286px;
     /* 고정 높이 */
 }
 

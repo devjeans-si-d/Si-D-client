@@ -15,6 +15,7 @@ const routes = [
         name: 'ROOT',
         component: HomeComponent
     },
+    
     ...siderCardRouter,
     ...LaunchedProjectRouter,
     ...memberRouter,

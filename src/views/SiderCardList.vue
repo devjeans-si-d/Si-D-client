@@ -1,7 +1,13 @@
 <template>
     <v-container>
-        <v-row>
-            <v-col cols="12" md="3" v-for="(card, index) in cards" :key="index">
+        <v-row :style="{marginTop:'80px'}" justify="start">
+            <div v-for="(jobField,i) in jobFields" :key="i" :style="{margin:'10px'}">
+                <ButtonComponent v-if="jobField.selected" :content="jobField.name"/>
+                <ButtonComponent v-else :content="jobField.name" color=000000 background="#D9D9D9" />
+            </div>
+        </v-row>
+        <v-row justify="space-around">
+            <v-col style="max-width: 286px;" v-for="(card, index) in cards" :key="index">
                 <CardComponent :name="card.member_nickname" :jobField="card.member_jobField"
                     :image="card.member_image" />
             </v-col>
@@ -11,68 +17,55 @@
 
 <script>
 import CardComponent from '@/components/siderCard/CardComponent.vue';
-import axios from 'axios';
+import ButtonComponent from '@/components/button/ButtonComponent.vue';
+// import axios from 'axios';
 
 export default {
     components: {
-        CardComponent
+        CardComponent,ButtonComponent
     },
-    props: ['name', 'jobField', 'image'],
     data() {
         return {
-            cards: []
+            jobFields:[
+                {name:'전체', selected:true},
+                {name:'프론트엔드', selected:false},
+                {name:'백엔드', selected:false},
+                {name:'안드로이드', selected:false},
+                {name:'iOS', selected:false},
+                {name:'디자인', selected:false},
+                {name:'PM', selected:false},
+            ],
+            cards: [
+                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
+                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
+                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
+                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
+                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
+                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
+                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
+                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
+                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
+                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
+                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
+                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
+                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
+                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
+            ]
         }
     },
     async created() {
-        try {
-            const token = `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MjI5NDY1MzEsImV4cCI6MTcyNTUzODUzMX0.vP8jv4v6FcBxxNB_o6-Q8mhUjt4aZf2HjXNUZ0v5Hl0`
-            const headers = { Authorization: `Bearer ${token}` }
-            const response = await axios.get(`http://localhost:8080/api/sider-card/list`, { headers })
-            console.log(response.data.result);
-            this.cards = response.data.result.content
-        } catch (e) {
-            console.log(e);
-        }
+        // try {
+        //     const token = `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MjI5NDY1MzEsImV4cCI6MTcyNTUzODUzMX0.vP8jv4v6FcBxxNB_o6-Q8mhUjt4aZf2HjXNUZ0v5Hl0`
+        //     const headers = { Authorization: `Bearer ${token}` }
+        //     const response = await axios.get(`http://localhost:8080/api/sider-card/list`, { headers })
+        //     console.log(response.data.result);
+        //     this.cards = response.data.result.content
+        // } catch (e) {
+        //     console.log(e);
+        // }
     },
     methods: {
         // Your methods
     }
 }
 </script>
-
-<style scoped>
-.fixed-card {
-    width: 286px;
-    /* 고정 너비 */
-    height: 286px;
-    /* 고정 높이 */
-}
-
-.text-center {
-    text-align: center;
-}
-
-.font-weight-bold {
-    font-weight: bold;
-}
-
-.mx-auto {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.card-avatar {
-    padding-top: 20px;
-    /* 이미지를 조금 더 아래로 내립니다 */
-}
-
-.card-text {
-    padding-top: 20px;
-    /* 텍스트를 이미지 아래로 더 내립니다 */
-}
-
-.card-avatar img {
-    border-radius: 50%;
-    /* 이미지를 동그랗게 만듭니다 */
-}
-</style>

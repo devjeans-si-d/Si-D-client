@@ -34,6 +34,8 @@
             ]"
         />
     </v-container>
+
+    <ModalComponent />
   </template>
 
 

@@ -4,7 +4,7 @@
       <v-card class="my-page-card" color="#F3F3F3">
           <v-text>
               <v-container>
-                  <v-row v-for="project in projectList" :key="project.name" @click="spaMoveTo(project.id)">
+                  <v-row v-for="project in projectList" :key="project.projectId">
                       <v-col class="project-element">
                           <div class="project-img">
                               <img :src="project.imageUrl" height="100px" width="auto" overflow="hidden">
@@ -21,7 +21,7 @@
                           <v-col class="project-status">
                             <BasicChip :title="project.status" :color="this.getChipColor(project.status)"/>
                             <!--mdi-->
-                            <v-icon icon="mdi-bookmark" class="scrap-icon" @click="this.cancelBookmark(project.id)"></v-icon>
+                            <v-icon icon="mdi-bookmark" class="scrap-icon" @click="this.cancelBookmark(project.projectId)"></v-icon>
                           </v-col>
                       </v-col>
 
@@ -30,6 +30,22 @@
           </v-text>
       </v-card>
     </v-container>
+
+    <!-- 모달 -->
+     <v-dialog v-model="dialog" width="500px">
+        <v-card class="dialog-card">
+            <v-card-title>
+                북마크를 취소하시겠습니까?
+              </v-card-title>
+      
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="sid_btn1" text @click="dialog = false">닫기</v-btn>
+                <v-btn color="sid_btn2" text @click="confirmCancel">북마크 취소</v-btn>
+              </v-card-actions>
+        </v-card>
+
+     </v-dialog>
 </template>
 <script>
 import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
@@ -41,11 +57,11 @@ export default{
   components: {
       BasicSmallChip,
       BasicChip,
-      ProjectSidebar
+      ProjectSidebar,
   },
   data() {
       return {
-          
+        dialog: false
       }
   },
   methods: {
@@ -83,8 +99,13 @@ export default{
         },
         cancelBookmark(id) {
             console.log(id);
-            alert("북마크 취소??");
-        }
+            this.dialog = true;
+        },
+        confirmCancel(id) {
+            console.log(id + " 취소 api 호출");
+            this.dialog = false;
+            window.location.reload();
+        },
   },
   created() {
       console.log(this.projectList);
@@ -151,7 +172,13 @@ export default{
     min-width: 600px;
 }
 
-.scrap-icon {
+.dialog-card {
+    display: flex;
+    justify-content: center;
+    text-align: center
 }
 
+.scrap-icon:hover {
+    color: grey;
+}
 </style>

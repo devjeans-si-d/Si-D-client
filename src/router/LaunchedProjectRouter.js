@@ -1,10 +1,6 @@
-import LaunchedProjectList from '@/views/LaunchedProjectList.vue'
+import LaunchedProjectList from '@/views/LaunchedProject/LaunchedProjectList.vue'
 
-<<<<<<< Updated upstream
 export const LaunchedProjectRouter = [
-=======
-const LaunchedProjectRouter = [
->>>>>>> Stashed changes
     {
         path:'/launched-project/list',
         name: 'LaunchedProjectList',

@@ -1,7 +1,12 @@
 <template>
     <v-app>
       <v-container>
-        <v-chip :color=color size="x-large">
+        <v-chip 
+        :color=color size="x-large" 
+        filter>
+          <v-avatar start>
+            <v-img :src=url></v-img>
+          </v-avatar>
           {{ title }}
         </v-chip>
       </v-container>
@@ -11,7 +16,8 @@
 export default{
     props: {
         title: String,
-        color: String
+        color: String,
+        url: String
     },
 
 }

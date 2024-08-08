@@ -14,12 +14,15 @@
                                 <h3>{{ project.name }}</h3>
                                 <p class="project-description">{{ project.content }}</p>
                                 <div class="chip-wrap">
-                                    <BasicSmallChip :title="project.myJob" color="fe_yellow"/>
+                                    <BasicSmallChip :title="project.myJob" :color="this.getJobColor(project.myJob)"/>
                                 </div>
                             </div>
-                              
                           </div>
+                          <v-col class="project-status">
+                            <BasicChip :title="project.status" :color="this.getChipColor(project.status)"/>
+                          </v-col>
                       </v-col>
+
                   </v-row>
               </v-container>
           </v-text>
@@ -28,12 +31,14 @@
 </template>
 <script>
 import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
+import BasicChip from '@/components/chip/BasicChip.vue';
 import ProjectSidebar from '../navbar/ProjectSidebar.vue';
 
 export default{
   props: ['projectList'],
   components: {
       BasicSmallChip,
+      BasicChip,
       ProjectSidebar
   },
   data() {
@@ -87,6 +92,7 @@ export default{
   justify-content: flex-start;
   padding: 10px;
   border-bottom: 1px solid #D4D4D4;
+  align-items: center;
 }
 
 .project-img {
@@ -124,13 +130,17 @@ export default{
     width: 270px;
 }
 
+.project-status {
+    align-items: center;
+    margin-right: 30px;
+}
 
 .outer-box {
     display: flex;
 }
 
 .my-page-card {
-    min-width: 550px;
+    min-width: 600px;
 }
 
 </style>

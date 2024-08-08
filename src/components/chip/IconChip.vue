@@ -1,12 +1,8 @@
 <template>
-    <v-app>
-      <v-container>
-        <v-chip :color=color size="x-large">
-          <v-icon :icon=icon start></v-icon>
-          {{ title }}
-        </v-chip>
-      </v-container>
-    </v-app>
+<v-chip :color=color size="x-large">
+  <v-icon :icon=icon start></v-icon>
+  {{ title }}
+</v-chip>
 </template>
 <script>
 export default{

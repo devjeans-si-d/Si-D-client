@@ -9,7 +9,11 @@
       ]'
       />
         <h2 style="text-align:center; margin: 20px;">내 프로젝트</h2>
-
+        <ProjectManagementComponent
+        :projectList="[
+            {name: '프로젝트!', imageUrl: ''}
+            ]"
+        />
     </v-container>
   </template>
 
@@ -17,10 +21,12 @@
   
   <script>
   import PageNavbar from '@/components/navbar/PageNavbar.vue';
+  import ProjectManagementComponent from '@/components/card/ProjectManagementComponent.vue';
 
   export default {
     components: {
-        PageNavbar
+        PageNavbar,
+        ProjectManagementComponent
     },
     data() {
         return {

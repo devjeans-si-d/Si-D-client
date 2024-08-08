@@ -1,5 +1,13 @@
 <template>
     <v-container>
+      <PageNavbar
+      :menus='[
+          {"menu": "내 정보", "url": "/member/mypage", "selected": true},
+          {"menu": "내 채팅", "url": "/member/chatting-list", "selected": false},
+          {"menu": "내 프로젝트", "url": "/member/my-projects", "selected": false},
+          {"menu": "스크랩", "url": "/member/scrap", "selected": false},
+      ]'
+      />
         <h2 style="text-align:center; margin: 20px;">내 정보</h2>
         <v-card class="my-page-card" color="#F3F3F3">
             <v-text>
@@ -47,11 +55,13 @@
   <script>
   import ButtonComponent from '@/components/button/ButtonComponent.vue';
   import PlainButtonComponent from '@/components/button/PlainButtonComponent.vue';
+  import PageNavbar from '@/components/navbar/PageNavbar.vue';
 
   export default {
     components: {
         ButtonComponent,
-        PlainButtonComponent
+        PlainButtonComponent,
+        PageNavbar
     },
     data() {
         return {

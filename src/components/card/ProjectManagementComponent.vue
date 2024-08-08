@@ -1,7 +1,7 @@
 <template>
     <v-container class="outer-box">
         <ProjectSidebar />
-      <v-card class="my-page-card" color="#F3F3F3">
+      <v-card class="my-project-card" color="#F3F3F3">
           <v-text>
               <v-container>
                   <v-row v-for="project in projectList" :key="project.name" @click="spaMoveTo(project.id)">
@@ -111,6 +111,7 @@ export default{
 
 .chip-wrap {
   margin-top: 10px;
+  justify-self: end;
 }
 
 .project-element:hover {
@@ -129,8 +130,9 @@ export default{
     display: flex;
 }
 
-.my-page-card {
-    min-width: 550px;
+.my-project-card {
+    width: 75%;
+    padding: 10%;
 }
 
 </style>

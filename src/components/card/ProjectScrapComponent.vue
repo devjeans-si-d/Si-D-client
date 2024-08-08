@@ -1,7 +1,7 @@
 <template>
     <v-container class="outer-box">
         <ProjectSidebar />
-      <v-card class="my-page-card" color="#F3F3F3">
+      <v-card class="my-project-card" color="#F3F3F3">
           <v-text>
               <v-container>
                   <v-row v-for="project in projectList" :key="project.projectId">
@@ -161,15 +161,17 @@ export default{
     align-items: center;
     margin-right: 10px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: flex-end;
 }
 
 .outer-box {
     display: flex;
+    width: 80%;
 }
 
-.my-page-card {
-    min-width: 600px;
+.my-project-card {
+    margin-left: 20px;
+    width: 75%;
 }
 
 .dialog-card {
@@ -180,5 +182,7 @@ export default{
 
 .scrap-icon:hover {
     color: grey;
+    justify-self: flex-end;
+    
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
     <v-container class="outer-box">
         <ProjectSidebar />
-      <v-card class="my-page-card" color="#F3F3F3">
+      <v-card class="my-project-card" color="#F3F3F3">
           <v-text>
               <v-container>
                   <v-row v-for="project in projectList" :key="project.name" @click="spaMoveTo(project.id)">
-                      <v-col class="project-element">
+                      <v-col cols="12" class="project-element">
                           <div class="project-img">
                               <img :src="project.imageUrl" height="100px" width="auto" overflow="hidden">
                           </div>
@@ -19,7 +19,9 @@
                             </div>
                           </div>
                           <v-col class="project-status">
-                            <BasicChip :title="project.status" :color="this.getChipColor(project.status)"/>
+                            <div class="status-element">
+                                <BasicChip :title="project.status" :color="this.getChipColor(project.status)"/>
+                            </div>
                           </v-col>
                       </v-col>
 
@@ -106,7 +108,6 @@ export default{
 .project-content {
   margin: 10px;
   display: flex;
-  justify-content: start;
 }
 
 .project-description {
@@ -131,16 +132,20 @@ export default{
 }
 
 .project-status {
-    align-items: center;
-    margin-right: 30px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: end;
+    justify-self: end;
+    width: 20px;
 }
 
 .outer-box {
     display: flex;
 }
 
-.my-page-card {
-    min-width: 600px;
+.my-project-card {
+    margin-left: 20px;
+    width: 75%;
 }
 
 </style>

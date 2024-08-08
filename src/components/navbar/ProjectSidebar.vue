@@ -26,9 +26,10 @@ export default{
 <style>
 
 .sidebar {
-    width: 150px;
+    width: 18%;
     height: auto;
     color: #F3F3F3;
+    text-align: center;
 }
 
 .sidebar-element:hover {

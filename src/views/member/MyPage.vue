@@ -76,8 +76,8 @@
       moveToEdit() {
             this.$router.push("/member/edit");
         },
-
     }
+
   }
   </script>
   

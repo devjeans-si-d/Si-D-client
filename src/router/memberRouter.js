@@ -1,9 +1,8 @@
 
 import MyPage from '@/views/member/MyPage.vue';
-
 import ChattingList from '@/views/member/ChattingList.vue';
-
 import MyPageEdit from '@/views/member/MyPageEdit.vue';
+import MyProject from '@/views/member/MyProject.vue';
 
 
 export const memberRouter = [
@@ -24,4 +23,9 @@ export const memberRouter = [
         component: MyPageEdit
     },
 
+    {
+        path: '/member/my-projects',
+        name: 'MyProject',
+        component: MyProject
+    },
 ]

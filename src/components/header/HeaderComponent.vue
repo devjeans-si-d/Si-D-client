@@ -1,6 +1,6 @@
 <template>
-    <v-app-bar app style="background-color: #DEF5EC; min-width:1295px" >
-        <v-container>
+    <v-app-bar app >
+        <v-container style="background-color: #DEF5EC; min-width:1295px">
             <v-row align="center">
 
                 <v-col cols="auto" class="d-flex justify-start">

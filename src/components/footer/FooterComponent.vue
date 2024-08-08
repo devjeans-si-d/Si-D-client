@@ -17,10 +17,10 @@
     data: () => {
       return { links: [
         {
-          name:'Home', url:'http://localhost:8081/'
+          name:'Home', url:'/'
         },
         {
-          name:'About', url:'http://localhost:8081/'
+          name:'About', url:'/'
         }] };
     },
   };

@@ -1,6 +1,6 @@
 <template>
-    <v-app-bar app style="background-color: #DEF5EC; min-width:1295px" >
-        <v-container>
+    <v-app-bar app >
+        <v-container style="background-color: #DEF5EC; min-width:1295px">
             <v-row align="center">
 
                 <v-col cols="auto" class="d-flex justify-start">
@@ -21,7 +21,7 @@
                         Launched-Project
                     </v-btn>
 
-                    <v-btn class="custom-button" text :to="{path:'/sider-card/list'}">
+                    <v-btn class="custom-button" text :to="{path:'/siderCard/list'}">
                         <v-icon left class="mr-1">mdi-google-downasaur</v-icon>
                         Si-Der Card
                     </v-btn>
@@ -45,10 +45,10 @@
                           <v-list-item :to="{ path: '/sider-card'}">
                             <v-list-item-title>나의 커리어 카드</v-list-item-title>
                           </v-list-item>
-                          <v-list-item :to="{ path: '/mypage'}">
+                          <v-list-item :to="{ path: '/member/mypage'}">
                             <v-list-item-title>마이페이지</v-list-item-title>
                           </v-list-item>
-                          <v-list-item :to="{ path: '/chat'}">
+                          <v-list-item :to="{ path: '/member/chatting-list'}">
                             <v-list-item-title>내 채팅</v-list-item-title>
                           </v-list-item>
                           <v-list-item @click="doLogout">

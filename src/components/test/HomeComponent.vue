@@ -44,21 +44,16 @@
       <v-col class="d-flex justify-start" cols="1.5 ">
         <BasicChip title="JIRA" color="pm_green" />
       </v-col>
-    </v-row>
+    </v-row> 
 
-    <!-- Footer입니다 -->
-    <v-row>
-      <FooterComponent />
-    </v-row>
   </v-container>
 </template>
 
 <script>
-import CloseableChip from "@/components/chip/CloseableChip.vue";
-import BasicChip from "@/components/chip/BasicChip.vue";
-import FooterComponent from "@/components/footer/FooterComponent.vue";
-import AvatarChip from "@/components/chip/AvatarChip.vue";
-import ButtonComponent from "../button/ButtonComponent.vue";
+import CloseableChip from '@/components/chip/CloseableChip.vue';
+import BasicChip from '@/components/chip/BasicChip.vue';
+import AvatarChip from '@/components/chip/AvatarChip.vue';
+import ButtonComponent from '@/components/button/ButtonComponent.vue';
 
 export default {
   data() {
@@ -68,7 +63,6 @@ export default {
   components: {
     CloseableChip,
     BasicChip,
-    FooterComponent, 
     AvatarChip,
     ButtonComponent,
   },

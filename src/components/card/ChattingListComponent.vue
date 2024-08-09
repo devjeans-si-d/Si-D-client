@@ -17,6 +17,10 @@
 
                                 <p class="project-description">{{ chatroom.content }}</p>
                             </div>
+                            <div class="chip-wrap">
+                                안녕
+                            </div>
+
                           </div>
                         </div>
                       </v-col>
@@ -103,6 +107,7 @@ export default{
 
 .chip-wrap {
   margin-top: 10px;
+  justify-self: flex-end;
 }
 
 .chatroom-element:hover {
@@ -148,7 +153,9 @@ export default{
 .chatroom-element {
     display: flex;
     justify-content: flex-start;
-    padding: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 20px;
     border-bottom: 1px solid #D4D4D4;
     align-items: center;
 }

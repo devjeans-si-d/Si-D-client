@@ -4,6 +4,7 @@ import { siderCardRouter } from './siderCardRouter';
 import { LaunchedProjectRouter } from './LaunchedProjectRouter';
 import { memberRouter } from './memberRouter';
 import LoginPage from '@/views/LoginPage.vue';
+import OauthRedirect from '@/components/oauth/OauthRedirect.vue';
 
 const routes = [
     {
@@ -20,6 +21,11 @@ const routes = [
         path: '/login',
         name: 'LoginPage',
         component: LoginPage
+    },
+    {
+        path: '/oauth',
+        name: 'OauthRedirect',
+        component: OauthRedirect
     },
     
     

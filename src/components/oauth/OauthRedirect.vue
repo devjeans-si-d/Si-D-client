@@ -13,7 +13,7 @@ export default {
 
         }
     },
-    mounted() {
+    created() {
         const code = new URL(window.location.href).searchParams.get('code');
         if (code) {
             // 백엔드로 인가 코드를 전송
@@ -27,16 +27,18 @@ export default {
             try {
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/auth/login`, { code })
                 console.log(response);
-                if (response.status == 401) {
-                    console.log(response.data.status_message);
-                    
-                } else if (response.status == 200) {
-                    const token = response.data.token;
-                    localStorage.setItem('token', token)
-                }
-
+                const token = response.data.token;
+                localStorage.setItem('token', token)
+                window.location.href = '/'
             } catch (error) {
-                console.error(error.response.data);
+                if (error.response.status == 401) {
+                    console.log(error.response.data.status_message);
+                    const social_id = error.response.data.result.social_id
+                    const social_email = error.response.data.result.social_email
+                    console.log(social_id, social_email);
+                } else {
+                    console.error(error.response);
+                }
             }
         },
     },

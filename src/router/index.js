@@ -3,8 +3,7 @@ import HomeComponent from '@/components/test/HomeComponent.vue'
 import { siderCardRouter } from './siderCardRouter';
 import { LaunchedProjectRouter } from './LaunchedProjectRouter';
 import { memberRouter } from './memberRouter';
-import LoginPage from '@/views/LoginPage.vue';
-import OauthRedirect from '@/components/oauth/OauthRedirect.vue';
+import { oauthLoginRouter } from './oauthLoginRouter';
 
 const routes = [
     {
@@ -17,21 +16,13 @@ const routes = [
         name: 'ROOT',
         component: HomeComponent
     },
-    {
-        path: '/login',
-        name: 'LoginPage',
-        component: LoginPage
-    },
-    {
-        path: '/oauth',
-        name: 'OauthRedirect',
-        component: OauthRedirect
-    },
+    
     
     
     ...siderCardRouter,
     ...LaunchedProjectRouter,
     ...memberRouter,
+    ...oauthLoginRouter,
 ]
 
 const router = createRouter({

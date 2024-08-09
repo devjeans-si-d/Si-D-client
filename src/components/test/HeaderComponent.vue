@@ -21,7 +21,7 @@
                         Launched-Project
                     </v-btn>
 
-                    <v-btn class="custom-button" text :to="{path:'/sider-card/list'}">
+                    <v-btn class="custom-button" text :to="{path:'/siderCard/list'}">
                         <v-icon left class="mr-1">mdi-google-downasaur</v-icon>
                         Si-Der Card
                     </v-btn>

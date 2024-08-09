@@ -17,8 +17,6 @@ const routes = [
         component: HomeComponent
     },
     
-    
-    
     ...siderCardRouter,
     ...LaunchedProjectRouter,
     ...memberRouter,

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeComponent from '@/components/test/HomeComponent.vue'
 import { LaunchedProjectRouter } from './LaunchedProjectRouter';
 import { memberRouter } from './memberRouter';
+import {projectRouter} from './projectRouter'
 
 const routes = [
     {
@@ -16,6 +17,7 @@ const routes = [
     },
     ...LaunchedProjectRouter,
     ...memberRouter,
+    ...projectRouter
 ]
 
 const router = createRouter({

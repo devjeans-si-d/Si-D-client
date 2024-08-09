@@ -51,41 +51,6 @@
       <FooterComponent />
     </v-row>
   </v-container>
-
-  <!-- 인원 검색 modal -->
-  <v-btn @click.stop="searchMemberShowModal()">멤버 검색</v-btn>
-  <!-- 모달창을 위한 v-dialog -->
-  <v-dialog v-model="dialog" max-width="600px">
-    <v-card>
-      <v-card-title class="d-flex justify-center align-center" >멤버 추가</v-card-title>
-      <v-divider class="mb-4"></v-divider>
-      <v-form @submit.prevent="searchMembers" rounded="xl">
-        <v-row>
-          <v-col cols="auto">
-            <v-select
-              v-model="searchType"
-              :items="searchOptions"
-              item-title="text"
-              item-value="value"
-            >
-            </v-select>
-          </v-col>
-          <v-col>
-            <v-text-field v-model="searchValue" label="Search"> </v-text-field>
-          </v-col>
-          <v-col cols="auto">
-            <v-btn type="submit">검색</v-btn>
-          </v-col>
-          <v-data-table
-            :headers="tableHeaders"
-            :items="memberList"
-            @click:row="logMemberId"
-          >
-          </v-data-table>
-        </v-row>
-      </v-form>
-    </v-card>
-  </v-dialog>
 </template>
 
 <script>
@@ -94,29 +59,10 @@ import BasicChip from "@/components/chip/BasicChip.vue";
 import FooterComponent from "@/components/footer/FooterComponent.vue";
 import AvatarChip from "@/components/chip/AvatarChip.vue";
 import ButtonComponent from "../button/ButtonComponent.vue";
-import axios from "axios";
 
 export default {
   data() {
-    return {
-      tableHeaders: [
-        { title: "이름", key: "name", align: "center" },
-        { title: "EMAIL", key: "email", align: "center" },
-        { title: "닉네임", key: "nickname", align: "center" },
-      ],
-      dialog: false,
-      searchType: "optional",
-      searchOptions: [
-        { text: "이름", value: "name" },
-        { text: "이메일 아이디", value: "email" },
-        { text: "닉네임", value: "nickname" },
-      ],
-      searchValue: "",
-      memberList: [],
-      pageSize: 5,
-      currentPage: 0,
-      isLastPage: false,
-    };
+    return{};
   },
 
   components: {
@@ -127,39 +73,10 @@ export default {
     ButtonComponent,
   },
   methods: {
-    async logMemberId( item ) {
-    console.log(this.memberList[item.pointerId]);
-    // const response = await axios.post(
-    //     `${process.env.VUE_APP_API_BASE_URL}/api/member/list`
-       
-    //   );
-  },
     test() {
       alert("test");
     },
-    searchMemberShowModal() {
-      this.dialog = true;
-    },
-    async searchMembers() {
-      if (this.isLastPage) return;
-      this.memberList = [];
-      let params = {};
-      if (this.searchType == "name") {
-        params.name = this.searchValue;
-      } else if (this.searchType == "email") {
-        params.email = this.searchValue;
-      }
-      if (this.searchType == "nickname") {
-        params.nickname = this.searchValue;
-      }
-
-      const response = await axios.get(
-        `${process.env.VUE_APP_API_BASE_URL}/api/member/list`,
-        { params }
-      );
-      this.isLastPage = response?.data?.result?.last;
-      this.memberList = response?.data?.content;
-    },
+    
   },
 };
 </script>

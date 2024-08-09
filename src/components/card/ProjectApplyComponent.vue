@@ -5,7 +5,7 @@
           <v-text>
               <v-container>
                   <v-row v-for="project in projectList" :key="project.name" @click="spaMoveTo(project.id)">
-                      <v-col class="project-element">
+                      <v-col cols="12" class="project-element">
                           <div class="project-img">
                               <img :src="project.imageUrl" height="100px" width="auto" overflow="hidden">
                           </div>
@@ -17,9 +17,14 @@
                                     <BasicSmallChip :title="project.myJob" :color="this.getJobColor(project.myJob)"/>
                                 </div>
                             </div>
-                              
                           </div>
+                          <v-col class="project-status">
+                            <div class="status-element">
+                                <BasicChip :title="project.status" :color="this.getChipColor(project.status)"/>
+                            </div>
+                          </v-col>
                       </v-col>
+
                   </v-row>
               </v-container>
           </v-text>
@@ -28,12 +33,14 @@
 </template>
 <script>
 import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
+import BasicChip from '@/components/chip/BasicChip.vue';
 import ProjectSidebar from '../navbar/ProjectSidebar.vue';
 
 export default{
   props: ['projectList'],
   components: {
       BasicSmallChip,
+      BasicChip,
       ProjectSidebar
   },
   data() {
@@ -87,6 +94,7 @@ export default{
   justify-content: flex-start;
   padding: 10px;
   border-bottom: 1px solid #D4D4D4;
+  align-items: center;
 }
 
 .project-img {
@@ -100,7 +108,6 @@ export default{
 .project-content {
   margin: 10px;
   display: flex;
-  justify-content: start;
 }
 
 .project-description {
@@ -111,7 +118,6 @@ export default{
 
 .chip-wrap {
   margin-top: 10px;
-  justify-self: end;
 }
 
 .project-element:hover {
@@ -125,14 +131,21 @@ export default{
     width: 270px;
 }
 
+.project-status {
+    margin-right: 10px;
+    display: flex;
+    justify-content: end;
+    justify-self: end;
+    width: 20px;
+}
 
 .outer-box {
     display: flex;
 }
 
 .my-project-card {
+    margin-left: 20px;
     width: 75%;
-    padding: 10%;
 }
 
 </style>

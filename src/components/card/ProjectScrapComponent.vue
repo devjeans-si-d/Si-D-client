@@ -4,7 +4,7 @@
       <v-card class="my-project-card" color="#F3F3F3">
           <v-text>
               <v-container>
-                  <v-row v-for="project in projectList" :key="project.name" @click="spaMoveTo(project.id)">
+                  <v-row v-for="project in projectList" :key="project.projectId">
                       <v-col class="project-element">
                           <div class="project-img">
                               <img :src="project.imageUrl" height="100px" width="auto" overflow="hidden">
@@ -17,28 +17,51 @@
                                     <BasicSmallChip :title="project.myJob" :color="this.getJobColor(project.myJob)"/>
                                 </div>
                             </div>
-                              
                           </div>
+                          <v-col class="project-status">
+                            <BasicChip :title="project.status" :color="this.getChipColor(project.status)"/>
+                            <!--mdi-->
+                            <v-icon icon="mdi-bookmark" class="scrap-icon" @click="this.cancelBookmark(project.projectId)"></v-icon>
+                          </v-col>
                       </v-col>
+
                   </v-row>
               </v-container>
           </v-text>
       </v-card>
     </v-container>
+
+    <!-- 모달 -->
+     <v-dialog v-model="dialog" width="500px">
+        <v-card class="dialog-card">
+            <v-card-title>
+                북마크를 취소하시겠습니까?
+              </v-card-title>
+      
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="sid_btn1" text @click="dialog = false">닫기</v-btn>
+                <v-btn color="sid_btn2" text @click="confirmCancel">북마크 취소</v-btn>
+              </v-card-actions>
+        </v-card>
+
+     </v-dialog>
 </template>
 <script>
 import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
+import BasicChip from '@/components/chip/BasicChip.vue';
 import ProjectSidebar from '../navbar/ProjectSidebar.vue';
 
 export default{
   props: ['projectList'],
   components: {
       BasicSmallChip,
-      ProjectSidebar
+      BasicChip,
+      ProjectSidebar,
   },
   data() {
       return {
-          
+        dialog: false
       }
   },
   methods: {
@@ -73,7 +96,16 @@ export default{
             } else {
                 return 'white';
             }
-        }
+        },
+        cancelBookmark(id) {
+            console.log(id);
+            this.dialog = true;
+        },
+        confirmCancel(id) {
+            console.log(id + " 취소 api 호출");
+            this.dialog = false;
+            window.location.reload();
+        },
   },
   created() {
       console.log(this.projectList);
@@ -87,6 +119,7 @@ export default{
   justify-content: flex-start;
   padding: 10px;
   border-bottom: 1px solid #D4D4D4;
+  align-items: center;
 }
 
 .project-img {
@@ -111,7 +144,6 @@ export default{
 
 .chip-wrap {
   margin-top: 10px;
-  justify-self: end;
 }
 
 .project-element:hover {
@@ -125,14 +157,32 @@ export default{
     width: 270px;
 }
 
+.project-status {
+    align-items: center;
+    margin-right: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
 
 .outer-box {
     display: flex;
+    width: 80%;
 }
 
 .my-project-card {
+    margin-left: 20px;
     width: 75%;
-    padding: 10%;
 }
 
+.dialog-card {
+    display: flex;
+    justify-content: center;
+    text-align: center
+}
+
+.scrap-icon:hover {
+    color: grey;
+    justify-self: flex-end;
+    
+}
 </style>

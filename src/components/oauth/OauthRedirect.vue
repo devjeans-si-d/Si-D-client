@@ -25,9 +25,16 @@ export default {
     methods: {
         async sendCodeToBackend(code) {
             try {
-                const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/auth/login`, {code})
-                console.log(response.data);
-                
+                const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/auth/login`, { code })
+                console.log(response);
+                if (response.status == 401) {
+                    console.log(response.data.status_message);
+                    
+                } else if (response.status == 200) {
+                    const token = response.data.token;
+                    localStorage.setItem('token', token)
+                }
+
             } catch (error) {
                 console.error(error.response.data);
             }

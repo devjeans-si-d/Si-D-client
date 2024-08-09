@@ -1,40 +1,38 @@
 <template>
     <v-container class="outer-box">
-        <ProjectSidebar />
-      <v-card class="my-project-card" color="#F3F3F3">
+      <v-card class="chatting-card" color="#F3F3F3">
           <v-text>
               <v-container>
-                  <v-row v-for="project in projectList" :key="project.name" @click="spaMoveTo(project.id)">
-                      <v-col class="project-element">
-                          <div class="project-img">
-                              <img :src="project.imageUrl" height="100px" width="auto" overflow="hidden">
-                          </div>
+                <div class="chatroom-box">
+                  <v-row v-for="chatroom in chatroomList" :key="chatroom.id" @click="spaMoveTo(chatroom.id)" >
+                      <v-col cols="12">
+                        <div class="chatroom-element">
+                        <div class="member-img">
+                            <img :src="chatroom.memberImage" height="100px" width="auto" overflow="hidden">
+                        </div>
+                    
                           <div class="project-content">
                             <div class="project-info">
-                                <h3>{{ project.name }}</h3>
-                                <p class="project-description">{{ project.content }}</p>
-                                <div class="chip-wrap">
-                                    <BasicSmallChip :title="project.myJob" :color="this.getJobColor(project.myJob)"/>
-                                </div>
+                                <h4 style="margin-bottom: 10px">{{ chatroom.memberName }}</h4>
+
+                                <p class="project-description">{{ chatroom.content }}</p>
                             </div>
-                              
                           </div>
+                        </div>
                       </v-col>
+
                   </v-row>
+                </div>
               </v-container>
           </v-text>
       </v-card>
     </v-container>
 </template>
 <script>
-import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
-import ProjectSidebar from '../navbar/ProjectSidebar.vue';
-
 export default{
-  props: ['projectList'],
+  props: ['chatroomList'],
   components: {
-      BasicSmallChip,
-      ProjectSidebar
+
   },
   data() {
       return {
@@ -45,8 +43,8 @@ export default{
       spaMoveTo(projectId) {
           // 이동하는 코드 구현
           console.log(projectId);
-        //   alert('지금은 임시로 홈으로 이동합니다..');
-          this.$router.push('/member/project/apply');
+          alert('지금은 임시로 홈으로 이동합니다..');
+          this.$router.push('/');
       },
       getChipColor(title) {
             if(title === '승인') {
@@ -82,14 +80,9 @@ export default{
 }
 </script>
 <style>
-.project-element {
-  display: flex;
-  justify-content: flex-start;
-  padding: 10px;
-  border-bottom: 1px solid #D4D4D4;
-}
 
-.project-img {
+
+.member-img {
   margin-right: 10px;
   width: 100px;
   height: 100px;
@@ -100,7 +93,6 @@ export default{
 .project-content {
   margin: 10px;
   display: flex;
-  justify-content: start;
 }
 
 .project-description {
@@ -111,10 +103,9 @@ export default{
 
 .chip-wrap {
   margin-top: 10px;
-  justify-self: end;
 }
 
-.project-element:hover {
+.chatroom-element:hover {
   opacity: 0.7;
   /*filter: brightness(1.1);*/
   cursor:pointer;
@@ -125,14 +116,46 @@ export default{
     width: 270px;
 }
 
+.project-status {
+    margin-right: 10px;
+    display: flex;
+    justify-content: end;
+    justify-self: end;
+    width: 20px;
+}
 
 .outer-box {
     display: flex;
+    justify-content: center;
 }
 
-.my-project-card {
-    width: 75%;
-    padding: 10%;
+.chatting-card {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+
+}
+
+.chatroom-box {
+    padding: 30px;
+    display: flex;
+    justify-content: flex-start;
+    padding: 10px;
+    align-items: center;
+}
+
+
+.chatroom-element {
+    display: flex;
+    justify-content: flex-start;
+    padding: 15px;
+    border-bottom: 1px solid #D4D4D4;
+    align-items: center;
+}
+
+.member-img {
+    margin-right: 50px;
+    
 }
 
 </style>

@@ -3,18 +3,14 @@
         <PageNavbar
         :menus='[
             {"menu": "내 정보", "url": "/member/mypage", "selected": false},
-            {"menu": "내 채팅", "url": "/member/chatting-list", "selected": true},
-            {"menu": "내 프로젝트", "url": "/member/my-projects", "selected": false},
+            {"menu": "내 채팅", "url": "/member/chatting-list", "selected": false},
+            {"menu": "내 프로젝트", "url": "/member/my-projects", "selected": true},
             {"menu": "신청 내역", "url": "/member/apply", "selected": false},
             {"menu": "스크랩", "url": "/member/scrap", "selected": false},
         ]'
         />
-        <h2 style="text-align:center; margin: 20px;">내 채팅</h2>
-        <ChattingListComponent 
-        :chatroomList="[
-            {id:1, memberName: '대 슬 기', content: '나를 뽑아', memberImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/glasses_mandoo.jpg'}
-        ]"
-        />
+        <h2 style="text-align:center; margin: 20px;">상세 신청 내역</h2>
+        <ChattingListComponent />
     </v-container>
 </template>
 <script>

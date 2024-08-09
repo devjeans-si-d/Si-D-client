@@ -10,7 +10,7 @@
       ]'
       />
       
-        <h2 style="text-align:center; margin: 20px;">내 프로젝트</h2>
+        <h2 style="text-align:center; margin: 20px;">스크랩</h2>
         <ProjectScrapComponent
         :projectList="[
               { projectId: 1,
@@ -30,7 +30,31 @@
                 content: '빙티는 왜 인기 주민이 아닌가',
                 imageUrl: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/15_Punchy+_3.jpeg',
                 status: '마감'
-            }
+            },
+            { projectId: 1,
+              name: '안경 만두 프로젝트',
+              content: '안경 만두를 찬양하는 프로젝트',
+              imageUrl: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/glasses_mandoo.jpg',
+              status: '진행 중'
+            },
+            { projectId: 1,
+              name: '안경 만두 프로젝트',
+              content: '안경 만두를 찬양하는 프로젝트',
+              imageUrl: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/glasses_mandoo.jpg',
+              status: '진행 중'
+            },
+            { projectId: 1,
+              name: '안경 만두 프로젝트',
+              content: '안경 만두를 찬양하는 프로젝트',
+              imageUrl: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/glasses_mandoo.jpg',
+              status: '진행 중'
+            },
+            { projectId: 1,
+              name: '안경 만두 프로젝트',
+              content: '안경 만두를 찬양하는 프로젝트',
+              imageUrl: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/glasses_mandoo.jpg',
+              status: '진행 중'
+            },
             ]"
         />
     </v-container>

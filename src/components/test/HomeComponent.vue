@@ -50,7 +50,7 @@
 import CloseableChip from '@/components/chip/CloseableChip.vue';
 import BasicChip from '@/components/chip/BasicChip.vue';
 import AvatarChip from '@/components/chip/AvatarChip.vue';
-import ButtonComponent from '../button/ButtonComponent.vue';
+import ButtonComponent from '@/components/button/ButtonComponent.vue';
 
 export default {
   data(){

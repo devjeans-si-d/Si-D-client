@@ -12,7 +12,7 @@
         <h2 style="text-align:center; margin: 20px;">내 채팅</h2>
         <ChattingListComponent 
         :chatroomList="[
-            {id:1, memberName: '대 슬 기', content: '나를 뽑아', memberImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/glasses_mandoo.jpg'}
+            {id:1, memberName: '대 슬 기', content: '나를 뽑아', unread: 3, memberImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/glasses_mandoo.jpg'}
         ]"
         />
     </v-container>

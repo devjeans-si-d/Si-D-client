@@ -4,27 +4,26 @@
           <v-text>
               <v-container>
                 <div class="chatroom-box">
-                  <v-row v-for="chatroom in chatroomList" :key="chatroom.id" @click="spaMoveTo(chatroom.id)" >
+                  <v-row class="chatroom-outer" v-for="chatroom in chatroomList" :key="chatroom.id" @click="spaMoveTo(chatroom.id)" >
                       <v-col cols="12">
                         <div class="chatroom-element">
-                        <div class="member-img">
-                            <img :src="chatroom.memberImage" height="100px" width="auto" overflow="hidden">
-                        </div>
-                    
+                            <div class="member-img">
+                                <img class="profile-img" :src="chatroom.memberImage" height="100px" width="auto" overflow="hidden">
+                            </div>
+                        
                           <div class="project-content">
                             <div class="project-info">
                                 <h4 style="margin-bottom: 10px">{{ chatroom.memberName }}</h4>
 
                                 <p class="project-description">{{ chatroom.content }}</p>
                             </div>
-                            <div class="chip-wrap">
-                                안녕
+                            <div class="unread-count">
+                                <span v-if="chatroom.unread >= 1">{{chatroom.unread}}</span>
                             </div>
-
                           </div>
+  
                         </div>
                       </v-col>
-
                   </v-row>
                 </div>
               </v-container>
@@ -47,8 +46,8 @@ export default{
       spaMoveTo(projectId) {
           // 이동하는 코드 구현
           console.log(projectId);
-          alert('지금은 임시로 홈으로 이동합니다..');
-          this.$router.push('/');
+        //   alert('지금은 임시로 홈으로 이동합니다..');
+          this.$router.push('/member/chatroom');
       },
       getChipColor(title) {
             if(title === '승인') {
@@ -107,7 +106,6 @@ export default{
 
 .chip-wrap {
   margin-top: 10px;
-  justify-self: flex-end;
 }
 
 .chatroom-element:hover {
@@ -118,7 +116,7 @@ export default{
 }
 
 .project-info {
-    width: 270px;
+    width: 100%;
 }
 
 .project-status {
@@ -135,14 +133,14 @@ export default{
 }
 
 .chatting-card {
-    width: 80%;
+    width: 50%;
     display: flex;
     justify-content: center;
 
 }
 
 .chatroom-box {
-    padding: 30px;
+    padding: 100%;
     display: flex;
     justify-content: flex-start;
     padding: 10px;
@@ -153,16 +151,37 @@ export default{
 .chatroom-element {
     display: flex;
     justify-content: flex-start;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #D4D4D4;
+    padding: 15px;
     align-items: center;
 }
 
 .member-img {
     margin-right: 50px;
-    
+    width: 100px;
+    height: 100px; 
+    border-radius: 70%;
+    overflow: hidden;
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.chatroom-outer {
+    border-bottom: 1px solid #D4D4D4;
+}
+
+.unread-count {
+    justify-self: flex-end;
+    background-color: rgb(218, 69, 69);
+    color: white;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    align-content: center;
+    border-radius: 20px;
 }
 
 </style>

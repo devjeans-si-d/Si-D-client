@@ -6,6 +6,7 @@ import MyPageEdit from '@/views/member/MyPageEdit.vue';
 import MyProject from '@/views/member/MyProject.vue';
 import MyApply from '@/views/member/MyApply.vue';
 import MyScrap from '@/views/member/MyScrap.vue';
+import ChatroomView from '@/views/member/ChatroomView.vue'
 
 
 export const memberRouter = [
@@ -44,5 +45,10 @@ export const memberRouter = [
         path: '/member/project/apply', // TODO: project id 추가 필요
         name: 'ApplyList',
         component: ApplyList
+    },
+    {
+        path: '/member/chatroom', // TODO: room id 추가 필요
+        name: 'ChatroomView',
+        component: ChatroomView
     },
 ]

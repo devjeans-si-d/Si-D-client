@@ -1,68 +1,67 @@
 <template>
-    <v-app-bar app style="background-color: #DEF5EC; min-width:1295px" >
-        <v-container>
-            <v-row align="center">
+    <v-app-bar app style="background-color: #DEF5EC;" >
+        <v-container fluid>
+            <v-row align="center" no-gutters>
 
-                <v-col cols="auto" class="d-flex justify-start">
-                    <a href="/">
-                        <img src="@/assets/si-d_logo.png" alt="sid-logo" height="60" class="sid-logo">
-                    </a>
-                </v-col>
+              <v-col cols="auto" class="d-flex justify-start">
+                  <a href="/">
+                      <img src="@/assets/si-d_logo.png" alt="sid-logo" height="60" class="sid-logo">
+                  </a>
+              </v-col>
 
-                <v-col class="d-flex flex-row justify-start text-no-wrap" cols="auto">
-                    <!-- 왼쪽 정렬 -->
-                    <v-btn class="custom-button" text :to="{path:'/team-building/list'}" >
-                        <v-icon left class="mr-1">mdi-hammer-wrench</v-icon>
-                        Team-Building
+              <v-col class="d-flex flex-row justify-start text-no-wrap" cols="auto">
+                  <!-- 왼쪽 정렬 -->
+                  <v-btn class="custom-button" text :to="{path:'/team-building/list'}" >
+                      <v-icon left class="mr-1">mdi-hammer-wrench</v-icon>
+                      Team-Building
+                  </v-btn>
+
+                  <v-btn class="custom-button" text :to="{path:'/launched-project/list'}">
+                      <v-icon left class="mr-1">mdi-rocket-launch</v-icon>
+                      Launched-Project
+                  </v-btn>
+
+                  <v-btn class="custom-button" text :to="{path:'/sider-card/list'}">
+                      <v-icon left class="mr-1">mdi-google-downasaur</v-icon>
+                      Si-Der Card
+                  </v-btn>
+              </v-col>  
+                
+              <!-- 여유 공간을 차지하여 오른쪽으로 정렬 -->
+              <v-spacer></v-spacer>
+
+              <v-col cols="auto" md="auto" class="d-flex align-center justify-end text-no-wrap">
+                <!-- 오른쪽 정렬 -->
+                <v-menu v-if="!isLogin" open-on-hover>
+                  <template v-slot:activator="{ props }">
+                    <v-btn text v-bind="props" height="60">
+                      <v-avatar size="40">
+                        <img src='@/assets/default_profile_image.png' alt="profileImageUrl" class="avatar-image">
+                      </v-avatar>
+                      <span class="ml-2">{{ nickname }}</span>
                     </v-btn>
+                  </template>
+                  <v-list>
+                    <v-list-item :to="{ path: '/sider-card'}">
+                      <v-list-item-title>나의 커리어 카드</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item :to="{ path: '/member/mypage'}">
+                      <v-list-item-title>마이페이지</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item :to="{ path: '/member/chatting-list'}">
+                      <v-list-item-title>내 채팅</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item @click="doLogout">
+                      <v-list-item-title>로그아웃</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </v-col>
 
-                    <v-btn class="custom-button" text :to="{path:'/launched-project/list'}">
-                        <v-icon left class="mr-1">mdi-rocket-launch</v-icon>
-                        Launched-Project
-                    </v-btn>
-
-                    <v-btn class="custom-button" text :to="{path:'/sider-card/list'}">
-                        <v-icon left class="mr-1">mdi-google-downasaur</v-icon>
-                        Si-Der Card
-                    </v-btn>
-                </v-col>
-
-                <v-col class="d-flex justify-end">
-                    <!-- 오른쪽 정렬 --> 
-                    <v-menu v-if="!isLogin" open-on-hover> 
-                        <!-- 아직 api 안갖다 붙여서 !isLogin 해놓음 이후 isLogin으로 바꿔야됨. -->
-                        <template v-slot:activator="{ props }">
-                          <v-btn text v-bind="props" height="60">
-                            <v-avatar size="40">
-                              <!-- 로그인api 갖다붙일 때 프로필 이미지+닉네임 가져오는 부분 수정필요 -->
-                              <img src='@/assets/default_profile_image.png' alt="profileImageUrl" class="avatar-image">
-                            </v-avatar>
-                            <span class="ml-2">{{ nickname }}</span>
-                          </v-btn>
-                        </template>
-
-                        <v-list>
-                          <v-list-item :to="{ path: '/sider-card'}">
-                            <v-list-item-title>나의 커리어 카드</v-list-item-title>
-                          </v-list-item>
-                          <v-list-item :to="{ path: '/member/mypage'}">
-                            <v-list-item-title>마이페이지</v-list-item-title>
-                          </v-list-item>
-                          <v-list-item :to="{ path: '/member/chatting-list'}">
-                            <v-list-item-title>내 채팅</v-list-item-title>
-                          </v-list-item>
-                          <v-list-item @click="doLogout">
-                            <v-list-item-title>로그아웃</v-list-item-title>
-                          </v-list-item>
-                        </v-list>
-                      </v-menu>
-
-                </v-col>
-
-                <v-col class="d-flex justify-end">
-                  <v-btn class="custom-button" v-if="!isLogin" :to="{path:'/member/create'}">회원가입</v-btn>
-                  <v-btn class="custom-button" v-if="!isLogin" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f1a9f25e347069f2e5fedb6375c0b82d&redirect_uri=http://localhost:8080/api/auth/kakao/callback">로그인</v-btn>
-                </v-col>
+              <v-col cols="auto" md="auto" class="d-flex align-center justify-end text-no-wrap">
+                <v-btn class="custom-button" v-if="!isLogin" :to="{path:'/member/create'}">회원가입</v-btn>
+                <v-btn class="custom-button" v-if="!isLogin" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f1a9f25e347069f2e5fedb6375c0b82d&redirect_uri=http://localhost:8080/api/auth/kakao/callback">로그인</v-btn>
+              </v-col>
 
             </v-row>
         </v-container>

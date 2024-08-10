@@ -8,7 +8,7 @@
         <v-row>
             <v-sheet class="py-4 px-1">
                 <v-chip-group  selected-class="text-primary" mandatory>
-                    <v-chip color="#094F08" size="x-large" filter>전체</v-chip>
+                    <v-chip color="#094F08" size="large" filter>전체</v-chip>
                     <filter-stack-chip title="Spring" color="#77BC1F" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/spring.svg"/>
                     <filter-stack-chip title="Node.js" color="#676F5E" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/nodejs.svg"/>
                     <filter-stack-chip title="Android" color="#A4C439" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/android.svg"/>

@@ -1,5 +1,5 @@
 <template>
-<v-chip class="mx-2"  :color=color size="x-large" filter>
+<v-chip class="mx-2"  :color=color size="large" filter>
   <v-avatar start class="custom-avatar">
     <v-img :src=url></v-img>
   </v-avatar>

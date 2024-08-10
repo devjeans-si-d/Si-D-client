@@ -15,6 +15,7 @@
               label="Field"
               :items="['DESIGNER', 'FRONTEND', 'BACKEND', 'APP', 'PM']"
               variant="outlined"
+              class="mb-3"
             ></v-select>
           </v-container>
   
@@ -32,7 +33,7 @@
                   </v-select>
                 </v-col>
                 <v-col>
-                  <v-text-field v-model="searchValue" label="Search" variant="outlined"></v-text-field>
+                  <v-text-field v-model="searchValue" label="Search"></v-text-field>
                 </v-col>
                 <v-col cols="auto">
                   <v-btn type="submit">검색</v-btn>
@@ -41,7 +42,7 @@
   
               <!-- 테이블 및 페이지네이션 -->
               <v-row>
-                <v-col cols="12">
+                <v-col cols="12" class="mt-2">
                   <v-simple-table rounded="lg" class="elevation-1">
                     <thead>
                       <tr>

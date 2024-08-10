@@ -3,6 +3,7 @@ import HomeComponent from '@/components/test/HomeComponent.vue'
 import { siderCardRouter } from './siderCardRouter';
 import { LaunchedProjectRouter } from './LaunchedProjectRouter';
 import { memberRouter } from './memberRouter';
+import MainPage from '@/views/MainPage/MainPage.vue';
 
 const routes = [
     {
@@ -12,8 +13,8 @@ const routes = [
     },
     {
         path: '/',
-        name: 'ROOT',
-        component: HomeComponent
+        name: 'MainPage',
+        component: MainPage
     },
     
     ...siderCardRouter,

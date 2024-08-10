@@ -112,7 +112,7 @@
     /*  버튼 커스텀 */
     .custom-button {
         font-weight: bold !important; /* 글씨를 bold로 */
-        font-size: 16px !important; /* 글씨 크기 */
+        font-size: 14px !important; /* 글씨 크기 */
         color: #094F08 !important; /* 글씨 색 */
         text-transform: none !important; /* 대문자 변환 방지 */
     }

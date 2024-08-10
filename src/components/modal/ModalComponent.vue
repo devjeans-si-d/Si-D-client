@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="internalDialog" max-width="400px" rounded="xl" class="m">
+  <v-dialog v-model="internalDialog" max-width="400px" rounded="xl" >
     <v-card>
       <v-card-title>{{ title }}</v-card-title>
       <v-divider class="mb-4"></v-divider>

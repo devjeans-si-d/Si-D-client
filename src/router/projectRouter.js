@@ -2,6 +2,7 @@
 import MemberAddComponent from "@/components/modal/MemberAddComponent.vue"
 import MemberSearchDialogueTest from "@/components/modal/MemberSearchDialogueTest.vue"
 import editorComponent from "@/components/editor/editorComponent.vue"
+import ProjectCreate from "@/views/project/ProjectCreate.vue"
 export const projectRouter = [
     {
         path: '/MemberAddComponent',
@@ -17,5 +18,10 @@ export const projectRouter = [
         path: '/editorComponent',
         name: 'editorComponent',
         component: editorComponent
+    },
+    {
+        path: '/ProjectCreate',
+        name: 'ProjectCreate',
+        component: ProjectCreate
     },
 ]

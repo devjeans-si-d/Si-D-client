@@ -1,6 +1,6 @@
 <template>
     <v-app-bar app style="background-color: #DEF5EC;" >
-        <v-container fluid>
+        <v-container fluid class="custom-container">
             <v-row align="center" no-gutters>
 
               <v-col cols="auto" class="d-flex justify-start">
@@ -59,8 +59,9 @@
               </v-col>
 
               <v-col cols="auto" md="auto" class="d-flex align-center justify-end text-no-wrap">
-                <v-btn class="custom-button" v-if="!isLogin" :to="{path:'/member/create'}">회원가입</v-btn>
-                <v-btn class="custom-button" v-if="!isLogin" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f1a9f25e347069f2e5fedb6375c0b82d&redirect_uri=http://localhost:8080/api/auth/kakao/callback">로그인</v-btn>
+                <!-- 원래 !isLogin임 api 붙이는 작업 이후 수정 예정 -->
+                <v-btn class="custom-button" v-if="isLogin" :to="{path:'/member/create'}">회원가입</v-btn>
+                <v-btn class="custom-button" v-if="isLogin" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f1a9f25e347069f2e5fedb6375c0b82d&redirect_uri=http://localhost:8080/api/auth/kakao/callback">로그인</v-btn>
               </v-col>
 
             </v-row>
@@ -103,6 +104,11 @@
   </script>
   
   <style>
+    .custom-container {
+    max-width: 1200px !important; /* 원하는 최대 폭 */
+    margin: 0 auto !important;    /* 중앙 정렬 */
+    width: 100% !important; /* 컨테이너의 폭을 100%로 설정 */
+    }
     /*  버튼 커스텀 */
     .custom-button {
         font-weight: bold !important; /* 글씨를 bold로 */

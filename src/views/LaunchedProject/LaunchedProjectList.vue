@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container fluid class="custom-container">
         <v-spacer :style="{height: '20px'}"></v-spacer>
         <h1 style="text-align:center; color:#094F08;">Launched-Project</h1>
 
@@ -31,37 +31,37 @@
 
         <v-spacer :style="{height: '10px'}"></v-spacer>
         
-        <v-card class="mx-auto" max-width="300">
-            <v-img
-            class="custom-img"
-            height="250"
-            src="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mymoji.png"
-            cover />
-            
-            <v-card-title class="d-flex justify-space-between align-center">
-                <!-- 프로젝트 이름 -->
-                <span>{{ projectName }}</span>
-                <v-chip
-                  color="primary"
-                  text-color="white"
-                >
-                <!-- 스크랩 수 -->
-                🍾 {{launchedProjectScraps}} 
-                </v-chip>
-              </v-card-title>
+        <v-row>
+            <v-col
+                v-for="project in projects"
+                :key="project.id"
+                cols="12" md="4" lg="3"
+            >
+                <v-card class="mx-auto" max-width="300">
+                <v-img
+                    class="custom-img"
+                    height="250"
+                    :src="project.image"
+                    cover
+                />
 
-            <v-card-subtitle class="pt-3">
-                <!-- 완성된 프로젝트 설명 30자 -->
-                 <div>{{launchedProjectContents}}</div>
-                
-            </v-card-subtitle>
+                <v-card-title class="d-flex justify-space-between align-center">
+                    <span>{{ project.name }}</span>
+                    <v-chip color="primary" text-color="white">
+                    🍾 {{ project.scraps }}
+                    </v-chip>
+                </v-card-title>
 
-            <v-card-subtitle class="pt-2">
-                <!-- 사용된 기술스택 -->
-                <!-- 나중에 v-for 로 기술스택 리스트에서 하나씩 return 해줘야 함 -->
-                <div class="mb-4">{{launchedProjectTechStacks}}</div>
-            </v-card-subtitle>
-        </v-card>
+                <v-card-subtitle class="pt-3">
+                    <div>{{ project.contents }}</div>
+                </v-card-subtitle>
+
+                <v-card-subtitle class="pt-2">
+                    <div class="mb-4">{{ project.techStacks }}</div>
+                </v-card-subtitle>
+                </v-card>
+            </v-col>
+        </v-row>
 
     </v-container>
 
@@ -72,13 +72,73 @@ import FilterStackChip from '@/components/chip/FilterStackChip.vue';
 export default{
     data() {
         return {
-            isChecked: true,
-            projectName : "마이모지(My Moji)",
-            // redis에서 Set size값 구해와야 함
-            launchedProjectScraps : 23,
-            launchedProjectContents : "매일 불러보는 내 이모지! 마이모지(My Moji)",
-            // List에서 v-for 해야함 이후 수정예정
-            launchedProjectTechStacks : "SpringBoot · Swift · SwiftUI · RxSwift"
+            projects: [
+                // 임시데이터. api붙이면 수정예정
+        {
+          id: 1,
+          name: "My Moji",
+          image: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mymoji.png",
+          scraps: 23,
+          contents: "매일 불러보는 내 이모지! 마이모지(My Moji)",
+          techStacks: "SpringBoot · Swift · SwiftUI · RxSwift"
+        },
+        {
+          id: 1,
+          name: "My Moji",
+          image: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mymoji.png",
+          scraps: 23,
+          contents: "매일 불러보는 내 이모지! 마이모지(My Moji)",
+          techStacks: "SpringBoot · Swift · SwiftUI · RxSwift"
+        },
+        {
+          id: 1,
+          name: "My Moji",
+          image: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mymoji.png",
+          scraps: 23,
+          contents: "매일 불러보는 내 이모지! 마이모지(My Moji)",
+          techStacks: "SpringBoot · Swift · SwiftUI · RxSwift"
+        },
+        {
+          id: 1,
+          name: "My Moji",
+          image: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mymoji.png",
+          scraps: 23,
+          contents: "매일 불러보는 내 이모지! 마이모지(My Moji)",
+          techStacks: "SpringBoot · Swift · SwiftUI · RxSwift"
+        },
+        {
+          id: 1,
+          name: "My Moji",
+          image: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mymoji.png",
+          scraps: 23,
+          contents: "매일 불러보는 내 이모지! 마이모지(My Moji)",
+          techStacks: "SpringBoot · Swift · SwiftUI · RxSwift"
+        },
+        {
+          id: 1,
+          name: "My Moji",
+          image: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mymoji.png",
+          scraps: 23,
+          contents: "매일 불러보는 내 이모지! 마이모지(My Moji)",
+          techStacks: "SpringBoot · Swift · SwiftUI · RxSwift"
+        },
+        {
+          id: 1,
+          name: "My Moji",
+          image: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mymoji.png",
+          scraps: 23,
+          contents: "매일 불러보는 내 이모지! 마이모지(My Moji)",
+          techStacks: "SpringBoot · Swift · SwiftUI · RxSwift"
+        },
+        {
+          id: 1,
+          name: "My Moji",
+          image: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mymoji.png",
+          scraps: 23,
+          contents: "매일 불러보는 내 이모지! 마이모지(My Moji)",
+          techStacks: "SpringBoot · Swift · SwiftUI · RxSwift"
+        },
+      ]
         };
     },
     components:{
@@ -91,6 +151,11 @@ export default{
 </script>
 
 <style scoped>
+.custom-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
 .custom-img {
     width: 100%;
     height: 100%;

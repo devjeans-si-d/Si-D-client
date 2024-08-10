@@ -19,7 +19,7 @@ export default {
       height: "500px",
       initialEditType: "wysiwyg",
       hooks: {
-        addImageBlobHook: async (blob, callback) => {
+          addImageBlobHook: async (blob, callback) => {
           // 1. 다른 서버에 이미지를 업로드
           const uploadResult = await this.uploadImage(blob);
           // 2. 1에서 업로드 된 이미지를 접근할 수 있는 url 세팅
@@ -83,7 +83,7 @@ export default {
         "X-Amz-Signature":
           "f57d117c7a92d8b9266b814fa8bc71a6bde1e8d02947caa1cdedf84210eed3a0",
       };
-      let response = await axios.put(awsUrl.data, blob, options,params); // formData와 options를 각각 두 번째, 세 번째 인자로 전달
+      let response = await axios.put({url:awsUrl.data}, {data:blob}, options,{params}); // formData와 options를 각각 두 번째, 세 번째 인자로 전달
       let result = response.data;
 
       return result;

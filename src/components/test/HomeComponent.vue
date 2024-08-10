@@ -72,7 +72,6 @@ import AvatarChip from '@/components/chip/AvatarChip.vue';
 import ButtonComponent from '../button/ButtonComponent.vue';
 import IconChip from '../chip/IconChip.vue';
 import FilterStackChip from '../chip/FilterStackChip.vue';
-
 export default {
   data(){
 

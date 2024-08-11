@@ -5,7 +5,7 @@
               <v-container>
                 <div class="chatroom-box">
                     <v-text v-if="this.chatroomList.length === 0">채팅 기록이 없습니다.</v-text>
-                  <v-row class="chatroom-outer" v-for="chatroom in chatroomList" :key="chatroom.id" @click="spaMoveTo(chatroom.id)" >
+                  <v-row class="chatroom-outer" v-for="chatroom in chatroomList" :key="chatroom.id" @click="spaMoveTo(chatroom.chatRoomId)" >
                       <v-col cols="12">
                         <div class="chatroom-element">
                             <div class="member-img">
@@ -44,11 +44,8 @@ export default{
       }
   },
   methods: {
-      spaMoveTo(projectId) {
-          // 이동하는 코드 구현
-          console.log(projectId);
-        //   alert('지금은 임시로 홈으로 이동합니다..');
-          this.$router.push('/member/chatroom');
+      spaMoveTo(chatroomId) {
+          this.$router.push(`/member/chatroom/${chatroomId}`);
       },
       getChipColor(title) {
             if(title === '승인') {

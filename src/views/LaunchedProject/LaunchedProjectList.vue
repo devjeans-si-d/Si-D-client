@@ -169,4 +169,7 @@ export default{
     text-overflow: ellipsis !important; /* 넘치는 텍스트에 '...' 추가 (이거 적용안됨 이후 수정필요)*/
     white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
   }
+  .custom-contents {
+    text-align: center;
+  }
 </style>

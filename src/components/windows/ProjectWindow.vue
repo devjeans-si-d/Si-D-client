@@ -25,7 +25,7 @@
                 <v-card-title class="d-flex justify-space-between align-center">
                   <span>{{ project.name }}</span>
                   <v-chip color="primary" text-color="white">
-                    🍾 {{ project.scraps }}
+                    <v-icon>mdi-bookmark</v-icon> {{ project.scraps }}
                   </v-chip>
                 </v-card-title>
                 <v-card-subtitle class="pt-3 custom-contents">
@@ -51,7 +51,7 @@
           >
             <v-btn
               :color="isSelected ? 'primary' : 'secondary'"
-                icon="mdi-circle-small"
+              icon="mdi-circle-small"
               @click="toggle"
             ></v-btn>
           </v-item>
@@ -69,6 +69,7 @@
         default: 1
       },
       projects: {
+        // 이후 Project에 맞게 수정예정
         type: Array,
         default: () => []
       }

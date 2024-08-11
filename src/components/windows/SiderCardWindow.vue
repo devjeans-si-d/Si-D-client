@@ -1,40 +1,37 @@
 <template>
     <v-card
-      style="background-color: #F3F3F3; border-radius: 15px; padding: 20px; max-width: 1200px; width: 100%;"
+      style="background-color: #DEF5EC; border-radius: 15px; padding: 20px; max-width: 1200px; width: 100%;"
       rounded="0"
       flat
     >
       <v-window v-model="onboarding" style="max-width: 1200px; width: 100%;">
-        <!-- v-model="onboarding": 현재 활성화된 슬라이드의 인덱스를 바인딩 -->
         <v-window-item v-for="n in windowCount" :key="`window-${n}`" :value="n">
           <v-row class="d-flex justify-center">
             <v-col
-              v-for="(project, index) in paginatedProjects(n)"
+              v-for="(sidecard, index) in paginatedSidecards(n)"
               :key="index"
               cols="12"
-              md="3"
+              md="4"
               class="d-flex justify-center"
             >
-              <v-card class="mx-auto" style="width: 100%; max-width: 250px;">
+              <v-card class="mx-auto" style="width: 100%; max-width: 300px; ">
+                <v-spacer :style="{height: '30px'}"></v-spacer>
                 <v-img
-                  class="custom-img"
-                  height="250"
-                  :src="project.image"
-                  cover
+                  class="circle-img"
+                  :src="sidecard.profileImage"
+                  width="150"
+                  height="150"
                 />
-                <v-card-title class="d-flex justify-space-between align-center">
-                  <span>{{ project.name }}</span>
-                  <v-chip color="primary" text-color="white">
-                    🍾 {{ project.scraps }}
-                  </v-chip>
+                <v-spacer :style="{height: '30px'}"></v-spacer>
+                <v-card-title class="d-flex justify-center align-center">
+                  <span>{{ sidecard.nickName }}</span>
                 </v-card-title>
-                <v-card-subtitle class="pt-3 custom-contents">
-                  <div>{{ project.contents }}</div>
+                <v-card-subtitle class="d-flex justify-center align-center" style="font-weight: bold">
+                  <div>{{ sidecard.jobField }}</div>
                 </v-card-subtitle>
-                <v-card-subtitle class="pt-2 custom-contents">
-                  <div class="mb-4">{{ project.techStacks }}</div>
-                </v-card-subtitle>
+                <v-spacer :style="{height: '30px'}"></v-spacer>
               </v-card>
+
             </v-col>
           </v-row>
         </v-window-item>
@@ -49,11 +46,12 @@
             v-slot="{ isSelected, toggle }"
             :value="n"
           >
-            <v-btn
+          <v-btn
               :color="isSelected ? 'primary' : 'secondary'"
                 icon="mdi-circle-small"
               @click="toggle"
             ></v-btn>
+
           </v-item>
         </v-item-group>
         <v-btn icon="mdi-chevron-right" variant="plain" @click="next"></v-btn>
@@ -68,7 +66,7 @@
         type: Number,
         default: 1
       },
-      projects: {
+      sidecards: {
         type: Array,
         default: () => []
       }
@@ -87,23 +85,33 @@
         this.onboarding =
           this.onboarding - 1 <= 0 ? this.windowCount : this.onboarding - 1;
       },
-      paginatedProjects(page) {
-        // 페이지에 따라 프로젝트를 반환하도록 수정
-        const projectsPerPage = 4;
-        const start = (page - 1) * projectsPerPage;
-        const end = start + projectsPerPage;
-        return this.projects.slice(start, end);
+      paginatedSidecards(page) {
+        const sidecardsPerPage = 3; // 한 페이지에 3개의 sidecard 표시
+        const start = (page - 1) * sidecardsPerPage;
+        const end = start + sidecardsPerPage;
+        return this.sidecards.slice(start, end);
       }
     }
   };
   </script>
   
   <style scoped>
+  .circle-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover; /* 이미지가 컨테이너를 완전히 덮도록 설정 */
+    object-position: center;
+    margin: 0 auto;
+    display: block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 음영 추가 */
+
+  }
   .small-btn {
-    font-size: 12px; /* 버튼 텍스트 크기 */
-    padding: 4px 8px; /* 버튼 내부 여백 */
-    min-width: 40px; /* 버튼 최소 너비 */
-    height: 24px; /* 버튼 높이 */
+    font-size: 12px;
+    padding: 4px 8px;
+    min-width: 40px;
+    height: 24px;
   }
   </style>
   

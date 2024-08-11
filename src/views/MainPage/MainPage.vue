@@ -25,8 +25,32 @@
                     <h2 style="text-align:center">🔥 지금 모집중인 인기공고 🔥</h2>
                 </v-col>
             </v-row>
+
+            <v-row justify="center" align="center">
+            <h5 style="text-align: center; color: #787575;">
+                고민은 성장만 늦출 뿐! Si-Der와 함께 성장 Surfing에 동참하세요🏄
+            </h5>
+            </v-row>
+
             <v-spacer :style="{height: '20px'}"></v-spacer>
 
+            <v-row justify="center">
+                <project-window
+                    :windowCount="2"
+                    :projects="projects"
+                >
+                </project-window>
+            </v-row>
+
+            <v-row justify="center" style="margin-top: -20px;">
+                <v-btn
+                    class="custom-button"
+                    style="background-color: #E6E6E6;"
+                    text :to="{path:'/team-building/list'}"
+                >모집 공고 더보기</v-btn>
+            </v-row> 
+
+        <v-spacer :style="{height: '30px'}"></v-spacer>
 
         </v-container>
         
@@ -53,68 +77,22 @@
             <v-spacer :style="{ height: '30px' }"></v-spacer>
 
             <v-row justify="center">
-            <v-card
-                style="background-color: #F3F3F3; border-radius: 15px; padding: 20px; max-width: 1200px; width: 100%;"
-                rounded="0"
-                flat
-            >
-                <v-window v-model="onboarding"
-                    style="max-width: 1200px; width: 100%;"
-                    >
-                    <v-window-item v-for="n in windowCount" :key="`window-${n}`" :value="n">
-                        <v-row class="d-flex justify-center">
-                        <v-col
-                            v-for="(project, index) in paginatedProjects(n)"
-                            :key="index"
-                            cols="12"
-                            md="3"
-                            class="d-flex justify-center"
-                        >
-                            <v-card class="mx-auto" style="width: 100%; max-width: 250px;">
-                                <v-img
-                                    class="custom-img"
-                                    height="250"
-                                    :src="project.image"
-                                    cover
-                                />
-                                <v-card-title class="d-flex justify-space-between align-center">
-                                    <span>{{ project.name }}</span>
-                                    <v-chip color="primary" text-color="white">
-                                    🍾 {{ project.scraps }}
-                                    </v-chip>
-                                </v-card-title>
-                                <v-card-subtitle class="pt-3 custom-contents">
-                                    <div>{{ project.contents }}</div>
-                                </v-card-subtitle>
-                                <v-card-subtitle class="pt-2 custom-contents">
-                                    <div class="mb-4">{{ project.techStacks }}</div>
-                                </v-card-subtitle>
-                            </v-card>
-                        </v-col>
-                        </v-row>
-                    </v-window-item>
-                </v-window>
-
-                <v-card-actions class="justify-space-between">
-                <v-btn icon="mdi-chevron-left" variant="plain" @click="prev"></v-btn>
-                <v-item-group v-model="onboarding" class="text-center" mandatory>
-                    <v-item
-                    v-for="n in windowCount"
-                    :key="`btn-${n}`"
-                    v-slot="{ isSelected, toggle }"
-                    :value="n"
-                    >
-                    <v-btn
-                        :variant="isSelected ? 'outlined' : 'text'"
-                        icon="mdi-record"
-                        @click="toggle"
-                    ></v-btn>
-                    </v-item>
-                </v-item-group>
-                <v-btn icon="mdi-chevron-right" variant="plain" @click="next"></v-btn>
-                </v-card-actions>
-            </v-card>
+                <launched-project-window
+                    :windowCount="2"
+                    :projects="launched_projects"
+                >
+                </launched-project-window>
             </v-row>
+
+            <v-row justify="center" style="margin-top: -20px;">
+                <v-btn
+                    class="custom-button"
+                    style="background-color: #E6E6E6;"
+                    text :to="{path:'/launched-project/list'}"
+                >Launched Project 더보기</v-btn>
+            </v-row> 
+
+            <v-spacer :style="{height: '30px'}"></v-spacer>
         </v-container>
 
         <v-spacer :style="{height: '50px'}"></v-spacer>
@@ -133,59 +111,73 @@
 
             <v-spacer :style="{height: '20px'}"></v-spacer>
 
+            <sider-card-window
+                :windowCount="2"
+                :sidecards="siderCards"
+            >
+            </sider-card-window>
+
+            <v-row justify="center" style="margin-top: -20px;">
+                <v-btn
+                    class="custom-button"
+                    style="background-color: #A4C89C; color: #094F08"
+                    text :to="{path:'/siderCard/list'}"
+                >Sider-Card 더보기</v-btn>
+            </v-row> 
+
+            <v-spacer :style="{height: '30px'}"></v-spacer>
+
         </v-container>
-
-
 
     </v-container>
 
     
 </template>
 <script>
-  export default {
-    data: () => ({
-      onboarding: 1,
-      projectTemplate: {
-        id: 1,
-        name: 'Project 1',
-        image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/smallchat.png',
-        scraps: 100,
-        contents: 'Contents 1',
-        techStacks: 'Tech 1',
-      },
-      numberOfProjects: 8, // 반복할 데이터 수
-      cardsPerPage: 4,
-    }),
+  import LaunchedProjectWindow from '@/components/windows/LaunchedProjectWindow.vue';
+  import ProjectWindow from '@/components/windows/ProjectWindow.vue';
+  import SiderCardWindow from '@/components/windows/SiderCardWindow.vue';
 
-    computed: {
-      projects() {
-        return Array.from({ length: this.numberOfProjects }, (_, index) => ({
-          ...this.projectTemplate,
-          id: index + 1,
-          name: `Project ${index + 1}`,
-        }))
-      },
-      windowCount() {
-        return Math.ceil(this.projects.length / this.cardsPerPage)
-      },
-    },
-
-    methods: {
-      paginatedProjects(page) {
-        const start = (page - 1) * this.cardsPerPage
-        const end = page * this.cardsPerPage
-        return this.projects.slice(start, end)
-      },
-      next() {
-        this.onboarding =
-          this.onboarding + 1 > this.windowCount ? 1 : this.onboarding + 1
-      },
-      prev() {
-        this.onboarding =
-          this.onboarding - 1 <= 0 ? this.windowCount : this.onboarding - 1
-      },
-    },
+export default {
+  components: {
+    LaunchedProjectWindow,
+    ProjectWindow,
+    SiderCardWindow
+  },
+  data() {
+    return {
+      launched_projects: [
+        { id: 1, name: 'Project 1', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/smallchat.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
+        { id: 2, name: 'Project 2', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/smallchat.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
+        { id: 3, name: 'Project 3', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/smallchat.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
+        { id: 4, name: 'Project 4', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/smallchat.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
+        { id: 5, name: 'Project 5', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/smallchat.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
+        { id: 6, name: 'Project 6', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/smallchat.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
+        { id: 7, name: 'Project 7', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/smallchat.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
+        { id: 8, name: 'Project 8', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/smallchat.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
+      ],
+      projects: [
+        { id: 1, name: 'Project 1', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mbtips.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
+        { id: 2, name: 'Project 2', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mbtips.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
+        { id: 3, name: 'Project 3', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mbtips.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
+        { id: 4, name: 'Project 4', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mbtips.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
+        { id: 5, name: 'Project 5', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mbtips.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
+        { id: 6, name: 'Project 6', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mbtips.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
+        { id: 7, name: 'Project 7', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mbtips.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
+        { id: 8, name: 'Project 8', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mbtips.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10}
+      ],
+      siderCards: [
+        { id: 1, nickName: '갓세정1', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/%EB%B9%99%ED%8B%B0.jpg', jobField: 'Backend'},
+        { id: 2, nickName: '갓세정2', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/%EB%B9%99%ED%8B%B0.png', jobField: 'Backend'},
+        { id: 3, nickName: '갓세정3', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/%EB%B9%99%ED%8B%B0.png', jobField: 'Backend'},
+        { id: 4, nickName: '갓세정4', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/%EB%B9%99%ED%8B%B0.png', jobField: 'Backend'},
+        { id: 5, nickName: '갓세정5', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/%EB%B9%99%ED%8B%B0.png', jobField: 'Backend'},
+        { id: 6, nickName: '갓세정6', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/%EB%B9%99%ED%8B%B0.png', jobField: 'Backend'},
+        
+      ]
+    };
   }
+};
 </script>
 <style scoped>
 .custom-container {
@@ -193,4 +185,10 @@
   margin: 0 auto;
   padding: 0 16px;
 }
+.custom-button {
+        font-weight: bold !important; /* 글씨를 bold로 */
+        font-size: 14px !important; /* 글씨 크기 */
+        color: black !important;
+        text-transform: none !important; /* 대문자 변환 방지 */
+    }
 </style>

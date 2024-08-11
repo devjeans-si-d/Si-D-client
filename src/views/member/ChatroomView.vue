@@ -18,6 +18,8 @@
         <v-row>
             <v-col>
                 <v-text-field></v-text-field>
+            </v-col>
+            <v-col>
                 <ButtonComponent content="전송"/>
             </v-col>
         </v-row>
@@ -28,7 +30,7 @@
 import ButtonComponent from '@/components/button/ButtonComponent.vue';
 import axios from 'axios'
 import { useRoute } from 'vue-router';
-const route = useRoute();
+
 
 
 export default {
@@ -42,8 +44,10 @@ export default {
         }
     },
     async created() {
+        const route = useRoute();
         this.chatroomId = route.params.chatroomId;
-        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/receiver/1`);
+        
+        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/receiver/4`);
         console.log(response.data.content);
         this.chatList = response.data.content;
     }

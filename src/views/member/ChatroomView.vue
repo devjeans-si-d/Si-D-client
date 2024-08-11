@@ -6,7 +6,7 @@
                   <div>
                     <v-row class="chatroom-outer" v-for="chatroom in chatroomList" :key="chatroom.id" @click="spaMoveTo(chatroom.id)" >
                         <v-col cols="12">
-                          <div class="chatroom-element">
+                          <div class="chat-element">
                               <div class="member-img">
                                   <img class="profile-img" :src="chatroom.memberImage" height="100px" width="auto" overflow="hidden">
                               </div>
@@ -35,6 +35,7 @@
     </v-container>
 </template>
 <script>
+// import axios from 'axios'
 
 export default {
     data() {
@@ -43,11 +44,28 @@ export default {
                 
             ]
         }
+    },
+    created() {
+        // axios.get()
     }
 }   
 
 </script>
 
 <style>
+
+.member-img {
+    margin-right: 50px;
+    width: 100px;
+    height: 100px; 
+    border-radius: 70%;
+    overflow: hidden;
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}   
 
 </style>

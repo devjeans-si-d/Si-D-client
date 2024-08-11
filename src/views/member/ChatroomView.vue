@@ -1,3 +1,4 @@
+
 <template>
     <v-container>
         <v-card color="#F3F3F3">
@@ -14,21 +15,35 @@
             </v-text>
         </v-card>
 
-
+        <v-row>
+            <v-col>
+                <v-text-field></v-text-field>
+                <ButtonComponent content="전송"/>
+            </v-col>
+        </v-row>
 
     </v-container>
 </template>
 <script>
+import ButtonComponent from '@/components/button/ButtonComponent.vue';
 import axios from 'axios'
+import { useRoute } from 'vue-router';
+const route = useRoute();
+
 
 export default {
+    components: {
+        ButtonComponent
+    },
     data() {
         return {
-            chatList: []
+            chatList: [],
+            chatroomId: 0
         }
     },
     async created() {
-        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/1/receiver/1`);
+        this.chatroomId = route.params.chatroomId;
+        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/receiver/1`);
         console.log(response.data.content);
         this.chatList = response.data.content;
     }

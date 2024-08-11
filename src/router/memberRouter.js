@@ -47,7 +47,7 @@ export const memberRouter = [
         component: ApplyList
     },
     {
-        path: '/member/chatroom', // TODO: room id 추가 필요
+        path: '/member/chatroom/:chatroomId',
         name: 'ChatroomView',
         component: ChatroomView
     },

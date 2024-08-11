@@ -1,7 +1,7 @@
 <template>
     <v-container fluid class="custom-container">
         <v-spacer :style="{height: '20px'}"></v-spacer>
-        <h1 style="text-align:center; color:#094F08;">Launched-Project</h1>
+        <h1 style="text-align:center; color:#094F08;">Project</h1>
 
         <v-spacer :style="{height: '20px'}"></v-spacer>
 

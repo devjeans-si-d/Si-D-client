@@ -6,8 +6,17 @@
                 <v-container>
                   <div>
                     <v-row class="chatroom-outer" v-for="chat in chatList" :key="chat.id" >
-                        <v-col cols="12">
+                        <v-col>
+                            <img class="chat-part-image" :src="this.getMemberImage(chat.sender)" />
+                        </v-col>
+                        <v-col>
+                            <div>{{this.getMemberName(chat.sender)}}</div>
+                        </v-col>
+                        <v-col>
                             <div>{{chat.content}}</div>
+                        </v-col>
+                        <v-col cols="12">
+                            <div class="chat-createdTime">{{chat.createdAt}}</div>
                         </v-col>
                     </v-row>
                   </div>
@@ -45,7 +54,8 @@ export default {
             chatList: [],
             chatroomId: 0,
             chatMessage: "",
-            stompClient: ""
+            stompClient: "",
+            memberInfos: new Map([])
         }
     },
     async created() {
@@ -54,13 +64,21 @@ export default {
         const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}`);
         console.log(response.data.content);
         this.chatList = response.data.content;
-        
+
+        // 참여자 정보 얻기
+        const memberInfo = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/get-member-info`);
+        this.memberInfos = new Map([
+            [memberInfo.data[0].memberId, memberInfo.data[0]],
+            [memberInfo.data[1].memberId, memberInfo.data[1]]
+        ]);
+
+        console.log(this.memberInfos);
     },
     beforeMount() {
         //== 연결하는 부분 ==//
         // 방에 입장
-        console.log("watch!");
         this.connect();
+
     },
     beforeUnmount() {
         this.disconnect();
@@ -126,6 +144,12 @@ export default {
             }
         });
     },
+    getMemberName(sender) {
+        return this.memberInfos?.get(sender)?.nickname;
+    },
+    getMemberImage(sender) {
+        return this.memberInfos?.get(sender)?.profileImageUrl;
+    }
 
     }
 }   
@@ -147,5 +171,15 @@ export default {
     height: 100%;
     object-fit: cover;
 }   
+
+.chat-createdTime {
+    font-size: small;
+    color: gray;
+}
+
+.chat-part-image {
+    width: 50px;
+    border-radius: 50px;
+}
 
 </style>

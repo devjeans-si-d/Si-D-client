@@ -139,8 +139,6 @@ export default{
 
 .chatroom-box {
     padding: 100%;
-    display: flex;
-    justify-content: flex-start;
     padding: 10px;
     align-items: center;
 }

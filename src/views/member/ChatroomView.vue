@@ -4,25 +4,9 @@
             <v-text>
                 <v-container>
                   <div>
-                    <v-row class="chatroom-outer" v-for="chatroom in chatroomList" :key="chatroom.id" @click="spaMoveTo(chatroom.id)" >
+                    <v-row class="chatroom-outer" v-for="chat in chatList" :key="chat.id" >
                         <v-col cols="12">
-                          <div class="chat-element">
-                              <div class="member-img">
-                                  <img class="profile-img" :src="chatroom.memberImage" height="100px" width="auto" overflow="hidden">
-                              </div>
-                          
-                            <div class="project-content">
-                              <div class="project-info">
-                                  <h4 style="margin-bottom: 10px">{{ chatroom.memberName }}</h4>
-  
-                                  <p class="project-description">{{ chatroom.content }}</p>
-                              </div>
-                              <div class="unread-count">
-                                  <span v-if="chatroom.unread >= 1">{{chatroom.unread}}</span>
-                              </div>
-                            </div>
-    
-                          </div>
+                            <div>{{chat.content}}</div>
                         </v-col>
                     </v-row>
                   </div>
@@ -35,18 +19,23 @@
     </v-container>
 </template>
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 
 export default {
     data() {
         return {
-            chatting: [
-                
-            ]
+            chatList: []
         }
     },
-    created() {
-        // axios.get()
+    async created() {
+        // TODO: 월요일에 인터셉터로 대체
+        const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MjIxNTMyNzcsImV4cCI6MTcyNDc0NTI3N30.mmOd-DSfAduSTWuTh5HdewBDP6dez2afR7RvvfDF8jE'
+        const headers = {
+            Authorization: `Bearer ${token}`
+        };
+        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/1/receiver/1`, { headers })
+        console.log(response.data.content);
+        this.chatList = response.data.content;
     }
 }   
 

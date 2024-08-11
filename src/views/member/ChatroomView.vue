@@ -55,11 +55,15 @@ export default {
         console.log(response.data.content);
         this.chatList = response.data.content;
         
-        
-
+    },
+    beforeMount() {
         //== 연결하는 부분 ==//
         // 방에 입장
-        this.connect()
+        console.log("watch!");
+        this.connect();
+    },
+    beforeUnmount() {
+        this.disconnect();
     },
     methods: {
         async sendMessage() {
@@ -79,6 +83,9 @@ export default {
             }
         },
         connect() {
+            if (this.stompClient && this.stompClient.connected) return;
+
+
             const socket = new SockJS(`${process.env.VUE_APP_API_BASE_URL}/chat`);
             this.stompClient = Stomp.over(socket);
 
@@ -90,10 +97,9 @@ export default {
             const authToken = localStorage.getItem('token');
             this.stompClient.connect({Authorization: `Bearer ${authToken}`}, () => {
                 // 수신할 메시지를 구독합니다.
-                this.stompClient.subscribe('/sub/chatroom/' + this.chatroomId, async function (response) {
-                    console.log("line 100!!");
-                    console.log(response);
-                    this.addMessage(response);
+                this.stompClient.subscribe('/sub/chatroom/' + this.chatroomId, response => {
+                    const resObj = JSON.parse(response.body);
+                    this.chatList.push(resObj);
                 });
             });
 
@@ -102,9 +108,24 @@ export default {
                 console.log('WebSocket connection closed for user');
             }
         },
-        addMessage(message) {
-            this.chatList.append(message);
-        }
+
+        disconnect() {
+            return new Promise((resolve, reject) => {
+                if (this.stompClient && this.stompClient.connected) {
+                this.stompClient.unsubscribe('/sub/chatroom/' + this.chatroomId);
+                try {
+                    this.stompClient.disconnect(() => {
+                    this.isConnected = false;
+                    console.log("Disconnected from the WebSocket Connection.");
+                    resolve();
+                    });
+                } catch (error) {
+                    console.log("Failed to disconnect: ", error);
+                    reject(error);
+                }
+            }
+        });
+    },
 
     }
 }   

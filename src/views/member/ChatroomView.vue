@@ -24,14 +24,17 @@
             </v-text>
         </v-card>
 
-        <v-row>
-            <v-col>
-                <v-text-field v-model="chatMessage"></v-text-field>
-            </v-col>
-            <v-col>
-                <ButtonComponent @click="sendMessage()" content="전송"/>
-            </v-col>
-        </v-row>
+        <v-container>
+            <v-row>
+                <v-col cols="11">
+                    <v-text-field width="100%" v-model="chatMessage"></v-text-field>
+                </v-col>
+                <v-col cols="1">
+                    <ButtonComponent block @click="sendMessage()" content="전송"/>
+                </v-col>
+         </v-row>
+
+        </v-container>
 
     </v-container>
 </template>
@@ -78,7 +81,6 @@ export default {
         //== 연결하는 부분 ==//
         // 방에 입장
         this.connect();
-
     },
     beforeUnmount() {
         this.disconnect();

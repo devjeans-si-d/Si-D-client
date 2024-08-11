@@ -50,7 +50,7 @@ export const memberRouter = [
     {
         path: '/member/chatroom/:chatroomId',
         name: 'ChatroomView',
-        component: ChatroomView
+        component: ChatroomView,
     },
     {
         path: '/member/test',

@@ -30,11 +30,14 @@
           <v-row class="item-wrap-field" style="margin: auto">
             <v-col cols="4"><span class="text-center">전화번호</span></v-col>
             <v-col cols="auto"
-              ><v-text-field density="compact" v-model="phone"></v-text-field
+              ><v-text-field
+                density="compact"
+                v-model="phoneNumber"
+              ></v-text-field
             ></v-col>
           </v-row>
           <v-row class="item-wrap">
-            <ButtonComponent content="저장" />
+            <ButtonComponent @click="signup" content="저장" />
           </v-row>
         </v-container>
       </v-text>
@@ -45,6 +48,7 @@
 <script>
 import ButtonComponent from "@/components/button/ButtonComponent.vue";
 import PageNavbar from "@/components/navbar/PageNavbar.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -55,17 +59,40 @@ export default {
     return {
       nickname: "",
       name: "",
-      phone: "",
+      phoneNumber: "",
       socialId: "",
-      socialEmail: "",
+      email: "",
     };
   },
   created() {
     const urlParams = new URLSearchParams(window.location.search);
     this.socialId = urlParams.get("social_id");
-    this.socialEmail = urlParams.get("social_email");
+    this.email = urlParams.get("social_email");
     history.replaceState({}, null, location.pathname);
-    console.log(this.socialId, this.socialEmail);
+    console.log(this.socialId, this.email);
+  },
+  methods: {
+    async signup() {
+      try {
+        const data = {
+          name: this.name,
+          nickname: this.nickname,
+          email: this.email,
+          phoneNumber: this.phoneNumber,
+          socialId: this.socialId,
+        };
+        console.log(data);
+        const response = await axios.post(
+          `${process.env.VUE_APP_API_BASE_URL}/api/auth/register`,
+          data
+        );
+        console.log(response);
+        window.location.href = '/'
+      } catch (error) {
+        console.error(error.response);
+        alert("올바르지 않은 입력입니다.")
+      }
+    },
   },
 };
 </script>

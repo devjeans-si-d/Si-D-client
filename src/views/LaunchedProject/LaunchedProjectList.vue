@@ -72,6 +72,7 @@ import FilterStackChip from '@/components/chip/FilterStackChip.vue';
 export default{
     data() {
         return {
+          isChecked: "false",
             projects: [
                 // 임시데이터. api붙이면 수정예정
         {

@@ -36,6 +36,8 @@ export default {
                     const social_id = error.response.data.result.social_id
                     const social_email = error.response.data.result.social_email
                     console.log(social_id, social_email);
+                    window.location.href = `/signup?social_id=${social_id}&social_email=${social_email}`;
+
                 } else {
                     console.error(error.response);
                 }

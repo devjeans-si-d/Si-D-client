@@ -1,5 +1,6 @@
-import LoginPage from '@/views/LoginPage.vue';
+import LoginPage from '@/views/oauthLogin/LoginPage.vue';
 import OauthRedirect from '@/components/oauth/OauthRedirect.vue';
+import SignUpPage from '@/views/oauthLogin/SignUpPage.vue';
 export const oauthLoginRouter = [
     {
         path: '/login',
@@ -10,5 +11,10 @@ export const oauthLoginRouter = [
         path: '/oauth',
         name: 'OauthRedirect',
         component: OauthRedirect
+    },
+    {
+        path: '/signup',
+        name: 'SignUpPage',
+        component: SignUpPage
     },
 ]

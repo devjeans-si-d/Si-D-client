@@ -1,6 +1,6 @@
 <template>
     <div>LoginPage</div>
-    <a :href="KAKAO_AUTH_URI"><img src="../assets/kakao_login_button.png" alt="카카오로그인"></a>
+    <a :href="KAKAO_AUTH_URI"><img src="@/assets/kakao_login_button.png" alt="카카오로그인"></a>
 </template>
 
 <script>

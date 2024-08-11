@@ -1,4 +1,4 @@
-import LoginPage from '@/views/LoginPage.vue';
+import LoginPage from '@/views/oauthLogin/LoginPage.vue';
 import OauthRedirect from '@/components/oauth/OauthRedirect.vue';
 export const oauthLoginRouter = [
     {

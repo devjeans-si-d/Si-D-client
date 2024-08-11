@@ -38,7 +38,7 @@ export default{
   },
   data() {
       return {
-          
+        projectApplication: []
       }
   },
   methods: {
@@ -75,9 +75,6 @@ export default{
             }
         }
   },
-  created() {
-      console.log(this.projectList);
-  }
 
 }
 </script>

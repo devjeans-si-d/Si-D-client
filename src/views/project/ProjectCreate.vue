@@ -54,7 +54,7 @@
                 ></v-select>
               </v-row>
               <v-row class="mt-10">
-                <v-form @submit.prevent="searchMembers">
+                <v-form @submit.prevent="searchMembers()">
                   <v-row class="mt-10 mb-10">
                     <v-select
                       v-model="searchType"
@@ -270,6 +270,7 @@ export default {
 
     },
     async searchMembers() {
+
       console.log("check");
       const params = {
         page: this.currentPage - 1, // API에서 페이지는 0부터 시작하므로 -1
@@ -297,7 +298,7 @@ export default {
             method: "GET",
           }
         );
-
+   
         this.memberList = response.data.content;
         this.totalPages = response.data.totalPages;
         this.totalElements = response.data.totalElements;

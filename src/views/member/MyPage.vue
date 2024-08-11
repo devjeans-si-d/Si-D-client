@@ -57,6 +57,7 @@
   import ButtonComponent from '@/components/button/ButtonComponent.vue';
   import PlainButtonComponent from '@/components/button/PlainButtonComponent.vue';
   import PageNavbar from '@/components/navbar/PageNavbar.vue';
+  import axios from 'axios'
 
   export default {
     components: {
@@ -66,17 +67,25 @@
     },
     data() {
         return {
-            email: "default@devjeans.com",
-            nickname: "야수의 심장",
-            name: "김땡땡",
-            careerCardId: "hypedev",
-            phone: "010-1234-5678"
+            email: "",
+            nickname: "",
+            name: "",
+            phone: ""
         }
     },
     methods: {
       moveToEdit() {
             this.$router.push("/member/edit");
         },
+    },
+    async created() {
+      const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/member`);
+      console.log(response.data);
+
+      this.email = response.data.email;
+      this.nickname = response.data.nickname;
+      this.name = response.data.name;
+      this.phone = response.data.phoneNumber;
     }
 
   }

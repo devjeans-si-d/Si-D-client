@@ -35,6 +35,7 @@
   <script>
   import PageNavbar from '@/components/navbar/PageNavbar.vue';
   import ProjectManagementComponent from '@/components/card/ProjectManagementComponent.vue';
+  // import axios from 'axios'
 
   export default {
     components: {
@@ -54,6 +55,9 @@
       moveToEdit() {
             this.$router.push("/member/edit");
         },
+    },
+    async created() {
+      
     }
 
   }

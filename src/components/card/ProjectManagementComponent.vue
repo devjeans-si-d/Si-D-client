@@ -11,8 +11,8 @@
                           </div>
                           <div class="project-content">
                             <div class="project-info">
-                                <h3>{{ project.name }}</h3>
-                                <p class="project-description">{{ project.content }}</p>
+                                <h3>{{ project.projectName }}</h3>
+                                <p class="project-description">{{ project.description }}</p>
                                 <div class="chip-wrap">
                                     <BasicSmallChip :title="project.myJob" :color="this.getJobColor(project.myJob)"/>
                                 </div>

@@ -12,20 +12,7 @@
       
         <h2 style="text-align:center; margin: 20px;">내 프로젝트</h2>
         <ProjectManagementComponent
-        :projectList="[
-              { projectId: 1,
-                name: '안경 만두 프로젝트',
-                content: '안경 만두를 찬양하는 프로젝트',
-                myJob: 'Backend',
-                imageUrl: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/glasses_mandoo.jpg'
-              },
-              { projectId: 2,
-                name: '빙티 프로젝트',
-                content: '빙티는 귀엽다',
-                myJob: 'Frontend',
-                imageUrl: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/15_Punchy+_3.jpeg'
-              }
-            ]"
+        :projectList="projectList"
         />
     </v-container>
   </template>
@@ -35,7 +22,7 @@
   <script>
   import PageNavbar from '@/components/navbar/PageNavbar.vue';
   import ProjectManagementComponent from '@/components/card/ProjectManagementComponent.vue';
-  // import axios from 'axios'
+  import axios from 'axios'
 
   export default {
     components: {
@@ -44,11 +31,7 @@
     },
     data() {
         return {
-            email: "default@devjeans.com",
-            nickname: "야수의 심장",
-            name: "김땡땡",
-            careerCardId: "hypedev",
-            phone: "010-1234-5678"
+            projectList: []
         }
     },
     methods: {
@@ -57,7 +40,13 @@
         },
     },
     async created() {
-      
+      try {
+        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects`);
+        console.log(response);
+        this.projectList = response.data;
+      } catch(e) {
+        console.log(e);
+      }
     }
 
   }

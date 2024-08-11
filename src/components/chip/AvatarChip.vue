@@ -1,6 +1,7 @@
 <template>
     <v-chip
     v-bind="props"
+    size="large"
     link
     pill
   >

@@ -3,15 +3,17 @@
   <v-app>
     <HeaderComponent />
     <v-main>
-      <RouterView></RouterView>
+      <routerView/>
     </v-main>
     <FooterComponent/>
   </v-app>
 </template>
 
 <script>
-import FooterComponent from './components/footer/FooterComponent.vue';
-import HeaderComponent from './components/test/HeaderComponent.vue'
+
+import HeaderComponent from './components/header/HeaderComponent.vue'
+import FooterComponent from './components/footer/FooterComponent.vue'
+
 export default {
   name: 'App',
   components: {

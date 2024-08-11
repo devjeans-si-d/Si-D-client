@@ -3,6 +3,7 @@ import HomeComponent from '@/components/test/HomeComponent.vue'
 import { siderCardRouter } from './siderCardRouter';
 import { LaunchedProjectRouter } from './LaunchedProjectRouter';
 import { memberRouter } from './memberRouter';
+import { oauthLoginRouter } from './oauthLoginRouter';
 
 const routes = [
     {
@@ -19,6 +20,7 @@ const routes = [
     ...siderCardRouter,
     ...LaunchedProjectRouter,
     ...memberRouter,
+    ...oauthLoginRouter,
 ]
 
 const router = createRouter({

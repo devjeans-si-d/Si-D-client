@@ -1,4 +1,4 @@
-import LaunchedProjectList from '@/views/LaunchedProjectList.vue'
+import LaunchedProjectList from '@/views/LaunchedProject/LaunchedProjectList.vue'
 
 export const LaunchedProjectRouter = [
     {

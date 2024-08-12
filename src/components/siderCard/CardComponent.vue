@@ -21,11 +21,11 @@ export default {
     props: ['name', 'jobField', 'image'],
     data() {
         return {
-            // Your data properties
+            
         }
     },
     methods: {
-        // Your methods
+        
     }
 }
 </script>

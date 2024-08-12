@@ -4,6 +4,7 @@ import { siderCardRouter } from './siderCardRouter';
 import { LaunchedProjectRouter } from './LaunchedProjectRouter';
 import { memberRouter } from './memberRouter';
 import MainPage from '@/views/MainPage/MainPage.vue';
+import { oauthLoginRouter } from './oauthLoginRouter';
 
 const routes = [
     {
@@ -20,6 +21,7 @@ const routes = [
     ...siderCardRouter,
     ...LaunchedProjectRouter,
     ...memberRouter,
+    ...oauthLoginRouter,
 ]
 
 const router = createRouter({

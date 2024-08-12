@@ -38,7 +38,7 @@
             </v-col>
             </v-row>
             <v-row class="item-wrap">
-                <v-col cols="auto"><ButtonComponent content="이메일 변경" /></v-col>
+                <v-col cols="auto"><ButtonComponent @click="updateEmail" content="이메일 변경" /></v-col>
                 <v-col cols="auto"><ButtonComponent @click="moveToEdit" content="정보 수정"/></v-col>
             </v-row>
             <v-row class="item-wrap">
@@ -49,6 +49,39 @@
             </v-text>
         </v-card>
     </v-container>
+
+
+<!-- 모달 -->
+<v-dialog v-model="dialog1" width="500px">
+  <v-card class="dialog-card">
+      <v-card-title>
+          변경할 이메일 주소를 입력해주세요.
+      </v-card-title>
+        <v-card-text>
+          아래 이메일로 인증 링크가 담긴 메일이 발송됩니다.
+        </v-card-text>
+        <v-text-field v-model="newEmail"></v-text-field>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="sid_btn1" text @click="dialog1 = false">취소</v-btn>
+          <v-btn color="sid_btn2" text @click="confirmUpdate">인증 메일 발송</v-btn>
+        </v-card-actions>
+  </v-card>
+</v-dialog>
+
+  <!-- 모달 2 -->
+<v-dialog v-model="dialog2" width="500px">
+  <v-card class="dialog-card">
+      <v-card-text>
+          인증 메일이 발송되었습니다. 10분 내에 링크에 접속해주세요
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="sid_btn1" text @click="dialog2 = false">확인</v-btn>
+        </v-card-actions>
+  </v-card>
+
+</v-dialog>
   </template>
 
 
@@ -70,13 +103,27 @@
             email: "",
             nickname: "",
             name: "",
-            phone: ""
+            phone: "",
+            newEmail: "",
+            dialog1: false,
+            dialog2: false
         }
     },
     methods: {
       moveToEdit() {
             this.$router.push("/member/edit");
-        },
+      },
+      async updateEmail() {
+        this.dialog1 = true;
+      },
+      async confirmUpdate() {
+        this.dialog1 = false;
+        this.dialog2 = true;
+        const request = {
+          email: this.email
+        }
+        await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/member/update/email`, request);
+      }
     },
     async created() {
       const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/member`);

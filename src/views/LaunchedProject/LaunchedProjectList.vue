@@ -37,7 +37,10 @@
                 :key="project.id"
                 cols="12" md="4" lg="3"
             >
-                <v-card class="mx-auto" max-width="300">
+                <v-card 
+                class="mx-auto; custom-card"
+                >
+                  
                 <v-img
                     class="custom-img"
                     height="250"
@@ -52,11 +55,11 @@
                     </v-chip>
                 </v-card-title>
 
-                <v-card-subtitle class="pt-3">
+                <v-card-subtitle class="pt-3; custom-contents">
                     <div>{{ project.contents }}</div>
                 </v-card-subtitle>
 
-                <v-card-subtitle class="pt-2">
+                <v-card-subtitle class="pt-2; custom-contents">
                     <div class="mb-4">{{ project.techStacks }}</div>
                 </v-card-subtitle>
                 </v-card>
@@ -72,6 +75,7 @@ import FilterStackChip from '@/components/chip/FilterStackChip.vue';
 export default{
     data() {
         return {
+          isChecked: "false",
             projects: [
                 // 임시데이터. api붙이면 수정예정
         {
@@ -156,9 +160,22 @@ export default{
   margin: 0 auto;
   padding: 0 16px;
 }
+.custom-card{
+  max-width: 280px !important;
+}
 .custom-img {
     width: 100%;
     height: 100%;
     object-fit: cover; /* 또는 'contain' */
+  }
+  .custom-contents{
+    margin: 0;
+    max-width: 250px; /* 제목의 최대 너비를 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
+    text-overflow: ellipsis !important; /* 넘치는 텍스트에 '...' 추가 (이거 적용안됨 이후 수정필요)*/
+    white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+  }
+  .custom-contents {
+    text-align: center;
   }
 </style>

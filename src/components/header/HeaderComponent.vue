@@ -32,7 +32,7 @@
 
               <v-col cols="auto" md="auto" class="d-flex align-center justify-end text-no-wrap">
                 <!-- 오른쪽 정렬 -->
-                <v-menu v-if="!isLogin" open-on-hover>
+                <v-menu v-if="isLogin" open-on-hover>
                   <template v-slot:activator="{ props }">
                     <v-btn text v-bind="props" height="60">
                       <v-avatar size="40">
@@ -60,7 +60,6 @@
 
               <v-col cols="auto" md="auto" class="d-flex align-center justify-end text-no-wrap">
                 <!-- 원래 !isLogin임 api 붙이는 작업 이후 수정 예정 -->
-                <v-btn class="custom-button" v-if="isLogin" :to="{path:'/member/create'}">회원가입</v-btn>
                 <v-btn class="custom-button" v-if="!isLogin" href="/login">로그인</v-btn>
               </v-col>
 
@@ -79,12 +78,12 @@
         };
     },
     created(){ // 토큰때문에 테스트가 제대로 안되서 token 관련한 부분 주석처리 해놓음
-        // const token = localStorage.getItem("token");
-        // if(token){
-        //     // localStorage에 token이 있으면 로그인된 상태
-        //     this.isLogin = true;
-        //     this.loadUserProfile();
-        // }
+        const token = localStorage.getItem("token");
+        if(token){
+            // localStorage에 token이 있으면 로그인된 상태
+            this.isLogin = true;
+            this.loadUserProfile();
+        }
     },
     methods:{
         doLogout(){

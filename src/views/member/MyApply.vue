@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container fluid class="custom-container">
         <PageNavbar
         :menus='[
             {"menu": "내 정보", "url": "/member/mypage", "selected": false},
@@ -40,8 +40,8 @@ export default {
 </script>
 <style scoped>
 .custom-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 16px;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 16px !important;
 }
 </style>

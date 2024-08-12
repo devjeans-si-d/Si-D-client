@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container class="custom-container">
       <PageNavbar
       :menus='[
           {"menu": "내 정보", "url": "/member/mypage", "selected": false},
@@ -12,51 +12,7 @@
       
         <h2 style="text-align:center; margin: 20px;">스크랩</h2>
         <ProjectScrapComponent
-        :projectList="[
-              { projectId: 1,
-                name: '안경 만두 프로젝트',
-                content: '안경 만두를 찬양하는 프로젝트',
-                imageUrl: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/glasses_mandoo.jpg',
-                status: '진행 중'
-              },
-              { projectId: 2,
-                name: '빙티 프로젝트',
-                content: '빙티는 귀엽다',
-                imageUrl: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/15_Punchy+_3.jpeg',
-                status: '마감'
-              },
-              { projectId: 3,
-                name: '빙티 프로젝트2',
-                content: '빙티는 왜 인기 주민이 아닌가',
-                imageUrl: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/15_Punchy+_3.jpeg',
-                status: '마감'
-            },
-            { projectId: 1,
-              name: '안경 만두 프로젝트',
-              content: '안경 만두를 찬양하는 프로젝트',
-              imageUrl: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/glasses_mandoo.jpg',
-              status: '진행 중'
-            },
-            { projectId: 1,
-              name: '안경 만두 프로젝트',
-              content: '안경 만두를 찬양하는 프로젝트',
-              imageUrl: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/glasses_mandoo.jpg',
-              status: '진행 중'
-            },
-            { projectId: 1,
-              name: '안경 만두 프로젝트',
-              content: '안경 만두를 찬양하는 프로젝트',
-              imageUrl: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/glasses_mandoo.jpg',
-              status: '진행 중'
-            },
-            { projectId: 1,
-              name: '안경 만두 프로젝트',
-              content: '안경 만두를 찬양하는 프로젝트',
-              imageUrl: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/glasses_mandoo.jpg',
-              status: '진행 중'
-            },
-            ]"
-        />
+        :projectList="this.projectList"/>
     </v-container>
 
     <ModalComponent />
@@ -65,6 +21,7 @@
 
   
   <script>
+  import axios from 'axios';
   import PageNavbar from '@/components/navbar/PageNavbar.vue';
   import ProjectScrapComponent from '@/components/card/ProjectScrapComponent.vue';
 
@@ -74,19 +31,20 @@
         ProjectScrapComponent
     },
     data() {
-        return {
-            email: "default@devjeans.com",
-            nickname: "야수의 심장",
-            name: "김땡땡",
-            careerCardId: "hypedev",
-            phone: "010-1234-5678"
-        }
+      return {
+        projectList: []
+      }
     },
     methods: {
       moveToEdit() {
             this.$router.push("/member/edit");
         },
-    }
+    },
+    async created() {
+      const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/scrap`);
+      this.projectList = response.data.content;
+      console.log(response.data.content);
+    },
 
   }
   </script>
@@ -156,8 +114,8 @@
 }
 
 .custom-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 16px;
+  max-width: 1200px !important; /* 원하는 최대 폭 */
+  margin: 0 auto !important;    /* 중앙 정렬 */
+  width: 100% !important; /* 컨테이너의 폭을 100%로 설정 */
 }
 </style>

@@ -41,8 +41,8 @@ export default {
 
 <style scoped>
 .custom-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 16px;
+    max-width: 1200px !important; /* 원하는 최대 폭 */
+    margin: 0 auto !important;    /* 중앙 정렬 */
+    width: 100% !important; /* 컨테이너의 폭을 100%로 설정 */
 }
 </style>

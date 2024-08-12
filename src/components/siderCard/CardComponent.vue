@@ -32,9 +32,9 @@ export default {
 
 <style scoped>
 .fixed-card {
-    width: 286px;
+    width: 280px;
     /* 고정 너비 */
-    height: 286px;
+    height: 280px;
     /* 고정 높이 */
 }
 
@@ -52,12 +52,12 @@ export default {
 }
 
 .card-avatar {
-    padding-top: 20px;
+    padding-top: 0px;
     /* 이미지를 조금 더 아래로 내립니다 */
 }
 
 .card-text {
-    padding-top: 20px;
+    padding-top: 10px;
     /* 텍스트를 이미지 아래로 더 내립니다 */
 }
 

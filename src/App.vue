@@ -5,19 +5,19 @@
     <v-main>
       <routerView/>
     </v-main>
-    <FooterComponent/>
+    <!-- <FooterComponent/> -->
   </v-app>
 </template>
 
 <script>
 
 import HeaderComponent from './components/header/HeaderComponent.vue'
-import FooterComponent from './components/footer/FooterComponent.vue'
+// import FooterComponent from './components/footer/FooterComponent.vue'
 
 export default {
   name: 'App',
   components: {
-    FooterComponent,
+    // FooterComponent,
     HeaderComponent
   }
 }

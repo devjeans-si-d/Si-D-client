@@ -14,8 +14,7 @@
               md="4"
               class="d-flex justify-center"
             >
-              <v-card class="mx-auto" style="width: 100%; max-width: 300px; ">
-                <v-spacer :style="{height: '30px'}"></v-spacer>
+              <v-card class="mx-auto" style="width: 100%; max-width: 300px; max-height:300px">
                 <v-avatar size="150" class="mx-auto d-flex justify-center align-center">
                   <v-img
                   class="circle-img"

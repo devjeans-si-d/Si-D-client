@@ -16,21 +16,20 @@
             >
               <v-card class="mx-auto" style="width: 100%; max-width: 300px; ">
                 <v-spacer :style="{height: '30px'}"></v-spacer>
-                <v-avatar size="150" class="d-flex justify-center">
+                <v-avatar size="150" class="mx-auto d-flex justify-center align-center">
                   <v-img
                   class="circle-img"
                   :src="sidecard.profileImage"
                   />
                 </v-avatar>
                 
-                <v-spacer :style="{height: '30px'}"></v-spacer>
-                <v-card-title class="d-flex justify-center align-center">
+                <v-card-title class="d-flex justify-center align-center" style="font-weight: bold;">
                   <span>{{ sidecard.nickName }}</span>
                 </v-card-title>
-                <v-card-subtitle class="d-flex justify-center align-center" style="font-weight: bold">
+                <v-card-text class="d-flex justify-center align-center" style="font-size: 18px;">
                   <div>{{ sidecard.jobField }}</div>
-                </v-card-subtitle>
-                <v-spacer :style="{height: '30px'}"></v-spacer>
+                </v-card-text>
+                <v-spacer :style="{height: '20px'}"></v-spacer>
               </v-card>
 
             </v-col>

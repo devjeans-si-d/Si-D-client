@@ -109,8 +109,6 @@
                 </v-col>
             </v-row>
 
-            <v-spacer :style="{height: '20px'}"></v-spacer>
-
             <sider-card-window
                 :windowCount="2"
                 :sidecards="siderCards"
@@ -121,7 +119,7 @@
                 <v-btn
                     class="custom-button"
                     style="background-color: #A4C89C; color: #094F08"
-                    text :to="{path:'/siderCard/list'}"
+                    text :to="{path:'/sider-card/list'}"
                 >Sider-Card 더보기</v-btn>
             </v-row> 
 
@@ -168,11 +166,11 @@ export default {
       ],
       siderCards: [
         { id: 1, nickName: '갓세정1', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/%EB%B9%99%ED%8B%B0.jpg', jobField: 'Backend'},
-        { id: 2, nickName: '갓세정2', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/%EB%B9%99%ED%8B%B0.png', jobField: 'Backend'},
-        { id: 3, nickName: '갓세정3', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/%EB%B9%99%ED%8B%B0.png', jobField: 'Backend'},
-        { id: 4, nickName: '갓세정4', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/%EB%B9%99%ED%8B%B0.png', jobField: 'Backend'},
-        { id: 5, nickName: '갓세정5', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/%EB%B9%99%ED%8B%B0.png', jobField: 'Backend'},
-        { id: 6, nickName: '갓세정6', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/%EB%B9%99%ED%8B%B0.png', jobField: 'Backend'},
+        { id: 2, nickName: '갓세정2', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/%EA%92%B0+acnh+lolly+pfp+!+%EA%92%B1+%E2%99%A1.jpeg', jobField: 'Backend'},
+        { id: 3, nickName: '갓세정3', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/%EC%8A%A4%EB%88%84%ED%94%BC.jpg', jobField: 'Backend'},
+        { id: 4, nickName: '갓세정4', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/malmo.png', jobField: 'Backend'},
+        { id: 5, nickName: '꿔바로우', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/sid-practice/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2024-08-05+%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE+10.08.49.png', jobField: 'Backend'},
+        { id: 6, nickName: '갓세정6', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/glasses_mandoo.jpg', jobField: 'Backend'},
         
       ]
     };

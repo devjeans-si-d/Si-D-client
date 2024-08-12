@@ -32,7 +32,7 @@
             </h5>
             </v-row>
 
-            <v-spacer :style="{height: '20px'}"></v-spacer>
+            <!-- <v-spacer :style="{height: '20px'}"></v-spacer> -->
 
             <v-row justify="center">
                 <project-window
@@ -60,7 +60,7 @@
             style="background-color: #F3F3F3; border-radius: 15px; max-width: 1200px; padding: 20px;"
         >
             <!-- Launched-Project container -->
-            <v-spacer :style="{ height: '20px' }"></v-spacer>
+            <!-- <v-spacer :style="{ height: '20px' }"></v-spacer> -->
 
             <v-row>
             <v-col>

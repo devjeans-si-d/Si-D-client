@@ -37,7 +37,10 @@
                 :key="project.id"
                 cols="12" md="4" lg="3"
             >
-                <v-card class="mx-auto" max-width="300">
+                <v-card 
+                class="mx-auto; custom-card"
+                >
+                  
                 <v-img
                     class="custom-img"
                     height="250"
@@ -156,6 +159,9 @@ export default{
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 16px;
+}
+.custom-card{
+  max-width: 280px !important;
 }
 .custom-img {
     width: 100%;

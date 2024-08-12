@@ -16,12 +16,13 @@
             >
               <v-card class="mx-auto" style="width: 100%; max-width: 300px; ">
                 <v-spacer :style="{height: '30px'}"></v-spacer>
-                <v-img
+                <v-avatar size="150" class="d-flex justify-center">
+                  <v-img
                   class="circle-img"
                   :src="sidecard.profileImage"
-                  width="150"
-                  height="150"
-                />
+                  />
+                </v-avatar>
+                
                 <v-spacer :style="{height: '30px'}"></v-spacer>
                 <v-card-title class="d-flex justify-center align-center">
                   <span>{{ sidecard.nickName }}</span>

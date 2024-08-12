@@ -61,7 +61,7 @@
               <v-col cols="auto" md="auto" class="d-flex align-center justify-end text-no-wrap">
                 <!-- 원래 !isLogin임 api 붙이는 작업 이후 수정 예정 -->
                 <v-btn class="custom-button" v-if="isLogin" :to="{path:'/member/create'}">회원가입</v-btn>
-                <v-btn class="custom-button" v-if="isLogin" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f1a9f25e347069f2e5fedb6375c0b82d&redirect_uri=http://localhost:8080/api/auth/kakao/callback">로그인</v-btn>
+                <v-btn class="custom-button" v-if="!isLogin" href="/login">로그인</v-btn>
               </v-col>
 
             </v-row>

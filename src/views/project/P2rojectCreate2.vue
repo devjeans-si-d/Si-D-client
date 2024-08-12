@@ -24,18 +24,25 @@
       <label for="deadline">모집 기한:</label>
       <input type="date" id="deadline" v-model="deadline" />
     </v-row>
+    
     <v-row class="mt-10 mb-10">
       <label for="">모집 정보</label>
       <!-- count랑 분야 받으면 됨 -->
-      <ButtonComponent content="추가" @click="recruitInfoAdd()" />
+      <ButtonComponent class="mr-3" content="추가" @click="recruitInfoAdd()" />
+      <CloseableChip class="mr-3" title="BACKEND : 3명" />
+      <CloseableChip class="mr-3" title="FRONTEND : 2명" />
+      <CloseableChip class="mr-3" title="DESIGNER : 1명" />
     </v-row>
     <v-row class="mt-10 mb-10">
       <label for="">멤버 추가</label>
-      <!-- 인원 검색 modal -->
-      <!-- <v-btn color="primary" @click="searchMemberShowModal()">멤버 검색</v-btn> -->
-      <ButtonComponent content="검색" @click="searchMemberShowModal()" />
+        <ButtonComponent class="mr-3" content="추가" @click="searchMemberShowModal()"
+      />
+        <CloseableChip class="mr-3" title="BACKEND - 대세정" />
+        <CloseableChip class="mr-3" title="BACKEND - 갓세호" />
+        <CloseableChip class="mr-3" title="BACKEND - 장인슬기" />
 
-      <!-- 모달창을 위한 v-dialog -->
+      <!-- 인원 검색 modal -->
+
       <v-dialog v-model="dialog" max-width="800px" class="pa-10">
         <v-card class="modal-card">
           <v-card-title class="modal-title">멤버 추가</v-card-title>
@@ -140,17 +147,14 @@
             </v-container>
           </v-card-text>
           <v-card-action>
-            <v-row justify="center" >
-              <ButtonComponent
-                content="확인"
-                class="mr-1"
-              />
+            <v-row justify="center">
+              <ButtonComponent content="확인" class="mr-1" />
               <ButtonComponent
                 content="취소"
                 color="#808080"
                 :style="{ color: '#FFFFFF' }"
                 class="ml-1"
-                />
+              />
             </v-row>
           </v-card-action>
         </v-card>
@@ -179,54 +183,48 @@
               density="compact"
               :items="['DESIGNER', 'FRONTEND', 'BACKEND', 'APP', 'PM']"
               variant="outlined"
-              class=" mr-10"
+              class="mr-10"
             ></v-select>
           </v-row>
           <v-row class="ma-10">
             <label>인원 수</label>
             <v-text-field rounded="xs" variant="outlined"></v-text-field>
           </v-row>
-        
         </v-card-text>
         <v-card-actions>
           <v-row justify="center">
-            <ButtonComponent
-              content="확인"
-              @click="recruitInfoConfirm"
-            />
+            <ButtonComponent content="확인" @click="recruitInfoConfirm" />
             <ButtonComponent
               content="취소"
               color="#808080"
               :style="{ color: '#FFFFFF' }"
               @click="recruitInfoDialogueClose()"
-              />
+            />
           </v-row>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-row justify="center" >
-      <ButtonComponent
-        content="확인"
-        @click="saveContent()"
-        class="mr-1"
-      />
+    <v-row justify="center">
+      <ButtonComponent content="확인" @click="saveContent()" class="mr-1" />
       <ButtonComponent
         content="취소"
         color="#808080"
         :style="{ color: '#FFFFFF' }"
         class="ml-1"
-        />
+      />
     </v-row>
   </v-container>
 </template>
 
 <script>
+import CloseableChip from "@/components/chip/CloseableChip.vue";
 import Editor from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import ButtonComponent from "@/components/button/ButtonComponent.vue";
 export default {
   components: {
     ButtonComponent,
+    CloseableChip,
   },
   data() {
     return {
@@ -259,18 +257,16 @@ export default {
     });
   },
   methods: {
-    recruitInfoConfirm(){
-      console.log("확인")
+    recruitInfoConfirm() {
+      console.log("확인");
     },
     recruitInfoAdd() {
       this.recruitInfoDialogue = true;
     },
-    recruitInfoDialogueClose(){
+    recruitInfoDialogueClose() {
       this.recruitInfoDialogue = false;
-
     },
     async searchMembers() {
-
       console.log("check");
       const params = {
         page: this.currentPage - 1, // API에서 페이지는 0부터 시작하므로 -1
@@ -298,7 +294,7 @@ export default {
             method: "GET",
           }
         );
-   
+
         this.memberList = response.data.content;
         this.totalPages = response.data.totalPages;
         this.totalElements = response.data.totalElements;
@@ -370,4 +366,5 @@ button {
   background-color: #f1f1f1;
   cursor: pointer;
 }
+
 </style>

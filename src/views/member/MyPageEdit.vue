@@ -61,7 +61,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .v-text-field {
   height: 10px;
   width: 150px;
@@ -136,5 +136,10 @@ export default {
   align-items: centee;
 }
 
+.custom-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
 
 </style>

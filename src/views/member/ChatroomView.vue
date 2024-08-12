@@ -30,7 +30,7 @@
                     <v-text-field width="100%" v-model="chatMessage"></v-text-field>
                 </v-col>
                 <v-col cols="1">
-                    <ButtonComponent block @click="sendMessage()" content="전송"/>
+                    <ButtonComponent @click="sendMessage()" content="전송"/>
                 </v-col>
          </v-row>
 
@@ -158,7 +158,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 
 .member-img {
     margin-right: 50px;
@@ -182,6 +182,13 @@ export default {
 .chat-part-image {
     width: 50px;
     border-radius: 50px;
+}
+
+
+.custom-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
 }
 
 </style>

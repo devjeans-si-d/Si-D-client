@@ -91,7 +91,7 @@
   }
   </script>
   
-  <style>
+  <style scoped>
   .my-page-card{
     color: #E3E3E3;
     width: 500px;
@@ -155,5 +155,9 @@
     align-items: centee;
 }
 
-
+.custom-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
 </style>

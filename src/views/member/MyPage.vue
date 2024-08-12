@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container class="custom-container">
       <PageNavbar
       :menus='[
           {"menu": "내 정보", "url": "/member/mypage", "selected": true},
@@ -14,7 +14,7 @@
             <v-text>
                 <v-container>
                     <v-row class="item-wrap">
-                    <v-col cols="8" style="margin: auto">
+                    <v-col cols="9" style="margin: auto">
                     <v-simple-table class="bordered-table">
                         <tr>
                         <td class="text-center">수신용 이메일</td>
@@ -91,7 +91,7 @@
   }
   </script>
   
-  <style>
+  <style scoped>
   .my-page-card{
     color: #E3E3E3;
     width: 500px;
@@ -155,5 +155,9 @@
     align-items: centee;
 }
 
-
+.custom-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
 </style>

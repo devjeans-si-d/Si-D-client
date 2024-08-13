@@ -188,5 +188,5 @@ export default {
         font-size: 14px !important; /* 글씨 크기 */
         color: black !important;
         text-transform: none !important; /* 대문자 변환 방지 */
-    }
+}
 </style>

@@ -1,11 +1,12 @@
 <template>
-
   <v-app>
-    <HeaderComponent />
-    <v-main>
-      <routerView/>
-    </v-main>
-    <FooterComponent/>
+      <HeaderComponent />
+          <v-main>
+            <v-container fluid class="custom-container">
+                <routerView/>
+            </v-container>
+          </v-main>
+          <FooterComponent/>
   </v-app>
 </template>
 
@@ -32,4 +33,9 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }*/
+.custom-container {
+  max-width: 1200px !important; /* 원하는 최대 폭 */
+  margin: 0 auto !important;    /* 중앙 정렬 */
+  width: 100% !important; /* 컨테이너의 폭을 100%로 설정 */
+  }
 </style>

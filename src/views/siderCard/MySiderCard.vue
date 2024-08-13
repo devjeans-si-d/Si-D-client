@@ -27,8 +27,8 @@
                     <h2>자기소개</h2>
                 </v-row>
                 <v-row class="textarea">
-                    <v-textarea :model-value="data.introduction" :rules="rules" label="자기소개" counter
-                        variant="outlined"></v-textarea>
+                    <v-textarea :model-value="data.introduction" :rules="rules" label="자기소개" counter variant="outlined"
+                        max-width="1200"></v-textarea>
                 </v-row>
             </v-col>
         </v-row>
@@ -36,24 +36,24 @@
         <v-row class="line">
             <v-col>
                 <v-row class="email">
-                    <v-text-field v-model="data.socialLink.email" prepend-icon="mdi-email" label="개인 이메일 주소" variant="solo-filled"
-                        max-width="1200"></v-text-field>
+                    <v-text-field v-model="data.socialLink.email" prepend-icon="mdi-email" label="개인 이메일 주소"
+                        variant="solo-filled" max-width="1200"></v-text-field>
                 </v-row>
                 <v-row class="email">
-                    <v-text-field v-model="data.socialLink.github" prepend-icon="mdi-github" label="깃허브 주소" variant="solo-filled"
-                        max-width="1200"></v-text-field>
+                    <v-text-field v-model="data.socialLink.github" prepend-icon="mdi-github" label="깃허브 주소"
+                        variant="solo-filled" max-width="1200"></v-text-field>
                 </v-row>
                 <v-row class="email">
-                    <v-text-field v-model="data.socialLink.behance" prepend-icon="mdi-beta" label="비핸스 주소" variant="solo-filled"
-                        max-width="1200"></v-text-field>
+                    <v-text-field v-model="data.socialLink.behance" prepend-icon="mdi-beta" label="비핸스 주소"
+                        variant="solo-filled" max-width="1200"></v-text-field>
                 </v-row>
                 <v-row class="email">
-                    <v-text-field v-model="data.socialLink.linkedin" prepend-icon="mdi-linkedin" label="링크드인 주소" variant="solo-filled"
-                        max-width="1200"></v-text-field>
+                    <v-text-field v-model="data.socialLink.linkedin" prepend-icon="mdi-linkedin" label="링크드인 주소"
+                        variant="solo-filled" max-width="1200"></v-text-field>
                 </v-row>
                 <v-row class="email">
-                    <v-text-field v-model="data.socialLink.etc" prepend-icon="mdi-home" label="개인 블로그 주소" variant="solo-filled"
-                        max-width="1200"></v-text-field>
+                    <v-text-field v-model="data.socialLink.etc" prepend-icon="mdi-home" label="개인 블로그 주소"
+                        variant="solo-filled" max-width="1200"></v-text-field>
                 </v-row>
             </v-col>
         </v-row>
@@ -64,26 +64,28 @@
                     <h2>경력</h2>
                 </v-row>
                 <v-row v-for="(career, index) in data.careers" :key="index" class="my-4">
-                    <v-col cols="3">
-                        <v-text-field v-model="career.company" label="회사명"></v-text-field>
-                    </v-col>
-                    <v-col cols="3">
-                        <v-text-field v-model="career.position" label="포지션"></v-text-field>
-                    </v-col>
-                    <v-col cols="3">
-                        <v-text-field v-model="career.period" label="재직기간"></v-text-field>
-                    </v-col>
-                    <v-col cols="2">
-                        <v-checkbox v-model="career.isCurrent" label="재직중"></v-checkbox>
-                    </v-col>
-                    <v-col cols="1">
-                        <v-btn color="red" @click="removeCareer(index)">삭제</v-btn>
+                    <v-col>
+                        <v-row class="email">
+                            <v-text-field v-model="career.company" label="회사명" max-width="1200"></v-text-field>
+                        </v-row>
+                        <v-row class="email">
+                            <v-text-field v-model="career.position" label="포지션" max-width="1200"></v-text-field>
+                        </v-row>
+                        <v-row class="email">
+                            <v-text-field v-model="data.socialLink.etc" label="재직기간" max-width="1200"></v-text-field>
+                        </v-row>
+                        <v-row justify="space-between">
+                            <v-col>
+                                <v-checkbox v-model="career.employedYn" label="재직중"></v-checkbox>
+                            </v-col>
+                            <v-col cols="2">
+                                <v-btn color="red" @click="removeCareer(index)">삭제</v-btn>
+                            </v-col>
+                        </v-row>
                     </v-col>
                 </v-row>
                 <v-row justify="end">
-                    <v-col cols="2">
-                        <v-btn :disabled="data.careers.length >= 5" @click="addCareer">경력 추가하기</v-btn>
-                    </v-col>
+                    <v-btn :disabled="data.careers.length >= 5" @click="addCareer">+ 경력 추가하기</v-btn>
                 </v-row>
             </v-col>
         </v-row>
@@ -158,7 +160,7 @@ export default {
                     position: '',
                     employedStart: '',
                     employedEnd: '',
-                    employedYn: 'N',
+                    employedYn: false,
                 });
             }
         },

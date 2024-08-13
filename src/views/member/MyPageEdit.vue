@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container class="custom-container">
       <PageNavbar
       :menus='[
           {"menu": "내 정보", "url": "/member/mypage", "selected": true},
@@ -11,29 +11,27 @@
       />
         <h2 style="text-align:center; margin: 20px;">내 정보 수정</h2>
         <v-card class="my-page-card" color="#F3F3F3">
-            <v-text>
-                <v-container>
-                    <v-row class="item-wrap-field" style="margin: auto">
-                      <v-col cols="4"><span class="text-center">수신용이메일</span></v-col>
-                      <v-col cols="auto">{{ email }}</v-col>
-                    </v-row>
-                    <v-row class="item-wrap-field" style="margin: auto">
-                      <v-col cols="4"><span class="text-center">닉네임</span></v-col>
-                      <v-col cols="auto"><v-text-field density=compact v-model="nickname"></v-text-field></v-col>
-                    </v-row>
-                    <v-row class="item-wrap-field" style="margin: auto">
-                      <v-col cols="4"><span class="text-center">이름</span></v-col>
-                      <v-col cols="auto"><v-text-field density=compact v-model="name"></v-text-field></v-col>
-                    </v-row>
-                    <v-row class="item-wrap-field" style="margin: auto">
-                      <v-col cols="4"><span class="text-center">전화번호</span></v-col>
-                      <v-col cols="auto"><v-text-field density=compact v-model="phone"></v-text-field></v-col>
-                    </v-row>
-            <v-row class="item-wrap">
-                <ButtonComponent content="저장"/>
+          <v-container>
+            <v-row class="item-wrap-field" style="margin: auto">
+              <v-col cols="4"><span class="text-center">수신용이메일</span></v-col>
+              <v-col cols="auto">{{ email }}</v-col>
             </v-row>
-            </v-container>
-            </v-text>
+            <v-row class="item-wrap-field" style="margin: auto">
+              <v-col cols="4"><span class="text-center">닉네임</span></v-col>
+              <v-col cols="auto"><v-text-field density=compact v-model="nickname"></v-text-field></v-col>
+            </v-row>
+            <v-row class="item-wrap-field" style="margin: auto">
+              <v-col cols="4"><span class="text-center">이름</span></v-col>
+              <v-col cols="auto"><v-text-field density=compact v-model="name"></v-text-field></v-col>
+            </v-row>
+            <v-row class="item-wrap-field" style="margin: auto">
+              <v-col cols="4"><span class="text-center">전화번호</span></v-col>
+              <v-col cols="auto"><v-text-field density=compact v-model="phone"></v-text-field></v-col>
+            </v-row>
+            <v-row class="item-wrap">
+                <ButtonComponent @click="this.updateMemberInfo()" content="저장"/>
+            </v-row>
+          </v-container>
         </v-card>
     </v-container>
   </template>
@@ -41,6 +39,7 @@
 
   
 <script>
+import axios from 'axios';
 import ButtonComponent from '@/components/button/ButtonComponent.vue';
 import PageNavbar from '@/components/navbar/PageNavbar.vue';
 
@@ -51,17 +50,38 @@ export default {
   },
   data() {
       return {
-          email: "default@devjeans.com",
-          nickname: "야수의 심장",
-          name: "김땡땡",
-          careerCardId: "hypedev",
-          phone: "010-1234-5678"
+          email: "",
+          nickname: "",
+          name: "",
+          phone: ""
       }
+  },
+  methods: {
+    async updateMemberInfo() {
+      const request = {
+        name: this.name,
+        nickname: this.nickname,
+        phoneNumber: this.phone,
+      }
+
+      await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/member/update`, request);
+      window.location.href = '/member/mypage';
+    }
+  },
+  async created() {
+    const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/member`);
+
+    this.id = response.data.memberId;
+    this.name = response.data.name;
+    this.email = response.data.email;
+    this.nickname = response.data.nickname;
+    this.phone = response.data.phoneNumber;
+
   }
 }
 </script>
 
-<style>
+<style scoped>
 .v-text-field {
   height: 10px;
   width: 150px;
@@ -136,5 +156,14 @@ export default {
   align-items: centee;
 }
 
+.custom-container {
+  max-width: 1200px !important; /* 원하는 최대 폭 */
+  margin: 0 auto !important;    /* 중앙 정렬 */
+  width: 100% !important; /* 컨테이너의 폭을 100%로 설정 */
+}
+
+.edit-card-container {
+  margin: 0px;
+}
 
 </style>

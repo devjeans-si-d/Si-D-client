@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container fluid class="custom-container">
       <PageNavbar
       :menus='[
           {"menu": "내 정보", "url": "/member/mypage", "selected": true},
@@ -14,7 +14,7 @@
             <v-text>
                 <v-container>
                     <v-row class="item-wrap">
-                    <v-col cols="8" style="margin: auto">
+                    <v-col cols="9" style="margin: auto">
                     <v-simple-table class="bordered-table">
                         <tr>
                         <td class="text-center">수신용 이메일</td>
@@ -38,7 +38,7 @@
             </v-col>
             </v-row>
             <v-row class="item-wrap">
-                <v-col cols="auto"><ButtonComponent content="이메일 변경" /></v-col>
+                <v-col cols="auto"><ButtonComponent @click="updateEmail" content="이메일 변경" /></v-col>
                 <v-col cols="auto"><ButtonComponent @click="moveToEdit" content="정보 수정"/></v-col>
             </v-row>
             <v-row class="item-wrap">
@@ -49,6 +49,39 @@
             </v-text>
         </v-card>
     </v-container>
+
+
+<!-- 모달 -->
+<v-dialog v-model="dialog1" width="500px">
+  <v-card class="dialog-card">
+      <v-card-title>
+          변경할 이메일 주소를 입력해주세요.
+      </v-card-title>
+        <v-card-text>
+          아래 이메일로 인증 링크가 담긴 메일이 발송됩니다.
+        </v-card-text>
+        <v-text-field v-model="newEmail"></v-text-field>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="sid_btn1" text @click="dialog1 = false">취소</v-btn>
+          <v-btn color="sid_btn2" text @click="confirmUpdate">인증 메일 발송</v-btn>
+        </v-card-actions>
+  </v-card>
+</v-dialog>
+
+  <!-- 모달 2 -->
+<v-dialog v-model="dialog2" width="500px">
+  <v-card class="dialog-card">
+      <v-card-text>
+          인증 메일이 발송되었습니다. 10분 내에 링크에 접속해주세요
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="sid_btn1" text @click="dialog2 = false">확인</v-btn>
+        </v-card-actions>
+  </v-card>
+
+</v-dialog>
   </template>
 
 
@@ -57,6 +90,7 @@
   import ButtonComponent from '@/components/button/ButtonComponent.vue';
   import PlainButtonComponent from '@/components/button/PlainButtonComponent.vue';
   import PageNavbar from '@/components/navbar/PageNavbar.vue';
+  import axios from 'axios'
 
   export default {
     components: {
@@ -66,23 +100,45 @@
     },
     data() {
         return {
-            email: "default@devjeans.com",
-            nickname: "야수의 심장",
-            name: "김땡땡",
-            careerCardId: "hypedev",
-            phone: "010-1234-5678"
+            email: "",
+            nickname: "",
+            name: "",
+            phone: "",
+            newEmail: "",
+            dialog1: false,
+            dialog2: false
         }
     },
     methods: {
       moveToEdit() {
             this.$router.push("/member/edit");
-        },
+      },
+      async updateEmail() {
+        this.dialog1 = true;
+      },
+      async confirmUpdate() {
+        this.dialog1 = false;
+        this.dialog2 = true;
+        const request = {
+          email: this.email
+        }
+        await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/member/update/email`, request);
+      }
+    },
+    async created() {
+      const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/member`);
+      console.log(response.data);
+
+      this.email = response.data.email;
+      this.nickname = response.data.nickname;
+      this.name = response.data.name;
+      this.phone = response.data.phoneNumber;
     }
 
   }
   </script>
   
-  <style>
+  <style scoped>
   .my-page-card{
     color: #E3E3E3;
     width: 500px;
@@ -146,5 +202,9 @@
     align-items: centee;
 }
 
-
+.custom-container {
+  max-width: 1200px !important; /* 원하는 최대 폭 */
+  margin: 0 auto !important;    /* 중앙 정렬 */
+  width: 100% !important; /* 컨테이너의 폭을 100%로 설정 */
+}
 </style>

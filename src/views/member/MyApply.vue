@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container fluid class="custom-container">
         <PageNavbar
         :menus='[
             {"menu": "내 정보", "url": "/member/mypage", "selected": false},
@@ -11,42 +11,37 @@
         />
         <h2 style="text-align:center; margin: 20px;">신청 내역</h2>
         <ProjectApplyComponent 
-            :projectList="[
-                { projectId: 1,
-                name: '안경 만두 프로젝트',
-                content: '안경 만두를 찬양하는 프로젝트',
-                myJob: 'Backend',
-                imageUrl: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/glasses_mandoo.jpg',
-                status: '승인'
-                },
-                { projectId: 2,
-                name: '빙티 프로젝트',
-                content: '빙티는 귀엽다',
-                myJob: 'Frontend',
-                imageUrl: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/15_Punchy+_3.jpeg',
-                status: '진행 중'
-                },
-                { projectId: 3,
-                    name: '빙티 프로젝트2',
-                    content: '빙티는 왜 인기 주민이 아닌가',
-                    myJob: 'PM',
-                    imageUrl: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/15_Punchy+_3.jpeg',
-                    status: '마감'
-                }
-                
-                ]"
+            :projectList="projectList"
         />
     </v-container>
 </template>
 <script>
 import ProjectApplyComponent from '@/components/card/ProjectApplyComponent.vue';
 import PageNavbar from '@/components/navbar/PageNavbar.vue';
+import axios from 'axios'
 
 export default {
     components: {
         PageNavbar,
         ProjectApplyComponent
+    },
+    data() {
+        return {
+            projectList: []
+        }
+    },
+    async created() {
+        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-applications`);
+        this.projectList = response.data.content;
+        console.log(this.projectList);
     }
 }   
 
 </script>
+<style scoped>
+.custom-container {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 16px !important;
+}
+</style>

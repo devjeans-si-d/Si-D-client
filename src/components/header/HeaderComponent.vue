@@ -102,7 +102,7 @@
   };
   </script>
   
-  <style>
+  <style scoped>
     .custom-container {
     max-width: 1200px !important; /* 원하는 최대 폭 */
     margin: 0 auto !important;    /* 중앙 정렬 */

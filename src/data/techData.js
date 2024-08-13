@@ -43,7 +43,7 @@ export const techStacks = {
     "Redis",
     "Kubernetes",
     "Nginx",
-    "Apache",
+    "Kafka"
   ],
   App: [
     "Swift (iOS)",

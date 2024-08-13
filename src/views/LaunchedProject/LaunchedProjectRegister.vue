@@ -59,6 +59,8 @@
               </v-col>
             </v-row>
           </v-card-text>
+          
+
   
           <v-card-actions>
             <v-btn color="secondary" @click="resetSelections">초기화</v-btn>
@@ -73,7 +75,8 @@
   <script>
   // techData.js에서 jobFields와 techStacks를 가져옴
   import { jobFields, techStacks } from '@/data/techData';
-  
+  import Editor from "@toast-ui/editor";
+  import "@toast-ui/editor/dist/toastui-editor.css";
   export default {
     data() {
       return {
@@ -85,6 +88,7 @@
           Backend: [],
           App: [],
           PM: [],
+
         },
         finalSelectedTechStacks: {},
         jobFields,  // import한 jobFields를 사용
@@ -98,6 +102,7 @@
           : [];
       },
     },
+
     methods: {
       submitTechStacks() {
         // 현재 선택된 스택들을 최종 선택 리스트에 저장

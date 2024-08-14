@@ -7,11 +7,19 @@
                     <p v-if="isVisible">다른 유저와 채팅하며 프로젝트에 대한 정보를 얻어보세요!</p>
                   <div>
                     <div class="chatroom-outer" v-for="(chat, index) in chatList" :key="chat.id">
+                        <div v-if="index === 0 || this.isDifferentDay(chat.createdAt, chatList[index-1].createdAt)"
+                        style="width:1000px;">
+                            <div style="display: flex; align-content: center; text-align: center; margin: 20px;">
+                                <hr style="width: 25%"><span>{{this.getDay(chat.createdAt)}}</span><hr style="width: 25%">
+                            </div>
+                        </div>
+                        <div class="chatroom-sub">
                         <div class="member-info-box">
                             <img v-if="index === 0 || chat.sender != chatList[index-1].sender" class="chat-part-image" :src="this.getMemberImage(chat.sender)" />
                             <div v-else style="width: 43px;"></div>
                         </div>
                         <div class="chat-block">
+
                             <div v-if="index === 0 || chat.sender != chatList[index-1].sender" class="member-name">{{this.getMemberName(chat.sender)}}</div>
                             <div>
                                 <span>{{chat.content}}</span>
@@ -19,7 +27,7 @@
                             </div>
                             
                         </div>
-
+                    </div>
                     </div>
                   </div>
                 </v-container>
@@ -191,6 +199,22 @@ export default {
             }
 
             return ampm + ' ' + hour + ':' + minute;
+        },
+        isDifferentDay(d1, d2) {
+            const day1 = new Date(d1);
+            const day2 = new Date(d2);
+
+
+            if(day1.getFullYear() == day2.getFullYear()
+            && day1.getMonth() == day2.getMonth()
+            && day1.getDay() == day2.getDay()) return false;
+
+            return true;
+        },
+        getDay(createdAt) {
+            const createdTime = new Date(createdAt);
+
+            return `${createdTime.getFullYear()}년 ${createdTime.getMonth()}월 ${createdTime.getDate()}일`; 
         }
     }
 }   
@@ -198,7 +222,9 @@ export default {
 </script>
 
 <style scoped>
-.chatroom-outer {
+
+
+.chatroom-sub {
     padding: 10px;
     display: flex;
 }
@@ -269,4 +295,10 @@ export default {
     width: 50%;
     margin:0px !important;
 }
+
+.line {
+    position: absolute; 
+    width: 40px; 
+    border-top: 3px solid black;
+  }
 </style>

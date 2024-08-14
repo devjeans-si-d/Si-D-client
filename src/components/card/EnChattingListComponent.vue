@@ -5,8 +5,13 @@
               <v-container>
                 <div class="chatroom-box">
                     <v-text v-if="this.chatroomList.length === 0">채팅 기록이 없습니다.</v-text>
-                  <v-row class="chatroom-outer" v-for="chatroom in chatroomList" :key="chatroom.id" @click="moveToOtherRoom(chatroom.chatRoomId)" >
-                      <v-col cols="12">
+                  <v-row
+                    v-for="chatroom in chatroomList"
+                    :key="chatroom.id"
+                    @click="moveToOtherRoom(chatroom.chatRoomId)"
+                    :class="{ 'selected': chatroom.chatRoomId === this.chatroomId }"
+                    >
+                      <v-col :class="{selected}" cols="12">
                         <div class="chatroom-element">
                             <div class="member-img">
                                 <img class="profile-img" :src="chatroom.participantProfileImageUrl" height="100px" width="auto" overflow="hidden">
@@ -39,7 +44,7 @@ export default{
   },
   data() {
       return {
-          
+          chatroomId: 0,
       }
   },
   methods: {
@@ -71,7 +76,16 @@ export default{
         },
         moveToOtherRoom(dest) {
             this.chatroomId = dest;
+
             this.$emit("moveToOtherRoom", dest); 
+        },
+        selectOrNot(id) {
+            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            if(id === this.chatroomId) {
+                return "black";
+            } else {
+                return "#D4D4D4";
+            }
         }
   },
   created() {
@@ -81,7 +95,9 @@ export default{
 }
 </script>
 <style scoped>
-
+.selected {
+    background-color: #A4DEC6;
+}
 
 .project-content {
   margin: 10px;

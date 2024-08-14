@@ -5,6 +5,7 @@ import { LaunchedProjectRouter } from './LaunchedProjectRouter';
 import { memberRouter } from './memberRouter';
 import MainPage from '@/views/MainPage/MainPage.vue';
 import { oauthLoginRouter } from './oauthLoginRouter';
+import {projectRouter} from './projectRouter'
 
 const routes = [
     {
@@ -22,6 +23,7 @@ const routes = [
     ...LaunchedProjectRouter,
     ...memberRouter,
     ...oauthLoginRouter,
+    ...projectRouter
 ]
 
 const router = createRouter({

@@ -1,7 +1,7 @@
 <template>
     <v-container class="outer-box">
         <ProjectSidebar />
-      <v-card class="my-project-card">
+      <v-card class="my-project-card" variant="elevated">
           <v-text>
               <v-container>
                   <v-row v-for="project in projectList" :key="project.name" @click="spaMoveTo(project.id)">
@@ -150,6 +150,7 @@ export default{
 .my-project-card {
     margin-left: 20px;
     width: 100%;
+    background-color: #F6F6F6;
 }
 
 </style>

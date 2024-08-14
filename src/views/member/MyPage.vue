@@ -145,7 +145,7 @@
     align-self: center;
     align-content: center;
     margin: auto;
-    color: "#FCFCFC";
+    background-color: #F6F6F6;
   }
   .item-wrap {
     display: flex;

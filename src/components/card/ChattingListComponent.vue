@@ -1,6 +1,6 @@
 <template>
     <v-container class="outer-box">
-      <v-card class="chatting-card">
+      <v-card class="chatting-card" variant="elevated">
           <v-text>
               <v-container>
                 <div class="chatroom-box">
@@ -80,7 +80,7 @@ export default{
 
 }
 </script>
-<style>
+<style scoped>
 
 
 .member-img {
@@ -134,7 +134,7 @@ export default{
     display: flex;
     justify-content: center;
     width: 100%;
-    color: "#FCFCFC";
+    background-color: #F6F6F6;
 }
 
 .chatroom-box {

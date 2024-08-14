@@ -1,11 +1,11 @@
 <template>
     <v-container class="outer-box">
-      <v-card class="chatting-card">
+      <v-card class="chatting-card" variant="elevated">
           <v-text>
               <v-container>
                 <div class="chatroom-box">
                     <v-text v-if="this.chatroomList.length === 0">채팅 기록이 없습니다.</v-text>
-                  <v-row class="chatroom-outer" v-for="chatroom in chatroomList" :key="chatroom.id" @click="spaMoveTo(chatroom.chatRoomId)" >
+                  <v-row class="chatroom-outer" v-for="chatroom in chatroomList" :key="chatroom.id" @click="changeChatroom(chatroom.chatRoomId)" >
                       <v-col cols="12">
                         <div class="chatroom-element">
                             <div class="member-img">
@@ -44,7 +44,7 @@ export default{
       }
   },
   methods: {
-      spaMoveTo(chatroomId) {
+      changeChatroom(chatroomId) {
           this.$router.push(`/member/chatroom/${chatroomId}`);
       },
       getChipColor(title) {
@@ -82,14 +82,6 @@ export default{
 </script>
 <style scoped>
 
-
-.member-img {
-  margin-right: 10px;
-  width: 100px;
-  height: 100px;
-  background-color: black;
-  text-align: center;
-}
 
 .project-content {
   margin: 10px;
@@ -134,17 +126,18 @@ export default{
 
 .chatting-card {
     width: 100%;
+    height: 500px; /* TODO: 채팅방 컴포넌트 채팅 바까지해서 60으로 맞춰야함*/
     display: flex;
     justify-content: center;
     margin: 0px;
-    color: "#FCFCFC";
+    background-color: #F6F6F6;
+    /*overflow-y: auto;*/
+    /*overflow-x: hidden;*/
 }
 
 .chatroom-box {
-    padding: 100%;
     align-items: center;
 }
-
 
 .chatroom-element {
     display: flex;
@@ -153,17 +146,19 @@ export default{
 }
 
 .member-img {
-    width: 50;
-    height: 50px; 
-    border-radius: 70%;
-    overflow: hidden;
+    width: 43px;
+    height: 43px;
+    min-width: 43px;
+    min-height: 43px; 
+    border-radius: 50%;
+    object-fit: cover;
 }
 
-.profile-image {
+.profile-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
+} 
 
 .chatroom-outer {
     border-bottom: 1px solid #D4D4D4;

@@ -1,11 +1,11 @@
 <template>
     <v-container>
         <v-row justify="center" align="center" class="line">
-            <v-col cols="2">
+            <div style="margin: 0 30px;">
                 <v-avatar class="mx-auto" size="120">
                     <img :src="data.image" alt="Profile Image" style="height:120px; width:auto;" />
                 </v-avatar>
-            </v-col>
+            </div>
             <v-col>
                 <v-row>
                     <h2>{{data.nickname}}</h2>
@@ -22,9 +22,9 @@
         </v-row>
 
         <v-row class="line">
-            <v-col>
+            <v-col class="margin-tb">
                 <v-row>
-                    <h2>자기소개</h2>
+                    <h2 style="margin-bottom: 20px;">자기소개</h2>
                 </v-row>
                 <v-row class="textarea">
                     <v-textarea v-model="data.introduction" :rules="rules" label="자기소개" counter variant="outlined"
@@ -34,9 +34,9 @@
         </v-row>
 
         <v-row class="line">
-            <v-col>
+            <v-col class="margin-tb">
                 <v-row>
-                    <h2>소셜정보</h2>
+                    <h2 style="margin-bottom: 20px;">소셜정보</h2>
                 </v-row>
                 <v-row class="email">
                     <v-text-field v-model="data.socialLink.email" prepend-icon="mdi-email" label="개인 이메일 주소"
@@ -62,7 +62,7 @@
         </v-row>
 
         <v-row class="line">
-            <v-col>
+            <v-col class="margin-tb">
                 <v-row>
                     <h2>경력</h2>
                 </v-row>
@@ -205,6 +205,9 @@ export default {
 </script>
 
 <style scoped>
+.margin-tb{
+    margin: 40px 20px;
+}
 .row-1{
     height: 50px;
     padding: 0px;
@@ -230,6 +233,6 @@ export default {
 }
 
 .textarea {
-    margin-bottom: 200px;
+    margin-bottom: 130px;
 }
 </style>

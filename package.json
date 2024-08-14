@@ -14,9 +14,11 @@
     "axios": "^1.7.3",
     "core-js": "^3.8.3",
     "dayjs": "^1.11.12",
+    "sockjs-client": "^1.6.1",
     "vue": "^3.2.13",
     "vue-router": "^4.4.2",
-    "vuetify": "^3.6.14"
+    "vuetify": "^3.6.14",
+    "webstomp-client": "^1.2.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

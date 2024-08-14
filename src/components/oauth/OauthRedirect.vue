@@ -28,7 +28,9 @@ export default {
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/auth/login`, { code })
                 console.log(response);
                 const token = response.data.token;
+                const id = response.data.id;
                 localStorage.setItem('token', token)
+                localStorage.setItem('id', id)
                 window.location.href = '/'
             } catch (error) {
                 if (error.response.status == 401) {

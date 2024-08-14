@@ -4,24 +4,21 @@
       <v-card class="my-project-card" color="#F3F3F3">
           <v-text>
               <v-container>
-                  <v-row v-for="project in projectList" :key="project.projectId">
+                  <v-row v-for="project in projectList" :key="project.id">
                       <v-col class="project-element">
                           <div class="project-img">
                               <img :src="project.imageUrl" height="100px" width="auto" overflow="hidden">
                           </div>
                           <div class="project-content">
                             <div class="project-info">
-                                <h3>{{ project.name }}</h3>
-                                <p class="project-description">{{ project.content }}</p>
-                                <div class="chip-wrap">
-                                    <BasicSmallChip :title="project.myJob" :color="this.getJobColor(project.myJob)"/>
-                                </div>
+                                <h3>{{ project.projectName }}</h3>
+                                <p class="project-description">{{ project.description }}</p>
                             </div>
                           </div>
                           <v-col class="project-status">
-                            <BasicChip :title="project.status" :color="this.getChipColor(project.status)"/>
+                            <BasicChip :title="this.getProjectStatus(project.isClosed)" :color="this.getChipColor(project.isClosed)"/>
                             <!--mdi-->
-                            <v-icon icon="mdi-bookmark" class="scrap-icon" @click="this.cancelBookmark(project.projectId)"></v-icon>
+                            <v-icon icon="mdi-bookmark" class="scrap-icon" @click="this.cancelBookmark(project.id)"></v-icon>
                           </v-col>
                       </v-col>
 
@@ -48,14 +45,13 @@
      </v-dialog>
 </template>
 <script>
-import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
 import BasicChip from '@/components/chip/BasicChip.vue';
 import ProjectSidebar from '../navbar/ProjectSidebar.vue';
+import axios from 'axios';
 
 export default{
   props: ['projectList'],
   components: {
-      BasicSmallChip,
       BasicChip,
       ProjectSidebar,
   },
@@ -72,12 +68,10 @@ export default{
           this.$router.push('/');
       },
       getChipColor(title) {
-            if(title === '승인') {
-                return 'sid_btn2';
-            } else if(title === '마감') {
+            if(title === 'Y') {
                 return '#F15F5F';
             } else {
-                return '#5D5D5D';
+                return 'sid_btn2';
             }
         },
         getJobColor(job) {
@@ -97,12 +91,24 @@ export default{
                 return 'white';
             }
         },
+        getProjectStatus(yn) {
+            if(yn == 'Y') {
+                return '마감';
+            } else {
+                return '진행 중';
+            }
+        },
         cancelBookmark(id) {
             console.log(id);
             this.dialog = true;
         },
-        confirmCancel(id) {
+        async confirmCancel(id) {
             console.log(id + " 취소 api 호출");
+            try {
+                await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${id}/scrap/delete`);
+            } catch(e) {
+                console.log(e);
+            }
             this.dialog = false;
             window.location.reload();
         },

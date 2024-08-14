@@ -32,7 +32,7 @@
 
               <v-col cols="auto" md="auto" class="d-flex align-center justify-end text-no-wrap">
                 <!-- 오른쪽 정렬 -->
-                <v-menu v-if="!isLogin" open-on-hover>
+                <v-menu v-if="isLogin" open-on-hover>
                   <template v-slot:activator="{ props }">
                     <v-btn text v-bind="props" height="60">
                       <v-avatar size="40">
@@ -60,8 +60,7 @@
 
               <v-col cols="auto" md="auto" class="d-flex align-center justify-end text-no-wrap">
                 <!-- 원래 !isLogin임 api 붙이는 작업 이후 수정 예정 -->
-                <v-btn class="custom-button" v-if="isLogin" :to="{path:'/member/create'}">회원가입</v-btn>
-                <v-btn class="custom-button" v-if="isLogin" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f1a9f25e347069f2e5fedb6375c0b82d&redirect_uri=http://localhost:8080/api/auth/kakao/callback">로그인</v-btn>
+                <v-btn class="custom-button" v-if="!isLogin" :href="KAKAO_AUTH_URI"><img src="@/assets/kakao_login_small.png" alt="카카오로그인"></v-btn>
               </v-col>
 
             </v-row>
@@ -76,15 +75,16 @@
             isLogin : false,
             nickname : 'devjeans', // 임시 닉네임. 이후에 빈값으로 두기
             profileImageUrl: '@/assets/default_profile_image.png',
+            KAKAO_AUTH_URI: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_REST_API_KEY}&redirect_uri=http://localhost:8082/oauth`,
         };
     },
     created(){ // 토큰때문에 테스트가 제대로 안되서 token 관련한 부분 주석처리 해놓음
-        // const token = localStorage.getItem("token");
-        // if(token){
-        //     // localStorage에 token이 있으면 로그인된 상태
-        //     this.isLogin = true;
-        //     this.loadUserProfile();
-        // }
+        const token = localStorage.getItem("token");
+        if(token){
+            // localStorage에 token이 있으면 로그인된 상태
+            this.isLogin = true;
+            this.loadUserProfile();
+        }
     },
     methods:{
         doLogout(){
@@ -103,7 +103,7 @@
   };
   </script>
   
-  <style>
+  <style scoped>
     .custom-container {
     max-width: 1200px !important; /* 원하는 최대 폭 */
     margin: 0 auto !important;    /* 중앙 정렬 */
@@ -112,7 +112,7 @@
     /*  버튼 커스텀 */
     .custom-button {
         font-weight: bold !important; /* 글씨를 bold로 */
-        font-size: 16px !important; /* 글씨 크기 */
+        font-size: 14px !important; /* 글씨 크기 */
         color: #094F08 !important; /* 글씨 색 */
         text-transform: none !important; /* 대문자 변환 방지 */
     }

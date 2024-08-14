@@ -10,14 +10,16 @@
         ]'
         />
         <h2 style="text-align:center; margin: 20px;">내 채팅</h2>
-        <ChattingListComponent 
+        <EnChattingListComponent 
         :chatroomList="chatroomList"
         />
+        <EnChatroomComponent />
     </v-container>
 </template>
 <script>
 import PageNavbar from '@/components/navbar/PageNavbar.vue';
-import ChattingListComponent from '@/components/card/ChattingListComponent.vue';
+import EnChattingListComponent from '@/components/card/EnChattingListComponent.vue';
+import EnChatroomComponent from '@/components/card/EnChatroomComponent.vue';
 import axios from 'axios'
 
 export default {
@@ -28,7 +30,8 @@ export default {
     },
     components: {
         PageNavbar,
-        ChattingListComponent
+        EnChattingListComponent,
+        EnChatroomComponent
     },
     async created() {
         const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/list`)

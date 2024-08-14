@@ -45,7 +45,7 @@
     <!-- 모집 정보 리스트 표시 -->
     <v-row class="mt-10 mb-10 d-flex align-center justify-start">
       <v-chip v-for="(info, index) in showRecruitInfoList" :key="index" class="ma-2" closable
-        @click:close="removeRecruitInfo(index)">
+        @click="removeRecruitInfo(index)">
         {{ info.recruitField }} - {{ info.count }}명
       </v-chip>
     </v-row>
@@ -60,7 +60,7 @@
 
     <!-- 모달 외부에서 showMemberList의 멤버들을 Chip으로 보여줌 -->
     <v-row class="mt-10 mb-10">
-      <v-chip v-for="(member, index) in showMemberList" :key="index" closable @click:close="removeMember(index)"
+      <v-chip v-for="(member, index) in showMemberList" :key="index" closable @click="removeMember(index)"
         class="ma-2">
         {{ member.name }} - {{ member.jobfield }}
       </v-chip>

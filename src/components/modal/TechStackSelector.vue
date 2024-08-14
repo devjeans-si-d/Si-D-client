@@ -1,5 +1,4 @@
 <template>
-  <v-container>
     <!-- 모달을 여는 버튼 -->
     <v-row>
       <v-col cols="auto">
@@ -83,7 +82,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-container>
 </template>
 
 <script>

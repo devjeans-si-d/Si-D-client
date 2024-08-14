@@ -1,5 +1,8 @@
 <template>
   <v-container class="custom-container">
+
+    <v-spacer :style="{height: '20px'}"></v-spacer>
+
     <h4 style="text-align:center; color:#094F08;">Launched Project</h4>
     <h2 style="text-align:center; color:#094F08;">{{ project.projectName }}</h2>
 
@@ -22,7 +25,6 @@
       <tech-stack-selector />
     </v-row>
     
-
 
   </v-container>
 </template>

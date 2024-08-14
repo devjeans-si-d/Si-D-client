@@ -30,6 +30,21 @@
         </v-container>
 
     </v-container>
+
+<!-- 모달 -->
+<v-dialog v-model="alertDialog" width="500px">
+    <v-card class="dialog-card">
+        <v-card-title>
+            ⚠️ 채팅방을 선택해주세요.
+            </v-card-title>
+    
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="sid_btn1" text @click="alertDialog = false">확인</v-btn>
+            </v-card-actions>
+    </v-card>
+</v-dialog>
+
 </template>
 <script>
 import ButtonComponent from '@/components/button/ButtonComponent.vue';
@@ -42,7 +57,7 @@ import SockJS from 'sockjs-client'
 
 export default {
     props: [
-        'chatroomId'
+        'chatroomIdProp'
     ],
     components: {
         ButtonComponent
@@ -54,29 +69,24 @@ export default {
             stompClient: "",
             memberInfos: new Map([]),
             prevSender: 0,
+            chatroomId: 0,
+            alertDialog: false,
         }
     },
     async created() {
-        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}`);
-        this.chatList = response.data.content;
-
-        // 참여자 정보 얻기
-        const memberInfo = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/get-member-info`);
-        this.memberInfos = new Map([
-            [memberInfo.data[0].memberId, memberInfo.data[0]],
-            [memberInfo.data[1].memberId, memberInfo.data[1]]
-        ]);
-    },
-    beforeMount() {
-        //== 연결하는 부분 ==//
-        // 방에 입장
-        this.connect();
+        this.chatroomId = this.chatRoomIdProp;
+        console.log("line 63!! " + this.chatroomId)
     },
     beforeUnmount() {
         this.disconnect();
     },
     methods: {
         async sendMessage() {
+
+            if(this.chatroomId == undefined || this.chatroomId == 0) {
+                this.alertDialog = true;
+                return;
+            }
         
             if (this.chatMessage && this.stompClient) {
 
@@ -134,6 +144,24 @@ export default {
                     }
             }
             });
+        },
+        async changeRoom(dest) {
+            this.disconnect();
+            this.chatroomId = dest;
+
+
+            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}`);
+            this.chatList = response.data.content;
+
+            // 참여자 정보 얻기
+            const memberInfo = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/get-member-info`);
+            this.memberInfos = new Map([
+                [memberInfo.data[0].memberId, memberInfo.data[0]],
+                [memberInfo.data[1].memberId, memberInfo.data[1]]
+            ]);
+
+
+            this.connect();
         },
         getMemberName(sender) {
             return this.memberInfos?.get(sender)?.nickname;

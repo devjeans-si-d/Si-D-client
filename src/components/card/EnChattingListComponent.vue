@@ -5,7 +5,7 @@
               <v-container>
                 <div class="chatroom-box">
                     <v-text v-if="this.chatroomList.length === 0">채팅 기록이 없습니다.</v-text>
-                  <v-row class="chatroom-outer" v-for="chatroom in chatroomList" :key="chatroom.id" @click="changeChatroom(chatroom.chatRoomId)" >
+                  <v-row class="chatroom-outer" v-for="chatroom in chatroomList" :key="chatroom.id" @click="moveToOtherRoom(chatroom.chatRoomId)" >
                       <v-col cols="12">
                         <div class="chatroom-element">
                             <div class="member-img">
@@ -16,7 +16,7 @@
                             <div class="project-info">
                                 <h4 style="margin-bottom: 10px">{{ chatroom.participantNickName}}</h4>
 
-                                <p class="project-description">{{ chatroom.unreadContent }}</p>
+                                <p class="unread-count-text">{{ chatroom.unreadContent }}</p>
                             </div>
                             <div v-if="chatroom.unreadCount >= 1" class="unread-count">
                                 <span>{{chatroom.unreadCount}}</span>
@@ -44,9 +44,6 @@ export default{
       }
   },
   methods: {
-      changeChatroom(chatroomId) {
-          this.$router.push(`/member/chatroom/${chatroomId}`);
-      },
       getChipColor(title) {
             if(title === '승인') {
                 return 'sid_btn2';
@@ -72,6 +69,10 @@ export default{
             } else {
                 return 'white';
             }
+        },
+        moveToOtherRoom(dest) {
+            this.chatroomId = dest;
+            this.$emit("moveToOtherRoom", dest); 
         }
   },
   created() {
@@ -94,9 +95,6 @@ export default{
   color: #5D5D5D;
 }
 
-.chip-wrap {
-  margin-top: 10px;
-}
 
 .chatroom-element:hover {
   opacity: 0.7;
@@ -109,13 +107,6 @@ export default{
     width: 100%;
 }
 
-.project-status {
-    margin-right: 10px;
-    display: flex;
-    justify-content: end;
-    justify-self: end;
-    width: 20px;
-}
 
 .outer-box {
     display: flex;
@@ -136,6 +127,7 @@ export default{
 }
 
 .chatroom-box {
+    width: 100%;
     align-items: center;
 }
 
@@ -143,6 +135,7 @@ export default{
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    width: 100%;
 }
 
 .member-img {
@@ -161,6 +154,7 @@ export default{
 } 
 
 .chatroom-outer {
+    width: 100%;
     border-bottom: 1px solid #D4D4D4;
 }
 

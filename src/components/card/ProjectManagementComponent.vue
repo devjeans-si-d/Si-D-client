@@ -97,7 +97,7 @@ export default{
 .project-content {
   margin: 10px;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 .project-description {
@@ -108,7 +108,7 @@ export default{
 
 .chip-wrap {
   margin-top: 10px;
-  justify-self: end;
+  justify-self: flex-end;
 }
 
 .project-element:hover {
@@ -125,10 +125,12 @@ export default{
 
 .outer-box {
     display: flex;
+
 }
 
 .my-project-card {
     width: 100%;
+    margin-left: 20px;
     background-color: #F6F6F6;
 }
 

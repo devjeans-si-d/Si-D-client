@@ -138,8 +138,8 @@ export default{
 .project-status {
     margin-right: 10px;
     display: flex;
-    justify-content: end;
-    justify-self: end;
+    justify-content: flex-end;
+    justify-self: flex-end;
     width: 20px;
 }
 

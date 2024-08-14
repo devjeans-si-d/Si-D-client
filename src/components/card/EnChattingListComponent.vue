@@ -1,7 +1,7 @@
 <template>
     <v-container class="outer-box">
       <v-card class="chatting-card" variant="elevated">
-          <v-text>
+          <v-text style="width:100%;">
               <v-container>
                 <div class="chatroom-box">
                     <v-text v-if="this.chatroomList.length === 0">채팅 기록이 없습니다.</v-text>
@@ -143,17 +143,17 @@ export default{
     min-width: 43px;
     min-height: 43px; 
     border-radius: 50%;
-    object-fit: cover;
+
 }
 
 .profile-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 50%;
 } 
 
 .chatroom-outer {
-    width: 100%;
     border-bottom: 1px solid #D4D4D4;
 }
 

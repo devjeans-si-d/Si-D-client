@@ -139,7 +139,7 @@ export default{
 .project-content {
   margin: 10px;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 .project-description {

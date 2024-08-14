@@ -225,12 +225,15 @@ export default {
 
 .chat-block {
     margin-left: 20px;
+    width: 100%;
 }
 
 .chat-createdTime {
     font-size: small;
     color: gray;
     justify-self: flex-end;
+    margin-left: 30px;
+    
 }
 
 

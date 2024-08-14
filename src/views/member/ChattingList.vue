@@ -10,10 +10,12 @@
         ]'
         />
         <h2 style="text-align:center; margin: 20px;">내 채팅</h2>
-        <EnChattingListComponent 
-        :chatroomList="chatroomList"
-        />
-        <EnChatroomComponent />
+        <div class="chat-outer-box">
+            <EnChattingListComponent 
+            :chatroomList="chatroomList"
+            />
+            <EnChatroomComponent :chatroomId="7"/>
+        </div>
     </v-container>
 </template>
 <script>
@@ -47,5 +49,9 @@ export default {
     max-width: 1200px !important; /* 원하는 최대 폭 */
     margin: 0 auto !important;    /* 중앙 정렬 */
     width: 100% !important; /* 컨테이너의 폭을 100%로 설정 */
+}
+
+.chat-outer-box {
+    display: flex;
 }
 </style>

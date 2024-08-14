@@ -1,5 +1,5 @@
 <template>
-<v-card class="sidebar" color="#F3F3F3">
+<v-card class="sidebar">
     <v-card-text class="sidebar-element">전체보기</v-card-text>
     <v-card-text class="sidebar-element">진행 중</v-card-text>
     <v-card-text class="sidebar-element">모집 마감</v-card-text>

@@ -1,7 +1,7 @@
 
 <template>
-    <v-container fluid class="custom-container">
-        <v-card color="#F3F3F3">
+    <v-container class="chatroom-container">
+        <v-card class="chatroom-card">
             <v-text>
                 <v-container>
                   <div>
@@ -23,7 +23,6 @@
                 </v-container>
             </v-text>
         </v-card>
-
         <v-container>
             <v-row>
                 <v-col cols="11">
@@ -41,7 +40,6 @@
 <script>
 import ButtonComponent from '@/components/button/ButtonComponent.vue';
 import axios from 'axios'
-import { useRoute } from 'vue-router';
 
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
@@ -49,21 +47,21 @@ import SockJS from 'sockjs-client'
 
 
 export default {
+    props: [
+        'chatroomId'
+    ],
     components: {
         ButtonComponent
     },
     data() {
         return {
             chatList: [],
-            chatroomId: 0,
             chatMessage: "",
             stompClient: "",
             memberInfos: new Map([])
         }
     },
     async created() {
-        const route = useRoute();
-        this.chatroomId = route.params.chatroomId;
         const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}`);
         console.log(response.data.content);
         this.chatList = response.data.content;
@@ -162,8 +160,8 @@ export default {
 
 .member-img {
     margin-right: 50px;
-    width: 100px;
-    height: 100px; 
+    width: 50px;
+    height: 50px; 
     border-radius: 70%;
     overflow: hidden;
 }
@@ -184,11 +182,16 @@ export default {
     border-radius: 50px;
 }
 
-
-.custom-container {
-    max-width: 1200px !important; /* 원하는 최대 폭 */
-    margin: 0 auto !important;    /* 중앙 정렬 */
-    width: 100% !important; /* 컨테이너의 폭을 100%로 설정 */
+.chatroom-card {
+    width: 100%; /* 너비를 원하는 대로 설정하세요 */
+    overflow-y: auto; /* 수직 스크롤만 활성화 */
+    overflow-x: hidden; /* 수평 스크롤 비활성화 */
+    min-height: 500px;
+    color: "#FCFCFC";
 }
 
+.chatroom-container {
+    width: 60%;
+    margin: 0px !important;
+}
 </style>

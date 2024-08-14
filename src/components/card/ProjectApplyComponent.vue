@@ -1,7 +1,7 @@
 <template>
     <v-container class="outer-box">
         <ProjectSidebar />
-      <v-card class="my-project-card" color="#F3F3F3">
+      <v-card class="my-project-card">
           <v-text>
               <v-container>
                   <v-row v-for="project in projectList" :key="project.name" @click="spaMoveTo(project.id)">
@@ -88,13 +88,17 @@ export default{
 
 }
 </script>
-<style>
+<style scoped>
 .project-element {
   display: flex;
   justify-content: flex-start;
   padding: 10px;
   border-bottom: 1px solid #D4D4D4;
   align-items: center;
+}
+
+.my-project-card {
+    color: "#FCFCFC";
 }
 
 .project-img {
@@ -145,7 +149,7 @@ export default{
 
 .my-project-card {
     margin-left: 20px;
-    width: 75%;
+    width: 100%;
 }
 
 </style>

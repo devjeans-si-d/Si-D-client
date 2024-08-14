@@ -1,7 +1,7 @@
 <template>
     <v-container class="outer-box">
         <ProjectSidebar />
-      <v-card class="my-project-card" color="#F3F3F3">
+      <v-card class="my-project-card">
           <v-text>
               <v-container>
                   <v-row v-for="project in projectList" :key="project.id">
@@ -119,7 +119,7 @@ export default{
 
 }
 </script>
-<style>
+<style scoped>
 .project-element {
   display: flex;
   justify-content: flex-start;
@@ -172,12 +172,12 @@ export default{
 
 .outer-box {
     display: flex;
-    width: 80%;
 }
 
 .my-project-card {
     margin-left: 20px;
-    width: 75%;
+    width: 100%;
+    color: "#FCFCFC";
 }
 
 .dialog-card {

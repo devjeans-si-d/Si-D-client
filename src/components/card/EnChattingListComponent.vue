@@ -1,6 +1,6 @@
 <template>
     <v-container class="outer-box">
-      <v-card class="chatting-card" color="#F3F3F3">
+      <v-card class="chatting-card">
           <v-text>
               <v-container>
                 <div class="chatroom-box">
@@ -80,7 +80,7 @@ export default{
 
 }
 </script>
-<style>
+<style scoped>
 
 
 .member-img {
@@ -128,18 +128,20 @@ export default{
 .outer-box {
     display: flex;
     justify-content: center;
+    width: 40%;
+    margin: 0px !important;
 }
 
 .chatting-card {
-    width: 50%;
+    width: 100%;
     display: flex;
     justify-content: center;
-
+    margin: 0px;
+    color: "#FCFCFC";
 }
 
 .chatroom-box {
     padding: 100%;
-    padding: 10px;
     align-items: center;
 }
 
@@ -147,14 +149,12 @@ export default{
 .chatroom-element {
     display: flex;
     justify-content: flex-start;
-    padding: 15px;
     align-items: center;
 }
 
 .member-img {
-    margin-right: 50px;
-    width: 100px;
-    height: 100px; 
+    width: 50;
+    height: 50px; 
     border-radius: 70%;
     overflow: hidden;
 }

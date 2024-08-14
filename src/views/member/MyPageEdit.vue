@@ -10,7 +10,7 @@
       ]'
       />
         <h2 style="text-align:center; margin: 20px;">내 정보 수정</h2>
-        <v-card class="my-page-card" color="#F3F3F3">
+        <v-card class="my-page-card">
           <v-container>
             <v-row class="item-wrap-field" style="margin: auto">
               <v-col cols="4"><span class="text-center">수신용이메일</span></v-col>
@@ -87,12 +87,12 @@ export default {
   width: 150px;
 }
 .my-page-card{
-  color: #E3E3E3;
   width: 500px;
   display: flex;
   align-self: center;
   align-content: center;
   margin: auto;
+  color: "#FCFCFC";
 }
 .item-wrap {
   display: flex;

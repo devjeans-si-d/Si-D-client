@@ -1,6 +1,6 @@
 <template>
     <v-container class="outer-box">
-      <v-card class="chatting-card" color="#F3F3F3">
+      <v-card class="chatting-card">
           <v-text>
               <v-container>
                 <div class="chatroom-box">
@@ -131,10 +131,10 @@ export default{
 }
 
 .chatting-card {
-    width: 50%;
     display: flex;
     justify-content: center;
-
+    width: 100%;
+    color: "#FCFCFC";
 }
 
 .chatroom-box {

@@ -94,6 +94,9 @@
                 </v-row>
             </v-col>
         </v-row>
+        <v-row>
+            <TechStackSelector />
+        </v-row>
         <v-row justify="center">
             <v-col cols="1">
                 <ButtonComponent @click="save" content="저장"/>
@@ -105,10 +108,11 @@
 
 <script>
 import ButtonComponent from '@/components/button/ButtonComponent.vue';
+import TechStackSelector from '@/components/modal/TechStackSelector.vue';
 import axios from 'axios';
 export default {
     components: {
-        ButtonComponent
+        ButtonComponent, TechStackSelector
     },
     data() {
         return {

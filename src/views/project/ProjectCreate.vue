@@ -26,7 +26,7 @@
     <!-- 모집 정보 리스트 표시 -->
     <v-row class="mt-10 mb-10">
       <v-chip v-for="(info, index) in showRecruitInfoList" :key="index" class="ma-2" closable
-        @click:close="removeRecruitInfo(index)">
+        @click="removeRecruitInfo(index)">
         {{ info.recruitField }} - {{ info.count }}명
       </v-chip>
     </v-row>
@@ -41,7 +41,7 @@
 
     <!-- 모달 외부에서 showMemberList의 멤버들을 Chip으로 보여줌 -->
     <v-row class="mb-10">
-      <v-chip v-for="(member, index) in showMemberList" :key="index" closable @click:close="removeMember(index)"
+      <v-chip v-for="(member, index) in showMemberList" :key="index" closable @click="removeMember(index)"
         class="ma-2">
         {{ member.name }} - {{ member.jobfield }}
       </v-chip>
@@ -71,7 +71,6 @@
 
             <v-row class="mt-10">
               <v-form @submit.prevent="searchMembersList()">
-                <!-- api 붙이면 풀 것 -->
                 <v-row class="mt-10 mb-10">
                           <v-select
                             v-model="searchType"
@@ -214,6 +213,7 @@ export default {
       el: document.querySelector("#editor"),
       height: "500px",
       initialEditType: "wysiwyg",
+      width: 'auto',
       hooks: {
         addImageBlobHook: async (blob, callback) => {
           // 1. 다른 서버에 이미지를 업로드
@@ -248,11 +248,13 @@ export default {
       );
 
       const urlContentType = getUrl.headers.get("content-type");
+      console.log("urlContentType"+urlContentType);
       let getUrlResult;
       if (urlContentType && urlContentType.includes("application/json")) {
         getUrlResult = await getUrl.json(); // JSON으로 파싱
       } else {
         getUrlResult = await getUrl.text(); // 텍스트로 파싱
+        console.log("geturl체크체크"+getUrlResult)
       }
 
       const awsUrl = {
@@ -271,11 +273,14 @@ export default {
       console.log(new Date());
       let response = await fetch(awsUrl.data + awsUrl.auth, options);
       console.log(response);
+      const imgsrc = `<img src=${awsUrl.data} height="60">`
 
-      return awsUrl.data;
+      // return awsUrl.data;
+      return imgsrc;
     },
     async fileUpdate(event) {
       this.projectImageFile = event.target.files[0];
+      console.log(this.projectImageFile)
       this.projectImageUrl = await this.uploadImage(this.projectImageFile);
 
     },
@@ -369,6 +374,7 @@ export default {
       this.clearMemberAddModal();
     },
     removeMember(index) {
+      console.log("index"+index)
       this.showMemberList.splice(index, 1); // showMemberList에서 해당 멤버 제거
       console.log(this.showMemberList);
     },
@@ -415,3 +421,10 @@ export default {
   },
 };
 </script>
+<style>
+.editor {
+  border : 1px solid;
+  width : 70%;
+  margin : 0 auto;
+}
+</style>

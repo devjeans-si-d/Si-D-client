@@ -15,7 +15,6 @@
                           <div class="project-content">
                             <div class="project-info">
                                 <h4 style="margin-bottom: 10px">{{ chatroom.participantNickName}}</h4>
-
                                 <p class="unread-count-text">{{ chatroom.unreadContent }}</p>
                             </div>
                             <div v-if="chatroom.unreadCount >= 1" class="unread-count">

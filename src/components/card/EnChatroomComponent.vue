@@ -4,6 +4,7 @@
         <v-card variant="elevated">
             <v-text>
                 <v-container class="scroll-container">
+                    <p v-if="isVisible">다른 유저와 채팅하며 프로젝트에 대한 정보를 얻어보세요!</p>
                   <div>
                     <div class="chatroom-outer" v-for="(chat, index) in chatList" :key="chat.id">
                         <div class="member-info-box">
@@ -25,7 +26,7 @@
             </v-text>
         </v-card>
         <v-container class="send-container">
-            <v-text-field width="400" class="chat-text-field" v-model="chatMessage"></v-text-field>
+            <v-text-field v-on:keyup.enter="sendMessage" width="400" class="chat-text-field" v-model="chatMessage"></v-text-field>
             <ButtonComponent style="margin-left: 10px" @click="sendMessage()" content="전송"/>
         </v-container>
 
@@ -71,11 +72,11 @@ export default {
             prevSender: 0,
             chatroomId: 0,
             alertDialog: false,
+            isVisible: true,
         }
     },
     async created() {
         this.chatroomId = this.chatRoomIdProp;
-        console.log("line 63!! " + this.chatroomId)
     },
     beforeUnmount() {
         this.disconnect();
@@ -146,6 +147,7 @@ export default {
             });
         },
         async changeRoom(dest) {
+            this.isVisible = false;
             this.disconnect();
             this.chatroomId = dest;
 

@@ -12,9 +12,13 @@
         <h2 style="text-align:center; margin: 20px;">내 채팅</h2>
         <div class="chat-outer-box">
             <EnChattingListComponent 
-            :chatroomList="chatroomList" v-on:moveToOtherRoom="move"
+            :chatroomList="chatroomList"
+            v-on:moveToOtherRoom="move"
             />
-            <EnChatroomComponent ref="chatroomComponent" :chatroomId="this.chatroomId" />
+            <EnChatroomComponent
+            ref="chatroomComponent"
+            :chatroomId="this.chatroomId"
+            />
         </div>
     </v-container>
 </template>

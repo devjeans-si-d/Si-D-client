@@ -29,10 +29,15 @@
       <label for="">모집 정보</label>
       <!-- count랑 분야 받으면 됨 -->
       <ButtonComponent class="mr-3" content="추가" @click="recruitInfoAdd()" />
+      
+      <CloseableChip v-for="(info,index) in showRecruitInfoList" :key="index" class="ma-2" @click:close="removeRecruitInfo(index)">
+        {{ info.recruitField }} - {{info.count}} 명
+      </CloseableChip>
       <CloseableChip class="mr-3" title="BACKEND : 3명" />
       <CloseableChip class="mr-3" title="FRONTEND : 2명" />
       <CloseableChip class="mr-3" title="DESIGNER : 1명" />
     </v-row>
+
     <v-row class="mt-10 mb-10">
       <label for="">멤버 추가</label>
         <ButtonComponent class="mr-3" content="추가" @click="searchMemberShowModal()"
@@ -87,13 +92,13 @@
                   <br />
 
                   <v-row>
-                    <ButtonComponent
+                    <!-- <ButtonComponent
                       content="검색"
                       type="submit"
                       class="mx-auto"
-                    />
+                    /> -->
 
-                    <!-- <v-btn type="submit" color="secondary" dark>검색</v-btn> -->
+                    <v-btn type="submit" color="secondary" dark>검색</v-btn>
                   </v-row>
                   <div></div>
 
@@ -154,6 +159,7 @@
                 color="#808080"
                 :style="{ color: '#FFFFFF' }"
                 class="ml-1"
+                @click="closeMemberAddModal()"
               />
             </v-row>
           </v-card-action>
@@ -221,6 +227,8 @@ import CloseableChip from "@/components/chip/CloseableChip.vue";
 import Editor from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import ButtonComponent from "@/components/button/ButtonComponent.vue";
+import axios from "axios";
+
 export default {
   components: {
     ButtonComponent,
@@ -228,12 +236,17 @@ export default {
   },
   data() {
     return {
+      headers: null,
+      accessToken: "",
       title: "",
       description: "",
       deadline: "",
       editor: null,
+      // 모집 정보 추가 모달
       recruitInfoDialogue: false,
-      // 모달 위한 변수
+      recruitField:"",
+      count:"",
+      // 멤버 추가 모달 위한 변수
       dialog: false,
       searchType: "optional",
       searchOptions: [
@@ -242,11 +255,10 @@ export default {
         { text: "닉네임", value: "nickname" },
       ],
       memberField: "",
-      recriutField: "",
       searchValue: "",
       memberList: [],
       selectedMembers: [],
-      currentPage: 2,
+      currentPage: 1,
     };
   },
   mounted() {
@@ -256,9 +268,34 @@ export default {
       initialEditType: "wysiwyg",
     });
   },
+  // created:{
+  //   getToken(){
+  //     this.accesstoken = localStorage.getItem("token");
+
+  //     this.headers = {
+  //       Authorization: `Bearer ${this.accessToken}`,
+  //       "Content-Type": "application/json", // JSON 형식의 데이터를 전송할 경우 Content-Type을 지정해야 합니다.
+  //     };
+  //   }
+  // },
   methods: {
+    // 모집 정보 추가
     recruitInfoConfirm() {
-      console.log("확인");
+      if (this.recruitField!="" && this.count!="") {
+        this.showRecruitInfoList.push({
+          recruitField: this.recruitField,
+          count: this.count,
+        });
+        this.recruitInfoDialogueClose();
+        this.recruitField="";
+        this.count="";
+      } else {
+        alert("필드와 인원 수를 모두 입력해주세요.");
+      }
+    },
+
+    removeRecruitInfo(index) {
+      this.showRecruitInfoList.splice(index, 1);
     },
     recruitInfoAdd() {
       this.recruitInfoDialogue = true;
@@ -266,6 +303,15 @@ export default {
     recruitInfoDialogueClose() {
       this.recruitInfoDialogue = false;
     },
+
+    // 멤버 추가
+    closeMemberAddModal(){
+      this.dialog=false;
+    },
+    clearMemberAdd(){
+
+    },
+     
     async searchMembers() {
       console.log("check");
       const params = {
@@ -282,18 +328,18 @@ export default {
       }
 
       try {
-        // const response = await axios.get(
-        //   `${process.env.VUE_APP_API_BASE_URL}/api/member/list`,
-        //   { params }
-        // );
-        const response = await fetch(
-          `${
-            process.env.VUE_APP_API_BASE_URL
-          }/api/member/list?${params.toString()}`,
-          {
-            method: "GET",
-          }
+        const response = await axios.get(
+          `${process.env.VUE_APP_API_BASE_URL}/api/member/list`,
+          { params }
         );
+        // const response = await fetch(
+        //   `${
+        //     process.env.VUE_APP_API_BASE_URL
+        //   }/api/member/list?${params.toString()}`,
+        //   {
+        //     method: "GET",
+        //   }
+        // );
 
         this.memberList = response.data.content;
         this.totalPages = response.data.totalPages;
@@ -319,13 +365,16 @@ export default {
     searchMemberShowModal() {
       this.dialog = true;
     },
+
+    // 전체 저장
+
     saveContent() {
       const content = this.editor.getMarkdown();
+      console.log("내용:", content);
 
       console.log("제목:", this.title);
       console.log("한줄 설명:", this.description);
       console.log("모집 기한:", this.deadline);
-      console.log("내용:", content);
 
       // 여기에 저장하는 코드
     },

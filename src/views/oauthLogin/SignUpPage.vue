@@ -88,7 +88,7 @@ export default {
         );
         console.log(response);
         alert("회원가입 완료. 로그인 후 이용해주세요")
-        window.location.href = '/login'
+        window.location.href = '/'
       } catch (error) {
         console.error(error.response);
         alert("올바르지 않은 입력입니다.")

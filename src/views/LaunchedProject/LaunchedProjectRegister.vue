@@ -75,8 +75,8 @@
   <script>
   // techData.js에서 jobFields와 techStacks를 가져옴
   import { jobFields, techStacks } from '@/data/techData';
-  import Editor from "@toast-ui/editor";
-  import "@toast-ui/editor/dist/toastui-editor.css";
+  // import Editor from "@toast-ui/editor";
+  // import "@toast-ui/editor/dist/toastui-editor.css";
   export default {
     data() {
       return {

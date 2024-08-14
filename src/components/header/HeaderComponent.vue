@@ -60,7 +60,7 @@
 
               <v-col cols="auto" md="auto" class="d-flex align-center justify-end text-no-wrap">
                 <!-- 원래 !isLogin임 api 붙이는 작업 이후 수정 예정 -->
-                <v-btn class="custom-button" v-if="!isLogin" href="/login">로그인</v-btn>
+                <v-btn class="custom-button" v-if="!isLogin" :href="KAKAO_AUTH_URI"><img src="@/assets/kakao_login_small.png" alt="카카오로그인"></v-btn>
               </v-col>
 
             </v-row>
@@ -75,6 +75,7 @@
             isLogin : false,
             nickname : 'devjeans', // 임시 닉네임. 이후에 빈값으로 두기
             profileImageUrl: '@/assets/default_profile_image.png',
+            KAKAO_AUTH_URI: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_REST_API_KEY}&redirect_uri=http://localhost:8082/oauth`,
         };
     },
     created(){ // 토큰때문에 테스트가 제대로 안되서 token 관련한 부분 주석처리 해놓음

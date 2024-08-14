@@ -66,11 +66,6 @@
         <v-row>
             <TechStackSelector />
         </v-row>
-        <v-row justify="center">
-            <v-col cols="1">
-                <ButtonComponent @click="save" content="저장"/>
-            </v-col>
-        </v-row>
     </v-container>
     <div class="foot-margin"></div>
 </template>
@@ -147,34 +142,6 @@ export default {
 
     },
     methods: {
-        addCareer() {
-            if (this.data.careers.length < 5) {
-                this.data.careers.push({
-                    company: '',
-                    position: '',
-                    employedStart: '',
-                    employedEnd: '',
-                    employedYn: false,
-                });
-            }
-        },
-        removeCareer(index) {
-            this.data.careers.splice(index, 1);
-        },
-        async save(){
-            if(this.data.jobField == ""){
-                alert("직무를 선택해주세요")
-                return
-            }
-            try{
-                const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/sider-card/update`,this.data)
-                alert("사이더카드 업데이트 완료")
-                console.log(response.data);
-            }catch(e){
-                console.log(e.response.data);
-            }
-            
-        },
         email(){
             this.emailTogle = !this.emailTogle
         }

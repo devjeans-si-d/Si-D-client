@@ -67,7 +67,7 @@
                     <h2>경력</h2>
                 </v-row>
                 <v-row v-for="(career, index) in data.careers" :key="index" class="my-4">
-                    <v-col>
+                    <v-col style="padding: 0px;">
                         <v-row class="email">
                             <v-text-field v-model="career.company" label="회사명" max-width="1200"></v-text-field>
                         </v-row>
@@ -79,12 +79,12 @@
                             <v-spacer></v-spacer>
                             <v-text-field placeholder="YYYY-MM" v-model="career.employedEnd" label="재직기간 종료일" max-width="1200"></v-text-field>
                         </v-row>
-                        <v-row justify="center" align-content="center">
-                            <v-col :style="{marginLeft: '20px'}">
-                                <v-checkbox v-model="career.employedYn" label="재직중"></v-checkbox>
+                        <v-row>
+                            <v-col style="margin-left: 30px;" class="row-1">
+                                <v-checkbox v-model="career.employedYn" label="재직중" ></v-checkbox>
                             </v-col>
-                            <v-col cols="2" justify-center align-center>
-                                <v-btn color="red" @click="removeCareer(index)">삭제</v-btn>
+                            <v-col cols="2" class="row-1">
+                                <v-btn style="margin-top: 10px;" color="red" @click="removeCareer(index)">삭제</v-btn>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -205,6 +205,10 @@ export default {
 </script>
 
 <style scoped>
+.row-1{
+    height: 50px;
+    padding: 0px;
+}
 .email {
     min-height: 50px;
     margin: 20px;

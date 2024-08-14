@@ -12,9 +12,9 @@
                 </v-row>
                 <v-row>
                     <v-sheet class="py-4 px-1">
-                        <v-chip-group selected-class="text-primary" mandatory>
+                        <v-chip-group v-model="data.jobField" selected-class="text-primary" mandatory>
                             <v-chip v-for="(job, index) in jobFields" :key="index" color="#094F08" size="large"
-                                filter>{{ job.name }}</v-chip>
+                                filter :value="job.value">{{ job.name }}</v-chip>
                         </v-chip-group>
                     </v-sheet>
                 </v-row>
@@ -27,7 +27,7 @@
                     <h2>자기소개</h2>
                 </v-row>
                 <v-row class="textarea">
-                    <v-textarea :model-value="data.introduction" :rules="rules" label="자기소개" counter variant="outlined"
+                    <v-textarea v-model="data.introduction" :rules="rules" label="자기소개" counter variant="outlined"
                         max-width="1200"></v-textarea>
                 </v-row>
             </v-col>
@@ -35,6 +35,9 @@
 
         <v-row class="line">
             <v-col>
+                <v-row>
+                    <h2>소셜정보</h2>
+                </v-row>
                 <v-row class="email">
                     <v-text-field v-model="data.socialLink.email" prepend-icon="mdi-email" label="개인 이메일 주소"
                         variant="solo-filled" max-width="1200"></v-text-field>
@@ -72,13 +75,15 @@
                             <v-text-field v-model="career.position" label="포지션" max-width="1200"></v-text-field>
                         </v-row>
                         <v-row class="email">
-                            <v-text-field v-model="data.socialLink.etc" label="재직기간" max-width="1200"></v-text-field>
+                            <v-text-field placeholder="YYYY-MM" v-model="career.employedStart" label="재직기간 시작일" max-width="1200"></v-text-field>
+                            <v-spacer></v-spacer>
+                            <v-text-field placeholder="YYYY-MM" v-model="career.employedEnd" label="재직기간 종료일" max-width="1200"></v-text-field>
                         </v-row>
-                        <v-row justify="space-between">
-                            <v-col>
+                        <v-row justify="center" align-content="center">
+                            <v-col :style="{marginLeft: '20px'}">
                                 <v-checkbox v-model="career.employedYn" label="재직중"></v-checkbox>
                             </v-col>
-                            <v-col cols="2">
+                            <v-col cols="2" justify-center align-center>
                                 <v-btn color="red" @click="removeCareer(index)">삭제</v-btn>
                             </v-col>
                         </v-row>
@@ -89,11 +94,9 @@
                 </v-row>
             </v-col>
         </v-row>
-        <v-row>
-            <v-col>
-                <div class="d-flex justify-center">
-                    <v-date-input v-model="date" label="Select range" max-width="1200" multiple="range"></v-date-input>
-                </div>
+        <v-row justify="center">
+            <v-col cols="1">
+                <ButtonComponent @click="save" content="저장"/>
             </v-col>
         </v-row>
     </v-container>
@@ -101,20 +104,21 @@
 </template>
 
 <script>
-import { VDateInput } from 'vuetify/labs/VDateInput'
+import ButtonComponent from '@/components/button/ButtonComponent.vue';
+import axios from 'axios';
 export default {
     components: {
-        VDateInput
+        ButtonComponent
     },
     data() {
         return {
+            dates: null,
             jobFields: [
-                { name: '프론트엔드', selected: false },
-                { name: '백엔드', selected: false },
-                { name: '안드로이드', selected: false },
-                { name: 'iOS', selected: false },
-                { name: '디자인', selected: false },
-                { name: 'PM', selected: false },
+                { name: '프론트엔드', value: 'FRONTEND' },
+                { name: '백엔드', value: 'BACKEND' },
+                { name: '앱', value: 'APP' },
+                { name: '디자인', value: 'DESIGNER' },
+                { name: 'PM', value: 'PM' },
             ],
             date: null,
             name: "푸바오",
@@ -134,10 +138,6 @@ export default {
                 careers: [],
                 teckStacks: [],
             },
-
-
-
-
         }
     },
     created() {
@@ -167,6 +167,15 @@ export default {
         removeCareer(index) {
             this.data.careers.splice(index, 1);
         },
+        async save(){
+            try{
+                const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/sider-card/update`,this.data)
+                console.log(response.data);
+            }catch(e){
+                console.log(e.response.data);
+            }
+            
+        }
     }
 }
 </script>

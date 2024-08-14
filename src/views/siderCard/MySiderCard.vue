@@ -112,7 +112,6 @@ export default {
     },
     data() {
         return {
-            dates: null,
             jobFields: [
                 { name: '프론트엔드', value: 'FRONTEND' },
                 { name: '백엔드', value: 'BACKEND' },

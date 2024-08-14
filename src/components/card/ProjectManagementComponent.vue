@@ -1,7 +1,7 @@
 <template>
     <v-container class="outer-box">
         <ProjectSidebar />
-      <v-card class="my-project-card" color="#F3F3F3">
+      <v-card class="my-project-card" variant="elevated">
           <v-text>
               <v-container>
                   <v-row v-for="project in projectList" :key="project.name" @click="spaMoveTo(project.id)">
@@ -78,7 +78,7 @@ export default{
 
 }
 </script>
-<style>
+<style scoped>
 .project-element {
   display: flex;
   justify-content: flex-start;
@@ -97,7 +97,7 @@ export default{
 .project-content {
   margin: 10px;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 .project-description {
@@ -108,7 +108,7 @@ export default{
 
 .chip-wrap {
   margin-top: 10px;
-  justify-self: end;
+  justify-self: flex-end;
 }
 
 .project-element:hover {
@@ -125,11 +125,13 @@ export default{
 
 .outer-box {
     display: flex;
+
 }
 
 .my-project-card {
-    width: 75%;
-    padding: 10%;
+    width: 100%;
+    margin-left: 20px;
+    background-color: #F6F6F6;
 }
 
 </style>

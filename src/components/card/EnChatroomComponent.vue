@@ -8,12 +8,12 @@
                     <div class="chatroom-outer" v-for="(chat, index) in chatList" :key="chat.id">
                         <div class="member-info-box">
                             <img v-if="index === 0 || chat.sender != chatList[index-1].sender" class="chat-part-image" :src="this.getMemberImage(chat.sender)" />
-                            <div v-else style="height: 43px; width: 43px;"></div>
+                            <div v-else style="width: 43px;"></div>
                         </div>
                         <div class="chat-block">
                             <div v-if="index === 0 || chat.sender != chatList[index-1].sender" class="member-name">{{this.getMemberName(chat.sender)}}</div>
-                            <div class="chat-content">
-                                {{chat.content}}
+                            <div>
+                                <span>{{chat.content}}</span>
                                 <span class="chat-createdTime">{{this.getTime(chat.createdAt)}}</span>
                             </div>
                             
@@ -24,16 +24,9 @@
                 </v-container>
             </v-text>
         </v-card>
-        <v-container>
-            <v-row>
-                <v-col cols="11">
-                    <v-text-field width="100%" v-model="chatMessage"></v-text-field>
-                </v-col>
-                <v-col cols="1">
-                    <ButtonComponent @click="sendMessage()" content="전송"/>
-                </v-col>
-         </v-row>
-
+        <v-container class="send-container">
+            <v-text-field width="400" class="chat-text-field" v-model="chatMessage"></v-text-field>
+            <ButtonComponent style="margin-left: 10px" @click="sendMessage()" content="전송"/>
         </v-container>
 
     </v-container>
@@ -191,6 +184,7 @@ export default {
 }
 
 .chat-part-image {
+    margin-top: 10px;
     width: 43px;
     height: 43px;
     min-width: 43px;
@@ -230,5 +224,16 @@ export default {
 .chatroom-container {
     width: 60%;
     margin: 0px !important;
+}
+
+.send-container {
+    margin: 20px;
+    width: 100%;
+    display: flex;
+}
+
+.chat-text-field {
+    width: 50%;
+    margin:0px !important;
 }
 </style>

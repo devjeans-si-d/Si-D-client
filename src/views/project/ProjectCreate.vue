@@ -60,7 +60,7 @@
 
     <!-- 모달 외부에서 showMemberList의 멤버들을 Chip으로 보여줌 -->
     <v-row class="mt-10 mb-10">
-      <v-chip v-for="(member, index) in showMemberList" :key="index" closable @click:close="removeMember(index)"
+      <v-chip v-for="(member, index) in showMemberList" :key="index" closable @click="removeMember(index)"
         class="ma-2">
         {{ member.name }} - {{ member.jobfield }}
       </v-chip>
@@ -308,10 +308,8 @@ export default {
       console.log(new Date());
       let response = await fetch(awsUrl.data + awsUrl.auth, options);
       console.log(response);
-      const imgsrc = `<img src=${awsUrl.data} height="60">`
 
-      // return awsUrl.data;
-      return imgsrc;
+      return awsUrl.data;
     },
     async fileUpdate(event) {
       this.projectImageFile = event.target.files[0];

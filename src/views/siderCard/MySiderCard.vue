@@ -171,8 +171,13 @@ export default {
             this.data.careers.splice(index, 1);
         },
         async save(){
+            if(this.data.jobField == ""){
+                alert("직무를 선택해주세요")
+                return
+            }
             try{
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/sider-card/update`,this.data)
+                alert("사이더카드 업데이트 완료")
                 console.log(response.data);
             }catch(e){
                 console.log(e.response.data);

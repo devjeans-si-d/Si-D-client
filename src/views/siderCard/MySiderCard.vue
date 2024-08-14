@@ -28,7 +28,7 @@
                 </v-row>
                 <v-row class="textarea">
                     <v-textarea v-model="data.introduction" :rules="rules" label="자기소개" counter variant="outlined"
-                        max-width="1200"></v-textarea>
+                        max-width="1200" ></v-textarea>
                 </v-row>
             </v-col>
         </v-row>

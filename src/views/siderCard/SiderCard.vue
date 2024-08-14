@@ -3,16 +3,16 @@
         <v-row justify="center" align="center" class="line">
             <v-col cols="2">
                 <v-avatar class="mx-auto" size="120">
-                    <img :src="info.image" alt="Profile Image" style="height:120px; width:auto;" />
+                    <img :src="data.image" alt="Profile Image" style="height:120px; width:auto;" />
                 </v-avatar>
             </v-col>
             <v-col>
                 <v-row>
-                    <h2>{{info.nickname}}</h2>
+                    <h2>{{data.nickname}}</h2>
                 </v-row>
                 <v-row>
                     <v-sheet class="py-4 px-1">
-                        <ButtonComponent :content="info.jobField"/>
+                        <ButtonComponent :content="data.jobField"/>
                     </v-sheet>
                 </v-row>
             </v-col>
@@ -23,12 +23,8 @@
                 <v-row>
                     <h2>자기소개</h2>
                 </v-row>
-                <v-row>
-                    <v-text-field v-model="info.introduction"></v-text-field>
-                </v-row>
-                <v-row class="textarea">
-                    <v-textarea v-model="data.introduction" :rules="rules" label="자기소개" counter variant="outlined"
-                        max-width="1200"></v-textarea>
+                <v-row class="introduction">
+                    <v-textarea v-model="data.introduction" readonly></v-textarea>
                 </v-row>
             </v-col>
         </v-row>
@@ -38,25 +34,13 @@
                 <v-row>
                     <h2>소셜정보</h2>
                 </v-row>
-                <v-row class="email">
-                    <v-text-field v-model="data.socialLink.email" prepend-icon="mdi-email" label="개인 이메일 주소"
-                        variant="solo-filled" max-width="1200"></v-text-field>
-                </v-row>
-                <v-row class="email">
-                    <v-text-field v-model="data.socialLink.github" prepend-icon="mdi-github" label="깃허브 주소"
-                        variant="solo-filled" max-width="1200"></v-text-field>
-                </v-row>
-                <v-row class="email">
-                    <v-text-field v-model="data.socialLink.behance" prepend-icon="mdi-beta" label="비핸스 주소"
-                        variant="solo-filled" max-width="1200"></v-text-field>
-                </v-row>
-                <v-row class="email">
-                    <v-text-field v-model="data.socialLink.linkedin" prepend-icon="mdi-linkedin" label="링크드인 주소"
-                        variant="solo-filled" max-width="1200"></v-text-field>
-                </v-row>
-                <v-row class="email">
-                    <v-text-field v-model="data.socialLink.etc" prepend-icon="mdi-home" label="개인 블로그 주소"
-                        variant="solo-filled" max-width="1200"></v-text-field>
+                <v-row>
+                    <v-btn v-if="data.socialLink.email" variant="text" @click="email"><img src="@/assets/email.png" alt="이메일" style="height:30px; width:35px;"></v-btn>
+                    <h3 v-if="emailTogle">{{data.socialLink.email}}</h3>
+                    <a v-if="data.socialLink.github" :href="data.socialLink.github" class="social"><img src="@/assets/github.png" alt="이메일" style="height:30px; width:auto;"></a>
+                    <a v-if="data.socialLink.behance" :href="data.socialLink.behance" class="social"><img src="@/assets/behance.png" alt="이메일" style="height:30px; width:auto;"></a>
+                    <a v-if="data.socialLink.linkedin" :href="data.socialLink.linkedin" class="social"><img src="@/assets/linkedIn.png" alt="이메일" style="height:30px; width:auto;"></a>
+                    <a v-if="data.socialLink.etc" :href="data.socialLink.etc" class="social"><img src="@/assets/home.png" alt="이메일" style="height:30px; width:auto;"></a>
                 </v-row>
             </v-col>
         </v-row>
@@ -66,31 +50,16 @@
                 <v-row>
                     <h2>경력</h2>
                 </v-row>
-                <v-row v-for="(career, index) in data.careers" :key="index" class="my-4">
-                    <v-col>
-                        <v-row class="email">
-                            <v-text-field v-model="career.company" label="회사명" max-width="1200"></v-text-field>
-                        </v-row>
-                        <v-row class="email">
-                            <v-text-field v-model="career.position" label="포지션" max-width="1200"></v-text-field>
-                        </v-row>
-                        <v-row class="email">
-                            <v-text-field placeholder="YYYY-MM" v-model="career.employedStart" label="재직기간 시작일" max-width="1200"></v-text-field>
-                            <v-spacer></v-spacer>
-                            <v-text-field placeholder="YYYY-MM" v-model="career.employedEnd" label="재직기간 종료일" max-width="1200"></v-text-field>
-                        </v-row>
-                        <v-row justify="center" align-content="center">
-                            <v-col :style="{marginLeft: '20px'}">
-                                <v-checkbox v-model="career.employedYn" label="재직중"></v-checkbox>
-                            </v-col>
-                            <v-col cols="2" justify-center align-center>
-                                <v-btn color="red" @click="removeCareer(index)">삭제</v-btn>
-                            </v-col>
-                        </v-row>
-                    </v-col>
-                </v-row>
-                <v-row justify="end">
-                    <v-btn :disabled="data.careers.length >= 5" @click="addCareer">+ 경력 추가하기</v-btn>
+                <v-row>
+                    <div v-for="(career, index) in data.careers" :key="index" class="my-4 career">
+                        <h2>{{career.company}}</h2>
+                        <p>{{career.position}}</p>
+                        <div style="display: flex; flex-direction: row;">
+                            <p>{{career.employedStart}} ~</p>
+                            <p>&nbsp;{{career.employedEnd}}</p>
+                        </div>
+                        
+                    </div>
                 </v-row>
             </v-col>
         </v-row>
@@ -122,6 +91,7 @@ export default {
     },
     data() {
         return {
+            emailTogle: false,
             jobFields: [
                 { name: '프론트엔드', value: 'FRONTEND' },
                 { name: '백엔드', value: 'BACKEND' },
@@ -132,7 +102,6 @@ export default {
             date: null,
             name: "푸바오",
             rules: [v => v.length <= 3000 || 'Max 3000 characters'],
-            info: {},
             data: {
                 id:"",
                 nickname:"",
@@ -154,9 +123,16 @@ export default {
     async created() {
         try {
             const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/sider-card/${this.id}`)
-            this.info = response.data.result
-            console.log(this.info.image);
-
+            const data = response.data.result
+            this.data.id = data.id
+            this.data.nickname = data.nickname
+            this.data.jobField = data.jobField
+            this.data.image = data.image
+            this.data.introduction = data.introduction
+            this.data.socialLink = data.socialLinkRes
+            this.data.careers = data.careerRes
+            this.data.teckStacks = data.teckStackRes
+            console.log(response.data.result);
         } catch (e) {
             console.log(e.response.data);
         }
@@ -198,12 +174,26 @@ export default {
                 console.log(e.response.data);
             }
             
+        },
+        email(){
+            this.emailTogle = !this.emailTogle
         }
     }
 }
 </script>
 
 <style scoped>
+.career{
+    margin: 10px;
+}
+.social{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.introduction{
+    min-height: 50px;
+    padding-bottom: 150px;
+}
 .email {
     min-height: 50px;
     margin: 20px;

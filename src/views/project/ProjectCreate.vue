@@ -1,30 +1,49 @@
 <template>
   <v-container max-width="1200px">
+
+    <v-spacer :style="{height: '20px'}"></v-spacer>
+
+    <h2 style="text-align:center; color:#094F08;">프로젝트 모집글 작성</h2>
+
+    <v-spacer :style="{height: '20px'}"></v-spacer>
+
     <v-row class="mt-10 mb-10">
-      <label for="title" class="ma-auto">제목</label>
-      <v-text-field type="text" id="title" v-model="title" variant="outlined" rounded="xs"></v-text-field>
+      <v-text-field label="제목" type="text" id="title" v-model="title" variant="underlined" rounded="xs"></v-text-field>
     </v-row>
+
     <v-row class="mt-10 mb-10">
-      <label for="imageUrl">프로젝트 이미지</label>
-      <v-file-input label="프로젝트 이미지" accept="image/" @change="fileUpdate" variant="outlined"
-        rounded="xs"></v-file-input>
+      <v-file-input label="프로젝트 이미지" accept="image/" @change="fileUpdate" variant="underlined"
+        rounded="xs">
+      </v-file-input>
     </v-row>
+
     <v-row class="mt-10 mb-10">
-      <label for="description">한줄 설명:</label>
-      <v-text-field type="text" id="description" v-model="description" variant="outlined" rounded="xs"></v-text-field>
+      <v-text-field label="한줄 설명" type="text" id="description" v-model="description" variant="underlined" rounded="xs"></v-text-field>
     </v-row>
+
+    <v-spacer :style="{height: '20px'}"></v-spacer>
+
+    <!-- 모집 기한 -->
     <v-row class="mt-10 mb-10">
-      <label for="deadline">모집 기한:</label>
+      <h3> 모집 기한 </h3>
+    </v-row>
+
+    <v-row>
       <input type="date" id="deadline" v-model="deadline" />
     </v-row>
+
+    <v-spacer :style="{height: '20px'}"></v-spacer>
+
     <!-- 모집 정보 추가 -->
-    <v-row class="mt-10 mb-10">
-      <label for="">모집 정보</label>
+    <v-row class="mt-10 align-center justify-start">
       <!-- 추가 버튼 -->
+      <h3 style="margin-right: 20px;"> 모집 정보 </h3>
       <ButtonComponent content="추가" class="mr-3" @click="recruitInfoAdd()" />
     </v-row>
+
+
     <!-- 모집 정보 리스트 표시 -->
-    <v-row class="mt-10 mb-10">
+    <v-row class="mt-10 mb-10 d-flex align-center justify-start">
       <v-chip v-for="(info, index) in showRecruitInfoList" :key="index" class="ma-2" closable
         @click="removeRecruitInfo(index)">
         {{ info.recruitField }} - {{ info.count }}명
@@ -34,14 +53,14 @@
     <!-- 멤버 추가  -->
 
     <!-- 멤버 추가 버튼 및 모달 -->
-    <v-row class="mt-10 mb-10">
-      <label for="">멤버 추가</label>
+    <v-row class="mt-10 align-center justify-start">
+      <h3 style="margin-right: 20px;"> 멤버 추가 </h3>
       <ButtonComponent content="검색" @click="searchMemberShowModal()" />
     </v-row>
 
     <!-- 모달 외부에서 showMemberList의 멤버들을 Chip으로 보여줌 -->
-    <v-row class="mb-10">
-      <v-chip v-for="(member, index) in showMemberList" :key="index" closable @click="removeMember(index)"
+    <v-row class="mt-10 mb-10">
+      <v-chip v-for="(member, index) in showMemberList" :key="index" closable @click:close="removeMember(index)"
         class="ma-2">
         {{ member.name }} - {{ member.jobfield }}
       </v-chip>
@@ -51,9 +70,14 @@
       <div id="editor"></div>
     </v-row>
 
-    <v-row justify="center">
-      <ButtonComponent content="확인" @click="saveContent()" class="mr-1" />
-      <ButtonComponent content="취소" color="#808080" :style="{ color: '#FFFFFF' }" @click="reloadPage()" class="ml-1" />
+    <v-row justify="center" class="mt-15 ">
+      
+      <v-col cols="auto">
+        <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF'}" @click="reloadPage()" class="ml-1" />
+      </v-col>
+      <v-col cols="auto">
+        <ButtonComponent content="확인" @click="saveContent()" class="mr-1" />
+      </v-col>
     </v-row>
 
     <!-- member add 모달창을 위한 v-dialog -->
@@ -63,6 +87,9 @@
         <v-divider class="mb-4"></v-divider>
         <v-card-text>
           <v-container class="pa-4">
+            <v-row class="mt-3 mb-3 ml-9">
+              <h3> 직무 </h3>
+            </v-row>
             <v-row class="mb-10">
               <v-select v-model="memberField" clearable label="Field" density="compact"
                 :items="['DESIGNER', 'FRONTEND', 'BACKEND', 'APP', 'PM']" variant="outlined"
@@ -71,7 +98,11 @@
 
             <v-row class="mt-10">
               <v-form @submit.prevent="searchMembersList()">
-                <v-row class="mt-10 mb-10">
+                <v-row class="mt-3 mb-3 ml-10">
+                  <h3> 검색조건 </h3>
+                </v-row>
+                <!-- api 붙이면 풀 것 -->
+                <v-row class="mt-3 mb-10">
                           <v-select
                             v-model="searchType"
                             :items="searchOptions"
@@ -84,13 +115,16 @@
                           </v-select>
                         </v-row>
                         <br />
-      
-                        <v-row class="mb-10 mt-10">
+                        <v-row class="mt-3 mb-3 ml-10">
+                          <h3> 검색어 </h3>
+                        </v-row>
+                        <v-row class="mb-10">
                           <v-text-field
                             v-model="searchValue"
                             label="Search"
                             variant="outlined"
                             class="ml-10 mr-10"
+                            density="compact"
                           ></v-text-field>
                         </v-row>
                         <br />
@@ -131,11 +165,11 @@
         </v-card-text>
         <v-card-actions>
           <v-row justify="center">
+            <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF'}" @click="reloadPage()" class="ml-1" />
             <ButtonComponent content="확인" @click="confirmMemberSelection" />
-            <ButtonComponent content="취소" color="#808080" :style="{ color: '#FFFFFF' }"
-              @click="closeMemberAddDialog()" />
           </v-row>
         </v-card-actions>
+        <v-spacer :style="{height: '20px'}"></v-spacer>
       </v-card>
     </v-dialog>
 
@@ -144,23 +178,22 @@
       <v-card class="modal-card">
         <v-card-title class="modal-title">모집 정보 추가</v-card-title>
         <v-divider class="mb-4"></v-divider>
-        <!-- 필드 -->
+        <!-- 직무 선택 -->
         <v-card-text>
           <v-row class="mb-10 ml-10">
-            <label>필드</label>
+            <h3 style="margin-right: 20px;"> 직무 </h3>
             <v-select v-model="recruitField" clearable label="Field" density="compact"
               :items="['DESIGNER', 'FRONTEND', 'BACKEND', 'APP', 'PM']" variant="outlined" class="mr-10"></v-select>
           </v-row>
           <v-row class="ma-10">
-            <label>인원 수</label>
+            <h3 style="margin-right: 20px;"> 인원 수 </h3>
             <v-text-field v-model="count" type="number" rounded="xs" variant="outlined"></v-text-field>
           </v-row>
         </v-card-text>
         <v-card-actions>
           <v-row justify="center">
+            <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF'}" @click="reloadPage()" class="ml-1" />
             <ButtonComponent content="확인" @click="recruitInfoConfirm()" />
-            <ButtonComponent content="취소" color="#808080" :style="{ color: '#FFFFFF' }"
-              @click="recruitInfoDialogueClose()" />
           </v-row>
         </v-card-actions>
       </v-card>
@@ -223,6 +256,8 @@ export default {
         },
       },
     });
+    // 추가: editor의 width를 1200px로 조정
+    document.querySelector("#editor").style.width = "1200px";
   },
   methods: {
 
@@ -252,9 +287,9 @@ export default {
       let getUrlResult;
       if (urlContentType && urlContentType.includes("application/json")) {
         getUrlResult = await getUrl.json(); // JSON으로 파싱
+        console.log("json"+JSON.stringify(getUrlResult))
       } else {
         getUrlResult = await getUrl.text(); // 텍스트로 파싱
-        console.log("geturl체크체크"+getUrlResult)
       }
 
       const awsUrl = {

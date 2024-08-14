@@ -8,7 +8,7 @@
             </v-col>
             <v-col>
                 <v-row>
-                    <h2>푸바오</h2>
+                    <h2>{{data.nickname}}</h2>
                 </v-row>
                 <v-row>
                     <v-sheet class="py-4 px-1">
@@ -28,7 +28,7 @@
                 </v-row>
                 <v-row class="textarea">
                     <v-textarea v-model="data.introduction" :rules="rules" label="자기소개" counter variant="outlined"
-                        max-width="1200"></v-textarea>
+                        max-width="1200" ></v-textarea>
                 </v-row>
             </v-col>
         </v-row>
@@ -67,7 +67,7 @@
                     <h2>경력</h2>
                 </v-row>
                 <v-row v-for="(career, index) in data.careers" :key="index" class="my-4">
-                    <v-col>
+                    <v-col style="padding: 0px;">
                         <v-row class="email">
                             <v-text-field v-model="career.company" label="회사명" max-width="1200"></v-text-field>
                         </v-row>
@@ -79,12 +79,12 @@
                             <v-spacer></v-spacer>
                             <v-text-field placeholder="YYYY-MM" v-model="career.employedEnd" label="재직기간 종료일" max-width="1200"></v-text-field>
                         </v-row>
-                        <v-row justify="center" align-content="center">
-                            <v-col :style="{marginLeft: '20px'}">
-                                <v-checkbox v-model="career.employedYn" label="재직중"></v-checkbox>
+                        <v-row>
+                            <v-col style="margin-left: 30px;" class="row-1">
+                                <v-checkbox v-model="career.employedYn" label="재직중" ></v-checkbox>
                             </v-col>
-                            <v-col cols="2" justify-center align-center>
-                                <v-btn color="red" @click="removeCareer(index)">삭제</v-btn>
+                            <v-col cols="2" class="row-1">
+                                <v-btn style="margin-top: 10px;" color="red" @click="removeCareer(index)">삭제</v-btn>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -93,6 +93,9 @@
                     <v-btn :disabled="data.careers.length >= 5" @click="addCareer">+ 경력 추가하기</v-btn>
                 </v-row>
             </v-col>
+        </v-row>
+        <v-row>
+            <TechStackSelector />
         </v-row>
         <v-row justify="center">
             <v-col cols="1">
@@ -105,14 +108,14 @@
 
 <script>
 import ButtonComponent from '@/components/button/ButtonComponent.vue';
+import TechStackSelector from '@/components/modal/TechStackSelector.vue';
 import axios from 'axios';
 export default {
     components: {
-        ButtonComponent
+        ButtonComponent, TechStackSelector
     },
     data() {
         return {
-            dates: null,
             jobFields: [
                 { name: '프론트엔드', value: 'FRONTEND' },
                 { name: '백엔드', value: 'BACKEND' },
@@ -125,6 +128,8 @@ export default {
             rules: [v => v.length <= 3000 || 'Max 3000 characters'],
 
             data: {
+                id:"",
+                nickname:"",
                 image: 'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png',
                 jobField: "",
                 introduction: "",
@@ -140,8 +145,22 @@ export default {
             },
         }
     },
-    created() {
-
+    async created() {
+        try {
+            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/sider-card`)
+            const data = response.data.result
+            this.data.id = data.id
+            this.data.nickname = data.nickname
+            this.data.jobField = data.jobField
+            this.data.image = data.image
+            this.data.introduction = data.introduction
+            this.data.socialLink = data.socialLinkRes
+            this.data.careers = data.careerRes
+            this.data.teckStacks = data.teckStackRes
+            console.log(response.data.result);
+        } catch (e) {
+            console.log(e.response.data);
+        }
     },
     watch: {
 
@@ -168,8 +187,13 @@ export default {
             this.data.careers.splice(index, 1);
         },
         async save(){
+            if(this.data.jobField == ""){
+                alert("직무를 선택해주세요")
+                return
+            }
             try{
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/sider-card/update`,this.data)
+                alert("사이더카드 업데이트 완료")
                 console.log(response.data);
             }catch(e){
                 console.log(e.response.data);
@@ -181,6 +205,10 @@ export default {
 </script>
 
 <style scoped>
+.row-1{
+    height: 50px;
+    padding: 0px;
+}
 .email {
     min-height: 50px;
     margin: 20px;

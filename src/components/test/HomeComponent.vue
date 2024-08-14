@@ -26,18 +26,18 @@
         <AvatarChip url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/glasses_mandoo.jpg" name="수상한안경만두"/>
       </v-col>
     </v-row>
-    
+
     <v-row>
       <v-col>기술 스택 칩(closeable)</v-col>
       <v-col class="d-flex justify-start" cols="1.5">
-        <CloseableChip title="Spring" color="be_blue"/>
+        <CloseableChip title="Spring" color="be_blue" />
       </v-col>
       <v-col class="d-flex justify-start" cols="1.5">
-        <CloseableChip title="React" color="fe_yellow"/>
+        <CloseableChip title="React" color="fe_yellow" />
       </v-col>
       <v-col>기술 스택 칩(basic)</v-col>
       <v-col class="d-flex justify-start" cols="1.5">
-        <BasicChip title="Figma" color="de_purple"/>
+        <BasicChip title="Figma" color="de_purple" />
       </v-col>
       <v-col class="d-flex justify-start" cols="1.5">
         <BasicChip title="Swift" color="app_red"/>
@@ -62,7 +62,6 @@
       </v-chip-group>
     </v-row>
   </v-container>
-
 </template>
 
 <script>
@@ -73,9 +72,10 @@ import ButtonComponent from '../button/ButtonComponent.vue';
 import IconChip from '../chip/IconChip.vue';
 import FilterStackChip from '../chip/FilterStackChip.vue';
 export default {
-  data(){
-
+  data() {
+    return{};
   },
+
   components: {
     CloseableChip,
     BasicChip,
@@ -84,11 +84,11 @@ export default {
     IconChip,
     FilterStackChip
   },
-  methods:{
-      test(){
-        alert("test")
-      }
-    }
-}
+  methods: {
+    test() {
+      alert("test");
+    },
+    
+  },
+};
 </script>
-

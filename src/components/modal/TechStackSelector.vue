@@ -2,8 +2,11 @@
   <v-container>
     <!-- 모달을 여는 버튼 -->
     <v-row>
-      <v-col cols="12">
+      <v-col cols="auto">
         <v-btn color="#A4DEC6" @click="showModal = true">기술 스택 선택하기</v-btn>
+      </v-col>
+      <v-col cols="auto">
+        <v-btn color="#FFAFAF" @click="resetFinalIds">전체 초기화</v-btn>
       </v-col>
     </v-row>
 
@@ -31,11 +34,11 @@
       </v-col>
     </v-row>
 
-    <v-row>
+    <!-- <v-row>
       <v-col>
         <v-btn color="#FFAFAF" @click="resetFinalIds">전체 초기화</v-btn>
       </v-col>
-    </v-row>
+    </v-row> -->
 
     <!-- 모달 창 -->
     <v-dialog v-model="showModal" max-width="600px">

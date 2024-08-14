@@ -3,12 +3,27 @@
     <h4 style="text-align:center; color:#094F08;">Launched Project</h4>
     <h2 style="text-align:center; color:#094F08;">{{ project.projectName }}</h2>
 
-    <v-text-field>
+    <v-row class="mt-10 mb-10" >
+      <!-- <label for="siteUrl" class="ma-auto">site url</label> -->
+      <v-text-field
+        type="text"
+        id="siteUrl"
+        label="site url"
+        placeholder="https://www.si-d.com"
+        v-model="siteUrl"
+        variant="underlined"
+        rounded="xs"
+      ></v-text-field>
+    </v-row>
 
-
-    </v-text-field>
     <v-spacer :style="{height: '50px'}"></v-spacer>
-    <tech-stack-selector />
+
+    <v-row>
+      <tech-stack-selector />
+    </v-row>
+    
+
+
   </v-container>
 </template>
 
@@ -23,6 +38,7 @@ export default {
     return {
       project: {
         projectName: '안경만두의 수상한 프로젝트'
+
         // projectId, launchedProjectContents, siteUrl, members, techStackList, imageUrl
       }
     };

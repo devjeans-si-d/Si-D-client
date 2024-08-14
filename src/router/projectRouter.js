@@ -1,6 +1,6 @@
 
 import editorComponent from "@/components/editor/editorComponent.vue"
-import projectCreate from "@/views/project/projectCreate.vue"
+import projectCreate from "@/views/project/ProjectCreate.vue"
 export const projectRouter = [
     {
         path: '/editorComponent',

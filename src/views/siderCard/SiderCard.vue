@@ -3,19 +3,16 @@
         <v-row justify="center" align="center" class="line">
             <v-col cols="2">
                 <v-avatar class="mx-auto" size="120">
-                    <img :src="data.image" alt="Profile Image" style="height:120px; width:auto;" />
+                    <img :src="info.image" alt="Profile Image" style="height:120px; width:auto;" />
                 </v-avatar>
             </v-col>
             <v-col>
                 <v-row>
-                    <h2>{{data.nickname}}</h2>
+                    <h2>{{info.nickname}}</h2>
                 </v-row>
                 <v-row>
                     <v-sheet class="py-4 px-1">
-                        <v-chip-group v-model="data.jobField" selected-class="text-primary" mandatory>
-                            <v-chip v-for="(job, index) in jobFields" :key="index" color="#094F08" size="large"
-                                filter :value="job.value">{{ job.name }}</v-chip>
-                        </v-chip-group>
+                        <ButtonComponent :content="info.jobField"/>
                     </v-sheet>
                 </v-row>
             </v-col>
@@ -25,6 +22,9 @@
             <v-col>
                 <v-row>
                     <h2>자기소개</h2>
+                </v-row>
+                <v-row>
+                    <v-text-field v-model="info.introduction"></v-text-field>
                 </v-row>
                 <v-row class="textarea">
                     <v-textarea v-model="data.introduction" :rules="rules" label="자기소개" counter variant="outlined"
@@ -111,6 +111,12 @@ import ButtonComponent from '@/components/button/ButtonComponent.vue';
 import TechStackSelector from '@/components/modal/TechStackSelector.vue';
 import axios from 'axios';
 export default {
+    props: {
+    id: {
+      type: String,
+      required: true
+    }
+  },
     components: {
         ButtonComponent, TechStackSelector
     },
@@ -126,7 +132,7 @@ export default {
             date: null,
             name: "푸바오",
             rules: [v => v.length <= 3000 || 'Max 3000 characters'],
-
+            info: {},
             data: {
                 id:"",
                 nickname:"",
@@ -147,17 +153,10 @@ export default {
     },
     async created() {
         try {
-            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/sider-card`)
-            const data = response.data.result
-            this.data.id = data.id
-            this.data.nickname = data.nickname
-            this.data.jobField = data.jobField
-            this.data.image = data.image
-            this.data.introduction = data.introduction
-            this.data.socialLink = data.socialLinkRes
-            this.data.careers = data.careerRes
-            this.data.teckStacks = data.teckStackRes
-            console.log(response.data.result);
+            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/sider-card/${this.id}`)
+            this.info = response.data.result
+            console.log(this.info.image);
+
         } catch (e) {
             console.log(e.response.data);
         }

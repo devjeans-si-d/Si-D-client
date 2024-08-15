@@ -8,7 +8,7 @@ export const LaunchedProjectRouter = [
         component: LaunchedProjectList
     },
     {
-        path:'/launched-project/register',
+        path:'/launched-project/register/:projectId',
         name: 'LaunchedProjectRegister',
         component: LaunchedProjectRegister
     }

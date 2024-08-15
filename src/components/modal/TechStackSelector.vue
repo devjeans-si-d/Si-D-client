@@ -1,6 +1,45 @@
 <template>
-    <!-- 모달을 여는 버튼 -->
-    <v-row>
+  <v-row class="mt-10 align-center justify-start">
+    <h3 style="margin-right: 20px;"> 기술선택 추가 </h3>
+    <ButtonComponent content="검색" @click="showModal = true" class="mt-5"/>
+    <ButtonComponent content="전체 초기화" @click="resetFinalIds()" class="mt-5 ml-4" :style="{ color: '#650101', backgroundColor: '#FFAFAF'}"/>
+  </v-row>
+
+  <v-row class="mt-10 mb-10">
+    <v-col cols="12" class="mt-10 mb-10">
+      <!-- <h3>사용한 기술 스택</h3> -->
+      <!-- 직무별로 기술 스택을 표시 -->
+      <div v-for="(techs, jobField) in finalSelectedTechStacks" :key="jobField">
+        <!-- 직무 이름 -->
+        <div :style="{ fontWeight: 'bold', marginTop: '10px', marginBottom: '5px', color: jobFieldColors[jobField] }">
+          {{ jobField }}
+        </div>
+        <!-- 기술 스택들 -->
+        <v-chip-group column>
+          <v-chip
+            v-for="tech in techs"
+            :key="tech.id"
+            :style="{ backgroundColor: jobFieldColors[jobField], color: '#fff' }"
+          >
+            {{ tech.name }}
+          </v-chip>
+        </v-chip-group>
+      </div>
+    </v-col>
+  </v-row>
+  <!-- <v-row class="mt-10 mb-10">
+    <v-chip v-for="(member, index) in showMemberList" :key="member.memberId" closable
+      @click:close="removeMember(index)" class="ma-2">
+      {{ member.memberName }} - {{ member.jobField }}
+    </v-chip>
+  </v-row>   -->
+  
+  
+  
+  
+  
+  <!-- 모달을 여는 버튼 -->
+    <v-row  class="mt-10 align-center justify-start">
       <v-col cols="auto">
         <v-btn color="#A4DEC6" @click="showModal = true">기술 스택 선택하기</v-btn>
       </v-col>
@@ -10,9 +49,10 @@
     </v-row>
 
     <!-- 최종 선택된 기술 스택을 직무별로 표시 -->
-    <v-row v-if="Object.keys(finalSelectedTechStacks).length > 0">
-      <v-col cols="12">
-        <h3>사용한 기술 스택</h3>
+    <!-- <v-row v-if="Object.keys(finalSelectedTechStacks).length > 0"> -->
+      <v-row>
+      <v-col cols="12" class="mt-10 mb-10">
+        <!-- <h3>사용한 기술 스택</h3> -->
         <!-- 직무별로 기술 스택을 표시 -->
         <div v-for="(techs, jobField) in finalSelectedTechStacks" :key="jobField">
           <!-- 직무 이름 -->
@@ -87,8 +127,18 @@
 <script>
 // techData.js에서 jobFields와 techStacks를 가져옴
 import { jobFields, techStacks } from '@/data/techData';
+import ButtonComponent from '../button/ButtonComponent.vue';
 
 export default {
+  components:{
+    ButtonComponent
+  },
+  props: {
+    techStackList: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
     return {
       showModal: false,
@@ -135,12 +185,12 @@ export default {
       this.showModal = false;
 
       // ID 리스트를 생성하여 콘솔에 출력 (백엔드 전송을 위한 데이터)
-      this.finalIds = Object.values(this.selectedTechStacks)
+      const finalIds = this.finalIds = Object.values(this.selectedTechStacks)
         .flat()
         .map(tech => tech.id);
 
       console.log('Selected IDs:', this.finalIds);
-
+      this.$emit('update:techStackList', finalIds);
       // 실제 백엔드로 전송하는 코드 (예시)
       // axios.post('/api/techstacks', this.finalIds)
       //   .then(response => console.log('Data sent successfully'))
@@ -163,6 +213,7 @@ export default {
       }
 
       console.log('finalIds 초기화:', this.finalIds);
+      this.$emit('update:techStackList', []);
     },
   },
 };

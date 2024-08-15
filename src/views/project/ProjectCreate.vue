@@ -44,8 +44,8 @@
 
     <!-- 모집 정보 리스트 표시 -->
     <v-row class="mt-10 mb-10 d-flex align-center justify-start">
-      <v-chip v-for="(info, index) in showRecruitInfoList" :key="index" class="ma-2" closable
-        @click="removeRecruitInfo(index)">
+      <v-chip v-for="(info, index) in showRecruitInfoList" :key="info.recruitField" class="ma-2" closable
+        @click:close="removeRecruitInfo(index)">
         {{ info.recruitField }} - {{ info.count }}명
       </v-chip>
     </v-row>
@@ -60,7 +60,7 @@
 
     <!-- 모달 외부에서 showMemberList의 멤버들을 Chip으로 보여줌 -->
     <v-row class="mt-10 mb-10">
-      <v-chip v-for="(member, index) in showMemberList" :key="index" closable @click="removeMember(index)"
+      <v-chip v-for="(member, index) in showMemberList" :key="member.memberId" closable @click:close="removeMember(index)"
         class="ma-2">
         {{ member.name }} - {{ member.jobfield }}
       </v-chip>
@@ -165,8 +165,8 @@
         </v-card-text>
         <v-card-actions>
           <v-row justify="center">
-            <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF'}" @click="reloadPage()" class="ml-1" />
-            <ButtonComponent content="확인" @click="confirmMemberSelection" />
+            <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF'}" @click="closeMemberAddDialog()" class="ml-1" />
+            <ButtonComponent content="확인" @click="confirmMemberSelection()" />
           </v-row>
         </v-card-actions>
         <v-spacer :style="{height: '20px'}"></v-spacer>
@@ -192,7 +192,7 @@
         </v-card-text>
         <v-card-actions>
           <v-row justify="center">
-            <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF'}" @click="reloadPage()" class="ml-1" />
+            <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF'}" @click="recruitInfoDialogueClose()" class="ml-1" />
             <ButtonComponent content="확인" @click="recruitInfoConfirm()" />
           </v-row>
         </v-card-actions>
@@ -341,7 +341,11 @@ export default {
     },
     // recruit remove
     removeRecruitInfo(index) {
+      console.log("이전"+this.showRecruitInfoList)
+      console.log("index"+index)
+      console.log(this.showRecruitInfoList[index])
       this.showRecruitInfoList.splice(index, 1);
+      console.log("왜 안 지워져"+this.showRecruitInfoList)
     },
     // recruit clear
     recruitInfoClear() {
@@ -359,7 +363,6 @@ export default {
       this.clearMemberAddModal();
     },
     async searchMembersList() {
-      console.log("come search");
       const params = {};
       if (this.searchType === "name") {
         params.name = this.searchValue;
@@ -407,15 +410,14 @@ export default {
       this.clearMemberAddModal();
     },
     removeMember(index) {
-      console.log("index"+index)
       this.showMemberList.splice(index, 1); // showMemberList에서 해당 멤버 제거
-      console.log(this.showMemberList);
     },
     async saveContent() {
       const deadlineTime = dayjs().format('HH:mm:ss');
       // const content = this.editor.getMarkdown();
 
       let projectMembers = [];
+      console.log("SAVE showmemberlist 확인"+this.showMemberList)
       this.showMemberList.forEach((member) => {
         let dataMember = {
           memberId: member.memberId,
@@ -426,6 +428,7 @@ export default {
       });
 
       let recruitInfos = [];
+      console.log("SAVE showrecruitlist 확인"+this.showRecruitInfoList)
       this.showRecruitInfoList.forEach((info) => {
         let dataInfo = {
           jobField: info.recruitField,

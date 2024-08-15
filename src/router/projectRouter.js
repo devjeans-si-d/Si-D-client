@@ -1,6 +1,7 @@
 
 import editorComponent from "@/components/editor/editorComponent.vue"
 import projectCreate from "@/views/project/ProjectCreate.vue"
+import ProjectEdit from "@/views/project/ProjectEdit.vue"
 import ProjectList from "@/views/project/ProjectList.vue"
 export const projectRouter = [
     {
@@ -17,6 +18,11 @@ export const projectRouter = [
         path: '/project-list',
         name: 'ProjectList',
         component: ProjectList
+    },
+    {
+        path: '/project-edit/:projectId',
+        name: 'ProjectEdit',
+        component: ProjectEdit
     },
 
 ]

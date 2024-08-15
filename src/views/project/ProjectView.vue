@@ -3,25 +3,24 @@
 
     <v-spacer :style="{height: '20px'}"></v-spacer>
 
-    <h2 style="text-align:center; color:#094F08;">프로젝트 모집글 수정</h2>
+    <h2 style="text-align:center; color:#094F08;">프로젝트 모집글</h2>
 
     <v-spacer :style="{height: '20px'}"></v-spacer>
 
     <v-row class="mt-10 mb-10">
-      <v-text-field label="제목" type="text" id="title" v-model="title" variant="underlined" rounded="xs"></v-text-field>
+      <v-text-field label="제목" type="text" id="title" v-model="title" variant="underlined" rounded="xs" readonly></v-text-field>
     </v-row>
+    <v-spacer :style="{height: '20px'}"></v-spacer>
 
-    <v-row class="mt-10 mb-10">
-      <v-file-input label="프로젝트 이미지" accept="image/" @change="fileUpdate" variant="underlined"
-        rounded="xs">
-      </v-file-input>
+    <v-row class="mt-10 mb-5">
+      <h3> 프로젝트 이미지 </h3>
     </v-row>
     <v-row>
       <img :src="this.projectImageUrl"/>
     </v-row>
 
     <v-row class="mt-10 mb-10">
-      <v-text-field label="한줄 설명" type="text" id="description" v-model="description" variant="underlined" rounded="xs"></v-text-field>
+      <v-text-field label="한줄 설명" type="text" id="description" v-model="description" variant="underlined" rounded="xs" readonly></v-text-field>
     </v-row>
 
     <v-spacer :style="{height: '20px'}"></v-spacer>
@@ -32,7 +31,7 @@
     </v-row>
 
     <v-row>
-      <input type="date" id="deadline" v-model="deadline" />
+      <input type="date" id="deadline" v-model="deadline" readonly/>
     </v-row>
 
     <v-spacer :style="{height: '20px'}"></v-spacer>
@@ -41,13 +40,12 @@
     <v-row class="mt-10 align-center justify-start">
       <!-- 추가 버튼 -->
       <h3 style="margin-right: 20px;"> 모집 정보 </h3>
-      <ButtonComponent content="추가" class="mr-3" @click="recruitInfoAdd()" />
     </v-row>
 
 
     <!-- 모집 정보 리스트 표시 -->
     <v-row class="mt-10 mb-10 d-flex align-center justify-start">
-      <v-chip v-for="(info, index) in showRecruitInfoList" :key="info.recruitField" class="ma-2" closable
+      <v-chip v-for="(info, index) in showRecruitInfoList" :key="info.recruitField" class="ma-2"
         @click:close="removeRecruitInfo(index)">
         {{ info.recruitField }} - {{ info.count }}명
       </v-chip>
@@ -58,12 +56,11 @@
     <!-- 멤버 추가 버튼 및 모달 -->
     <v-row class="mt-10 align-center justify-start">
       <h3 style="margin-right: 20px;"> 멤버 추가 </h3>
-      <ButtonComponent content="검색" @click="searchMemberShowModal()" />
     </v-row>
 
     <!-- 모달 외부에서 showMemberList의 멤버들을 Chip으로 보여줌 -->
     <v-row class="mt-10 mb-10">
-      <v-chip v-for="(member, index) in showMemberList" :key="member.memberId" closable @click:close="removeMember(index)"
+      <v-chip v-for="(member, index) in showMemberList" :key="member.memberId" @click:close="removeMember(index)"
         class="ma-2">
         {{ member.name }} - {{ member.jobfield }}
       </v-chip>
@@ -71,6 +68,7 @@
 
     <v-row>
       <div id="editor"></div>
+      
     </v-row>
 
     <v-row justify="center" class="mt-15 ">
@@ -247,24 +245,6 @@ export default {
       contents:"",
     };
   },
-  async created(){
-    // const route = useRoute();
-    // this.projectId = route.params.projectId;
-    // const getProjectResponse = axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`)
-    // console.log(getProjectResponse);
-    // this.deadline = (await getProjectResponse).data.deadline.split('T')[0];
-    // this.title=(await getProjectResponse).data.projectName;
-    // this.projectImageUrl=(await getProjectResponse).data.imageUrl;
-    // this.description=(await getProjectResponse).data.description;
-    // this.showMemberList = (await getProjectResponse).data.projectMembers.map((member) => {
-    //   return {
-    //     memberId: member.id,
-    //     name: member.memberName, // 이름을 Chip에 표시하기 위해 추가
-    //     jobfield: member.jobField, // 사용자가 선택한 직무 필드
-    //   }
-    // });
-    // this.contents=(await getProjectResponse).data.recruitmentContents;
-  },
   async mounted() {
     const route = useRoute();
     this.projectId = route.params.projectId;
@@ -273,6 +253,7 @@ export default {
     this.deadline = (await getProjectResponse).data.deadline.split('T')[0];
     this.title=(await getProjectResponse).data.projectName;
     this.projectImageUrl=(await getProjectResponse).data.imageUrl;
+    this.projectImageFile=(await getProjectResponse).data.imageUrl;
     this.description=(await getProjectResponse).data.description;
     this.showMemberList = (await getProjectResponse).data.projectMembers.map((member) => {
       return {
@@ -281,7 +262,6 @@ export default {
         jobfield: member.jobField, // 사용자가 선택한 직무 필드
       }
     });
-    //{id: 16, jobField: 'FRONTEND', count: 3}
     this.showRecruitInfoList=(await getProjectResponse).data.recruitInfos.map((info)=>{
       return {
         recruitField:info.jobField,

@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid class="custom-container">
+    <v-container fluid class="custom-container flex-container">
       <PageNavbar
       :menus='[
           {"menu": "내 정보", "url": "/member/mypage", "selected": false},
@@ -16,10 +16,10 @@
         :key="currentPage"
         ref="myProjectComponent"
         />
-    </v-container>
 
-    <!-- 페이지네이션 -->
-    <div class="text-center">
+
+            <!-- 페이지네이션 -->
+    <div class="text-center self-center">
       <v-container>
         <v-row justify="center">
           <v-col cols="8">
@@ -35,6 +35,9 @@
         </v-row>
       </v-container>
     </div>
+    </v-container>
+
+
 
   </template>
 
@@ -100,8 +103,11 @@
   }
   </script>
   
-  <style scoped>
-  
+<style scoped>
+.self-center {
+  margin: auto;
+}
+
 
 .custom-container {
   max-width: 1200px !important; /* 원하는 최대 폭 */

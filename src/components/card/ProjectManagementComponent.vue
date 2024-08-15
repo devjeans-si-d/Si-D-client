@@ -38,7 +38,8 @@ export default{
   },
   data() {
       return {
-        projectApplication: []
+        projectApplication: [],
+        currentPage: 0
       }
   },
   methods: {
@@ -46,7 +47,7 @@ export default{
           // 이동하는 코드 구현
           console.log(projectId);
         //   alert('지금은 임시로 홈으로 이동합니다..');
-          this.$router.push('/member/project/apply');
+        //   this.$router.push('/member/project/apply');
       },
       getChipColor(title) {
             if(title === '승인') {
@@ -73,6 +74,10 @@ export default{
             } else {
                 return 'white';
             }
+        },
+        changePage(page) {
+            this.currentPage = page;
+            // this.$forceUpdate();
         }
   },
 

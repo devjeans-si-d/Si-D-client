@@ -38,7 +38,7 @@
         <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="sid_btn1" text @click="dialog = false">닫기</v-btn>
-        <v-btn color="sid_btn2" text @click="confirmCancel">북마크 취소</v-btn>
+        <v-btn color="sid_btn2" text @click="confirmCancel()">북마크 취소</v-btn>
         </v-card-actions>
 </v-card>
 
@@ -57,7 +57,8 @@ export default{
   },
   data() {
       return {
-        dialog: false
+        dialog: false,
+        cancelId: 0,
       }
   },
   methods: {
@@ -99,18 +100,17 @@ export default{
             }
         },
         cancelBookmark(id) {
-            console.log(id);
             this.dialog = true;
+            this.cancelId = id;
         },
-        async confirmCancel(id) {
-            console.log(id + " 취소 api 호출");
+        async confirmCancel() {
             try {
-                await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${id}/scrap/delete`);
+                await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.cancelId}/scrap/delete`);
             } catch(e) {
                 console.log(e);
             }
             this.dialog = false;
-            window.location.reload();
+            // window.location.reload();
         },
   },
   created() {

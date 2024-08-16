@@ -11,6 +11,7 @@
     "@mdi/font": "^7.4.47",
     "@toast-ui/editor": "^3.2.2",
     "@toast-ui/editor-plugin-code-syntax-highlight": "^3.1.0",
+    "@toast-ui/vue-editor": "^3.2.3",
     "axios": "^1.7.3",
     "core-js": "^3.8.3",
     "dayjs": "^1.11.12",

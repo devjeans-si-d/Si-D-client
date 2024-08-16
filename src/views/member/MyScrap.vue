@@ -13,9 +13,26 @@
         <h2 style="text-align:center; margin: 20px;">스크랩</h2>
         <ProjectScrapComponent
         :projectList="this.projectList"/>
-    </v-container>
 
-    <ModalComponent />
+
+        <!-- 페이지네이션 -->
+        <div class="text-center self-center">
+          <v-container>
+          <v-row justify="center">
+              <v-col cols="8">
+              <v-container class="max-width">
+                  <v-pagination
+                  v-model="currentPage"
+                  :length="totalPage"
+                  class="my-4"
+                  total-visible="100"
+                  ></v-pagination>
+              </v-container>
+              </v-col>
+          </v-row>
+          </v-container>
+      </div>
+    </v-container>
   </template>
 
 
@@ -32,18 +49,44 @@
     },
     data() {
       return {
-        projectList: []
+        projectList: [],
+        currentPage: 0,
+        totalPage: 0,
       }
     },
     methods: {
       moveToEdit() {
             this.$router.push("/member/edit");
         },
+        async onPageChange() {
+          try {
+            const params = {
+              size: 3,
+              page: this.currentPage-1
+            }
+            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects`, {params});
+            console.log(response);
+            this.projectList = response.data.content;
+            } catch(e) {
+            console.log(e);
+          }
+          this.$refs.myProjectComponent.changePage(this.currentPage);
+        },
+
+    },
+    watch: {
+      currentPage() {
+        this.onPageChange(this.currentPage);
+      },
     },
     async created() {
-      const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/scrap`);
+      const params = {
+        size: 3
+      };
+
+      const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/scrap`, { params });
       this.projectList = response.data.content;
-      console.log(response.data.content);
+      this.totalPage = response.data.totalPages;
     },
 
   }
@@ -117,5 +160,9 @@
   max-width: 1200px !important; /* 원하는 최대 폭 */
   margin: 0 auto !important;    /* 중앙 정렬 */
   width: 100% !important; /* 컨테이너의 폭을 100%로 설정 */
+}
+
+.self-center {
+  margin: auto;
 }
 </style>

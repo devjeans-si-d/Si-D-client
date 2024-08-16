@@ -19,21 +19,23 @@
                 <v-img
                   class="custom-img"
                   height="250"
-                  :src="project.image"
+                  :src="project.imageUrl"
                   cover
                 />
                 <v-card-title class="d-flex justify-space-between align-center">
-                  <span>{{ project.name }}</span>
+                  <span>{{ project.projectName }}</span>
                   <v-chip color="primary" text-color="white">
-                    <v-icon>mdi-bookmark</v-icon> {{ project.scraps }}
+                    <v-icon>mdi-bookmark</v-icon> {{ project.scrapCount }}
                   </v-chip>
                 </v-card-title>
-                <v-card-subtitle class="pt-3 custom-contents">
-                  <div>{{ project.contents }}</div>
+                <v-card-subtitle class="pt-3 mb-5 custom-contents">
+                  <div>{{ project.description }}</div>
                 </v-card-subtitle>
-                <v-card-subtitle class="pt-2 custom-contents">
+
+                <!-- <v-card-subtitle class="pt-2 custom-contents">
                   <div class="mb-4">{{ project.techStacks }}</div>
-                </v-card-subtitle>
+                </v-card-subtitle> -->
+                
               </v-card>
             </v-col>
           </v-row>

@@ -111,7 +111,8 @@
 
             <sider-card-window
                 :windowCount="2"
-                :sidecards="siderCards"
+                :sidecards="siderCards" 
+                :defaultImageUrl=defaultImageUrl
             >
             </sider-card-window>
 
@@ -135,6 +136,7 @@
   import LaunchedProjectWindow from '@/components/windows/LaunchedProjectWindow.vue';
   import ProjectWindow from '@/components/windows/ProjectWindow.vue';
   import SiderCardWindow from '@/components/windows/SiderCardWindow.vue';
+  import axios from 'axios';
 
 export default {
   components: {
@@ -144,36 +146,55 @@ export default {
   },
   data() {
     return {
-      launched_projects: [
-        { id: 1, name: 'Project 1', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/smallchat.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
-        { id: 2, name: 'Project 2', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/smallchat.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
-        { id: 3, name: 'Project 3', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/smallchat.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
-        { id: 4, name: 'Project 4', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/smallchat.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
-        { id: 5, name: 'Project 5', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/smallchat.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
-        { id: 6, name: 'Project 6', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/smallchat.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
-        { id: 7, name: 'Project 7', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/smallchat.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
-        { id: 8, name: 'Project 8', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/smallchat.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
-      ],
-      projects: [
-        { id: 1, name: 'Project 1', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mbtips.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
-        { id: 2, name: 'Project 2', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mbtips.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
-        { id: 3, name: 'Project 3', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mbtips.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
-        { id: 4, name: 'Project 4', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mbtips.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
-        { id: 5, name: 'Project 5', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mbtips.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
-        { id: 6, name: 'Project 6', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mbtips.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
-        { id: 7, name: 'Project 7', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mbtips.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10},
-        { id: 8, name: 'Project 8', image: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mbtips.png', contents: 'Details about project 1', techStacks: 'Vue, Vuetify',scraps: 10}
-      ],
-      siderCards: [
-        { id: 1, nickName: '갓세정1', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/%EB%B9%99%ED%8B%B0.jpg', jobField: 'Backend'},
-        { id: 2, nickName: '갓세정2', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/%EA%92%B0+acnh+lolly+pfp+!+%EA%92%B1+%E2%99%A1.jpeg', jobField: 'Backend'},
-        { id: 3, nickName: '갓세정3', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/%EC%8A%A4%EB%88%84%ED%94%BC.jpg', jobField: 'Backend'},
-        { id: 4, nickName: '갓세정4', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/malmo.png', jobField: 'Backend'},
-        { id: 5, nickName: '꿔바로우', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/sid-practice/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2024-08-05+%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE+10.08.49.png', jobField: 'Backend'},
-        { id: 6, nickName: '갓세정6', profileImage: 'https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/glasses_mandoo.jpg', jobField: 'Backend'},
+      launched_projects: [],
+      projects: [],
+      siderCards: [],
+      defaultImageUrl: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/default_profile_image.png" // 사이더카드 설정 프로필 사진 없을 시 default사진으로 대체
+    }
+  },
+  created(){
+    this.loadLaunchedProject();
+    this.loadSiderCard();
+    this.loadProject();
+  },
+  methods:{
+    async loadLaunchedProject(){
+        try {
+            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/main/top-launched-project`);
+            console.log(response.data.content);
+
+           // Pageable 객체에서 content 필드만 추출하여 launched_projects에 할당
+           this.launched_projects = response.data.content.map(project => {
+                return {
+                    ...project,
+                    techStacks: project.techStacks.join(' · ') // techStacks 배열을 문자열로 변환
+                };
+            });
+
+        } catch (error) {
+            console.error("메인페이지 LaunchedProject 리스트 data load 에러:", error);
+        }
+    },
+    async loadSiderCard(){
+        try {
+        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/main/top-sider-card`);
+        console.log(response.data.content);
         
-      ]
-    };
+        this.siderCards = response.data.content;
+      } catch (error) {
+        console.error("메인페이지 SiderCard 리스트 data load 에러:", error);
+      }    
+    },
+    async loadProject(){
+        try {
+        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/main/top-project`);
+        console.log(response.data.content);
+        
+        this.projects = response.data.content;
+      } catch (error) {
+        console.error("메인페이지 Project 리스트 data load 에러:", error);
+      }  
+    }
   }
 };
 </script>

@@ -151,7 +151,7 @@ export default {
         .map(tech => ({ id: tech.id }));
 
       // ID 리스트를 생성하여 콘솔에 출력 (백엔드 전송을 위한 데이터)
-      this.finalIds = Object.values(this.selectedTechStacks)
+      const finalIds = this.finalIds = Object.values(this.selectedTechStacks)
         .flat()
         .map(tech => tech.id);
 
@@ -184,6 +184,7 @@ export default {
       }
 
       console.log('finalIds 초기화:', this.finalIds);
+      this.$emit('update:techStackList', []);
     },
   },
 };

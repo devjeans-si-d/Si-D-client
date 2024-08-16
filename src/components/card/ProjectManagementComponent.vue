@@ -2,9 +2,9 @@
     <v-container class="outer-box">
         <ProjectSidebar />
       <v-card class="my-project-card" variant="elevated">
-          <v-text>
+          <v-card-text>
               <v-container>
-                  <v-row v-for="project in projectList" :key="project.name" @click="spaMoveTo(project.id)">
+                  <v-row v-for="project in projectList" class="element-row" :key="project.name" @click="spaMoveTo(project.projectId)">
                       <v-col class="project-element">
                           <div class="project-img">
                               <img :src="project.imageUrl" height="100px" width="auto" overflow="hidden">
@@ -16,37 +16,72 @@
                                 <div class="chip-wrap">
                                     <BasicSmallChip :title="project.myJob" :color="this.getJobColor(project.myJob)"/>
                                 </div>
+                                <div class="chip-wrap">
+                                    <v-btn rounded="xl"
+                                    size="small"
+                                    color="sid_green"
+                                    @click.stop="moveToCreateLaunched(project.projectId)">
+                                    🧪Launched-Lab 등록
+                                </v-btn>
+                                </div>
                             </div>
                               
                           </div>
+
+                      </v-col>
+                      <v-col style="justify-self: flex-end; display: flex; justify-content: flex-end; padding-right: 50px">
+                        <div>
+                        <p v-if="project.myJob === 'PM'" style="margin-bottom: 15px;">
+                            <v-list-item-icon>
+                            <v-icon
+                            size=x-large
+                            class="manage-project"
+                            @click.stop="moveToEditProject(project.projectId)"
+                            > mdi-database </v-icon>
+                          </v-list-item-icon>
+                        </p>
+                        <p v-if="project.myJob === 'PM'">
+                            <v-list-item-icon>
+                            <v-icon
+                            size=x-large
+                            class="manage-project"
+                            @click.stop="moveToEditProject(project.projectId)"
+                            > mdi-pencil-box-outline </v-icon>
+                          </v-list-item-icon>
+                        </p>
+                    </div>
                       </v-col>
                   </v-row>
               </v-container>
-          </v-text>
+          </v-card-text>
       </v-card>
     </v-container>
 </template>
 <script>
 import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
 import ProjectSidebar from '../navbar/ProjectSidebar.vue';
+// import ButtonComponent from '../button/ButtonComponent.vue';
 
 export default{
   props: ['projectList'],
   components: {
       BasicSmallChip,
-      ProjectSidebar
+      ProjectSidebar,
+    //   ButtonComponent
   },
   data() {
       return {
-        projectApplication: []
+        projectApplication: [],
+        currentPage: 0
       }
   },
   methods: {
       spaMoveTo(projectId) {
           // 이동하는 코드 구현
+          console.log(this.projectList);
           console.log(projectId);
         //   alert('지금은 임시로 홈으로 이동합니다..');
-          this.$router.push('/member/project/apply');
+        //   this.$router.push('/member/project/apply');
       },
       getChipColor(title) {
             if(title === '승인') {
@@ -73,6 +108,15 @@ export default{
             } else {
                 return 'white';
             }
+        },
+        changePage(page) {
+            this.currentPage = page;
+        },
+        moveToCreateLaunched(projectId) {
+            this.$router.push('/launched-project/register/' + projectId);
+        },
+        moveToEditProject(projectId) {
+            this.$router.push('/project-edit/' + projectId);
         }
   },
 
@@ -83,7 +127,15 @@ export default{
   display: flex;
   justify-content: flex-start;
   padding: 10px;
-  border-bottom: 1px solid #D4D4D4;
+}
+
+.manage-project:hover {
+    color: "indigo darken-4";
+}
+
+.element-row {
+    border-bottom: 1px solid #D4D4D4;
+    align-items: center;
 }
 
 .project-img {
@@ -111,12 +163,11 @@ export default{
   justify-self: flex-end;
 }
 
-.project-element:hover {
+/*.project-element:hover {
   opacity: 0.7;
-  /*filter: brightness(1.1);*/
   cursor:pointer;
   transition: 0.5s ease-out;
-}
+}*/
 
 .project-info {
     width: 270px;

@@ -11,7 +11,7 @@
         <v-row justify="space-around">
             <v-col style="max-width: 286px;" v-for="(card, index) in cards" :key="index">
                 <a style="text-decoration-line: none;" :href="`/sider-card/${card.member_id}`"><CardComponent :name="card.member_nickname" :jobField="card.member_jobField"
-                    :image="card.member_image" /></a>
+                    :image="card.member_image ? card.member_image : 'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'" /></a>
             </v-col>
         </v-row>
     </v-container>
@@ -36,22 +36,7 @@ export default {
                 { name: '디자인', value: 'DESIGNER' },
                 { name: 'PM', value: 'PM' },
             ],
-            cards: [
-                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
-                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
-                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
-                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
-                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
-                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
-                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
-                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
-                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
-                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
-                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
-                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
-                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
-                {member_nickname:'푸바오',member_jobField:'BACKEND',member_image:'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'},
-            ]
+            cards: []
         }
     },
     async created() {

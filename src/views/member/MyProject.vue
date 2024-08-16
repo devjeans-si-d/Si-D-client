@@ -1,5 +1,7 @@
 <template>
+
         <h2 style="text-align:center; margin: 20px;">내 프로젝트</h2>
+
         <ProjectManagementComponent
         :projectList="projectList"
         :key="currentPage"
@@ -11,13 +13,11 @@
 
   
   <script>
-  // import PageNavbar from '@/components/navbar/PageNavbar.vue';
   import ProjectManagementComponent from '@/components/card/ProjectManagementComponent.vue';
 
 
   export default {
     components: {
-        // PageNavbar,
         ProjectManagementComponent
     },
     data() {

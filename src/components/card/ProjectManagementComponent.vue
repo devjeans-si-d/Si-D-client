@@ -291,7 +291,7 @@ export default{
   cursor:pointer;
   transition: 0.5s ease-out;
 }*/
-
+    
 .project-info {
     width: 270px;
 }

@@ -95,7 +95,7 @@
             </v-col>
         </v-row>
         <v-row>
-            <TechStackSelector />
+            <TechStackSelector require="true"/>
         </v-row>
         <v-row justify="center">
             <v-col cols="1">
@@ -110,6 +110,7 @@
 import ButtonComponent from '@/components/button/ButtonComponent.vue';
 import TechStackSelector from '@/components/modal/TechStackSelector.vue';
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 export default {
     components: {
         ButtonComponent, TechStackSelector
@@ -130,7 +131,7 @@ export default {
             data: {
                 id:"",
                 nickname:"",
-                image: 'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png',
+                image: '',
                 jobField: "",
                 introduction: "",
                 socialLink: {
@@ -152,24 +153,27 @@ export default {
             this.data.id = data.id
             this.data.nickname = data.nickname
             this.data.jobField = data.jobField
-            this.data.image = data.image
+            this.data.image = data.image ? data.image : 'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'
             this.data.introduction = data.introduction
             this.data.socialLink = data.socialLinkRes
             this.data.careers = data.careerRes
-            this.data.teckStacks = data.teckStackRes
+            // this.data.teckStacks = data.teckStackRes
+            this.$store.dispatch('updateTechStacksRes',data.teckStackRes)
             console.log(response.data.result);
         } catch (e) {
             console.log(e.response.data);
         }
     },
     watch: {
-
+        getTechStackIds(){
+            this.data.teckStacks = this.getTechStackIds
+        }
     },
     updated() {
 
     },
     computed: {
-
+        ...mapGetters(['getTechStackIds']),
     },
     methods: {
         addCareer() {

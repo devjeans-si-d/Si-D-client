@@ -1,87 +1,89 @@
 <template>
     <!-- 모달을 여는 버튼 -->
-    <v-row>
-      <v-col cols="auto">
-        <v-btn color="#A4DEC6" @click="showModal = true">기술 스택 선택하기</v-btn>
-      </v-col>
-      <v-col cols="auto">
-        <v-btn color="#FFAFAF" @click="resetFinalIds">전체 초기화</v-btn>
-      </v-col>
-    </v-row>
-
-    <!-- 최종 선택된 기술 스택을 직무별로 표시 -->
-    <v-row v-if="Object.keys(finalSelectedTechStacks).length > 0">
-      <v-col cols="12">
-        <h3>사용한 기술 스택</h3>
-        <!-- 직무별로 기술 스택을 표시 -->
-        <div v-for="(techs, jobField) in finalSelectedTechStacks" :key="jobField">
-          <!-- 직무 이름 -->
-          <div :style="{ fontWeight: 'bold', marginTop: '10px', marginBottom: '5px', color: jobFieldColors[jobField] }">
-            {{ jobField }}
-          </div>
-          <!-- 기술 스택들 -->
-          <v-chip-group column>
-            <v-chip
-              v-for="tech in techs"
-              :key="tech.id"
-              :style="{ backgroundColor: jobFieldColors[jobField], color: '#fff' }"
-            >
-              {{ tech.name }}
-            </v-chip>
-          </v-chip-group>
-        </div>
-      </v-col>
-    </v-row>
-
-    <!-- <v-row>
-      <v-col>
-        <v-btn color="#FFAFAF" @click="resetFinalIds">전체 초기화</v-btn>
-      </v-col>
-    </v-row> -->
-
-    <!-- 모달 창 -->
-    <v-dialog v-model="showModal" max-width="600px">
-      <v-card>
-        <v-card-title>
-          <span class="text-h5">기술 스택 선택</span>
-        </v-card-title>
-
-        <v-card-text>
-          <v-select
-            v-model="selectedJobField"
-            :items="jobFields"
-            label="직무 선택"
-          ></v-select>
-
-          <v-spacer :style="{ height: '50px' }"></v-spacer>
-
-          <v-row v-if="selectedJobField">
-            <v-col cols="12">
-              <v-chip-group
-                v-model="selectedTechStacks[selectedJobField]"
-                column
-                multiple
-                filter
+    <v-container class="custom-container">
+      <v-row>
+        <v-col cols="auto">
+          <v-btn color="#A4DEC6" @click="showModal = true">기술 스택 선택하기</v-btn>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn color="#FFAFAF" @click="resetFinalIds">전체 초기화</v-btn>
+        </v-col>
+      </v-row>
+  
+      <!-- 최종 선택된 기술 스택을 직무별로 표시 -->
+      <v-row v-if="Object.keys(finalSelectedTechStacks).length > 0">
+        <v-col cols="12">
+          <h3>사용한 기술 스택</h3>
+          <!-- 직무별로 기술 스택을 표시 -->
+          <div v-for="(techs, jobField) in finalSelectedTechStacks" :key="jobField">
+            <!-- 직무 이름 -->
+            <div :style="{ fontWeight: 'bold', marginTop: '10px', marginBottom: '5px', color: jobFieldColors[jobField] }">
+              {{ jobField }}
+            </div>
+            <!-- 기술 스택들 -->
+            <v-chip-group column>
+              <v-chip
+                v-for="tech in techs"
+                :key="tech.id"
+                :style="{ backgroundColor: jobFieldColors[jobField], color: '#fff' }"
               >
-                <v-chip
-                  v-for="tech in filteredTechStacks"
-                  :key="tech.id"
-                  :value="tech"
+                {{ tech.name }}
+              </v-chip>
+            </v-chip-group>
+          </div>
+        </v-col>
+      </v-row>
+  
+      <!-- <v-row>
+        <v-col>
+          <v-btn color="#FFAFAF" @click="resetFinalIds">전체 초기화</v-btn>
+        </v-col>
+      </v-row> -->
+  
+      <!-- 모달 창 -->
+      <v-dialog v-model="showModal" max-width="600px">
+        <v-card>
+          <v-card-title>
+            <span class="text-h5">기술 스택 선택</span>
+          </v-card-title>
+  
+          <v-card-text>
+            <v-select
+              v-model="selectedJobField"
+              :items="jobFields"
+              label="직무 선택"
+            ></v-select>
+  
+            <v-spacer :style="{ height: '50px' }"></v-spacer>
+  
+            <v-row v-if="selectedJobField">
+              <v-col cols="12">
+                <v-chip-group
+                  v-model="selectedTechStacks[selectedJobField]"
+                  column
+                  multiple
+                  filter
                 >
-                  {{ tech.name }}
-                </v-chip>
-              </v-chip-group>
-            </v-col>
-          </v-row>
-        </v-card-text>
-
-        <v-card-actions>
-          <v-btn color="secondary" @click="resetSelections">초기화</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" @click="submitTechStacks">선택 완료</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+                  <v-chip
+                    v-for="tech in filteredTechStacks"
+                    :key="tech.id"
+                    :value="tech"
+                  >
+                    {{ tech.name }}
+                  </v-chip>
+                </v-chip-group>
+              </v-col>
+            </v-row>
+          </v-card-text>
+  
+          <v-card-actions>
+            <v-btn color="secondary" @click="resetSelections">초기화</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" @click="submitTechStacks">선택 완료</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-container> 
 </template>
 
 <script>

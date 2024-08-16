@@ -13,6 +13,7 @@
         id="siteUrl"
         label="site url"
         placeholder="https://www.si-d.com"
+        max-width="1200px"
         v-model="siteUrl"
         variant="underlined"
         rounded="xs"

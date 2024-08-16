@@ -36,7 +36,7 @@
                   <template v-slot:activator="{ props }">
                     <v-btn text v-bind="props" height="60">
                       <v-avatar size="40">
-                        <img src='@/assets/default_profile_image.png' alt="profileImageUrl" class="avatar-image">
+                        <v-img :src=profileImageUrl alt="profileImageUrl"></v-img> 
                       </v-avatar>
                       <span class="ml-2">{{ nickname }}</span>
                     </v-btn>
@@ -69,16 +69,18 @@
   </template>
   
   <script>
+  import axios from 'axios'
+
   export default{
     data(){
         return{
             isLogin : false,
-            nickname : 'devjeans', // 임시 닉네임. 이후에 빈값으로 두기
-            profileImageUrl: '@/assets/default_profile_image.png',
+            nickname : "", 
+            profileImageUrl: "",
             KAKAO_AUTH_URI: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_REST_API_KEY}&redirect_uri=http://localhost:8082/oauth`,
         };
     },
-    created(){ // 토큰때문에 테스트가 제대로 안되서 token 관련한 부분 주석처리 해놓음
+    created(){ 
         const token = localStorage.getItem("token");
         if(token){
             // localStorage에 token이 있으면 로그인된 상태
@@ -94,11 +96,20 @@
             this.profileImageUrl = '';
             window.location.reload();
         },
-        loadUserProfile(){
-            // api 갖다붙일 때 수정해야 됨
-            this.nickname = 'devjeans'; // 로그인한 사용자 닉네임
-            this.profileImageUrl = ''
+        async loadUserProfile() {
+        try {
+            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/member`);
+            console.log(response.data);
+
+            this.nickname = response.data.nickname; // 로그인한 사용자 닉네임
+            // 프로필 이미지가 null이거나 빈 문자열인 경우 기본 이미지 할당
+            this.profileImageUrl = response.data.profileImageUrl 
+                ? response.data.profileImageUrl 
+                : "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/default_profile_image.png";
+        } catch (error) {
+            console.error("사용자 프로필 loading error:", error);
         }
+      }
     }
   };
   </script>

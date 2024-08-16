@@ -4,7 +4,7 @@
       <v-card class="my-project-card" variant="elevated">
           <v-card-text>
               <v-container>
-                  <v-row v-for="project in projectList" class="element-row" :key="project.name" @click="spaMoveTo(project.id)">
+                  <v-row v-for="project in projectList" class="element-row" :key="project.name" @click="spaMoveTo(project.projectId)">
                       <v-col class="project-element">
                           <div class="project-img">
                               <img :src="project.imageUrl" height="100px" width="auto" overflow="hidden">
@@ -20,7 +20,7 @@
                                     <v-btn rounded="xl"
                                     size="small"
                                     color="sid_green"
-                                    @click.stop="this.$router.push('/');">
+                                    @click.stop="moveToCreateLaunched(project.projectId)">
                                     🧪Launched-Lab 등록
                                 </v-btn>
                                 </div>
@@ -36,7 +36,7 @@
                             <v-icon
                             size=x-large
                             class="manage-project"
-                            @click.stop="this.$router.push('/');"
+                            @click.stop="moveToEditProject(project.projectId)"
                             > mdi-database </v-icon>
                           </v-list-item-icon>
                         </p>
@@ -45,7 +45,7 @@
                             <v-icon
                             size=x-large
                             class="manage-project"
-                            @click.stop="this.$router.push('/');"
+                            @click.stop="moveToEditProject(project.projectId)"
                             > mdi-pencil-box-outline </v-icon>
                           </v-list-item-icon>
                         </p>
@@ -78,6 +78,7 @@ export default{
   methods: {
       spaMoveTo(projectId) {
           // 이동하는 코드 구현
+          console.log(this.projectList);
           console.log(projectId);
         //   alert('지금은 임시로 홈으로 이동합니다..');
         //   this.$router.push('/member/project/apply');
@@ -110,6 +111,12 @@ export default{
         },
         changePage(page) {
             this.currentPage = page;
+        },
+        moveToCreateLaunched(projectId) {
+            this.$router.push('/launched-project/register/' + projectId);
+        },
+        moveToEditProject(projectId) {
+            this.$router.push('/project-edit/' + projectId);
         }
   },
 

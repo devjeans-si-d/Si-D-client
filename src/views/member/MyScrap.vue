@@ -24,7 +24,7 @@
                   <v-pagination
                   v-model="currentPage"
                   :length="totalPage"
-                  class="my-4 pagination mb-2"
+                  class="my-4"
                   total-visible="100"
                   ></v-pagination>
               </v-container>
@@ -86,7 +86,7 @@
 
       const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/scrap`, { params });
       this.projectList = response.data.content;
-      // console.log(response.data);
+      this.totalPage = response.data.totalPages;
     },
 
   }

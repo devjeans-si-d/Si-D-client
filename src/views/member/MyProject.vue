@@ -19,22 +19,22 @@
 
 
             <!-- 페이지네이션 -->
-    <div class="text-center self-center">
-      <v-container>
-        <v-row justify="center">
-          <v-col cols="8">
-            <v-container class="max-width">
-              <v-pagination
-                v-model="currentPage"
-                :length="totalPage"
-                :total-visible="5"
-                class="my-4"
-              ></v-pagination>
-            </v-container>
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
+      <div class="text-center self-center">
+        <v-container>
+          <v-row justify="center">
+            <v-col cols="8">
+              <v-container class="max-width">
+                <v-pagination
+                  v-model="currentPage"
+                  :length="totalPage"
+                  class="my-4 pagination mb-2"
+                  total-visible="100"
+                ></v-pagination>
+              </v-container>
+            </v-col>
+          </v-row>
+        </v-container>
+      </div>
     </v-container>
 
 
@@ -57,7 +57,7 @@
         return {
             projectList: [],
             currentPage: 0,
-            totalPage: 2,
+            totalPage: 0,
         }
     },
     methods: {
@@ -92,12 +92,15 @@
           size: 3,
           page: this.currentPage
         }
-        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects`, {params});
-        console.log(response);
+        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects`, { params });
+        
         this.projectList = response.data.content;
+        this.totalPage = response.data.totalPage;
       } catch(e) {
         console.log(e);
       }
+      
+      
     }
 
   }
@@ -107,7 +110,6 @@
 .self-center {
   margin: auto;
 }
-
 
 .custom-container {
   max-width: 1200px !important; /* 원하는 최대 폭 */

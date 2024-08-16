@@ -80,6 +80,9 @@ export default{
             } else {
                 return 'white';
             }
+        },
+        changePage(page) {
+            this.currentPage = page;
         }
   },
   created() {

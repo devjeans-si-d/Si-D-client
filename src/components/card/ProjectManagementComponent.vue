@@ -77,7 +77,6 @@ export default{
         },
         changePage(page) {
             this.currentPage = page;
-            // this.$forceUpdate();
         }
   },
 

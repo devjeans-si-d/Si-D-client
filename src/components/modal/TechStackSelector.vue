@@ -118,7 +118,11 @@ export default {
   watch:{
     getTechStackIdsRes(){
       for(const item in this.getTechStackIdsRes){
-        this.selectedTechStacks[item.jobField].push({id:item.id, name:item.techStackName})
+        console.log('getTechStackIdsRes: ',this.getTechStackIdsRes);
+        
+        console.log('item.jobField: ',this.getTechStackIdsRes[item].jobField);
+        
+        this.selectedTechStacks[this.getTechStackIdsRes[item].jobField].push({id:this.getTechStackIdsRes[item].id, name:this.getTechStackIdsRes[item].techStackName})
       }
       this.finalSelectedTechStacks = {};
 

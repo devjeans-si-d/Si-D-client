@@ -3,10 +3,8 @@
       <PageNavbar
       :menus='[
           {"menu": "내 정보", "url": "/member/mypage", "selected": true},
-          {"menu": "내 채팅", "url": "/member/chatting-list", "selected": false},
-          {"menu": "내 프로젝트", "url": "/member/my-projects", "selected": false},
           {"menu": "신청 내역", "url": "/member/apply", "selected": false},
-          {"menu": "스크랩", "url": "/member/scrap", "selected": false},
+          {"menu": "스크랩한 프로젝트", "url": "/member/scrap", "selected": false},
       ]'
       />
         <h2 style="text-align:center; margin: 20px;">내 정보 수정</h2>

@@ -108,7 +108,7 @@
             // 프로필 이미지가 null이거나 빈 문자열인 경우 기본 이미지 할당
             this.profileImageUrl = response.data.profileImageUrl 
                 ? response.data.profileImageUrl 
-                : "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/default_profile_image.png";
+                : "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/devjeans-spring.png";
         } catch (error) {
             console.error("사용자 프로필 loading error:", error);
         }

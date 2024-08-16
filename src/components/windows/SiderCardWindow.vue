@@ -18,12 +18,12 @@
                 <v-avatar size="150" class="mx-auto d-flex justify-center align-center">
                   <v-img
                   class="circle-img"
-                  :src="sidecard.profileImage"
+                  :src="sidecard.profileImageUrl ? sidecard.profileImageUrl : defaultImageUrl"
                   />
                 </v-avatar>
                 
                 <v-card-title class="d-flex justify-center align-center" style="font-weight: bold;">
-                  <span>{{ sidecard.nickName }}</span>
+                  <span>{{ sidecard.nickname }}</span>
                 </v-card-title>
                 <v-card-text class="d-flex justify-center align-center" style="font-size: 18px;">
                   <div>{{ sidecard.jobField }}</div>
@@ -68,6 +68,10 @@
       sidecards: {
         type: Array,
         default: () => []
+      },
+      defaultImageUrl : {
+        type: String,
+        default : "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/default_profile_image.png"
       }
     },
     data() {

@@ -22,7 +22,7 @@
         <v-spacer :style="{height: '10px'}"></v-spacer>
 
         <v-row>
-            <v-switch class="mx-2" v-model="isChecked" label="출시된 프로젝트만 보기" color="#8DBCA8"></v-switch>
+            <!-- <v-switch class="mx-2" v-model="isChecked" label="출시된 프로젝트만 보기" color="#8DBCA8"></v-switch> -->
             <v-chip-group  selected-class="text-primary" mandatory>
                 <v-chip class="ma-1" color="#094F08" size="large" filter> 🍾 순 정렬</v-chip>
                 <v-chip class="ma-1" color="#094F08" size="large" filter> 조회수 정렬</v-chip>

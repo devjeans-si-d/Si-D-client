@@ -70,21 +70,24 @@
   </template>
   
   <script>
+  import axios from 'axios'
+
   export default{
     data(){
         return{
             isLogin : false,
-            nickname : 'devjeans', // 임시 닉네임. 이후에 빈값으로 두기
-            profileImageUrl: '@/assets/default_profile_image.png',
+            nickname : "", 
+            profileImageUrl: "",
         };
     },
-    created(){ // 토큰때문에 테스트가 제대로 안되서 token 관련한 부분 주석처리 해놓음
-        // const token = localStorage.getItem("token");
-        // if(token){
-        //     // localStorage에 token이 있으면 로그인된 상태
-        //     this.isLogin = true;
-        //     this.loadUserProfile();
-        // }
+    created(){ 
+        const token = localStorage.getItem("token");
+        if(token){
+            // localStorage에 token이 있으면 로그인된 상태
+            this.isLogin = true;
+            this.loadUserProfile();
+
+        }
     },
     methods:{
         doLogout(){
@@ -94,10 +97,13 @@
             this.profileImageUrl = '';
             window.location.reload();
         },
-        loadUserProfile(){
+        async loadUserProfile(){
             // api 갖다붙일 때 수정해야 됨
-            this.nickname = 'devjeans'; // 로그인한 사용자 닉네임
-            this.profileImageUrl = ''
+            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/member`);
+            console.log(response.data);
+
+            this.nickname = response.data.nickname; // 로그인한 사용자 닉네임
+            this.profileImageUrl = response.data.profileImageUrl; // 로그인한 사용자 프로필 이미지
         }
     }
   };

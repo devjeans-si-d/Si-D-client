@@ -40,7 +40,7 @@
                 </v-row>
                 <v-row class="email">
                     <v-text-field v-model="data.socialLink.email" prepend-icon="mdi-email" label="개인 이메일 주소"
-                        variant="solo-filled" max-width="1200"></v-text-field>
+                        variant="solo-filled" max-width="1200" readonly></v-text-field>
                 </v-row>
                 <v-row class="email">
                     <v-text-field v-model="data.socialLink.github" prepend-icon="mdi-github" label="깃허브 주소"

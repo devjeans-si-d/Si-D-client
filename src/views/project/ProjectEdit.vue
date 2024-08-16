@@ -277,11 +277,10 @@ export default {
     this.showMemberList = (await getProjectResponse).data.projectMembers.map((member) => {
       return {
         memberId: member.id,
-        name: member.memberName, // 이름을 Chip에 표시하기 위해 추가
-        jobfield: member.jobField, // 사용자가 선택한 직무 필드
+        name: member.memberName, 
+        jobfield: member.jobField, 
       }
     });
-    //{id: 16, jobField: 'FRONTEND', count: 3}
     this.showRecruitInfoList=(await getProjectResponse).data.recruitInfos.map((info)=>{
       return {
         recruitField:info.jobField,
@@ -296,7 +295,7 @@ export default {
       el: document.querySelector("#editor"),
       height: "500px",
       initialEditType: "wysiwyg",
-      initialValue:`${this.contents}`,
+      initialValue:`${this.contents ?? ""}`,
       width: 'auto',
       hooks: {
         addImageBlobHook: async (blob, callback) => {
@@ -487,7 +486,7 @@ export default {
         };
         recruitInfos.push(dataInfo);
       });
-
+      console.log(this.deadline + 'T' + deadlineTime);
       try {
         const body = {
           imageUrl: this.projectImageUrl,
@@ -499,10 +498,10 @@ export default {
           recruitInfos,
           isClosed:'N'
         };
-        const projectCreateResponse = axios.put(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/update`, body);
+        const projectCreateResponse = await axios.put(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/update`, body);
         console.log(projectCreateResponse);
       } catch (e) {
-        alert(e);
+        alert(JSON.stringify(e.response));
         console.log(e);
       }
     },

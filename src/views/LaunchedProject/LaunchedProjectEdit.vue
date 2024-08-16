@@ -10,18 +10,21 @@
     <v-row class="mt-10 mb-10">
       <v-file-input label="프로젝트 이미지" accept="image/" @change="fileUpdate" variant="underlined" rounded="xs">
       </v-file-input>
-    </v-row>
 
+    </v-row>
+    <v-row>
+      <img :src="this.projectImageUrl"/>
+    </v-row>
     <v-row class="mt-10 mb-10">
       <!-- <label for="siteUrl" class="ma-auto">site url</label> -->
       <v-text-field type="text" id="siteUrl" label="site url" placeholder="https://www.si-d.com" v-model="siteUrl"
         variant="underlined" rounded="xs"></v-text-field>
     </v-row>
 
-    <v-row class="mt-10 mb-10">
+    <!-- <v-row class="mt-10 mb-10">
       <v-text-field label="한줄 설명" type="text" id="description" v-model="description" variant="underlined"
         rounded="xs"></v-text-field>
-    </v-row>
+    </v-row> -->
 
     <v-spacer :style="{ height: '50px' }"></v-spacer>
 
@@ -40,7 +43,7 @@
     <v-spacer :style="{ height: '50px' }"></v-spacer>
 
     <v-row>
-      <tech-stack-selector v-model:techStackList="techStackList" />
+      <tech-stack-selector v-model:techStackList="techStackList" :techStackList="this.techStackList" />
     </v-row>
     <v-spacer :style="{ height: '50px' }"></v-spacer>
 
@@ -167,6 +170,7 @@ export default {
     TechStackSelector,
     ButtonComponent,
   },
+  
   mounted(){
     console.log("왜 안 나와?")
     this.editor = new Editor({
@@ -179,6 +183,7 @@ export default {
   
   data() {
     return {
+      launchedProjectId:0,
       editor:null,
       siteUrl:"",
       project: {},
@@ -360,18 +365,25 @@ export default {
   },
   async created() {
     const route = useRoute();
-    this.projectId = route.params.projectId;
-    this.project = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`)
+    this.launchedProjectId = route.params.launchedProjectId;
+    this.project = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/basic-info`)
     console.log(this.project);
-    console.log("이름" + this.project.data.projectName);
-    console.log("멤버" + JSON.stringify(this.project.data.projectMembers));
-    this.showMemberList = this.project.data.projectMembers.map((member) => {
+    this.siteUrl = this.project.data.siteUrl;
+    this.projectImageUrl = this.project.data.imageUrl;
+    this.launchedProjectContents = this.project.data.launchedProjectContents;
+    const getMembers = await (await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/members`)).data;
+    console.log(getMembers);
+    this.showMemberList = getMembers.map((member) => {
       return {
         memberId: member.id,
-        memberName: member.memberName, // 이름을 Chip에 표시하기 위해 추가
+        memberName: member.nickname, // 이름을 Chip에 표시하기 위해 추가
         jobField: member.jobField, // 사용자가 선택한 직무 필드
       }
     });
+    const getTechList = await (await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/tech-stacks`)).data;
+    console.log(getTechList)
+    this.techStackList = getTechList;
+
   },
 }
 </script>

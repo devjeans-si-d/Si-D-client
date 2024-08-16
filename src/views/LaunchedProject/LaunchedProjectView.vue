@@ -7,21 +7,22 @@
     <h2 style="text-align:center; color:#094F08;">{{ this.project.data.projectName }}</h2>
     <v-spacer :style="{ height: '20px' }"></v-spacer>
 
-    <v-row class="mt-10 mb-10">
-      <v-file-input label="프로젝트 이미지" accept="image/" @change="fileUpdate" variant="underlined" rounded="xs">
-      </v-file-input>
-    </v-row>
 
+    <v-row class="mt-10 align-center justify-start">
+      <h3 style="margin-right: 20px;"> 이미지 </h3>
+
+      <img :src="this.projectImageUrl"/>
+    </v-row>
     <v-row class="mt-10 mb-10">
       <!-- <label for="siteUrl" class="ma-auto">site url</label> -->
       <v-text-field type="text" id="siteUrl" label="site url" placeholder="https://www.si-d.com" v-model="siteUrl"
-        variant="underlined" rounded="xs"></v-text-field>
+        variant="underlined" rounded="xs" readonly></v-text-field>
     </v-row>
 
-    <v-row class="mt-10 mb-10">
+    <!-- <v-row class="mt-10 mb-10">
       <v-text-field label="한줄 설명" type="text" id="description" v-model="description" variant="underlined"
         rounded="xs"></v-text-field>
-    </v-row>
+    </v-row> -->
 
     <v-spacer :style="{ height: '50px' }"></v-spacer>
 
@@ -32,7 +33,7 @@
       <ButtonComponent content="검색" @click="searchMemberShowModal()" />
     </v-row>
     <v-row class="mt-10 mb-10">
-      <v-chip v-for="(member, index) in showMemberList" :key="member.memberId" closable
+      <v-chip v-for="(member, index) in showMemberList" :key="member.memberId"
         @click:close="removeMember(index)" class="ma-2">
         {{ member.memberName }} - {{ member.jobField }}
       </v-chip>
@@ -45,7 +46,7 @@
     <v-spacer :style="{ height: '50px' }"></v-spacer>
 
     <v-row class="mt-10 mb-10">
-      <v-textarea label="완성된 프로젝트 설명" variant="outlined" v-model="launchedProjectContents"></v-textarea>
+      <v-textarea label="완성된 프로젝트 설명" variant="outlined" v-model="launchedProjectContents" readonly></v-textarea>
     </v-row>
     <v-spacer :style="{ height: '200px' }"></v-spacer>
 
@@ -179,6 +180,7 @@ export default {
   
   data() {
     return {
+      launchedProjectId:0,
       editor:null,
       siteUrl:"",
       project: {},
@@ -360,18 +362,22 @@ export default {
   },
   async created() {
     const route = useRoute();
-    this.projectId = route.params.projectId;
-    this.project = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`)
+    this.launchedProjectId = route.params.launchedProjectId;
+    this.project = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/basic-info`)
     console.log(this.project);
-    console.log("이름" + this.project.data.projectName);
-    console.log("멤버" + JSON.stringify(this.project.data.projectMembers));
-    this.showMemberList = this.project.data.projectMembers.map((member) => {
+    this.siteUrl = this.project.data.siteUrl;
+    this.projectImageUrl = this.project.data.imageUrl;
+    this.launchedProjectContents = this.project.data.launchedProjectContents;
+    const getMembers = await (await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/members`)).data;
+    console.log(getMembers);
+    this.showMemberList = getMembers.map((member) => {
       return {
         memberId: member.id,
-        memberName: member.memberName, // 이름을 Chip에 표시하기 위해 추가
+        memberName: member.nickname, // 이름을 Chip에 표시하기 위해 추가
         jobField: member.jobField, // 사용자가 선택한 직무 필드
       }
     });
+
   },
 }
 </script>

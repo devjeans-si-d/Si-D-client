@@ -89,8 +89,18 @@
 <script>
 // techData.js에서 jobFields와 techStacks를 가져옴
 import { jobFields, techStacks } from '@/data/techData';
+import ButtonComponent from '../button/ButtonComponent.vue';
 
 export default {
+  components:{
+    ButtonComponent
+  },
+  props: {
+    techStackList: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
     return {
       showModal: false,
@@ -137,12 +147,12 @@ export default {
       this.showModal = false;
 
       // ID 리스트를 생성하여 콘솔에 출력 (백엔드 전송을 위한 데이터)
-      this.finalIds = Object.values(this.selectedTechStacks)
+      const finalIds = this.finalIds = Object.values(this.selectedTechStacks)
         .flat()
         .map(tech => tech.id);
 
       console.log('Selected IDs:', this.finalIds);
-
+      this.$emit('update:techStackList', finalIds);
       // 실제 백엔드로 전송하는 코드 (예시)
       // axios.post('/api/techstacks', this.finalIds)
       //   .then(response => console.log('Data sent successfully'))
@@ -165,6 +175,7 @@ export default {
       }
 
       console.log('finalIds 초기화:', this.finalIds);
+      this.$emit('update:techStackList', []);
     },
   },
 };

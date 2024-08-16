@@ -10,7 +10,7 @@
       ]'
       />
         <h2 style="text-align:center; margin: 20px;">내 정보</h2>
-        <v-card class="my-page-card" color="#F3F3F3">
+        <v-card class="my-page-card">
             <v-text>
                 <v-container>
                     <v-row class="item-wrap">
@@ -140,12 +140,12 @@
   
   <style scoped>
   .my-page-card{
-    color: #E3E3E3;
     width: 500px;
     display: flex;
     align-self: center;
     align-content: center;
     margin: auto;
+    background-color: #F6F6F6;
   }
   .item-wrap {
     display: flex;

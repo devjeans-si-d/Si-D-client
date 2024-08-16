@@ -1,12 +1,17 @@
 <template>
     <v-container class="outer-box">
       <v-card class="chatting-card" variant="elevated">
-          <v-text>
+          <v-text style="width:100%;">
               <v-container>
                 <div class="chatroom-box">
                     <v-text v-if="this.chatroomList.length === 0">채팅 기록이 없습니다.</v-text>
-                  <v-row class="chatroom-outer" v-for="chatroom in chatroomList" :key="chatroom.id" @click.stop="moveToOtherRoom(chatroom.chatRoomId)" >
-                      <v-col cols="12">
+                  <v-row
+                    v-for="chatroom in chatroomList"
+                    :key="chatroom.id"
+                    @click="moveToOtherRoom(chatroom.chatRoomId)"
+                    :class="{ 'selected': chatroom.chatRoomId === this.chatroomId }"
+                    >
+                      <v-col :class="{selected}" cols="12">
                         <div class="chatroom-element">
                             <div class="member-img">
                                 <img class="profile-img" :src="chatroom.participantProfileImageUrl" height="100px" width="auto" overflow="hidden">
@@ -15,8 +20,7 @@
                           <div class="project-content">
                             <div class="project-info">
                                 <h4 style="margin-bottom: 10px">{{ chatroom.participantNickName}}</h4>
-
-                                <p class="project-description">{{ chatroom.unreadContent }}</p>
+                                <p class="unread-count-text">{{ chatroom.unreadContent }}</p>
                             </div>
                             <div v-if="chatroom.unreadCount >= 1" class="unread-count">
                                 <span>{{chatroom.unreadCount}}</span>
@@ -40,7 +44,7 @@ export default{
   },
   data() {
       return {
-        chatroomId: 7,
+          chatroomId: 0,
       }
   },
   methods: {
@@ -72,7 +76,16 @@ export default{
         },
         moveToOtherRoom(dest) {
             this.chatroomId = dest;
-            this.$emit("moveToOtherRoom"); 
+
+            this.$emit("moveToOtherRoom", dest); 
+        },
+        selectOrNot(id) {
+            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            if(id === this.chatroomId) {
+                return "black";
+            } else {
+                return "#D4D4D4";
+            }
         }
   },
   created() {
@@ -82,14 +95,8 @@ export default{
 }
 </script>
 <style scoped>
-
-
-.member-img {
-  margin-right: 10px;
-  width: 100px;
-  height: 100px;
-  background-color: black;
-  text-align: center;
+.selected {
+    background-color: #A4DEC6;
 }
 
 .project-content {
@@ -103,9 +110,6 @@ export default{
   color: #5D5D5D;
 }
 
-.chip-wrap {
-  margin-top: 10px;
-}
 
 .chatroom-element:hover {
   opacity: 0.7;
@@ -118,53 +122,52 @@ export default{
     width: 100%;
 }
 
-.project-status {
-    margin-right: 10px;
-    display: flex;
-    justify-content: flex-end;
-    justify-self: flex-end;
-    width: 20px;
-}
 
 .outer-box {
     display: flex;
     justify-content: center;
+    width: 40%;
+    margin: 0px !important;
 }
 
 .chatting-card {
+    width: 100%;
+    height: 500px; /* TODO: 채팅방 컴포넌트 채팅 바까지해서 60으로 맞춰야함*/
     display: flex;
     justify-content: center;
-    width: 100%;
+    margin: 0px;
     background-color: #F6F6F6;
+    /*overflow-y: auto;*/
+    /*overflow-x: hidden;*/
 }
 
 .chatroom-box {
-    padding: 100%;
-    padding: 10px;
+    width: 100%;
     align-items: center;
 }
-
 
 .chatroom-element {
     display: flex;
     justify-content: flex-start;
-    padding: 15px;
     align-items: center;
+    width: 100%;
 }
 
 .member-img {
-    margin-right: 50px;
-    width: 100px;
-    height: 100px; 
-    border-radius: 70%;
-    overflow: hidden;
+    width: 43px;
+    height: 43px;
+    min-width: 43px;
+    min-height: 43px; 
+    border-radius: 50%;
+
 }
 
-.profile-image {
+.profile-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
+    border-radius: 50%;
+} 
 
 .chatroom-outer {
     border-bottom: 1px solid #D4D4D4;

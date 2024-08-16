@@ -4,6 +4,7 @@ import router from '@/router/index.js'
 import vuetify from './plugins/vuetify'
 import '@mdi/font/css/materialdesignicons.css'
 import axios from 'axios'
+import store from '@/store/index'
 const app = createApp(App);
 
 axios.interceptors.request.use(
@@ -35,7 +36,7 @@ axios.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-
+app.use(store);
 app.use(router);
 app.use(vuetify);
 app.mount('#app');

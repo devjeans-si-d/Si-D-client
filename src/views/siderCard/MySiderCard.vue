@@ -110,6 +110,7 @@
 import ButtonComponent from '@/components/button/ButtonComponent.vue';
 import TechStackSelector from '@/components/modal/TechStackSelector.vue';
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 export default {
     components: {
         ButtonComponent, TechStackSelector
@@ -156,20 +157,23 @@ export default {
             this.data.introduction = data.introduction
             this.data.socialLink = data.socialLinkRes
             this.data.careers = data.careerRes
-            this.data.teckStacks = data.teckStackRes
+            // this.data.teckStacks = data.teckStackRes
+            this.$store.dispatch('updateTechStacksRes',data.teckStackRes)
             console.log(response.data.result);
         } catch (e) {
             console.log(e.response.data);
         }
     },
     watch: {
-
+        getTechStackIds(){
+            this.data.teckStacks = this.getTechStackIds
+        }
     },
     updated() {
 
     },
     computed: {
-
+        ...mapGetters(['getTechStackIds']),
     },
     methods: {
         addCareer() {

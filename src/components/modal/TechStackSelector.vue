@@ -87,6 +87,7 @@
 <script>
 // techData.js에서 jobFields와 techStacks를 가져옴
 import { jobFields, techStacks } from '@/data/techData';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -102,6 +103,7 @@ export default {
       },
       finalSelectedTechStacks: {},  // 직무별로 선택된 기술 스택을 담을 객체
       finalIds: [], // 선택된 기술 스택 ID를 저장할 배열
+      saveIds: [],
       jobFields,  // import한 jobFields를 사용
       techStacks, // import한 techStacks를 사용
       jobFieldColors: {  // 직무별 색상 설정
@@ -113,7 +115,23 @@ export default {
       },
     };
   },
+  watch:{
+    getTechStackIdsRes(){
+      for(const item in this.getTechStackIdsRes){
+        this.selectedTechStacks[item.jobField].push({id:item.id, name:item.techStackName})
+      }
+      this.finalSelectedTechStacks = {};
+
+      for (const jobField in this.selectedTechStacks) {
+        if (this.selectedTechStacks[jobField].length > 0) {
+          this.finalSelectedTechStacks[jobField] = this.selectedTechStacks[jobField];
+        }
+      }
+    }
+  },
   computed: {
+    ...mapGetters(['getTechStackIds']),
+    ...mapGetters(['getTechStackIdsRes']),
     filteredTechStacks() {
       return this.selectedJobField
         ? this.techStacks[this.selectedJobField].map(tech => ({ id: tech.id, name: tech.name })) // techData에서 고유 ID를 사용
@@ -121,6 +139,9 @@ export default {
     },
   },
   methods: {
+    updateTechStacks(){
+      this.$store.dispatch('updateTechStacks',this.saveIds)
+    },
     submitTechStacks() {
       // 각 직무에서 선택된 스택의 ID를 하나의 리스트로 모아 최종 데이터로 변환
       this.finalSelectedTechStacks = {};
@@ -134,12 +155,21 @@ export default {
       // 모달 닫기
       this.showModal = false;
 
+      this.saveIds = Object.values(this.selectedTechStacks)
+        .flat()
+        .map(tech => ({ id: tech.id }));
+
       // ID 리스트를 생성하여 콘솔에 출력 (백엔드 전송을 위한 데이터)
       this.finalIds = Object.values(this.selectedTechStacks)
         .flat()
         .map(tech => tech.id);
 
+
+      this.updateTechStacks();
       console.log('Selected IDs:', this.finalIds);
+      // console.log('Selected IDs:', this.finalSelectedTechStacks);
+      // console.log('Selected IDs:', this.selectedTechStacks);
+      // console.log('Selected IDs:', this.getTechStackIds);
 
       // 실제 백엔드로 전송하는 코드 (예시)
       // axios.post('/api/techstacks', this.finalIds)

@@ -89,11 +89,10 @@
 <script>
 // techData.js에서 jobFields와 techStacks를 가져옴
 import { jobFields, techStacks } from '@/data/techData';
-import ButtonComponent from '../button/ButtonComponent.vue';
 
 export default {
   components:{
-    ButtonComponent
+
   },
   props: {
     techStackList: {

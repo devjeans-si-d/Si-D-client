@@ -1,6 +1,7 @@
 <template>
-    <!-- 모달을 여는 버튼 -->
-    <v-row>
+  <!-- 모달을 여는 버튼 -->
+  <v-container>
+    <v-row v-if="require">
       <v-col cols="auto">
         <v-btn color="#A4DEC6" @click="showModal = true">기술 스택 선택하기</v-btn>
       </v-col>
@@ -21,11 +22,8 @@
           </div>
           <!-- 기술 스택들 -->
           <v-chip-group column>
-            <v-chip
-              v-for="tech in techs"
-              :key="tech.id"
-              :style="{ backgroundColor: jobFieldColors[jobField], color: '#fff' }"
-            >
+            <v-chip v-for="tech in techs" :key="tech.id"
+              :style="{ backgroundColor: jobFieldColors[jobField], color: '#fff' }">
               {{ tech.name }}
             </v-chip>
           </v-chip-group>
@@ -47,27 +45,14 @@
         </v-card-title>
 
         <v-card-text>
-          <v-select
-            v-model="selectedJobField"
-            :items="jobFields"
-            label="직무 선택"
-          ></v-select>
+          <v-select v-model="selectedJobField" :items="jobFields" label="직무 선택"></v-select>
 
           <v-spacer :style="{ height: '50px' }"></v-spacer>
 
           <v-row v-if="selectedJobField">
             <v-col cols="12">
-              <v-chip-group
-                v-model="selectedTechStacks[selectedJobField]"
-                column
-                multiple
-                filter
-              >
-                <v-chip
-                  v-for="tech in filteredTechStacks"
-                  :key="tech.id"
-                  :value="tech"
-                >
+              <v-chip-group v-model="selectedTechStacks[selectedJobField]" column multiple filter>
+                <v-chip v-for="tech in filteredTechStacks" :key="tech.id" :value="tech">
                   {{ tech.name }}
                 </v-chip>
               </v-chip-group>
@@ -82,6 +67,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+  </v-container>
 </template>
 
 <script>
@@ -90,6 +76,7 @@ import { jobFields, techStacks } from '@/data/techData';
 import { mapGetters } from 'vuex';
 
 export default {
+  props: ['require'],
   data() {
     return {
       showModal: false,
@@ -107,22 +94,22 @@ export default {
       jobFields,  // import한 jobFields를 사용
       techStacks, // import한 techStacks를 사용
       jobFieldColors: {  // 직무별 색상 설정
-        Designer: '#FF4081',
-        Frontend: '#3F51B5',
-        Backend: '#4CAF50',
-        App: '#FFC107',
-        PM: '#9E9E9E',
+        Designer: '#9A81B0',
+        Frontend: '#FFAF6E',
+        Backend: '#4C587D',
+        App: '#EA7D70',
+        PM: '#5F6F52',
       },
     };
   },
-  watch:{
-    getTechStackIdsRes(){
-      for(const item in this.getTechStackIdsRes){
-        console.log('getTechStackIdsRes: ',this.getTechStackIdsRes);
-        
-        console.log('item.jobField: ',this.getTechStackIdsRes[item].jobField);
-        
-        this.selectedTechStacks[this.getTechStackIdsRes[item].jobField].push({id:this.getTechStackIdsRes[item].id, name:this.getTechStackIdsRes[item].techStackName})
+  watch: {
+    getTechStackIdsRes() {
+      for (const item in this.getTechStackIdsRes) {
+        console.log('getTechStackIdsRes: ', this.getTechStackIdsRes);
+
+        console.log('item.jobField: ', this.getTechStackIdsRes[item].jobField);
+
+        this.selectedTechStacks[this.getTechStackIdsRes[item].jobField].push({ id: this.getTechStackIdsRes[item].id, name: this.getTechStackIdsRes[item].techStackName })
       }
       this.finalSelectedTechStacks = {};
 
@@ -143,8 +130,8 @@ export default {
     },
   },
   methods: {
-    updateTechStacks(){
-      this.$store.dispatch('updateTechStacks',this.saveIds)
+    updateTechStacks() {
+      this.$store.dispatch('updateTechStacks', this.saveIds)
     },
     submitTechStacks() {
       // 각 직무에서 선택된 스택의 ID를 하나의 리스트로 모아 최종 데이터로 변환
@@ -190,7 +177,7 @@ export default {
       // finalIds, finalSelectedTechStacks, selectedTechStacks 모두 초기화
       this.finalIds = [];
       this.finalSelectedTechStacks = {};
-      
+
       // 직무별 선택된 기술 스택 초기화
       for (const jobField in this.selectedTechStacks) {
         this.selectedTechStacks[jobField] = [];

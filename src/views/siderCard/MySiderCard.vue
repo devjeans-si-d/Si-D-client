@@ -95,7 +95,7 @@
             </v-col>
         </v-row>
         <v-row>
-            <TechStackSelector />
+            <TechStackSelector require="true"/>
         </v-row>
         <v-row justify="center">
             <v-col cols="1">

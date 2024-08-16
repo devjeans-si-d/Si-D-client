@@ -16,8 +16,14 @@
                                 <div class="chip-wrap">
                                     <BasicSmallChip :title="project.myJob" :color="this.getJobColor(project.myJob)"/>
                                 </div>
+                                <div class="chip-wrap">
+                                    <v-btn rounded="xl" size="small" color="sid_green">🧪Launched-Lab 등록</v-btn>
+                                </div>
                             </div>
                               
+                          </div>
+                          <div style="justify-content: flex-end">
+                            <p v-if="project.myJob === 'PM'">나는 PM이야</p>
                           </div>
                       </v-col>
                   </v-row>
@@ -29,12 +35,14 @@
 <script>
 import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
 import ProjectSidebar from '../navbar/ProjectSidebar.vue';
+// import ButtonComponent from '../button/ButtonComponent.vue';
 
 export default{
   props: ['projectList'],
   components: {
       BasicSmallChip,
-      ProjectSidebar
+      ProjectSidebar,
+    //   ButtonComponent
   },
   data() {
       return {
@@ -115,12 +123,11 @@ export default{
   justify-self: flex-end;
 }
 
-.project-element:hover {
+/*.project-element:hover {
   opacity: 0.7;
-  /*filter: brightness(1.1);*/
   cursor:pointer;
   transition: 0.5s ease-out;
-}
+}*/
 
 .project-info {
     width: 270px;

@@ -21,7 +21,12 @@
           <v-row justify="center">
               <v-col cols="8">
               <v-container class="max-width">
-                  <v-pagination v-model="currentPage" :length="totalPage" class="my-4 pagination mb-2" total-visible="100"></v-pagination>
+                  <v-pagination
+                  v-model="currentPage"
+                  :length="totalPage"
+                  class="my-4 pagination mb-2"
+                  total-visible="100"
+                  ></v-pagination>
               </v-container>
               </v-col>
           </v-row>

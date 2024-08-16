@@ -4,7 +4,7 @@
     <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <h4 style="text-align:center; color:#094F08;">Launched Project</h4>
-    <h2 style="text-align:center; color:#094F08;">{{ this.project.data.projectName }}</h2>
+    <h2 style="text-align:center; color:#094F08;">{{ this.project?.data?.projectName ?? "" }}</h2>
     <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <v-row class="mt-10 mb-10">
@@ -55,7 +55,6 @@
     <v-row>
 
           
-    <div id="editor"></div>
 
     </v-row>
     <v-row justify="center" class="mt-15 ">
@@ -161,9 +160,7 @@ import TechStackSelector from '@/components/modal/TechStackSelector.vue';
 import { useRoute } from 'vue-router';
 import axios from "axios";
 import ButtonComponent from '@/components/button/ButtonComponent.vue';
-import '@toast-ui/editor/dist/toastui-editor.css';
 
-import { Editor } from '@toast-ui/vue-editor';
 
 export default {
   components: {
@@ -171,20 +168,10 @@ export default {
     ButtonComponent,
   },
   
-  mounted(){
-    console.log("왜 안 나와?")
-    this.editor = new Editor({
-      el:document.querySelector('#editor'),
-      height:'500px',
-      initialEditType:'markdown',
-      previewStyle:'vertical'
-    })
-  },
   
   data() {
     return {
       launchedProjectId:0,
-      editor:null,
       siteUrl:"",
       project: {},
       projectId: 0,
@@ -218,6 +205,7 @@ export default {
       console.log("projectId",this.projectId)
       console.log("contet",this.launchedProjectContents)
       console.log("siteUrl",this.siteUrl)
+      console.log("image",this.projectImageUrl)
       let members=this.showMemberList.map(member => ({
           id: member.memberId,
           jobField: member.jobField
@@ -237,7 +225,7 @@ export default {
       };
 
       try {
-        const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/register`, body);
+        const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/update/${this.launchedProjectId}`, body);
         console.log('Launched Project 등록 성공:', response);
         // 필요 시 성공 후 처리 (예: 페이지 이동)
       } catch (error) {
@@ -364,12 +352,13 @@ export default {
     },
   },
   async created() {
+    console.log("들어와썽?")
     const route = useRoute();
     this.launchedProjectId = route.params.launchedProjectId;
     this.project = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/basic-info`)
     console.log(this.project);
     this.siteUrl = this.project.data.siteUrl;
-    this.projectImageUrl = this.project.data.imageUrl;
+    // this.projectImageUrl = this.project.data.imageUrl;
     this.launchedProjectContents = this.project.data.launchedProjectContents;
     const getMembers = await (await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/members`)).data;
     console.log(getMembers);

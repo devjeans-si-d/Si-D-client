@@ -29,8 +29,8 @@
 
     <!-- 멤버 추가 버튼 및 모달 -->
     <v-row class="mt-10 align-center justify-start">
-      <h3 style="margin-right: 20px;"> 멤버 추가 </h3>
-      <ButtonComponent content="검색" @click="searchMemberShowModal()" />
+      <h3 style="margin-right: 20px;"> 멤버 </h3>
+      <!-- <ButtonComponent content="검색" @click="searchMemberShowModal()" disabled/> -->
     </v-row>
     <v-row class="mt-10 mb-10">
       <v-chip v-for="(member, index) in showMemberList" :key="member.memberId"

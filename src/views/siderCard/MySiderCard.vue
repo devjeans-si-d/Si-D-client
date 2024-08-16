@@ -131,7 +131,7 @@ export default {
             data: {
                 id:"",
                 nickname:"",
-                image: 'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png',
+                image: '',
                 jobField: "",
                 introduction: "",
                 socialLink: {
@@ -153,7 +153,7 @@ export default {
             this.data.id = data.id
             this.data.nickname = data.nickname
             this.data.jobField = data.jobField
-            this.data.image = data.image
+            this.data.image = data.image ? data.image : 'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'
             this.data.introduction = data.introduction
             this.data.socialLink = data.socialLinkRes
             this.data.careers = data.careerRes

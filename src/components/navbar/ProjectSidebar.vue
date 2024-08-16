@@ -35,7 +35,6 @@ export default{
             console.log(this.currentMenu);
         }
     },
-
 }
 </script>
 <style scoped>

@@ -1,10 +1,30 @@
 <template>
+    <v-container fluid class="custom-container flex-container">
     <v-container class="outer-box">
-        <ProjectSidebar />
-      <v-card class="my-project-card" variant="elevated">
+        <!-- <ProjectSidebar /> -->
+
+        <v-card class="sidebar" color="#F6F6F6" :key="this.currentMenu">
+            <v-card-text
+            class="sidebar-element"
+            :class="{ 'selected-menu': this.currentMenu === 1 }"
+            @click="changeMenu(1)"
+            >전체보기</v-card-text>
+            <v-card-text
+            class="sidebar-element"
+            :class="{ 'selected-menu': this.currentMenu === 2 }"
+            @click="changeMenu(2)"
+            >내가 리더(PM)로 참여한 프로젝트</v-card-text>
+            <v-card-text
+            class="sidebar-element"
+            :class="{ 'selected-menu': this.currentMenu === 3 }"
+            @click="changeMenu(3)"
+            >내가 팀원으로 참여한 프로젝트</v-card-text>
+        </v-card>
+
+      <v-card class="my-project-card" variant="elevated" :key="projectList">
           <v-card-text>
               <v-container>
-                  <v-row v-for="project in projectList" class="element-row" :key="project.name" @click="spaMoveTo(project.projectId)">
+                  <v-row v-for="project in projectList" class="element-row" :key="project.projectId" @click="spaMoveToProject(project.projectId)">
                       <v-col class="project-element">
                           <div class="project-img">
                               <img :src="project.imageUrl" height="100px" width="auto" overflow="hidden">
@@ -17,11 +37,11 @@
                                     <BasicSmallChip :title="project.myJob" :color="this.getJobColor(project.myJob)"/>
                                 </div>
                                 <div class="chip-wrap">
-                                    <v-btn rounded="xl"
+                                    <v-btn v-if="project.myJob === 'PM' && project.isLaunched === 'N'" rounded="xl"
                                     size="small"
                                     color="sid_green"
                                     @click.stop="moveToCreateLaunched(project.projectId)">
-                                    🧪Launched-Lab 등록
+                                    🚀Launched-Project로 등록
                                 </v-btn>
                                 </div>
                             </div>
@@ -56,33 +76,105 @@
           </v-card-text>
       </v-card>
     </v-container>
+
+                <!-- 페이지네이션 -->
+      <div class="text-center self-center">
+        <v-container>
+          <v-row justify="center">
+            <v-col cols="8">
+              <v-container class="max-width">
+                <v-pagination
+                  v-model="currentPage"
+                  :length="totalPage"
+                  class="my-4 pagination mb-2"
+                  total-visible="100"
+                ></v-pagination>
+              </v-container>
+            </v-col>
+          </v-row>
+        </v-container>
+      </div>
+
+</v-container>
 </template>
 <script>
 import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
-import ProjectSidebar from '../navbar/ProjectSidebar.vue';
+import { mapGetters } from 'vuex'
+import axios from 'axios';
+// import ProjectSidebar from '../navbar/ProjectSidebar.vue';
 // import ButtonComponent from '../button/ButtonComponent.vue';
 
 export default{
-  props: ['projectList'],
   components: {
       BasicSmallChip,
-      ProjectSidebar,
-    //   ButtonComponent
+    //   ProjectSidebar,
+    //   ButtonComponent /my-projects/pm
   },
   data() {
       return {
         projectApplication: [],
-        currentPage: 0
+        currentPage: 0,
+        totalPage: 0,
+        currentMenu: 1,
+        projectList: [],
       }
   },
+  computed: {
+      ...mapGetters(['getCurrentFilter']),
+    },
+    watch: {
+       async currentPage() {
+        const params = {
+                    size: 3,
+                    page: this.currentPage-1
+            };
+
+
+            if(this.getCurrentFilter === 1) {
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects`, { params });
+                this.projectList = response.data.content;
+
+
+            } else if(this.getCurrentFilter === 2) {
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects/pm`, { params });
+                this.projectList = response.data.content;
+            } else {
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects/team`, { params });
+                this.projectList = response.data.content;
+            }
+       } 
+    },
+    async created() {
+        const params = {
+                    size: 3,
+                    page: this.currentPage
+            };
+        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects`, { params });
+        this.projectList = response.data.content;
+        this.currentPage = response.data.page;
+        this.totalPage = response.data.totalPages;
+    },
   methods: {
-      spaMoveTo(projectId) {
+      spaMoveToProject(projectId) {
           // 이동하는 코드 구현
           console.log(this.projectList);
           console.log(projectId);
         //   alert('지금은 임시로 홈으로 이동합니다..');
         //   this.$router.push('/member/project/apply');
       },
+      async onPageChange() {
+          try {
+            const params = {
+              size: 3,
+              page: this.currentPage-1
+            }
+            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects`, {params});
+            console.log(response);
+            this.projectList = response.data.content;
+            } catch(e) {
+            console.log(e);
+          }
+        },
       getChipColor(title) {
             if(title === '승인') {
                 return 'sid_btn2';
@@ -109,14 +201,45 @@ export default{
                 return 'white';
             }
         },
-        changePage(page) {
-            this.currentPage = page;
-        },
         moveToCreateLaunched(projectId) {
             this.$router.push('/launched-project/register/' + projectId);
         },
         moveToEditProject(projectId) {
             this.$router.push('/project-edit/' + projectId);
+        },
+        spaMoveTo(destination) {
+            this.$router.push(destination);
+        },
+        async changeMenu(menu) {
+            if(menu === this.getCurrentFilter) return;
+
+            this.currentMenu = menu;
+            this.$store.dispatch('updateCurrentFilter', menu);
+            console.log('getCurrent: ', this.getCurrentFilter);
+
+            const params = {
+                    size: 3,
+                    page: this.currentPage
+            };
+
+            if(this.getCurrentFilter === 1) {
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects`, { params });
+                this.projectList = response.data.content;
+                this.currentPage = response.data.page;
+                this.totalPage = response.data.totalPages;
+
+            } else if(this.getCurrentFilter === 2) {
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects/pm`, { params });
+                this.projectList = response.data.content;
+                this.currentPage = response.data.page;
+                this.totalPage = response.data.totalPages;
+
+            } else {
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects/team`, { params });
+                this.projectList = response.data.content;
+                this.currentPage = response.data.page;
+                this.totalPage = response.data.totalPages;
+            }
         }
   },
 
@@ -180,9 +303,34 @@ export default{
 }
 
 .my-project-card {
-    width: 100%;
+    width: 75%;
     margin-left: 20px;
     background-color: #F6F6F6;
 }
 
+.sidebar {
+    width: 25%;
+    height: auto;
+    text-align: center;
+}
+
+.sidebar-element:hover {
+    font-weight: bold;
+}
+
+.selected-menu {
+    font-weight: bold;
+    color: #094F08;
+    font-size: medium;
+}
+
+.self-center {
+    margin: auto;
+  }
+  
+  .custom-container {
+    max-width: 1200px !important; /* 원하는 최대 폭 */
+    margin: 0 auto !important;    /* 중앙 정렬 */
+    width: 100% !important; /* 컨테이너의 폭을 100%로 설정 */
+  }
 </style>

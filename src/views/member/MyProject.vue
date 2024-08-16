@@ -1,6 +1,4 @@
 <template>
-    <v-container fluid class="custom-container flex-container">
-      
         <h2 style="text-align:center; margin: 20px;">내 프로젝트</h2>
         <ProjectManagementComponent
         :projectList="projectList"
@@ -8,88 +6,31 @@
         ref="myProjectComponent"
         />
 
-
-            <!-- 페이지네이션 -->
-      <div class="text-center self-center">
-        <v-container>
-          <v-row justify="center">
-            <v-col cols="8">
-              <v-container class="max-width">
-                <v-pagination
-                  v-model="currentPage"
-                  :length="totalPage"
-                  class="my-4 pagination mb-2"
-                  total-visible="100"
-                ></v-pagination>
-              </v-container>
-            </v-col>
-          </v-row>
-        </v-container>
-      </div>
-    </v-container>
-
-
-
   </template>
 
 
   
   <script>
+  // import PageNavbar from '@/components/navbar/PageNavbar.vue';
   import ProjectManagementComponent from '@/components/card/ProjectManagementComponent.vue';
-  import axios from 'axios'
+
 
   export default {
     components: {
+        // PageNavbar,
         ProjectManagementComponent
     },
     data() {
         return {
-            projectList: [],
-            currentPage: 0,
-            totalPage: 0,
         }
     },
     methods: {
       moveToEdit() {
             this.$router.push("/member/edit");
         },
-        async onPageChange() {
-          try {
-            const params = {
-              size: 3,
-              page: this.currentPage-1
-            }
-            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects`, {params});
-            console.log(response);
-            this.projectList = response.data.content;
-            } catch(e) {
-            console.log(e);
-          }
-          this.$refs.myProjectComponent.changePage(this.currentPage);
-        },
     },
-    watch: {
-      currentPage() {
-        this.onPageChange(this.currentPage);
-      },
-    },
-    async created() {
-
-      try {
-
-        const params = {
-          size: 3,
-          page: this.currentPage
-        }
-        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects`, { params });
-        
-        this.projectList = response.data.content;
-        this.totalPage = response.data.totalPage;
-      } catch(e) {
-        console.log(e);
-      }
-      
-      
+  
+    async created() {    
     }
 
   }

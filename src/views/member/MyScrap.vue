@@ -4,7 +4,7 @@
       :menus='[
           {"menu": "내 정보", "url": "/member/mypage", "selected": false},
           {"menu": "신청 내역", "url": "/member/apply", "selected": false},
-          {"menu": "스크랩", "url": "/member/scrap", "selected": true},
+          {"menu": "스크랩한 프로젝트", "url": "/member/scrap", "selected": true},
       ]'
       />
       
@@ -70,7 +70,6 @@
           }
           this.$refs.myProjectComponent.changePage(this.currentPage);
         },
-
     },
     watch: {
       currentPage() {

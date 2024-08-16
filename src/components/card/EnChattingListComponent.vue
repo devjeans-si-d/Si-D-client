@@ -80,7 +80,6 @@ export default{
             this.$emit("moveToOtherRoom", dest); 
         },
         selectOrNot(id) {
-            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             if(id === this.chatroomId) {
                 return "black";
             } else {
@@ -88,9 +87,6 @@ export default{
             }
         }
   },
-  created() {
-      console.log(this.projectList);
-  }
 
 }
 </script>
@@ -126,7 +122,7 @@ export default{
 .outer-box {
     display: flex;
     justify-content: center;
-    width: 40%;
+    width: 100%;
     margin: 0px !important;
 }
 

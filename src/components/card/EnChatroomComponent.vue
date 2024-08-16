@@ -7,10 +7,9 @@
                     <p v-if="isVisible">다른 유저와 채팅하며 프로젝트에 대한 정보를 얻어보세요!</p>
                   <div>
                     <div class="chatroom-outer" v-for="(chat, index) in chatList" :key="chat.id">
-                        <div v-if="index === 0 || this.isDifferentDay(chat.createdAt, chatList[index-1].createdAt)"
-                        style="width:1000px;">
-                            <div style="display: flex; align-content: center; text-align: center; margin: 20px;">
-                                <hr style="width: 25%"><span>{{this.getDay(chat.createdAt)}}</span><hr style="width: 25%">
+                        <div v-if="index === 0 || this.isDifferentDay(chat.createdAt, chatList[index-1].createdAt)">
+                            <div style="display: flex; align-content: center; text-align: center; margin: auto;">
+                                <hr style="width: 27%; margin:auto;"><span stylel="margin:auto;">{{this.getDay(chat.createdAt)}}</span><hr style="width: 27%; margin:auto;">
                             </div>
                         </div>
                         <div class="chatroom-sub">
@@ -272,7 +271,6 @@ export default {
 }
 
 .scroll-container {
-    width: 100%;
     height: 500px;
     background-color: #F6F6F6;
     overflow-y: auto;
@@ -281,7 +279,7 @@ export default {
 
 
 .chatroom-container {
-    width: 60%;
+    justify-content: center;
     margin: 0px !important;
 }
 

@@ -15,7 +15,11 @@
               md="3"
               class="d-flex justify-center"
             >
-              <v-card class="mx-auto" style="width: 100%; max-width: 250px;">
+              <v-card 
+              class="mx-auto" 
+              style="width: 100%; max-width: 250px;"
+              @click="launchedProjectDetail(project.id)"
+              >
                 <v-img
                   class="custom-img"
                   height="250"
@@ -94,7 +98,14 @@
         const start = (page - 1) * projectsPerPage;
         const end = start + projectsPerPage;
         return this.projects.slice(start, end);
+      },
+      launchedProjectDetail(projectId){
+        alert('launchedProject 상세페이지로 이동');
+        console.log(projectId)
+        // view 화면 구현되면 주석해제
+        // this.$router.push('/launched-project/' + projectId);
       }
+
     }
   };
   </script>

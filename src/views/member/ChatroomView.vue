@@ -2,7 +2,7 @@
 <template>
     <v-container fluid class="custom-container">
         <v-card color="#F3F3F3">
-            <v-text>
+            <v-card-text>
                 <v-container>
                   <div>
                     <v-row class="chatroom-outer" v-for="chat in chatList" :key="chat.id" >
@@ -21,7 +21,7 @@
                     </v-row>
                   </div>
                 </v-container>
-            </v-text>
+            </v-card-text>
         </v-card>
 
         <v-container>

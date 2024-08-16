@@ -11,7 +11,7 @@
       />
         <h2 style="text-align:center; margin: 20px;">내 정보</h2>
         <v-card class="my-page-card">
-            <v-text>
+            <v-card-text>
                 <v-container>
                     <v-row class="item-wrap">
                     <v-col cols="9" style="margin: auto">
@@ -46,7 +46,7 @@
                     <PlainButtonComponent content="로그아웃"/>
             </v-row>
             </v-container>
-            </v-text>
+            </v-card-text>
         </v-card>
     </v-container>
 

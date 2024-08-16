@@ -1,10 +1,10 @@
 <template>
     <v-container class="outer-box">
       <v-card class="chatting-card" variant="elevated">
-          <v-text style="width:100%;">
+          <v-card-text style="width:100%;">
               <v-container>
                 <div class="chatroom-box">
-                    <v-text v-if="this.chatroomList.length === 0">채팅 기록이 없습니다.</v-text>
+                    <v-card-text v-if="this.chatroomList.length === 0">채팅 기록이 없습니다.</v-card-text>
                   <v-row
                     v-for="chatroom in chatroomList"
                     :key="chatroom.id"
@@ -32,7 +32,7 @@
                   </v-row>
                 </div>
               </v-container>
-          </v-text>
+            </v-card-text>
       </v-card>
     </v-container>
 </template>

@@ -14,10 +14,12 @@
             <EnChattingListComponent 
             :chatroomList="chatroomList"
             v-on:moveToOtherRoom="move"
+            style="width: 40%"
             />
             <EnChatroomComponent
             ref="chatroomComponent"
             :chatroomId="this.chatroomId"
+            style="width: 60%"
             />
         </v-container>
     </v-container>

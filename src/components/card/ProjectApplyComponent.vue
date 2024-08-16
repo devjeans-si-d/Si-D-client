@@ -2,7 +2,7 @@
     <v-container class="outer-box">
         <ProjectSidebar />
       <v-card class="my-project-card" variant="elevated">
-          <v-text>
+          <v-card-text>
               <v-container>
                   <v-row v-for="project in projectList" :key="project.name" @click="spaMoveTo(project.id)">
                       <v-col cols="12" class="project-element">
@@ -27,7 +27,7 @@
 
                   </v-row>
               </v-container>
-          </v-text>
+            </v-card-text>
       </v-card>
     </v-container>
 </template>

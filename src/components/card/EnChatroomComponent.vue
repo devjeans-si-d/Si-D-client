@@ -2,7 +2,7 @@
 <template>
     <v-container class="chatroom-container">
         <v-card variant="elevated">
-            <v-text>
+            <v-card-text>
                 <v-container class="scroll-container">
                     <p v-if="isVisible">다른 유저와 채팅하며 프로젝트에 대한 정보를 얻어보세요!</p>
                   <div>
@@ -30,7 +30,7 @@
                     </div>
                   </div>
                 </v-container>
-            </v-text>
+            </v-card-text>
         </v-card>
         <v-container class="send-container">
             <v-text-field v-on:keyup.enter="sendMessage" width="400" class="chat-text-field" v-model="chatMessage"></v-text-field>

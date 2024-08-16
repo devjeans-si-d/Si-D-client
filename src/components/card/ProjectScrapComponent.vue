@@ -110,7 +110,7 @@ export default{
                 console.log(e);
             }
             this.dialog = false;
-            // window.location.reload();
+            window.location.reload();
         },
   },
   created() {

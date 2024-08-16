@@ -128,11 +128,11 @@ export default{
 
 .chatting-card {
     width: 100%;
-    height: 500px; /* TODO: 채팅방 컴포넌트 채팅 바까지해서 60으로 맞춰야함*/
     display: flex;
     justify-content: center;
     margin: 0px;
     background-color: #F6F6F6;
+
     /*overflow-y: auto;*/
     /*overflow-x: hidden;*/
 }

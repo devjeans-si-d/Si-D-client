@@ -47,9 +47,6 @@ export default{
             console.log(this.currentMenu);
         }
     },
-    created() {
-        console.log(this.menus);
-    },
 }
 </script>
 <style scoped>

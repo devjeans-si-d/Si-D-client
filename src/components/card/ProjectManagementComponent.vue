@@ -4,7 +4,7 @@
       <v-card class="my-project-card" variant="elevated">
           <v-card-text>
               <v-container>
-                  <v-row v-for="project in projectList" :key="project.name" @click="spaMoveTo(project.id)">
+                  <v-row v-for="project in projectList" class="element-row" :key="project.name" @click="spaMoveTo(project.id)">
                       <v-col class="project-element">
                           <div class="project-img">
                               <img :src="project.imageUrl" height="100px" width="auto" overflow="hidden">
@@ -17,14 +17,39 @@
                                     <BasicSmallChip :title="project.myJob" :color="this.getJobColor(project.myJob)"/>
                                 </div>
                                 <div class="chip-wrap">
-                                    <v-btn rounded="xl" size="small" color="sid_green">🧪Launched-Lab 등록</v-btn>
+                                    <v-btn rounded="xl"
+                                    size="small"
+                                    color="sid_green"
+                                    @click.stop="this.$router.push('/');">
+                                    🧪Launched-Lab 등록
+                                </v-btn>
                                 </div>
                             </div>
                               
                           </div>
-                          <div style="justify-content: flex-end">
-                            <p v-if="project.myJob === 'PM'">나는 PM이야</p>
-                          </div>
+
+                      </v-col>
+                      <v-col style="justify-self: flex-end; display: flex; justify-content: flex-end; padding-right: 50px">
+                        <div>
+                        <p v-if="project.myJob === 'PM'" style="margin-bottom: 15px;">
+                            <v-list-item-icon>
+                            <v-icon
+                            size=x-large
+                            class="manage-project"
+                            @click.stop="this.$router.push('/');"
+                            > mdi-database </v-icon>
+                          </v-list-item-icon>
+                        </p>
+                        <p v-if="project.myJob === 'PM'">
+                            <v-list-item-icon>
+                            <v-icon
+                            size=x-large
+                            class="manage-project"
+                            @click.stop="this.$router.push('/');"
+                            > mdi-pencil-box-outline </v-icon>
+                          </v-list-item-icon>
+                        </p>
+                    </div>
                       </v-col>
                   </v-row>
               </v-container>
@@ -95,7 +120,15 @@ export default{
   display: flex;
   justify-content: flex-start;
   padding: 10px;
-  border-bottom: 1px solid #D4D4D4;
+}
+
+.manage-project:hover {
+    color: "indigo darken-4";
+}
+
+.element-row {
+    border-bottom: 1px solid #D4D4D4;
+    align-items: center;
 }
 
 .project-img {

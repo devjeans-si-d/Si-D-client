@@ -1,7 +1,7 @@
 
 <template>
     <v-container class="chatroom-container">
-        <v-card variant="elevated">
+        <v-card variant="elevated" class="chatroom-card">
             <v-card-text>
                 <v-container class="scroll-container">
                     <p v-if="isVisible">다른 유저와 채팅하며 프로젝트에 대한 정보를 얻어보세요!</p>
@@ -272,7 +272,6 @@ export default {
 
 .scroll-container {
     height: 500px;
-    background-color: #F6F6F6;
     overflow-y: auto;
     overflow-x: hidden;
 }

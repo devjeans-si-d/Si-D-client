@@ -1,14 +1,5 @@
 <template>
     <v-container fluid class="custom-container flex-container">
-      <PageNavbar
-      :menus='[
-          {"menu": "내 정보", "url": "/member/mypage", "selected": false},
-          {"menu": "내 채팅", "url": "/member/chatting-list", "selected": false},
-          {"menu": "내 프로젝트", "url": "/member/my-projects", "selected": true},
-          {"menu": "신청 내역", "url": "/member/apply", "selected": false},
-          {"menu": "스크랩", "url": "/member/scrap", "selected": false},
-      ]'
-      />
       
         <h2 style="text-align:center; margin: 20px;">내 프로젝트</h2>
         <ProjectManagementComponent
@@ -44,13 +35,11 @@
 
   
   <script>
-  import PageNavbar from '@/components/navbar/PageNavbar.vue';
   import ProjectManagementComponent from '@/components/card/ProjectManagementComponent.vue';
   import axios from 'axios'
 
   export default {
     components: {
-        PageNavbar,
         ProjectManagementComponent
     },
     data() {

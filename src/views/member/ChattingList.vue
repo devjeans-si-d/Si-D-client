@@ -1,14 +1,6 @@
 <template>
     <v-container fluid class="custom-container">
-        <PageNavbar
-        :menus='[
-            {"menu": "내 정보", "url": "/member/mypage", "selected": false},
-            {"menu": "내 채팅", "url": "/member/chatting-list", "selected": true},
-            {"menu": "내 프로젝트", "url": "/member/my-projects", "selected": false},
-            {"menu": "신청 내역", "url": "/member/apply", "selected": false},
-            {"menu": "스크랩", "url": "/member/scrap", "selected": false},
-        ]'
-        />
+
         <h2 style="text-align:center; margin: 20px;">내 채팅</h2>
         <v-container class="chat-outer-box">
             <EnChattingListComponent 
@@ -25,7 +17,6 @@
     </v-container>
 </template>
 <script>
-import PageNavbar from '@/components/navbar/PageNavbar.vue';
 import EnChattingListComponent from '@/components/card/EnChattingListComponent.vue';
 import EnChatroomComponent from '@/components/card/EnChatroomComponent.vue';
 import axios from 'axios'
@@ -46,7 +37,6 @@ export default {
 
     },
     components: {
-        PageNavbar,
         EnChattingListComponent,
         EnChatroomComponent
     },

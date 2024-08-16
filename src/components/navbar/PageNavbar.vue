@@ -29,7 +29,7 @@ export default{
     }
 }
 </script>
-<style>
+<style scoped>
 
 .title-row {
     border-bottom: 1px solid #D4D4D4;

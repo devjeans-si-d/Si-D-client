@@ -1,10 +1,10 @@
 <template>
     <v-container class="outer-box">
       <v-card class="chatting-card" variant="elevated">
-          <v-text style="width:100%;">
+          <v-card-text style="width:100%;">
               <v-container>
                 <div class="chatroom-box">
-                    <v-text v-if="this.chatroomList.length === 0">채팅 기록이 없습니다.</v-text>
+                    <v-card-text v-if="this.chatroomList.length === 0">채팅 기록이 없습니다.</v-card-text>
                   <v-row
                     v-for="chatroom in chatroomList"
                     :key="chatroom.id"
@@ -32,7 +32,7 @@
                   </v-row>
                 </div>
               </v-container>
-          </v-text>
+            </v-card-text>
       </v-card>
     </v-container>
 </template>
@@ -80,7 +80,6 @@ export default{
             this.$emit("moveToOtherRoom", dest); 
         },
         selectOrNot(id) {
-            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             if(id === this.chatroomId) {
                 return "black";
             } else {
@@ -88,9 +87,6 @@ export default{
             }
         }
   },
-  created() {
-      console.log(this.projectList);
-  }
 
 }
 </script>
@@ -126,17 +122,17 @@ export default{
 .outer-box {
     display: flex;
     justify-content: center;
-    width: 40%;
+    width: 100%;
     margin: 0px !important;
 }
 
 .chatting-card {
     width: 100%;
-    height: 500px; /* TODO: 채팅방 컴포넌트 채팅 바까지해서 60으로 맞춰야함*/
     display: flex;
     justify-content: center;
     margin: 0px;
     background-color: #F6F6F6;
+
     /*overflow-y: auto;*/
     /*overflow-x: hidden;*/
 }

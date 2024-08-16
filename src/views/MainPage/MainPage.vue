@@ -9,11 +9,6 @@
 
         <v-spacer :style="{height: '50px'}"></v-spacer>
 
-        <!-- <v-img
-            src="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/capture.PNG"
-        >
-        </v-img> -->
-
         <v-container
             style="background-color: #F3F3F3; border-radius:15px; max-width: 1200px;"
         >
@@ -60,8 +55,6 @@
             style="background-color: #F3F3F3; border-radius: 15px; max-width: 1200px; padding: 20px;"
         >
             <!-- Launched-Project container -->
-            <!-- <v-spacer :style="{ height: '20px' }"></v-spacer> -->
-
             <v-row>
             <v-col>
                 <h2 style="text-align: center">🚀 Launched Project 🚀</h2>

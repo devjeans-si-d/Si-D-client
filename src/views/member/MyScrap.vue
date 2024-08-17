@@ -8,7 +8,7 @@
       ]'
       />
       
-        <h2 style="text-align:center; margin: 20px;">스크랩한 프로젝트</h2>
+        <h2 style="text-align:center; margin: 20px;">📔 스크랩한 프로젝트</h2>
         <ProjectScrapComponent
         :projectList="this.projectList"/>
 

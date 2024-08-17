@@ -7,7 +7,7 @@
             {"menu": "스크랩한 프로젝트", "url": "/member/scrap", "selected": false},
         ]'
         />
-        <h2 style="text-align:center; margin: 20px;">신청 내역</h2>
+        <h2 style="text-align:center; margin: 20px;">🍀 신청 내역</h2>
         <ProjectApplyComponent 
             :projectList="projectList"
             :key="currentPage"

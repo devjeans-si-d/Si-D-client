@@ -1,6 +1,6 @@
 <template>
 
-        <h2 style="text-align:center; margin: 20px;">내 프로젝트 <BasicSmallChip @click="infoModal = true" title="?" :color="sid_green"/></h2>
+        <h2 style="text-align:center; margin: 20px;">🗂️ 내 프로젝트 <BasicSmallChip @click="infoModal = true" title="?" :color="sid_green"/></h2>
         
         <div style="margin: auto; text-align:center; border-bottom: 1px solid #D4D4D4; width: 70%;">
 

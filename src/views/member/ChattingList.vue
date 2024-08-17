@@ -45,6 +45,13 @@ export default {
         console.log(response.data.content);
         this.chatroomList = response.data.content;
     },
+    mounted() {
+        // 요소가 렌더링된 후 스크롤을 맨 아래로 이동
+        this.$nextTick(() => {
+        const container = this.$refs.chatroomComponent.$el;
+        container.scrollTop = container.scrollHeight;
+        });
+    },
 }   
 
 </script>

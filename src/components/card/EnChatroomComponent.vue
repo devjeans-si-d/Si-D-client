@@ -3,7 +3,7 @@
     <v-container class="chatroom-container">
         <v-card variant="elevated" class="chatroom-card">
             <v-card-text>
-                <v-container class="scroll-container">
+                <v-container class="scroll-container" ref="chatroomScroll" id="messageContainer">
                     <p v-if="isVisible">다른 유저와 채팅하며 프로젝트에 대한 정보를 얻어보세요!</p>
                   <div>
                     <div class="chatroom-outer" v-for="(chat, index) in chatList" :key="chat.id">
@@ -84,11 +84,22 @@ export default {
     },
     async created() {
         this.chatroomId = this.chatRoomIdProp;
+        this.scrollToBottom();
     },
     beforeUnmount() {
         this.disconnect();
     },
     methods: {
+        scrollToBottom() {
+      // 메시지 목록을 감싸는 컨테이너 찾기
+        const container = document.getElementById('messageContainer');
+        if (container) {
+            // 잠시 딜레이를 주고 스크롤을 최하단으로 이동
+            setTimeout(() => {
+            container.scrollTop = container.scrollHeight;
+            }, 100);
+        }
+        },
         async sendMessage() {
 
             if(this.chatroomId == undefined || this.chatroomId == 0) {
@@ -107,6 +118,7 @@ export default {
                 this.stompClient.send("/pub/" + this.chatroomId, JSON.stringify(chatObj));
                 
                 this.chatMessage = "";
+                this.scrollToBottom();
             }
         },
         connect() {
@@ -134,6 +146,8 @@ export default {
             socket.onclose = function() {
                 console.log('WebSocket connection closed for user');
             }
+
+            this.scrollToBottom();
         },
 
         disconnect() {
@@ -143,11 +157,11 @@ export default {
                     try {
                         this.stompClient.disconnect(() => {
                         this.isConnected = false;
-                        console.log("Disconnected from the WebSocket Connection.");
+                        // console.log("Disconnected from the WebSocket Connection.");
                         resolve();
                         });
                     } catch (error) {
-                        console.log("Failed to disconnect: ", error);
+                        // console.log("Failed to disconnect: ", error);
                         reject(error);
                     }
             }
@@ -161,6 +175,7 @@ export default {
 
             const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}`);
             this.chatList = response.data.content;
+            console.log(this.chatList);
 
             // 참여자 정보 얻기
             const memberInfo = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/get-member-info`);

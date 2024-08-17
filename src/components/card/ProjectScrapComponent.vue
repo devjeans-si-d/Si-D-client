@@ -172,6 +172,7 @@ export default{
 
 .outer-box {
     display: flex;
+    width: 70%;
 }
 
 .my-project-card {

@@ -4,7 +4,7 @@
     <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <h4 style="text-align:center; color:#094F08;">Launched Project</h4>
-    <h2 style="text-align:center; color:#094F08;">{{ this.project.data.projectName }}</h2>
+    <h2 style="text-align:center; color:#094F08;">{{ this.projectName }}</h2>
     <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <v-row class="mt-10 mb-10">
@@ -52,7 +52,6 @@
     <v-row>
 
           
-    <div id="editor"></div>
 
     </v-row>
     <v-row justify="center" class="mt-15 ">
@@ -158,28 +157,15 @@ import TechStackSelector from '@/components/modal/TechStackSelector.vue';
 import { useRoute } from 'vue-router';
 import axios from "axios";
 import ButtonComponent from '@/components/button/ButtonComponent.vue';
-import '@toast-ui/editor/dist/toastui-editor.css';
-
-import { Editor } from '@toast-ui/vue-editor';
 
 export default {
   components: {
     TechStackSelector,
     ButtonComponent,
   },
-  mounted(){
-    console.log("왜 안 나와?")
-    this.editor = new Editor({
-      el:document.querySelector('#editor'),
-      height:'500px',
-      initialEditType:'markdown',
-      previewStyle:'vertical'
-    })
-  },
   
   data() {
     return {
-      editor:null,
       siteUrl:"",
       project: {},
       projectId: 0,
@@ -200,6 +186,7 @@ export default {
       showMemberList: [], // 화면에 아직 확정되진 않은 선택된 memberList
       techStackList: [],
       launchedProjectContents:"",
+      projectName:"",
     };
   },
 
@@ -255,7 +242,6 @@ export default {
     },
     removeMember(index) {
       this.showMemberList.splice(index, 1);
-      console.log("Updated Member List after removal:", this.showMemberList);
     },
     async searchMembersList() {
       const params = {};
@@ -277,6 +263,7 @@ export default {
       }
     },
     selectMember(member) {
+      console.log("member정보여",member)
       this.selectedMember = member.memberId; // 멤버를 선택하면 해당 멤버의 ID를 저장
     },
     confirmMemberSelection() {
@@ -362,13 +349,11 @@ export default {
     const route = useRoute();
     this.projectId = route.params.projectId;
     this.project = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`)
-    console.log(this.project);
-    console.log("이름" + this.project.data.projectName);
-    console.log("멤버" + JSON.stringify(this.project.data.projectMembers));
+    this.projectName = this.project?.data?.projectName ?? "";
     this.showMemberList = this.project.data.projectMembers.map((member) => {
       return {
-        memberId: member.id,
-        memberName: member.memberName, // 이름을 Chip에 표시하기 위해 추가
+        memberId: member.memberId,
+        memberName: member.memberNickname, // 이름을 Chip에 표시하기 위해 추가
         jobField: member.jobField, // 사용자가 선택한 직무 필드
       }
     });

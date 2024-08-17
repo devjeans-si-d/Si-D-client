@@ -4,7 +4,7 @@
     <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <h4 style="text-align:center; color:#094F08;">Launched Project</h4>
-    <h2 style="text-align:center; color:#094F08;">{{ this.project?.data?.projectName ?? "" }}</h2>
+    <h2 style="text-align:center; color:#094F08;">{{ this.projectName }}</h2>
     <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <v-row class="mt-10 mb-10">
@@ -192,6 +192,7 @@ export default {
       showMemberList: [], // 화면에 아직 확정되진 않은 선택된 memberList
       techStackList: [],
       launchedProjectContents:"",
+      projectName:"",
     };
   },
 
@@ -206,6 +207,7 @@ export default {
       console.log("contet",this.launchedProjectContents)
       console.log("siteUrl",this.siteUrl)
       console.log("image",this.projectImageUrl)
+      console.log("member",this.showMemberList)
       let members=this.showMemberList.map(member => ({
           id: member.memberId,
           jobField: member.jobField
@@ -284,11 +286,13 @@ export default {
         if (!alreadySelected) {
           this.showMemberList.push({
             memberId: selected.memberId,
-            memberName: selected.name, // 이름을 Chip에 표시하기 위해 추가
+            memberName: selected.nickname, // 이름을 Chip에 표시하기 위해 추가
             jobField: this.memberField, // 사용자가 선택한 직무 필드
           });
           // this.showMemberList.push(selected);
         }
+
+        
       }
       console.log("confirm?" + this.showMemberList);
 
@@ -356,7 +360,9 @@ export default {
     const route = useRoute();
     this.launchedProjectId = route.params.launchedProjectId;
     this.project = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/basic-info`)
-    console.log(this.project);
+    const projectResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.project?.data?.projectId}`)
+    console.log("????",projectResponse)
+    this.projectName = projectResponse?.data?.projectName ?? "";
     this.siteUrl = this.project.data.siteUrl;
     // this.projectImageUrl = this.project.data.imageUrl;
     this.launchedProjectContents = this.project.data.launchedProjectContents;
@@ -364,7 +370,7 @@ export default {
     console.log(getMembers);
     this.showMemberList = getMembers.map((member) => {
       return {
-        memberId: member.id,
+        memberId: member.memberId,
         memberName: member.nickname, // 이름을 Chip에 표시하기 위해 추가
         jobField: member.jobField, // 사용자가 선택한 직무 필드
       }

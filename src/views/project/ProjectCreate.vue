@@ -344,11 +344,7 @@ export default {
     },
     // recruit remove
     removeRecruitInfo(index) {
-      console.log("이전"+this.showRecruitInfoList)
-      console.log("index"+index)
-      console.log(this.showRecruitInfoList[index])
       this.showRecruitInfoList.splice(index, 1);
-      console.log("왜 안 지워져"+this.showRecruitInfoList)
     },
     // recruit clear
     recruitInfoClear() {
@@ -385,6 +381,7 @@ export default {
       }
     },
     selectMember(member) {
+      console.log("member 정보",member)
       this.selectedMember = member.memberId; // 멤버를 선택하면 해당 멤버의 ID를 저장
     },
     clearMemberAddModal() {
@@ -396,11 +393,14 @@ export default {
       const selected = this.memberList.find(
         (member) => member.memberId === this.selectedMember
       );
+      console.log("selected",selected)
       if (selected) {
         // 선택된 멤버가 showMemberList에 이미 있는지 확인
         const alreadySelected = this.showMemberList.find(
           (item) => item.memberId === selected.memberId
         );
+      console.log("alreadySelected",alreadySelected)
+
         if (!alreadySelected) {
           this.showMemberList.push({
             memberId: selected.memberId,

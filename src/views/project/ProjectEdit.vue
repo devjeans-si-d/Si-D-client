@@ -275,9 +275,10 @@ export default {
     this.projectImageUrl=(await getProjectResponse).data.imageUrl;
     this.description=(await getProjectResponse).data.description;
     this.showMemberList = (await getProjectResponse).data.projectMembers.map((member) => {
+
       return {
-        memberId: member.id,
-        name: member.memberName, 
+        memberId: member.memberId,
+        name: member.memberNickname, 
         jobfield: member.jobField, 
       }
     });
@@ -391,11 +392,8 @@ export default {
     },
     // recruit remove
     removeRecruitInfo(index) {
-      console.log("이전"+this.showRecruitInfoList)
-      console.log("index"+index)
       console.log(this.showRecruitInfoList[index])
       this.showRecruitInfoList.splice(index, 1);
-      console.log("왜 안 지워져"+this.showRecruitInfoList)
     },
     // recruit clear
     recruitInfoClear() {

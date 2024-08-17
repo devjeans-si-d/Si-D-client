@@ -33,6 +33,7 @@
                         size="small"
                         color="sid_green"
                         style="margin-right: 30px;"
+                        @click="accept(this.projectInfo.id, apply.id)"
                         >승인하기</v-btn>
 
                         <v-btn
@@ -77,6 +78,50 @@
     </div>
 
 </v-container>
+
+
+
+<!-- 모달 1 -->
+<v-dialog v-model="this.acceptDialog" width="500px">
+    <v-card class="dialog-card" style="text-align: center">
+        <v-card-title>
+            프로젝트 멤버로 초대하시겠습니까?
+        </v-card-title>
+        <v-card-text>
+            승인하면 지원자에게 승인 되었다는 메일이 발송돼요.
+            <br>
+            신중하게 결정해주세요!
+        </v-card-text>
+    
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="sid_btn1" text @click="acceptDialog = false">닫기</v-btn>
+            <v-btn color="sid_btn1" text @click="acceptComfirm">승인하기</v-btn>
+            </v-card-actions>
+    </v-card>
+</v-dialog>
+
+<!-- 모달 1 -->
+<v-dialog v-model="this.acceptDialog" width="500px">
+    <v-card class="dialog-card" style="text-align: center">
+        <v-card-title>
+            프로젝트 멤버로 초대하시겠습니까?
+        </v-card-title>
+        <v-card-text>
+            승인하면 지원자에게 승인 되었다는 메일이 발송돼요.
+            <br>
+            신중하게 결정해주세요!
+        </v-card-text>
+    
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="sid_btn1" text @click="acceptDialog = false">닫기</v-btn>
+            <v-btn color="sid_btn1" text @click="acceptComfirm">승인하기</v-btn>
+            </v-card-actions>
+    </v-card>
+</v-dialog>
+
+
 </template>
 <script>
 import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
@@ -98,6 +143,9 @@ export default{
         currentPage: 0,
         projectId: 0,
         projectInfo: {projectName: " "},
+        acceptDialog: false,
+        apId: 0,
+        amId: 0,
       }
   },
   computed: {
@@ -151,6 +199,27 @@ export default{
       },
       getStatusColor() {
 
+      },
+      async accept(projectId, memberId) {
+        this.amId = memberId;
+        this.apId = projectId;
+        this.acceptDialog = true;
+      },
+      async acceptComfirm() {
+        const body = {
+            "projectId": this.apId,
+            "applicantId":  this.amId
+        };
+
+        try {
+            await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/applicant/accept`, body);
+            window.location.reload();
+        } catch(e) {
+            console.log(e);
+        }
+
+        this.amId = 0;
+        this.apId = 0;
       },
       async onPageChange() {
           try {
@@ -291,6 +360,7 @@ export default{
   height: 100px;
   background-color: black;
   text-align: center;
+  object-fit: cover;
 }
 
 .project-content {

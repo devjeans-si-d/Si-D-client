@@ -1,6 +1,6 @@
 <template>
     <v-container class="outer-box">
-        <ProjectSidebar />
+        <!-- <ProjectSidebar /> -->
       <v-card class="my-project-card" variant="elevated">
           <v-card-text>
               <v-container>
@@ -34,14 +34,14 @@
 <script>
 import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
 import BasicChip from '@/components/chip/BasicChip.vue';
-import ProjectSidebar from '../navbar/ProjectSidebar.vue';
+// import ProjectSidebar from '../navbar/ProjectSidebar.vue';
 
 export default{
   props: ['projectList'],
   components: {
       BasicSmallChip,
       BasicChip,
-      ProjectSidebar
+    //   ProjectSidebar
   },
   data() {
       return {

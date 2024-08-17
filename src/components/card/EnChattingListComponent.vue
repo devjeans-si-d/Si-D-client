@@ -8,7 +8,7 @@
                   <v-row
                     v-for="chatroom in chatroomList"
                     :key="chatroom.id"
-                    @click="moveToOtherRoom(chatroom.chatRoomId)"
+                    @click="moveToOtherRoom(chatroom.chatRoomId, chatroom.projectId)"
                     :class="{ 'selected': chatroom.chatRoomId === this.chatroomId }"
                     >
                       <v-col :class="{selected}" cols="12">
@@ -79,10 +79,10 @@ export default{
                 return 'white';
             }
         },
-        moveToOtherRoom(dest) {
+        moveToOtherRoom(dest, projectId) {
             this.chatroomId = dest;
 
-            this.$emit("moveToOtherRoom", dest); 
+            this.$emit("moveToOtherRoom", dest, projectId); 
         },
         selectOrNot(id) {
             if(id === this.chatroomId) {

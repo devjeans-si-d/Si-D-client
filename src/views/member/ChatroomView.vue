@@ -65,7 +65,6 @@ export default {
         const route = useRoute();
         this.chatroomId = route.params.chatroomId;
         const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}`);
-        console.log(response.data.content);
         this.chatList = response.data.content;
 
         // 참여자 정보 얻기

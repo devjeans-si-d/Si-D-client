@@ -1,81 +1,63 @@
 <template>
-    <v-container fluid class="custom-container flex-container">
-    <v-container class="outer-box">
-        <!-- <ProjectSidebar /> -->
-
+    <v-container fluid class="custom-container">
+    <div class="outer-box2">
+        
+        <v-col cols="4">
         <v-card class="sidebar" color="#F6F6F6" :key="this.currentMenu">
-            <v-card-text
-            class="sidebar-element"
-            :class="{ 'selected-menu': this.currentMenu === 1 }"
-            @click="changeMenu(1)"
-            >전체보기</v-card-text>
-            <v-card-text
-            class="sidebar-element"
-            :class="{ 'selected-menu': this.currentMenu === 2 }"
-            @click="changeMenu(2)"
-            >내가 리더(PM)로 참여한 프로젝트</v-card-text>
-            <v-card-text
-            class="sidebar-element"
-            :class="{ 'selected-menu': this.currentMenu === 3 }"
-            @click="changeMenu(3)"
-            >내가 팀원으로 참여한 프로젝트</v-card-text>
+            <v-img
+            height="200px"
+
+            :src="this.projectInfo.imageUrl"
+            cover
+          ></v-img>
+            <v-card-title>{{this.projectInfo.projectName}}</v-card-title>
+            <v-card-text>{{this.projectInfo.projectName}}의 지원자 목록이에요.</v-card-text>
+            <v-card-text>모집 마감일: 
+                <p>{{this.getDay(this.projectInfo.deadline)}} {{this.getTime(this.projectInfo.deadline)}}</p>
+
+                </v-card-text>
         </v-card>
-
-      <v-card class="my-project-card" variant="elevated" :key="projectList">
+        </v-col>
+        <v-card class="my-project-card" variant="elevated" :key="projectList">
           <v-card-text>
-              <v-container>
-                  <v-row v-for="project in projectList" class="element-row" :key="project.projectId" @click="spaMoveToProject(project.projectId)">
-                      <v-col class="project-element">
-                          <div class="project-img">
-                              <img :src="project.imageUrl" height="100px" width="auto" overflow="hidden">
-                          </div>
-                          <div class="project-content">
-                            <div class="project-info">
-                                <h3>{{ project.projectName }}</h3>
-                                <p class="project-description">{{ project.description }}</p>
-                                <div class="chip-wrap">
-                                    <BasicSmallChip :title="project.myJob" :color="this.getJobColor(project.myJob)"/>
-                                </div>
-                                <div class="chip-wrap">
-                                    <v-btn v-if="project.myJob === 'PM' && project.isLaunched === 'N'" rounded="xl"
-                                    size="small"
-                                    color="sid_green"
-                                    @click.stop="moveToCreateLaunched(project.projectId)">
-                                    🚀Launched-Project로 등록
-                                </v-btn>
-                                </div>
-                            </div>
-                              
-                          </div>
+              <v-container v-for="apply, index in applyList" class="element-row" :key="index">
+                <div class="project-img">
+                    <img :src="apply.profileImageUrl" height="100px" width="auto" overflow="hidden">
+                </div>
 
-                      </v-col>
-                      <v-col style="justify-self: flex-end; display: flex; justify-content: flex-end; padding-right: 50px">
-                        <div>
-                        <p v-if="project.myJob === 'PM'" style="margin-bottom: 15px;">
-                            <v-list-item-icon>
-                            <v-icon
-                            size=x-large
-                            class="manage-project"
-                            @click.stop="moveToApplyManagement(project.projectId)"
-                            > mdi-database </v-icon>
-                          </v-list-item-icon>
-                        </p>
-                        <p v-if="project.myJob === 'PM'">
-                            <v-list-item-icon>
-                            <v-icon
-                            size=x-large
-                            class="manage-project"
-                            @click.stop="moveToEditProject(project.projectId)"
-                            > mdi-pencil-box-outline </v-icon>
-                          </v-list-item-icon>
-                        </p>
-                    </div>
-                      </v-col>
-                  </v-row>
-              </v-container>
+
+              <v-container>
+                    <v-row class="d-flex justify-space-between">
+                        <h3>{{ apply.name }}</h3>
+                        <v-btn
+                        v-if="apply.status === '승인 대기'"
+                        rounded="xl"
+                        size="small"
+                        color="sid_green"
+                        style="justify-content: flex-end;"
+                        >승인하기</v-btn>
+
+                        <v-btn
+                        v-if="apply.status === '승인 완료'"
+                        rounded="xl"
+                        size="small"
+                        color="#CC3D3D"
+                        style="justify-self: flex-end;"
+                        >승인 취소하기</v-btn>
+                    <!-- <p class="project-description">{{ project.description }}</p> -->
+                    </v-row>
+
+
+                    <v-row class="d-flex mt-5">
+                        <!-- <v-spacer :style="{height: '10px'}"></v-spacer> -->
+                        <BasicSmallChip style="margin-right: 10px" :title="apply.jobField" :color="this.getJobColor(apply.jobField)"/>
+                        <BasicSmallChip :title="apply.status" :color="this.getStatusColor(apply.status)"/>
+                    </v-row>
+                </v-container>
+        </v-container>
           </v-card-text>
       </v-card>
-    </v-container>
+    </div>
 
                 <!-- 페이지네이션 -->
       <div class="text-center self-center">
@@ -93,7 +75,8 @@
             </v-col>
           </v-row>
         </v-container>
-      </div>
+
+    </div>
 
 </v-container>
 </template>
@@ -101,6 +84,7 @@
 import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
 import { mapGetters } from 'vuex'
 import axios from 'axios';
+import { useRoute } from 'vue-router';
 // import ProjectSidebar from '../navbar/ProjectSidebar.vue';
 // import ButtonComponent from '../button/ButtonComponent.vue';
 
@@ -112,11 +96,10 @@ export default{
   },
   data() {
       return {
-        projectApplication: [],
+        applyList: [],
         currentPage: 0,
-        totalPage: 0,
-        currentMenu: 1,
-        projectList: [],
+        projectId: 0,
+        projectInfo: {projectName: " "},
       }
   },
   computed: {
@@ -127,8 +110,7 @@ export default{
         const params = {
                     size: 3,
                     page: this.currentPage-1
-            };
-
+            }
 
             if(this.getCurrentFilter === 1) {
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects`, { params });
@@ -145,14 +127,21 @@ export default{
        } 
     },
     async created() {
+        const route = useRoute();
+        this.projectId = route.params.projectId;
+
         const params = {
                     size: 3,
                     page: this.currentPage
-            };
-        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects`, { params });
-        this.projectList = response.data.content;
+        };
+        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/applicants`, { params });
+        this.applyList = response.data.content;
         this.currentPage = response.data.page;
         this.totalPage = response.data.totalPages;
+        
+        const projectRes = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`);
+        this.projectInfo = projectRes.data;
+        console.log(this.projectInfo);
     },
   methods: {
       spaMoveToProject(projectId) {
@@ -161,6 +150,9 @@ export default{
           console.log(projectId);
         //   alert('지금은 임시로 홈으로 이동합니다..');
         //   this.$router.push('/member/project/apply');
+      },
+      getStatusColor() {
+
       },
       async onPageChange() {
           try {
@@ -244,6 +236,32 @@ export default{
                 this.currentPage = response.data.page;
                 this.totalPage = response.data.totalPages;
             }
+        },
+        getTime(createdAt) {
+            const createdTime = new Date(createdAt);
+            let hour = createdTime.getHours();
+            let minute = createdTime.getMinutes();
+            let ampm;
+            if(hour < 12) {
+                ampm = '오전'
+            } else {
+                ampm = '오후'
+                hour -= 12;
+            }
+            if(hour < 10) {
+                hour = '0'+hour;
+            }
+
+            if(minute < 10) {
+                minute = '0'+minute;
+            }
+
+            return ampm + ' ' + hour + ':' + minute;
+        },
+        getDay(createdAt) {
+            const createdTime = new Date(createdAt);
+
+            return `${createdTime.getFullYear()}년 ${createdTime.getMonth()}월 ${createdTime.getDate()}일`; 
         }
   },
 
@@ -252,8 +270,11 @@ export default{
 <style scoped>
 .project-element {
   display: flex;
-  justify-content: flex-start;
-  padding: 10px;
+  justify-content: space-between;
+}
+
+.flex-div {
+    display: flex;
 }
 
 .manage-project:hover {
@@ -263,10 +284,11 @@ export default{
 .element-row {
     border-bottom: 1px solid #D4D4D4;
     align-items: center;
+    display: flex;
 }
 
 .project-img {
-  margin-right: 10px;
+  margin-right: 25px;
   width: 100px;
   height: 100px;
   background-color: black;
@@ -276,7 +298,7 @@ export default{
 .project-content {
   margin: 10px;
   display: flex;
-  justify-content: flex-start;
+  width: 100%;
 }
 
 .project-description {
@@ -296,26 +318,24 @@ export default{
   transition: 0.5s ease-out;
 }*/
     
-.project-info {
-    width: 270px;
-}
 
 
-.outer-box {
+.outer-box2 {
     display: flex;
-
+    align-content: center;
+    margin: auto;
+    width: 80%
 }
 
 .my-project-card {
-    width: 75%;
-    margin-left: 20px;
     background-color: #F6F6F6;
+    height: 100%;
+    width: 75%;
 }
 
 .sidebar {
-    width: 25%;
-    height: auto;
-    text-align: center;
+    align-self:center;
+    /*margin: auto;*/
 }
 
 .sidebar-element:hover {
@@ -332,9 +352,9 @@ export default{
     margin: auto;
   }
   
-  .custom-container {
+.custom-container {
     max-width: 1200px !important; /* 원하는 최대 폭 */
     margin: 0 auto !important;    /* 중앙 정렬 */
     width: 100% !important; /* 컨테이너의 폭을 100%로 설정 */
-  }
+}
 </style>

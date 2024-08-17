@@ -1,6 +1,6 @@
 
 import MyPage from '@/views/member/MyPage.vue';
-import ApplyList from '@/views/member/ApplyList.vue';
+import ApplyManagement from '@/views/member/ApplyManagement.vue';
 import ChattingList from '@/views/member/ChattingList.vue';
 import MyPageEdit from '@/views/member/MyPageEdit.vue';
 import MyProject from '@/views/member/MyProject.vue';
@@ -43,9 +43,9 @@ export const memberRouter = [
         component: MyScrap
     },
     {
-        path: '/member/project/apply', // TODO: project id 추가 필요
-        name: 'ApplyList',
-        component: ApplyList
+        path: '/member/project/apply/:projectId', // TODO: project id 추가 필요
+        name: 'ApplyManagement',
+        component: ApplyManagement
     },
     {
         path: '/member/chatroom/:chatroomId',

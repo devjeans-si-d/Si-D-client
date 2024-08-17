@@ -6,12 +6,14 @@
           class="mx-auto"
           max-width="400"
           v-for="project in projectList" :key="project.id"
-          @click="spaMoveTo(project.id)"
+
       >
           <v-img
           height="200"
           :src="project.imageUrl"
           cover
+          @click="spaMoveTo(project.id)"
+          class="scrap-img"
           ></v-img>
           <v-card-title>
               {{ project.projectName }}
@@ -26,7 +28,7 @@
 
           <v-card-text  class="d-flex justify-space-between align-center">
             <BasicChip :title="this.getProjectStatus(project.isClosed)" :color="this.getChipColor(project.isClosed)"/>
-            <v-icon style="margin-left: 15px" icon="mdi-bookmark" class="scrap-icon" @click="this.cancelBookmark(project.id)"></v-icon>
+            <v-icon style="margin-left: 15px" size="x-large" icon="mdi-bookmark" class="scrap-icon" @click="this.cancelBookmark(project.id)"></v-icon>
           </v-card-text>
       </v-card>
     </v-container>
@@ -154,6 +156,12 @@ export default{
   padding: 10px;
   border-bottom: 1px solid #D4D4D4;
   align-items: center;
+}
+
+.scrap-img:hover {
+    opacity: 0.7;
+    cursor:pointer;
+    transition: 0.5s ease-out;
 }
 
 .project-img {

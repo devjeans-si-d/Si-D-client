@@ -101,23 +101,12 @@
     </v-card>
 </v-dialog>
 
-<!-- 모달 1 -->
-<v-dialog v-model="this.acceptDialog" width="500px">
+<!-- 모달 2 -->
+<v-dialog v-model="this.acceptLoadingDialog" width="500px">
     <v-card class="dialog-card" style="text-align: center">
         <v-card-title>
-            프로젝트 멤버로 초대하시겠습니까?
+            승인 처리 중입니다...
         </v-card-title>
-        <v-card-text>
-            승인하면 지원자에게 승인 되었다는 메일이 발송돼요.
-            <br>
-            신중하게 결정해주세요!
-        </v-card-text>
-    
-            <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="sid_btn1" text @click="acceptDialog = false">닫기</v-btn>
-            <v-btn color="sid_btn1" text @click="acceptComfirm">승인하기</v-btn>
-            </v-card-actions>
     </v-card>
 </v-dialog>
 
@@ -144,6 +133,7 @@ export default{
         projectId: 0,
         projectInfo: {projectName: " "},
         acceptDialog: false,
+        acceptLoadingDialog: false,
         apId: 0,
         amId: 0,
       }
@@ -212,6 +202,8 @@ export default{
         };
 
         try {
+            this.acceptDialog = false;
+            this.acceptLoadingDialog = true;
             await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/applicant/accept`, body);
             window.location.reload();
         } catch(e) {

@@ -13,12 +13,12 @@
             class="sidebar-element"
             :class="{ 'selected-menu': this.currentMenu === 2 }"
             @click="changeMenu(2)"
-            >내가 리더(PM)로 참여한 프로젝트</v-card-text>
+            >내가 리더(PM)로<br>참여한 프로젝트</v-card-text>
             <v-card-text
             class="sidebar-element"
             :class="{ 'selected-menu': this.currentMenu === 3 }"
             @click="changeMenu(3)"
-            >내가 팀원으로 참여한 프로젝트</v-card-text>
+            >내가 팀원으로<br>참여한 프로젝트</v-card-text>
         </v-card>
 
       <v-card class="my-project-card" variant="elevated" :key="projectList">
@@ -303,7 +303,7 @@ export default{
 
 .outer-box {
     display: flex;
-
+    width: 70%;
 }
 
 .my-project-card {

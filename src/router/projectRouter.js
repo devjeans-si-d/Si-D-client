@@ -3,7 +3,7 @@ import editorComponent from "@/components/editor/editorComponent.vue"
 import projectCreate from "@/views/project/ProjectCreate.vue"
 import ProjectEdit from "@/views/project/ProjectEdit.vue"
 import ProjectList from "@/views/project/ProjectList.vue"
-import ProjectView from "@/views/project/ProjectView.vue"
+import ProjectView from "@/views/project/ProjectView2.vue"
 export const projectRouter = [
     {
         path: '/editorComponent',

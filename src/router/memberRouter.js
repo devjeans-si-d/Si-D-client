@@ -7,6 +7,7 @@ import MyProject from '@/views/member/MyProject.vue';
 import MyApply from '@/views/member/MyApply.vue';
 import MyScrap from '@/views/member/MyScrap.vue';
 import ChatroomView from '@/views/member/ChatroomView.vue';
+import EmailUpdate from '@/views/member/EmailUpdate.vue';
 // import TestView from '@/views/member/TestView.vue';
 
 
@@ -57,4 +58,9 @@ export const memberRouter = [
     //     name: 'TestView',
     //     component: TestView
     // }
+    {
+        path: '/member/email-code/:code',
+        name: 'EmailUpdate',
+        component: EmailUpdate
+    }
 ]

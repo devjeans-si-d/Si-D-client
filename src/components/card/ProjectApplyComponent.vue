@@ -100,6 +100,7 @@ export default{
   align-items: center;
 }
 
+
 .my-project-card {
     color: "#FCFCFC";
 }

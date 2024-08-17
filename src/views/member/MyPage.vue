@@ -117,10 +117,18 @@
       async confirmUpdate() {
         this.dialog1 = false;
         this.dialog2 = true;
+        
         const request = {
-          email: this.email
+          email: this.newEmail
         }
-        await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/member/update/email`, request);
+
+        try {
+          const res = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/member/update/email`, request);
+          console.log(res);
+        } catch(e) {
+          console.log(e);
+        }
+        
       }
     },
     async created() {

@@ -6,6 +6,9 @@
                 <v-container class="scroll-container" ref="chatroomScroll" id="messageContainer">
                     <p v-if="isVisible">다른 유저와 채팅하며 프로젝트에 대한 정보를 얻어보세요!</p>
                   <div>
+                    <v-container>
+                        프로젝트 정보가 들어갑니다.
+                    </v-container>
                     <div class="chatroom-outer" v-for="(chat, index) in chatList" :key="chat.id">
                         <div v-if="index === 0 || this.isDifferentDay(chat.createdAt, chatList[index-1].createdAt)">
                             <div style="display: flex; align-content: center; text-align: center; margin: auto;">
@@ -19,7 +22,13 @@
                         </div>
                         <div class="chat-block">
 
-                            <div v-if="index === 0 || chat.sender != chatList[index-1].sender" class="member-name">{{this.getMemberName(chat.sender)}}</div>
+                            <div v-if="index === 0 || chat.sender != chatList[index-1].sender" style="margin-bottom: 20px;">
+                                <span v-if="chat.sender != this.myId" class="member-name">{{this.getMemberName(chat.sender)}}</span>
+                                <span v-if="chat.sender == this.myId" class="member-name">나</span>
+                                
+                                <!-- <span v-if="chat.sender != this.myId" style="font-size: small; color: gray; margin-left: 10px;">문의자</span>
+                                <span v-if="chat.sender != this.myId" style="font-size: small; color: gray; margin-left: 10px;">문의자</span> -->
+                            </div>
                             <div>
                                 <span>{{chat.content}}</span>
                                 <span class="chat-createdTime">{{this.getTime(chat.createdAt)}}</span>
@@ -80,9 +89,11 @@ export default {
             chatroomId: 0,
             alertDialog: false,
             isVisible: true,
+            myId: 0,
         }
     },
     async created() {
+        this.myId = localStorage.getItem('id');
         this.chatroomId = this.chatRoomIdProp;
         this.scrollToBottom();
     },
@@ -175,7 +186,6 @@ export default {
 
             const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}`);
             this.chatList = response.data.content;
-            console.log(this.chatList);
 
             // 참여자 정보 얻기
             const memberInfo = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/get-member-info`);
@@ -248,7 +258,6 @@ export default {
 }
 
 .member-name {
-    margin-bottom: 20px;
     font-size: medium;
     font-weight: bold;
 }

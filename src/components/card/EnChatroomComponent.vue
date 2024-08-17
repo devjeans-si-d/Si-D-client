@@ -245,7 +245,7 @@ export default {
     min-width: 43px;
     min-height: 43px; 
     border-radius: 50%;
-    overflow: hidden;
+    object-fit: cover;
 }
 
 .chat-block {

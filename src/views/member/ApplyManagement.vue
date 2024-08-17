@@ -20,7 +20,7 @@
           <v-card-text>
               <v-container v-for="apply, index in applyList" class="element-row" :key="index">
                 <div class="project-img">
-                    <img :src="apply.profileImageUrl" height="100px" width="auto" overflow="hidden">
+                    <img :src="apply.profileImageUrl" height="100px" width="100px" style="object-fit: cover; border-radius: 50px;" overflow="hidden">
                 </div>
 
 
@@ -34,7 +34,7 @@
                         color="sid_green"
                         style="margin-right: 30px;"
                         @click="accept(this.projectInfo.id, apply.id)"
-                        >승인하기</v-btn>
+                        >승인</v-btn>
 
                         <v-btn
                         v-if="apply.status === '승인 완료'"
@@ -42,7 +42,7 @@
                         size="small"
                         color="#CC3D3D"
                         style="margin-right: 30px;"
-                        >승인 취소하기</v-btn>
+                        >승인 취소</v-btn>
                     <!-- <p class="project-description">{{ project.description }}</p> -->
                     </v-row>
 
@@ -353,6 +353,7 @@ export default{
   background-color: black;
   text-align: center;
   object-fit: cover;
+  border-radius: 50px;
 }
 
 .project-content {

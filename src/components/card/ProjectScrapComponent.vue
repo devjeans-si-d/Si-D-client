@@ -19,7 +19,8 @@
               {{ project.projectName }}
           </v-card-title>
           <v-card-text>
-               <p>{{ project.description }}</p>
+               <p>{{ project.description.substr(0, 7) }} <span style="font-size:small; color: gray;">...more</span></p>
+               <p style="font-size:small; color: gray;">모집 마감: </p>
                <p style="font-size:small; color: gray;">{{ this.getDay(project.deadline) }} {{ this.getTime(project.deadline) }}</p>
           </v-card-text>
               

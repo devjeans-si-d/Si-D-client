@@ -19,7 +19,7 @@
                         {{ project.projectName }}
                     </v-card-title>
                     <v-card-text>
-                         <p>{{ project.description }}</p>
+                        <p>{{ project.description.substr(0, 7) }} <span style="font-size:small; color: gray;">...more</span></p>
                          <!-- <p>{{ project.deadline }}</p> -->
                     </v-card-text>
                         

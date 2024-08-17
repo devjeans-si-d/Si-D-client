@@ -86,6 +86,7 @@
 <script>
 import axios from 'axios';
 import MemberChip from '@/components/chip/MemberChip.vue';
+import { useRoute } from 'vue-router';
 
 export default{
     components: {
@@ -93,6 +94,7 @@ export default{
     },
     data(){
         return{
+            id:"",
             project: [],
             basicInfo: [],
             techStacks: [],
@@ -111,11 +113,14 @@ export default{
         };
     },
     created(){
+        const route = useRoute();
+        this.launchedProjectId = route.params.launchedProjectId;
         this.loadBasicInfo();
     },
     mounted(){
         this.loadTechStacks();
         this.loadMembers();
+        
     },
     computed: {
         techStacksByJobField() {
@@ -147,7 +152,7 @@ export default{
         async loadBasicInfo(){
             try{
                 // 이후 9 => {id}로 바꿔야됨
-                const basicInfoResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/9/basic-info`);
+                const basicInfoResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/basic-info`);
                 console.log(basicInfoResponse.data);
                 this.basicInfo = basicInfoResponse.data;
                 
@@ -170,7 +175,7 @@ export default{
         },
         async loadTechStacks(){
             try{
-                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/9/tech-stacks`);
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/tech-stacks`);
                 console.log(response.data);
                 this.techStacks = response.data;
             }catch(error){
@@ -179,7 +184,7 @@ export default{
         },
         async loadMembers(){
             try{
-                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/9/members`);
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/members`);
                 console.log(response.data);
                 this.members = response.data;
             }catch(error){

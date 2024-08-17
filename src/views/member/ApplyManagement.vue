@@ -18,8 +18,8 @@
         </v-card>
         <v-card class="my-project-card" variant="elevated" :key="projectList">
           <v-card-text>
-              <v-container v-for="apply, index in applyList" class="element-row" :key="index" @click="applymentModal(apply.id, apply.name, apply.content)">
-                <div class="project-img">
+              <v-container v-for="apply, index in applyList" class="element-row" :key="index">
+                <div class="project-img"  @click="applymentModal(apply.id, apply.name, apply.content)">
                     <img :src="apply.profileImageUrl" height="100px" width="100px" style="object-fit: cover; border-radius: 50px;" overflow="hidden">
                 </div>
 
@@ -27,6 +27,7 @@
               <v-container>
                     <v-row class="d-flex justify-space-between">
                         <h3>{{ apply.name }}</h3>
+                        <div>
                         <v-btn
                         v-if="apply.status === '승인 대기'"
                         rounded="xl"
@@ -36,6 +37,7 @@
                         @click="accept(this.projectInfo.id, apply.id)"
                         >승인</v-btn>
 
+                        </div>
                         <p v-if="apply.status === '승인 완료'">🍀 승인된 지원자</p>
                     <!-- <p class="project-description">{{ project.description }}</p> -->
                     </v-row>
@@ -380,6 +382,12 @@ export default{
   text-align: center;
   object-fit: cover;
   border-radius: 50px;
+}
+
+.project-img:hover {
+    opacity: 0.7;
+    cursor:pointer;
+    transition: 0.5s ease-out;
 }
 
 .project-content {

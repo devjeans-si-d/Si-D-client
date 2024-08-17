@@ -102,7 +102,7 @@ export default {
     },
     methods: {
         scrollToBottom() {
-      // 메시지 목록을 감싸는 컨테이너 찾기
+        // 메시지 목록을 감싸는 컨테이너 찾기
         const container = document.getElementById('messageContainer');
         if (container) {
             // 잠시 딜레이를 주고 스크롤을 최하단으로 이동

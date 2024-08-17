@@ -1,8 +1,7 @@
 <template>
     <v-container fluid class="custom-container">
-    <div class="outer-box2">
+    <v-container class="outer-box2">
         
-        <v-col cols="4">
         <v-card class="sidebar" color="#F6F6F6" :key="this.currentMenu">
             <v-img
             height="200px"
@@ -17,7 +16,6 @@
 
                 </v-card-text>
         </v-card>
-        </v-col>
         <v-card class="my-project-card" variant="elevated" :key="projectList">
           <v-card-text>
               <v-container v-for="apply, index in applyList" class="element-row" :key="index">
@@ -34,7 +32,7 @@
                         rounded="xl"
                         size="small"
                         color="sid_green"
-                        style="justify-content: flex-end;"
+                        style="margin-right: 30px;"
                         >승인하기</v-btn>
 
                         <v-btn
@@ -42,7 +40,7 @@
                         rounded="xl"
                         size="small"
                         color="#CC3D3D"
-                        style="justify-self: flex-end;"
+                        style="margin-right: 30px;"
                         >승인 취소하기</v-btn>
                     <!-- <p class="project-description">{{ project.description }}</p> -->
                     </v-row>
@@ -57,7 +55,7 @@
         </v-container>
           </v-card-text>
       </v-card>
-    </div>
+    </v-container>
 
                 <!-- 페이지네이션 -->
       <div class="text-center self-center">
@@ -335,7 +333,9 @@ export default{
 
 .sidebar {
     align-self:center;
-    /*margin: auto;*/
+    height: 100%;
+    width: 30%;
+    margin-right: 20px;
 }
 
 .sidebar-element:hover {

@@ -63,7 +63,6 @@
               page: this.currentPage-1
             }
             const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects`, {params});
-            console.log(response);
             this.projectList = response.data.content;
             } catch(e) {
             console.log(e);
@@ -83,6 +82,7 @@
 
       const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/scrap`, { params });
       this.projectList = response.data.content;
+      this.currentPage = 0;
       this.totalPage = response.data.totalPages;
     },
 

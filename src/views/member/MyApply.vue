@@ -57,9 +57,6 @@ export default {
                 }
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-applications`, { params });
                 this.projectList = response.data.content;
-                console.log("line 62: ");
-                console.log(this.currentPage);
-                console.log(response);
             } catch(e) {
             console.log(e);
           }

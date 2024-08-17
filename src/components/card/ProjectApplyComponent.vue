@@ -30,9 +30,6 @@
                         <BasicChip :title="project.status" :color="this.getChipColor(project.status)"/>
                         <BasicChip :title="project.jobField" :color="this.getJobColor(project.jobField)"/>
                     </v-card-text>
-
-
-                    
                 </v-card>
               </v-container>
     </v-container>
@@ -87,7 +84,8 @@ export default{
         },
         changePage(page) {
             this.currentPage = page;
-        }
+        },
+
   },
   created() {
       console.log(this.projectList);

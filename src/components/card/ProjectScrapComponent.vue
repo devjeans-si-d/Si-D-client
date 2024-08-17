@@ -18,7 +18,7 @@
                           <v-col class="project-status">
                             <BasicChip :title="this.getProjectStatus(project.isClosed)" :color="this.getChipColor(project.isClosed)"/>
                             <!--mdi-->
-                            <v-icon icon="mdi-bookmark" class="scrap-icon" @click="this.cancelBookmark(project.id)"></v-icon>
+                            <v-icon style="margin-left: 15px" icon="mdi-bookmark" class="scrap-icon" @click="this.cancelBookmark(project.id)"></v-icon>
                           </v-col>
                       </v-col>
 

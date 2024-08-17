@@ -18,7 +18,7 @@
         </v-card>
         <v-card class="my-project-card" variant="elevated" :key="projectList">
           <v-card-text>
-              <v-container v-for="apply, index in applyList" class="element-row" :key="index">
+              <v-container v-for="apply, index in applyList" class="element-row" :key="index" @click="applymentModal(apply.id, apply.name, apply.content)">
                 <div class="project-img">
                     <img :src="apply.profileImageUrl" height="100px" width="100px" style="object-fit: cover; border-radius: 50px;" overflow="hidden">
                 </div>
@@ -36,13 +36,7 @@
                         @click="accept(this.projectInfo.id, apply.id)"
                         >승인</v-btn>
 
-                        <v-btn
-                        v-if="apply.status === '승인 완료'"
-                        rounded="xl"
-                        size="small"
-                        color="#CC3D3D"
-                        style="margin-right: 30px;"
-                        >승인 취소</v-btn>
+                        <p v-if="apply.status === '승인 완료'">🍀 승인된 지원자</p>
                     <!-- <p class="project-description">{{ project.description }}</p> -->
                     </v-row>
 
@@ -111,6 +105,27 @@
 </v-dialog>
 
 
+<!-- 모달 3: 지원서 -->
+<v-dialog v-model="this.applyDialog" width="500px">
+    <v-card class="dialog-card" style="text-align: center">
+        <v-card-title>
+            지원서
+        </v-card-title>
+        <v-card-text>
+            <b>닉네임:</b> {{ this.currentMemberName }}
+        </v-card-text>
+        <v-card-text style="white-space:pre;">
+            <b>지원 내용:</b> <br>
+            {{ this.currentContent }}
+        </v-card-text>
+        <v-btn style="width: 30%; margin: auto;" color="sid_btn1" @click="this.$router.push('/sider-card/' + this.currentMemberId)">사이더카드 보러가기</v-btn>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="sid_btn1" text @click="applyDialog = false">닫기</v-btn>
+            </v-card-actions>
+    </v-card>
+</v-dialog>
+
 </template>
 <script>
 import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
@@ -134,8 +149,11 @@ export default{
         projectInfo: {projectName: " "},
         acceptDialog: false,
         acceptLoadingDialog: false,
+        applyDialog: false,
         apId: 0,
         amId: 0,
+        currentContent: "",
+        currentMemberName: "",
       }
   },
   computed: {
@@ -187,13 +205,23 @@ export default{
         //   alert('지금은 임시로 홈으로 이동합니다..');
         //   this.$router.push('/member/project/apply');
       },
-      getStatusColor() {
-
+      getStatusColor(title) {
+        if(title === '승인 완료') {
+            return 'sid_btn2';
+        } else if(title === '승인 대기') {
+            return '#5D5D5D';
+        }
       },
       async accept(projectId, memberId) {
         this.amId = memberId;
         this.apId = projectId;
         this.acceptDialog = true;
+      },
+      async cancel(projectId, memberId) {
+        this.amId = memberId;
+        this.apId = projectId;
+        this.cancelDialog = true;
+
       },
       async acceptComfirm() {
         const body = {
@@ -226,15 +254,7 @@ export default{
             console.log(e);
           }
         },
-      getChipColor(title) {
-            if(title === '승인') {
-                return 'sid_btn2';
-            } else if(title === '마감') {
-                return '#F15F5F';
-            } else {
-                return '#5D5D5D';
-            }
-        },
+
         getJobColor(job) {
             if(job === 'Backend') {
                 return 'be_blue';
@@ -321,6 +341,12 @@ export default{
             const createdTime = new Date(createdAt);
 
             return `${createdTime.getFullYear()}년 ${createdTime.getMonth()}월 ${createdTime.getDate()}일`; 
+        },
+        applymentModal(id, name, description) {
+            this.currentMemberId = id;
+            this.currentMemberName = name;
+            this.currentContent = description;
+            this.applyDialog = true;
         }
   },
 

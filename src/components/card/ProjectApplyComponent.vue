@@ -3,33 +3,12 @@
         <!-- <ProjectSidebar /> -->
 
               <v-container class="d-flex">
-                  <!-- <v-row v-for="project in projectList" :key="project.name" @click="spaMoveTo(project.id)">
-                      <v-col cols="12" class="project-element">
-                          <div class="project-img">
-                              <img :src="project.imageUrl" height="100px" width="auto" overflow="hidden">
-                          </div>
-                          <div class="project-content">
-                            <div class="project-info">
-                                <h3>{{ project.projectName }}</h3>
-                                <p class="project-description">{{ project.description }}</p>
-                                <div class="chip-wrap">
-                                    <BasicSmallChip :title="project.myJob" :color="this.getJobColor(project.myJob)"/>
-                                </div>
-                            </div>
-                          </div>
-                          <v-col class="project-status">
-                            <div class="status-element">
-                                <BasicChip :title="project.status" :color="this.getChipColor(project.status)"/>
-                            </div>
-                          </v-col>
-                      </v-col>
-                  </v-row> -->
                   <v-card
                     class="mx-auto"
                     max-width="400"
                     v-for="project in projectList"
                     :key="project.id"
-                    @click="spaMoveTo(project.id)"
+                    @click="spaMoveTo(project.projectId)"
                 >
                     <v-img
                     height="200"
@@ -41,7 +20,7 @@
                     </v-card-title>
                     <v-card-text>
                          <p>{{ project.description }}</p>
-                         <p>{{ project.deadline }}</p>
+                         <!-- <p>{{ project.deadline }}</p> -->
                     </v-card-text>
                         
                     <!-- <v-btn color="orange" text="Share"></v-btn>

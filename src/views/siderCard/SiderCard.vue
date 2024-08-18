@@ -101,7 +101,8 @@
             <p>{{ career.position }}</p>
             <div style="display: flex; flex-direction: row">
               <p>{{ career.employedStart }} ~</p>
-              <p>&nbsp;{{ career.employedEnd }}</p>
+              <p v-if="career.employedYn">&nbsp;현재</p>
+              <p v-else>&nbsp;{{ career.employedEnd }}</p>
             </div>
           </div>
         </v-row>

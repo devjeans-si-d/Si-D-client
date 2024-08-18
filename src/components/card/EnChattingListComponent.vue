@@ -86,11 +86,10 @@ export default{
         },
         async moveToOtherRoom(dest, projectId) {
             this.$emit("moveToOtherRoom", dest, projectId);
-        
             const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/list`)
             this.chatroomList = response.data.content;
-
             this.chatroomId = dest;
+
         },
         selectOrNot(id) {
             if(id === this.chatroomId) {

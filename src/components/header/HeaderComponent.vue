@@ -73,6 +73,7 @@
   
   <script>
   import axios from 'axios'
+  import { EventSourcePolyfill } from 'event-source-polyfill';
 
   export default{
     data(){
@@ -90,6 +91,9 @@
             this.isLogin = true;
             this.loadUserProfile();
         }
+
+        // sse
+        this.subscribe();
     },
     methods:{
         doLogout(){
@@ -111,6 +115,22 @@
                 : "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/devjeans-spring.png";
         } catch (error) {
             console.error("사용자 프로필 loading error:", error);
+        }
+      },
+      async subscribe() {
+        const token = localStorage.getItem("token");
+        if(token) {
+            this.isLogin = true;
+            this.userRole = localStorage.getItem("role");
+            console.log('role' + this.userRole);
+        }
+
+        // axios 요청이 아니라서 토큰을 따로 세팅해 주어야 한다.
+        if(this.userRole === 'ADMIN') {
+            let sse = new EventSourcePolyfill(`${process.env.VUE_APP_API_BASE_URL}/subscribe`, {headers: {Authorization: `Bearer ${token}`}});
+            sse.addEventListener('connect', (event) => {
+                console.log(event);
+            }); // connect라는 이름의 이벤트가 들어오면
         }
       }
     }

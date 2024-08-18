@@ -32,7 +32,7 @@
 
               <v-col cols="auto" md="auto" class="d-flex align-center justify-end text-no-wrap">
                 <!-- 오른쪽 정렬 -->
-                 <span :v-model="alram"></span>
+                <span>{{this.alram}}</span>
                 <v-menu v-if="isLogin" open-on-hover>
                   <template v-slot:activator="{ props }">
                     <v-btn text v-bind="props" height="60">
@@ -96,6 +96,8 @@
 
         // sse
         this.subscribe();
+
+        this.alram = Number(localStorage.getItem('alram'));
     },
     methods:{
         doLogout(){
@@ -140,6 +142,7 @@
           console.log("chat event 발생");
           console.log(event.data);
           this.alram++;
+          localStorage.setItem('alram', this.alram);
         });
 
         sse.onerror = (error) => {

@@ -1,5 +1,5 @@
 <template>
-<v-chip :color=color size="x-large">
+<v-chip :color=color size="default">
   {{ title }}
 </v-chip>
 </template>

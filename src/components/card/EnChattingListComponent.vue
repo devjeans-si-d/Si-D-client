@@ -8,18 +8,19 @@
                   <v-row
                     v-for="chatroom in chatroomList"
                     :key="chatroom.id"
-                    @click="moveToOtherRoom(chatroom.chatRoomId)"
+                    @click="moveToOtherRoom(chatroom.chatRoomId, chatroom.projectId)"
                     :class="{ 'selected': chatroom.chatRoomId === this.chatroomId }"
                     >
                       <v-col :class="{selected}" cols="12">
                         <div class="chatroom-element">
                             <div class="member-img">
-                                <img class="profile-img" :src="chatroom.participantProfileImageUrl" height="100px" width="auto" overflow="hidden">
+                                <img class="img1" :src="chatroom.projectImage" height="100px" width="auto" overflow="hidden">
+                                <img class="profile-img img2" :src="chatroom.participantProfileImageUrl" height="100px" width="auto" overflow="hidden"> 
                             </div>
-                        
                           <div class="project-content">
                             <div class="project-info">
-                                <h4 style="margin-bottom: 10px">{{ chatroom.participantNickName}}</h4>
+                                <span style="margin-bottom: 10px; font-weight: bold; font-size: medium;">{{ chatroom.participantNickName}}</span>
+                                <span style="font-size: small; color: gray; margin-left: 10px;" v-if="this.myId == chatroom.pmId">내 프로젝트</span>
                                 <p class="unread-count-text">{{ chatroom.unreadContent }}</p>
                             </div>
                             <div v-if="chatroom.unreadCount >= 1" class="unread-count">
@@ -45,7 +46,11 @@ export default{
   data() {
       return {
           chatroomId: 0,
+          myId: 0,
       }
+  },
+  created() {
+    this.myId = localStorage.getItem('id');
   },
   methods: {
       getChipColor(title) {
@@ -74,10 +79,10 @@ export default{
                 return 'white';
             }
         },
-        moveToOtherRoom(dest) {
+        moveToOtherRoom(dest, projectId) {
             this.chatroomId = dest;
 
-            this.$emit("moveToOtherRoom", dest); 
+            this.$emit("moveToOtherRoom", dest, projectId); 
         },
         selectOrNot(id) {
             if(id === this.chatroomId) {
@@ -93,6 +98,22 @@ export default{
 <style scoped>
 .selected {
     background-color: #A4DEC6;
+}
+
+.img1 {
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    /*position: absolute; 
+    top: 0px;
+    left: 20px;*/
+    object-fit: cover;
+    border-radius: 10px;
+}
+.img2 {
+    /*position: absolute;
+    top: 20px;*/
+    object-fit: cover;
 }
 
 .project-content {
@@ -149,18 +170,11 @@ export default{
     width: 100%;
 }
 
-.member-img {
-    width: 43px;
-    height: 43px;
-    min-width: 43px;
-    min-height: 43px; 
-    border-radius: 50%;
 
-}
 
 .profile-img {
-    width: 100%;
-    height: 100%;
+    width: 35px;
+    height: 35px;
     object-fit: cover;
     border-radius: 50%;
 } 

@@ -29,10 +29,10 @@ export default {
         }
     },
     methods: {
-        move(dest) {
+        move(dest, projectId) {
             console.log("방이동 발생!" + dest);
             this.chatroomId = dest;
-            this.$refs.chatroomComponent.changeRoom(dest);
+            this.$refs.chatroomComponent.changeRoom(dest, projectId);
         },
 
     },

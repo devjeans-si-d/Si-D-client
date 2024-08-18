@@ -1,12 +1,13 @@
 
 import MyPage from '@/views/member/MyPage.vue';
-import ApplyList from '@/views/member/ApplyList.vue';
+import ApplyManagement from '@/views/member/ApplyManagement.vue';
 import ChattingList from '@/views/member/ChattingList.vue';
 import MyPageEdit from '@/views/member/MyPageEdit.vue';
 import MyProject from '@/views/member/MyProject.vue';
 import MyApply from '@/views/member/MyApply.vue';
 import MyScrap from '@/views/member/MyScrap.vue';
 import ChatroomView from '@/views/member/ChatroomView.vue';
+import EmailUpdate from '@/views/member/EmailUpdate.vue';
 // import TestView from '@/views/member/TestView.vue';
 
 
@@ -43,9 +44,9 @@ export const memberRouter = [
         component: MyScrap
     },
     {
-        path: '/member/project/apply', // TODO: project id 추가 필요
-        name: 'ApplyList',
-        component: ApplyList
+        path: '/member/project/apply/:projectId', // TODO: project id 추가 필요
+        name: 'ApplyManagement',
+        component: ApplyManagement
     },
     {
         path: '/member/chatroom/:chatroomId',
@@ -57,4 +58,9 @@ export const memberRouter = [
     //     name: 'TestView',
     //     component: TestView
     // }
+    {
+        path: '/member/email-code/:code',
+        name: 'EmailUpdate',
+        component: EmailUpdate
+    }
 ]

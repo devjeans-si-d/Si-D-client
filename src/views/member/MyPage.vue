@@ -7,7 +7,7 @@
           {"menu": "스크랩한 프로젝트", "url": "/member/scrap", "selected": false},
       ]'
       />
-        <h2 style="text-align:center; margin: 20px;">내 정보</h2>
+        <h2 style="text-align:center; margin: 20px;">👨🏻‍💻 내 정보</h2>
         <v-card class="my-page-card">
             <v-card-text>
                 <v-container>
@@ -117,10 +117,18 @@
       async confirmUpdate() {
         this.dialog1 = false;
         this.dialog2 = true;
+        
         const request = {
-          email: this.email
+          email: this.newEmail
         }
-        await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/member/update/email`, request);
+
+        try {
+          const res = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/member/update/email`, request);
+          console.log(res);
+        } catch(e) {
+          console.log(e);
+        }
+        
       }
     },
     async created() {

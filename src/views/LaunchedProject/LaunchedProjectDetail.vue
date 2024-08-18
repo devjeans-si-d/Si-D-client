@@ -261,18 +261,20 @@ export default{
         },
         async doScrap() {
             try {
-                await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/scrap/${this.launchedProjectId}`);
+                const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/scrap/${this.launchedProjectId}`);
                 this.isScrapped = true;
-                await this.loadBasicInfo(); // 데이터 새로 로드
+                this.basicInfo.scrapCount = response.data.scrapCount;
+                // await this.loadBasicInfo(); // 데이터 새로 로드
             } catch (e) {
                 console.error("완성된 프로젝트 스크랩 추가 API 호출 실패:", e);
             }
         },
         async unDoScrap() {
             try {
-                await axios.delete(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/scrap/${this.launchedProjectId}`);
+                const response = await axios.delete(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/scrap/${this.launchedProjectId}`);
                 this.isScrapped = false;
-                await this.loadBasicInfo(); // 데이터 새로 로드
+                this.basicInfo.scrapCount = response.data.scrapCount;
+                // await this.loadBasicInfo(); // 데이터 새로 로드
             } catch (e) {
                 console.error("완성된 프로젝트 스크랩 삭제 API 호출 실패:", e);
             }

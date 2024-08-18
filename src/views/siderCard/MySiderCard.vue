@@ -279,7 +279,7 @@ export default {
       this.data.introduction = data.introduction;
       this.data.socialLink = data.socialLinkRes;
       this.data.careers = data.careerRes;
-      // this.data.launchedProjects = data.launchedProjectRes
+      this.data.launchedProjects = data.launchedProjectRes
       // this.data.teckStacks = data.teckStackRes
       this.$store.dispatch("updateTechStacksRes", data.teckStackRes);
       console.log(response.data.result);

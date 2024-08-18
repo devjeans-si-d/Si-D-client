@@ -4,7 +4,35 @@
         <v-container style="background-color:#DEF5EC">
             <v-spacer :style="{ height: '20px' }"></v-spacer>
             <h3 style="text-align:center; color:#094F08;">Launched Project</h3>
-            <h1 style="text-align:center; color:#094F08;"> {{ project.projectName }} </h1>
+            
+            <v-row justify="space-between" align="center">
+                <!-- 왼쪽 빈 공간을 차지하는 v-col -->
+                <v-col cols="4">
+                </v-col>
+            
+                <!-- 중앙에 위치하는 프로젝트 이름 -->
+                <v-col cols="4" class="text-center">
+                    <h1 style="color:#094F08;">{{ project.projectName }}</h1>
+                </v-col>
+            
+                <!-- 오른쪽에 위치하는 스크랩,조회수 버튼 -->
+                <v-col cols="4" class="text-right">
+                    <v-chip
+                    class="mr-3"
+                    size="large"
+                    :color="isScrapped ? 'pink' : 'grey lighten-2'"
+                    @click="clickScrap"
+                    > 🍾 {{basicInfo.scrapCount}}
+                    </v-chip>
+                    <v-chip
+                    class="mr-10"
+                    prepend-icon="mdi-eye"
+                    size="large"
+                    >{{basicInfo.views}}
+                    </v-chip>
+                </v-col>
+            </v-row>
+            
             <v-spacer :style="{ height: '50px' }"></v-spacer>
 
             <v-row>
@@ -19,6 +47,15 @@
                                 {{ line }}<br>
                             </span>
                         </v-text> 
+                        <!-- <v-spacer :style="{ height: '15px' }"></v-spacer> -->
+                        <v-chip 
+                        v-if="basicInfo && basicInfo.siteUrl"
+                        class="mt-5" 
+                        style="color:#094F08" 
+                        size=large
+                        @click="navigateToSite"
+                        >Launched site
+                        </v-chip>
                     </v-container>   
                 </v-col>
 
@@ -108,19 +145,21 @@ export default{
                 BACKEND: 'deep-orange lighten-1',
                 APP: 'green',
                 PM: 'purple lighten-1'
-            }
+            },
+            isScrapped: false, // 스크랩 여부를 저장하는 변수
 
         };
     },
     created(){
         const route = useRoute();
         this.launchedProjectId = route.params.launchedProjectId;
-        this.loadBasicInfo();
+        this.loadBasicInfo(); // 완성된 프로젝트 기본정보 (+ 스크랩, 조회수)
+        
     },
     mounted(){
         this.loadTechStacks();
         this.loadMembers();
-        
+        this.checkScrapStatus(); // 스크랩 상태 체크
     },
     computed: {
         techStacksByJobField() {
@@ -173,7 +212,16 @@ export default{
                 console.error("완성된 프로젝트 기본정보 API 호출 실패:", error);
             }
         },
-        async loadTechStacks(){
+        async checkScrapStatus() { // 스크랩상태 확인 (현재 로그인한 user가 해당글에 스크랩 눌렀는지 확인)
+            try {
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/scrap/is-scrapped/${this.launchedProjectId}`);
+                console.log(response.data)
+                this.isScrapped = response.data; // 백엔드에서 스크랩 상태 받아오기
+            } catch (error) {
+                console.error("스크랩 상태 확인 실패:", error);
+            }
+        },
+            async loadTechStacks(){
             try{
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/tech-stacks`);
                 console.log(response.data);
@@ -197,7 +245,38 @@ export default{
         moveToSiderCard(memberId){
             this.$router.push({ path: `/sider-card/${memberId}` });
         },
-    },
+        navigateToSite() {
+            if (this.basicInfo && this.basicInfo.siteUrl) {
+                window.location.href = this.basicInfo.siteUrl;
+            } else {
+                console.error("사이트 URL이 존재하지 않습니다.");
+            }
+        },
+        clickScrap() {
+            if (!this.isScrap) this.doScrap();
+            else this.unDoScrap();
+        },
+        async doScrap() {
+            try {
+                const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/scrap/{$this.launchedProjectId}`);
+                console.log(response);
+                alert("scrap되었습니다");
+            }
+            catch (e) {
+                console.log("완성된 프로젝트 스크랩 추가 API 호출 실패:", e);
+            }
+        },
+        async unDoScrap() {
+            try {
+                const response = await axios.delete(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/scrap/{$this.launchedProjectId}`);
+                console.log(response);
+                alert("스크랩 취소되었습니다")
+            }
+            catch (e) {
+                console.log("완성된 프로젝트 스크랩 삭제 API 호출 실패:", e);
+            }
+        },
+    }
 };
 </script>
 <style scoped>

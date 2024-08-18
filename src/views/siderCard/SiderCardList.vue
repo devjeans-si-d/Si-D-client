@@ -10,8 +10,11 @@
         </v-row>
         <v-row justify="space-around">
             <v-col style="max-width: 286px;" v-for="(card, index) in cards" :key="index">
-                <a style="text-decoration-line: none;" :href="`/sider-card/${card.member_id}`"><CardComponent :name="card.member_nickname" :jobField="card.member_jobField"
+                <a v-if="siderCardFilter==''" style="text-decoration-line: none;" :href="`/sider-card/${card.member_id}`"><CardComponent :name="card.member_nickname" :jobField="card.member_jobField"
                     :image="card.member_image ? card.member_image : 'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'" /></a>
+                <a v-if="card.member_jobField==siderCardFilter" style="text-decoration-line: none;" :href="`/sider-card/${card.member_id}`"><CardComponent :name="card.member_nickname" :jobField="card.member_jobField"
+                    :image="card.member_image ? card.member_image : 'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'" /></a>
+                    
             </v-col>
         </v-row>
     </v-container>

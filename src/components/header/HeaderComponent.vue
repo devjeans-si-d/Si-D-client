@@ -32,6 +32,7 @@
 
               <v-col cols="auto" md="auto" class="d-flex align-center justify-end text-no-wrap">
                 <!-- 오른쪽 정렬 -->
+                <span @click="spaMoveToAlram">{{this.getAlertCnt + this.getChatCnt}}</span>
                 <v-menu v-if="isLogin" open-on-hover>
                   <template v-slot:activator="{ props }">
                     <v-btn text v-bind="props" height="60">
@@ -73,6 +74,8 @@
   
   <script>
   import axios from 'axios'
+  import { EventSourcePolyfill } from 'event-source-polyfill';
+  import { mapGetters } from 'vuex'
 
   export default{
     data(){
@@ -81,15 +84,31 @@
             nickname : "", 
             profileImageUrl: "",
             KAKAO_AUTH_URI: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_REST_API_KEY}&redirect_uri=http://localhost:8082/oauth`,
+            alertCnt: 0,
         };
     },
     created(){ 
-        const token = localStorage.getItem("token");
-        if(token){
-            // localStorage에 token이 있으면 로그인된 상태
-            this.isLogin = true;
-            this.loadUserProfile();
-        }
+      const token = localStorage.getItem("token");
+      if(token){
+          // localStorage에 token이 있으면 로그인된 상태
+          this.isLogin = true;
+          this.loadUserProfile();
+      }
+
+      // sse
+      this.subscribe();
+      const alertCnt = Number(localStorage.getItem('alertCnt')) == undefined ? 0 : Number(localStorage.getItem('alertCnt'));
+      const chatCnt = Number(localStorage.getItem('chatCnt')) == undefined ? 0 : Number(localStorage.getItem('chatCnt'));
+
+      this.$store.dispatch('updateAlertCnt', alertCnt);
+      this.$store.dispatch('updateChatCnt', chatCnt);
+
+      localStorage.setItem('alertCnt', alertCnt);
+      localStorage.setItem('chatCnt', chatCnt);
+    },
+    computed: {
+      ...mapGetters(['getChatCnt']),
+      ...mapGetters(['getAlertCnt']),
     },
     methods:{
         doLogout(){
@@ -112,6 +131,45 @@
         } catch (error) {
             console.error("사용자 프로필 loading error:", error);
         }
+      },
+      async subscribe() {
+        const token = localStorage.getItem("token");
+
+        // axios 요청이 아니라서 토큰을 따로 세팅해 주어야 한다.
+        let sse = new EventSourcePolyfill(`${process.env.VUE_APP_API_BASE_URL}/sse/subscribe`, {headers: {Authorization: `Bearer ${token}`}});
+        sse.addEventListener('connect', (event) => {
+            console.log(event);
+        }); // connect라는 이름의 이벤트가 들어오면
+
+        // 채팅 수신
+        sse.addEventListener('chat', (event) => {
+          console.log("chat event 발생");
+          console.log(event.data);
+
+          const newChatCnt = this.getChatCnt + 1;
+          this.$store.dispatch('updateChatCnt', newChatCnt);
+          localStorage.setItem('chatCnt', newChatCnt);
+          
+        });
+
+          // 모집 마감 이벤트 수신
+          sse.addEventListener('team', (event) => {
+          console.log("team event 발생");
+          console.log(event.data);
+
+          const newAlertCnt = this.getAlertCnt + 1;
+          this.$store.dispatch('updateAlertCnt', newAlertCnt);
+          localStorage.setItem('alertCnt', newAlertCnt);
+          
+        });
+
+        sse.onerror = (error) => {
+            console.log(error);
+            sse.close();
+        } 
+      },
+      spaMoveToAlram() {
+        this.$router.push('/member/my-alert')
       }
     }
   };

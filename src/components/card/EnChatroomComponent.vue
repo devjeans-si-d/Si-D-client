@@ -188,8 +188,8 @@ export default {
             });
         },
         async changeRoom(dest, projectId) {
-            this.isVisible = false;
             this.disconnect();
+            this.isVisible = false;
             this.chatroomId = dest;
             this.projectId = projectId;
 
@@ -208,7 +208,6 @@ export default {
                 // 프로젝트 정보 얻기
                 const projectRes = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`);
                 this.projectInfo = projectRes.data;
-
                 this.connect();
 
             } catch(e) {

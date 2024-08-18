@@ -9,6 +9,7 @@ import MyScrap from '@/views/member/MyScrap.vue';
 import ChatroomView from '@/views/member/ChatroomView.vue';
 import EmailUpdate from '@/views/member/EmailUpdate.vue';
 // import TestView from '@/views/member/TestView.vue';
+import MyAlert from '@/views/member/MyAlert.vue';
 
 
 export const memberRouter = [
@@ -62,5 +63,10 @@ export const memberRouter = [
         path: '/member/email-code/:code',
         name: 'EmailUpdate',
         component: EmailUpdate
+    },
+    {
+        path: '/member/my-alert',
+        name: 'MyAlert',
+        component: MyAlert
     }
 ]

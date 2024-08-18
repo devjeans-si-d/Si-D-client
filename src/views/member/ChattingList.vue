@@ -4,7 +4,6 @@
         <h2 style="text-align:center; margin: 20px;">내 채팅</h2>
         <v-container class="chat-outer-box">
             <EnChattingListComponent 
-            :chatroomList="chatroomList"
             v-on:moveToOtherRoom="move"
             style="width: 40%"
             />
@@ -19,7 +18,7 @@
 <script>
 import EnChattingListComponent from '@/components/card/EnChattingListComponent.vue';
 import EnChatroomComponent from '@/components/card/EnChatroomComponent.vue';
-import axios from 'axios'
+
 
 export default {
     data() {
@@ -29,21 +28,15 @@ export default {
         }
     },
     methods: {
-        move(dest, projectId) {
-            console.log("방이동 발생!" + dest);
-            this.chatroomId = dest;
+        async move(dest, projectId) {
             this.$refs.chatroomComponent.changeRoom(dest, projectId);
+            this.chatroomId = dest;
         },
 
     },
     components: {
         EnChattingListComponent,
         EnChatroomComponent
-    },
-    async created() {
-        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/list`)
-        console.log(response.data.content);
-        this.chatroomList = response.data.content;
     },
 }   
 

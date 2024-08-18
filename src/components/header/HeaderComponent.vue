@@ -152,6 +152,17 @@
           
         });
 
+          // 모집 마감 이벤트 수신
+          sse.addEventListener('team', (event) => {
+          console.log("team event 발생");
+          console.log(event.data);
+
+          const newAlertCnt = this.getAlertCnt + 1;
+          this.$store.dispatch('updateAlertCnt', newAlertCnt);
+          localStorage.setItem('alertCnt', newAlertCnt);
+          
+        });
+
         sse.onerror = (error) => {
             console.log(error);
             sse.close();

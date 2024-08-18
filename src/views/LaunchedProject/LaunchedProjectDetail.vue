@@ -20,10 +20,12 @@
                     <v-chip
                     class="mr-3"
                     size="large"
-                    :color="isScrapped ? 'pink' : 'grey lighten-2'"
+                    :color="isScrapped ? '#8DBCA8' : 'grey lighten-2'"
+                    :variant="isScrapped ? 'flat' : 'tonal'" 
                     @click="clickScrap"
                     > 🍾 {{basicInfo.scrapCount}}
                     </v-chip>
+
                     <v-chip
                     class="mr-10"
                     prepend-icon="mdi-eye"
@@ -150,16 +152,15 @@ export default{
 
         };
     },
-    created(){
+    async created(){
         const route = useRoute();
         this.launchedProjectId = route.params.launchedProjectId;
-        this.loadBasicInfo(); // 완성된 프로젝트 기본정보 (+ 스크랩, 조회수)
-        
+        await this.loadBasicInfo(); // 기본 정보 로드 후 호출
     },
-    mounted(){
-        this.loadTechStacks();
-        this.loadMembers();
-        this.checkScrapStatus(); // 스크랩 상태 체크
+    async mounted(){
+        await this.loadTechStacks();
+        await this.loadMembers();
+        await this.checkScrapStatus(); // 페이지가 로드된 후 스크랩 상태 확인
     },
     computed: {
         techStacksByJobField() {
@@ -212,11 +213,10 @@ export default{
                 console.error("완성된 프로젝트 기본정보 API 호출 실패:", error);
             }
         },
-        async checkScrapStatus() { // 스크랩상태 확인 (현재 로그인한 user가 해당글에 스크랩 눌렀는지 확인)
+        async checkScrapStatus() {
             try {
-                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/scrap/is-scrapped/${this.launchedProjectId}`);
-                console.log(response.data)
-                this.isScrapped = response.data; // 백엔드에서 스크랩 상태 받아오기
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/is-scrapped/${this.launchedProjectId}`);
+                this.isScrapped = response.data; // API 응답으로 `isScrapped` 업데이트
             } catch (error) {
                 console.error("스크랩 상태 확인 실패:", error);
             }
@@ -252,30 +252,31 @@ export default{
                 console.error("사이트 URL이 존재하지 않습니다.");
             }
         },
-        clickScrap() {
-            if (!this.isScrap) this.doScrap();
-            else this.unDoScrap();
+        async clickScrap() {
+            if (this.isScrapped) {
+                await this.unDoScrap();
+            } else {
+                await this.doScrap();
+            }
         },
         async doScrap() {
             try {
-                const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/scrap/{$this.launchedProjectId}`);
-                console.log(response);
-                alert("scrap되었습니다");
-            }
-            catch (e) {
-                console.log("완성된 프로젝트 스크랩 추가 API 호출 실패:", e);
+                await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/scrap/${this.launchedProjectId}`);
+                this.isScrapped = true;
+                await this.loadBasicInfo(); // 데이터 새로 로드
+            } catch (e) {
+                console.error("완성된 프로젝트 스크랩 추가 API 호출 실패:", e);
             }
         },
         async unDoScrap() {
             try {
-                const response = await axios.delete(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/scrap/{$this.launchedProjectId}`);
-                console.log(response);
-                alert("스크랩 취소되었습니다")
+                await axios.delete(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/scrap/${this.launchedProjectId}`);
+                this.isScrapped = false;
+                await this.loadBasicInfo(); // 데이터 새로 로드
+            } catch (e) {
+                console.error("완성된 프로젝트 스크랩 삭제 API 호출 실패:", e);
             }
-            catch (e) {
-                console.log("완성된 프로젝트 스크랩 삭제 API 호출 실패:", e);
-            }
-        },
+        }
     }
 };
 </script>

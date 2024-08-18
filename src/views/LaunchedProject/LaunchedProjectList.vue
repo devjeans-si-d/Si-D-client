@@ -6,6 +6,32 @@
         <v-spacer :style="{height: '20px'}"></v-spacer>
 
         <v-row>
+          <v-col cols="auto">
+            <v-select
+              v-model="searchType"
+              :items="searchOptions"
+              item-title="text"
+              item-value="value"
+              dense
+              style="custom-height"
+            >
+            </v-select>
+          </v-col>
+
+          <v-col cols="auto">
+            <v-text-field
+            v-model="searchValue" label="Search"
+            dense
+            >
+            </v-text-field>
+          </v-col>
+
+          <v-col cols="auto">
+              <v-btn type="submit">검색</v-btn>    
+          </v-col>
+        </v-row>
+        <v-spacer :style="{height: '50px'}"></v-spacer>
+        <v-row>
             <v-sheet class="py-4 px-1">
                 <v-chip-group  selected-class="text-primary" mandatory>
                     <v-chip color="#094F08" size="large" filter>전체</v-chip>
@@ -22,14 +48,15 @@
         <v-spacer :style="{height: '10px'}"></v-spacer>
 
         <v-row>
-            <!-- <v-switch class="mx-2" v-model="isChecked" label="출시된 프로젝트만 보기" color="#8DBCA8"></v-switch> -->
+            <v-switch class="mx-2" v-model="isChecked" label="출시된 프로젝트만 보기" color="#8DBCA8"></v-switch>
+
             <v-chip-group  selected-class="text-primary" mandatory>
                 <v-chip class="ma-1" color="#094F08" size="large" filter> 🍾 순 정렬</v-chip>
                 <v-chip class="ma-1" color="#094F08" size="large" filter> 조회수 정렬</v-chip>
             </v-chip-group>
         </v-row>
 
-        <v-spacer :style="{height: '10px'}"></v-spacer>
+        <v-spacer :style="{height: '20px'}"></v-spacer>
         
         <v-row>
             <v-col
@@ -44,19 +71,19 @@
                 <v-img
                     class="custom-img"
                     height="250"
-                    :src="project.image"
+                    :src="project.launchedProjectImage"
                     cover
                 />
 
                 <v-card-title class="d-flex justify-space-between align-center">
-                    <span>{{ project.name }}</span>
+                    <span>{{ project.projectName }}</span>
                     <v-chip color="primary" text-color="white">
                     🍾 {{ project.scraps }}
                     </v-chip>
                 </v-card-title>
 
                 <v-card-subtitle class="pt-3; custom-contents">
-                    <div>{{ project.contents }}</div>
+                    <div>{{ project.launchedProjectContents }}</div>
                 </v-card-subtitle>
 
                 <v-card-subtitle class="pt-2; custom-contents">
@@ -72,84 +99,41 @@
 
 <script>
 import FilterStackChip from '@/components/chip/FilterStackChip.vue';
+import axios from 'axios';
+
 export default{
     data() {
         return {
+          searchType: 'optional',
+          searchOptions: [
+              {text:"선택", value:'optional'},
+              {text:"프로젝트명", value: "projectName"},
+              {text:"회원명", value: "memberName"}
+          ],
+          searchValue: "",
           isChecked: "false",
-            projects: [
+          projects: [
                 // 임시데이터. api붙이면 수정예정
-        {
-          id: 1,
-          name: "My Moji",
-          image: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mymoji.png",
-          scraps: 23,
-          contents: "매일 불러보는 내 이모지! 마이모지(My Moji)",
-          techStacks: "SpringBoot · Swift · SwiftUI · RxSwift"
-        },
-        {
-          id: 1,
-          name: "My Moji",
-          image: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mymoji.png",
-          scraps: 23,
-          contents: "매일 불러보는 내 이모지! 마이모지(My Moji)",
-          techStacks: "SpringBoot · Swift · SwiftUI · RxSwift"
-        },
-        {
-          id: 1,
-          name: "My Moji",
-          image: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mymoji.png",
-          scraps: 23,
-          contents: "매일 불러보는 내 이모지! 마이모지(My Moji)",
-          techStacks: "SpringBoot · Swift · SwiftUI · RxSwift"
-        },
-        {
-          id: 1,
-          name: "My Moji",
-          image: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mymoji.png",
-          scraps: 23,
-          contents: "매일 불러보는 내 이모지! 마이모지(My Moji)",
-          techStacks: "SpringBoot · Swift · SwiftUI · RxSwift"
-        },
-        {
-          id: 1,
-          name: "My Moji",
-          image: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mymoji.png",
-          scraps: 23,
-          contents: "매일 불러보는 내 이모지! 마이모지(My Moji)",
-          techStacks: "SpringBoot · Swift · SwiftUI · RxSwift"
-        },
-        {
-          id: 1,
-          name: "My Moji",
-          image: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mymoji.png",
-          scraps: 23,
-          contents: "매일 불러보는 내 이모지! 마이모지(My Moji)",
-          techStacks: "SpringBoot · Swift · SwiftUI · RxSwift"
-        },
-        {
-          id: 1,
-          name: "My Moji",
-          image: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mymoji.png",
-          scraps: 23,
-          contents: "매일 불러보는 내 이모지! 마이모지(My Moji)",
-          techStacks: "SpringBoot · Swift · SwiftUI · RxSwift"
-        },
-        {
-          id: 1,
-          name: "My Moji",
-          image: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mymoji.png",
-          scraps: 23,
-          contents: "매일 불러보는 내 이모지! 마이모지(My Moji)",
-          techStacks: "SpringBoot · Swift · SwiftUI · RxSwift"
-        },
+        // {id: 1, name: "My Moji", image: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/mymoji.png", scraps: 23, contents: "매일 불러보는 내 이모지! 마이모지(My Moji)", techStacks: "SpringBoot · Swift · SwiftUI · RxSwift"}, 
       ]
         };
     },
     components:{
         FilterStackChip
     },
+    created(){
+      this.loadLaunchProjectPage();
+    },
     methods:{
-
+      async loadLaunchProjectPage(){
+        try{
+          const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/list`);
+          console.log(response.data.content);
+          this.projects = response.data.content;
+        }catch(error){
+          console.error("완성된 페이지 Pageable data load 에러 : ",error)
+        }
+      }
     }
 }
 </script>
@@ -159,6 +143,10 @@ export default{
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 16px;
+}
+.custom-height{
+  max-height: 10px !important; /* 최소 높이 조정 */
+  font-size: 14px !important; /* 글자 크기 조정 */
 }
 .custom-card{
   max-width: 280px !important;

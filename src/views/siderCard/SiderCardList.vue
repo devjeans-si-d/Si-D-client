@@ -39,20 +39,43 @@ export default {
                 { name: '디자인', value: 'DESIGNER' },
                 { name: 'PM', value: 'PM' },
             ],
-            cards: []
+            cards: [],
+            pageSize: 20,
+            currentPage: 0,
+            isLoading: false,
         }
     },
     async created() {
-        try {
-            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/sider-card/list`)
-            console.log(response.data.result);
-            this.cards = response.data.result.content
-        } catch (e) {
-            console.log(e);
-        }
+        this.loadSiderCard();
+        window.addEventListener('scroll', this.scrollPagination)
+    },
+    beforeUnmount() {
+        window.removeEventListener('scroll', this.scrollPagination)
     },
     methods: {
-        
+        async loadSiderCard(){
+            try {
+                let params = {
+                        size: this.pageSize,
+                        page: this.currentPage,
+                    }
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/sider-card/list`, { params })
+                this.currentPage++;
+                console.log(response.data.result);
+                this.cards = [...this.cards, ...response.data.result.content]
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        async scrollPagination() {
+            // "현재화면 + 스크롤로 이동한 화면 > 전체화면 -n" 의 조건이 성립되면 추가 데이터 로드
+            const isBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 20;
+            if (isBottom && !this.isLoading) {
+                this.isLoading = true
+                await this.loadSiderCard()
+                this.isLoading = false
+            }
+        },
     }
 }
 </script>

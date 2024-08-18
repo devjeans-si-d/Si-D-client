@@ -1,5 +1,5 @@
 <template>
-    <v-container class="outer-box" :key="chatroomId">
+    <v-container class="outer-box" :key="chatroomId" >
       <v-card class="chatting-card" variant="elevated">
           <v-card-text style="width:100%;">
               <v-container>
@@ -39,16 +39,23 @@
 </template>
 <script>
 import axios from 'axios'
+import { mapGetters } from 'vuex';
 
 export default{
   components: {
 
   },
+  computed: {
+      ...mapGetters(['getChatCnt']),
+      ...mapGetters(['getAlertCnt']),
+    },
+
   data() {
       return {
           chatroomId: 0,
           myId: 0,
-          chatroomList: []
+          chatroomList: [],
+          localChatCnt: 0,
       }
   },
   async created() {
@@ -56,6 +63,8 @@ export default{
 
     const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/list`)
     this.chatroomList = response.data.content;
+
+    this.localChatCnt = this.getChatCnt;
   },
   methods: {
       getChipColor(title) {

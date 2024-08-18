@@ -72,7 +72,7 @@
     <v-row>
       <div id="editor"></div>
     </v-row>
-
+    <v-textarea v-model="recruitContents"></v-textarea >
     <v-row justify="center" class="mt-15 ">
       
       <v-col cols="auto">
@@ -240,6 +240,7 @@ export default {
       description: "",
       deadline: "",
       editor: null,
+      recruitContents:"",
     };
   },
   mounted() {
@@ -446,7 +447,8 @@ export default {
           projectName: this.title,
           deadline: this.deadline + 'T' + deadlineTime,
           description: this.description,
-          recruitmentContents: this.editor.getMarkdown().toString(),
+          // recruitmentContents: this.editor.getMarkdown().toString(),
+          recruitmentContents: this.recruitContents,
           projectMembers,
           recruitInfos,
         };

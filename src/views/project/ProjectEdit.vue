@@ -19,7 +19,15 @@
     <v-row>
       <img :src="this.projectImageUrl"/>
     </v-row>
-
+    <v-row>
+      <v-switch
+      v-model="this.isClosed"
+      :label="`Switch: ${model}`"
+      false-value="N"
+      true-value="Y"
+      hide-details
+    ></v-switch>
+    </v-row>
     <v-row class="mt-10 mb-10">
       <v-text-field label="한줄 설명" type="text" id="description" v-model="description" variant="underlined" rounded="xs"></v-text-field>
     </v-row>

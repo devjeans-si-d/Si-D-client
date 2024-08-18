@@ -1,9 +1,9 @@
 <template>
-    <v-container class="outer-box">
+    <v-container class="outer-box" :key="chatroomId">
       <v-card class="chatting-card" variant="elevated">
           <v-card-text style="width:100%;">
               <v-container>
-                <div class="chatroom-box">
+                <div class="chatroom-box" ref="chatroomId">
                     <v-card-text v-if="this.chatroomList.length === 0">채팅 기록이 없습니다.</v-card-text>
                   <v-row
                     v-for="chatroom in chatroomList"
@@ -38,8 +38,9 @@
     </v-container>
 </template>
 <script>
+import axios from 'axios'
+
 export default{
-  props: ['chatroomList'],
   components: {
 
   },
@@ -47,10 +48,14 @@ export default{
       return {
           chatroomId: 0,
           myId: 0,
+          chatroomList: []
       }
   },
-  created() {
+  async created() {
     this.myId = localStorage.getItem('id');
+
+    const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/list`)
+    this.chatroomList = response.data.content;
   },
   methods: {
       getChipColor(title) {
@@ -79,10 +84,13 @@ export default{
                 return 'white';
             }
         },
-        moveToOtherRoom(dest, projectId) {
-            this.chatroomId = dest;
+        async moveToOtherRoom(dest, projectId) {
+            this.$emit("moveToOtherRoom", dest, projectId);
+        
+            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/list`)
+            this.chatroomList = response.data.content;
 
-            this.$emit("moveToOtherRoom", dest, projectId); 
+            this.chatroomId = dest;
         },
         selectOrNot(id) {
             if(id === this.chatroomId) {

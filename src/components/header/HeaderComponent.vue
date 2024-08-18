@@ -32,6 +32,7 @@
 
               <v-col cols="auto" md="auto" class="d-flex align-center justify-end text-no-wrap">
                 <!-- 오른쪽 정렬 -->
+                 <span :v-model="alram"></span>
                 <v-menu v-if="isLogin" open-on-hover>
                   <template v-slot:activator="{ props }">
                     <v-btn text v-bind="props" height="60">
@@ -82,6 +83,7 @@
             nickname : "", 
             profileImageUrl: "",
             KAKAO_AUTH_URI: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_REST_API_KEY}&redirect_uri=http://localhost:8082/oauth`,
+            alram: 0,
         };
     },
     created(){ 
@@ -125,6 +127,25 @@
         sse.addEventListener('connect', (event) => {
             console.log(event);
         }); // connect라는 이름의 이벤트가 들어오면
+
+        // // 채팅방 입장
+        // sse.addEventListener('enter', (event) => {
+        //   console.log("enter event 발생");
+        //   console.log(event.data);
+        //   this.alram++;
+        // });
+
+        // 채팅 수신
+        sse.addEventListener('chat', (event) => {
+          console.log("chat event 발생");
+          console.log(event.data);
+          this.alram++;
+        });
+
+        sse.onerror = (error) => {
+            console.log(error);
+            sse.close();
+        } 
       }
     }
   };

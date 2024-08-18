@@ -97,7 +97,7 @@
             this.isLogin = false;
             this.nickname = '';
             this.profileImageUrl = '';
-            window.location.reload();
+            window.location.href='/';
         },
         async loadUserProfile() {
         try {

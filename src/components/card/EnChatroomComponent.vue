@@ -3,13 +3,23 @@
     <v-container class="chatroom-container">
         <v-card variant="elevated" class="chatroom-card">
             <v-card-text>
-                <v-container class="scroll-container">
+                <v-container class="scroll-container" ref="chatroomScroll" id="messageContainer">
                     <p v-if="isVisible">다른 유저와 채팅하며 프로젝트에 대한 정보를 얻어보세요!</p>
                   <div>
+                    <v-container v-if="!isVisible">
+
+                        <v-card max-height="500px" class="mx-auto" style="margin-bottom: 20px;">
+                            <v-img :src="this.projectInfo.imageUrl" style="filter: brightness(50%)"></v-img>
+                      <v-card-text style="text-align: center;">
+                        {{ this.projectInfo.projectName }}에 대한<br>채팅의 시작이에요!
+                      </v-card-text>
+                      </v-card>
+                        
+                    </v-container>
                     <div class="chatroom-outer" v-for="(chat, index) in chatList" :key="chat.id">
                         <div v-if="index === 0 || this.isDifferentDay(chat.createdAt, chatList[index-1].createdAt)">
                             <div style="display: flex; align-content: center; text-align: center; margin: auto;">
-                                <hr style="width: 27%; margin:auto;"><span stylel="margin:auto;">{{this.getDay(chat.createdAt)}}</span><hr style="width: 27%; margin:auto;">
+                                <hr style="width: 27%; margin:auto;"><span style="margin:auto;">{{this.getDay(chat.createdAt)}}</span><hr style="width: 27%; margin:auto;">
                             </div>
                         </div>
                         <div class="chatroom-sub">
@@ -19,7 +29,13 @@
                         </div>
                         <div class="chat-block">
 
-                            <div v-if="index === 0 || chat.sender != chatList[index-1].sender" class="member-name">{{this.getMemberName(chat.sender)}}</div>
+                            <div v-if="index === 0 || chat.sender != chatList[index-1].sender" style="margin-bottom: 20px;">
+                                <span v-if="chat.sender != this.myId" class="member-name">{{this.getMemberName(chat.sender)}}</span>
+                                <span v-if="chat.sender == this.myId" class="member-name">나</span>
+                                
+                                <!-- <span v-if="chat.sender != this.myId" style="font-size: small; color: gray; margin-left: 10px;">문의자</span>
+                                <span v-if="chat.sender != this.myId" style="font-size: small; color: gray; margin-left: 10px;">문의자</span> -->
+                            </div>
                             <div>
                                 <span>{{chat.content}}</span>
                                 <span class="chat-createdTime">{{this.getTime(chat.createdAt)}}</span>
@@ -80,15 +96,30 @@ export default {
             chatroomId: 0,
             alertDialog: false,
             isVisible: true,
+            myId: 0,
+            projectId: 0,
+            projectInfo: [],
         }
     },
     async created() {
+        this.myId = localStorage.getItem('id');
         this.chatroomId = this.chatRoomIdProp;
+        this.scrollToBottom();
     },
     beforeUnmount() {
         this.disconnect();
     },
     methods: {
+        scrollToBottom() {
+        // 메시지 목록을 감싸는 컨테이너 찾기
+        const container = document.getElementById('messageContainer');
+        if (container) {
+            // 잠시 딜레이를 주고 스크롤을 최하단으로 이동
+            setTimeout(() => {
+            container.scrollTop = container.scrollHeight;
+            }, 100);
+        }
+        },
         async sendMessage() {
 
             if(this.chatroomId == undefined || this.chatroomId == 0) {
@@ -107,6 +138,7 @@ export default {
                 this.stompClient.send("/pub/" + this.chatroomId, JSON.stringify(chatObj));
                 
                 this.chatMessage = "";
+                this.scrollToBottom();
             }
         },
         connect() {
@@ -134,6 +166,8 @@ export default {
             socket.onclose = function() {
                 console.log('WebSocket connection closed for user');
             }
+
+            this.scrollToBottom();
         },
 
         disconnect() {
@@ -143,34 +177,44 @@ export default {
                     try {
                         this.stompClient.disconnect(() => {
                         this.isConnected = false;
-                        console.log("Disconnected from the WebSocket Connection.");
+                        // console.log("Disconnected from the WebSocket Connection.");
                         resolve();
                         });
                     } catch (error) {
-                        console.log("Failed to disconnect: ", error);
+                        // console.log("Failed to disconnect: ", error);
                         reject(error);
                     }
             }
             });
         },
-        async changeRoom(dest) {
+        async changeRoom(dest, projectId) {
             this.isVisible = false;
             this.disconnect();
             this.chatroomId = dest;
+            this.projectId = projectId;
 
 
-            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}`);
-            this.chatList = response.data.content;
+            try {
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}`);
+                this.chatList = response.data.content;
 
-            // 참여자 정보 얻기
-            const memberInfo = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/get-member-info`);
-            this.memberInfos = new Map([
-                [memberInfo.data[0].memberId, memberInfo.data[0]],
-                [memberInfo.data[1].memberId, memberInfo.data[1]]
-            ]);
+                // 참여자 정보 얻기
+                const memberInfo = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/get-member-info`);
+                this.memberInfos = new Map([
+                    [memberInfo.data[0].memberId, memberInfo.data[0]],
+                    [memberInfo.data[1].memberId, memberInfo.data[1]]
+                ]);
 
+                // 프로젝트 정보 얻기
+                const projectRes = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`);
+                this.projectInfo = projectRes.data;
 
-            this.connect();
+                this.connect();
+
+            } catch(e) {
+                console.log(e);
+            }
+
         },
         getMemberName(sender) {
             return this.memberInfos?.get(sender)?.nickname;
@@ -233,7 +277,6 @@ export default {
 }
 
 .member-name {
-    margin-bottom: 20px;
     font-size: medium;
     font-weight: bold;
 }
@@ -245,7 +288,7 @@ export default {
     min-width: 43px;
     min-height: 43px; 
     border-radius: 50%;
-    overflow: hidden;
+    object-fit: cover;
 }
 
 .chat-block {

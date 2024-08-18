@@ -1,47 +1,50 @@
 <template>
     <v-container class="outer-box">
-        <ProjectSidebar />
-      <v-card class="my-project-card" variant="elevated">
-          <v-card-text>
-              <v-container>
-                  <v-row v-for="project in projectList" :key="project.name" @click="spaMoveTo(project.id)">
-                      <v-col cols="12" class="project-element">
-                          <div class="project-img">
-                              <img :src="project.imageUrl" height="100px" width="auto" overflow="hidden">
-                          </div>
-                          <div class="project-content">
-                            <div class="project-info">
-                                <h3>{{ project.projectName }}</h3>
-                                <p class="project-description">{{ project.description }}</p>
-                                <div class="chip-wrap">
-                                    <BasicSmallChip :title="project.myJob" :color="this.getJobColor(project.myJob)"/>
-                                </div>
-                            </div>
-                          </div>
-                          <v-col class="project-status">
-                            <div class="status-element">
-                                <BasicChip :title="project.status" :color="this.getChipColor(project.status)"/>
-                            </div>
-                          </v-col>
-                      </v-col>
+        <!-- <ProjectSidebar /> -->
 
-                  </v-row>
+              <v-container class="d-flex">
+                  <v-card
+                    class="mx-auto"
+                    max-width="400"
+                    v-for="project in projectList"
+                    :key="project.id"
+                    @click="spaMoveTo(project.projectId)"
+                >
+                    <v-img
+                    height="200"
+                    :src="project.imageUrl"
+                    cover
+                    ></v-img>
+                    <v-card-title>
+                        {{ project.projectName }}
+                    </v-card-title>
+                    <v-card-text>
+                        <p>{{ project.description.substr(0, 7) }} <span style="font-size:small; color: gray;">...more</span></p>
+                         <!-- <p>{{ project.deadline }}</p> -->
+                    </v-card-text>
+                        
+                    <!-- <v-btn color="orange" text="Share"></v-btn>
+                    <v-btn color="orange" text="Explore"></v-btn> -->
+
+                    <v-card-text  class="d-flex justify-space-between align-center">
+                        <BasicChip :title="project.status" :color="this.getChipColor(project.status)"/>
+                        <BasicChip :title="project.jobField" :color="this.getJobColor(project.jobField)"/>
+                    </v-card-text>
+                </v-card>
               </v-container>
-            </v-card-text>
-      </v-card>
     </v-container>
 </template>
 <script>
-import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
+// import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
 import BasicChip from '@/components/chip/BasicChip.vue';
-import ProjectSidebar from '../navbar/ProjectSidebar.vue';
+// import ProjectSidebar from '../navbar/ProjectSidebar.vue';
 
 export default{
   props: ['projectList'],
   components: {
-      BasicSmallChip,
+    //   BasicSmallChip,
       BasicChip,
-      ProjectSidebar
+    //   ProjectSidebar
   },
   data() {
       return {
@@ -51,9 +54,7 @@ export default{
   methods: {
       spaMoveTo(projectId) {
           // 이동하는 코드 구현
-          console.log(projectId);
-          alert('지금은 임시로 홈으로 이동합니다..');
-          this.$router.push('/');
+          this.$router.push('/project/' + projectId);
       },
       getChipColor(title) {
             if(title === '승인') {
@@ -65,9 +66,9 @@ export default{
             }
         },
         getJobColor(job) {
-            if(job === 'Backend') {
+            if(job === 'BACKEND') {
                 return 'be_blue';
-            } else if(job === 'Frontend') {
+            } else if(job === 'FRONTEND') {
                 return 'fe_yellow';
             } else if(job === 'PM') {
                 return 'pm_green';
@@ -75,7 +76,7 @@ export default{
                 return 'app_red';
             } else if(job === 'iOS') {
                 return 'app_red';
-            } else if(job === 'Designer') {
+            } else if(job === 'DESIGNER') {
                 return 'de_purple';
             } else {
                 return 'white';
@@ -83,7 +84,8 @@ export default{
         },
         changePage(page) {
             this.currentPage = page;
-        }
+        },
+
   },
   created() {
       console.log(this.projectList);
@@ -99,6 +101,7 @@ export default{
   border-bottom: 1px solid #D4D4D4;
   align-items: center;
 }
+
 
 .my-project-card {
     color: "#FCFCFC";
@@ -148,6 +151,7 @@ export default{
 
 .outer-box {
     display: flex;
+    width: 70%;
 }
 
 .my-project-card {

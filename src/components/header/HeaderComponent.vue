@@ -105,10 +105,6 @@
 
       localStorage.setItem('alertCnt', alertCnt);
       localStorage.setItem('chatCnt', chatCnt);
-
-      console.log("!!!!");
-      console.log(this.getAlertCnt);
-      console.log(this.getChatCnt);
     },
     computed: {
       ...mapGetters(['getChatCnt']),

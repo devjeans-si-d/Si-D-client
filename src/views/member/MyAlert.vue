@@ -1,27 +1,70 @@
 <template>
-    <v-container>
+    <h2 style="text-align:center; margin: 20px;">🔔 내 알림</h2>
+    <div style="margin: auto; text-align:center; border-bottom: 1px solid #D4D4D4; width: 70%;">
+    <br>
+    </div>
+    <v-container class="d-flex justify-center" style="width: 50%;">
+
+        <v-alert
+            v-if="!this.exist()"
+            class="d-flex justify-center"
+            title="아직은 새로운 알림이 없네요!"
+            type="success"
+            style="opacity: 0.8;"
+        ></v-alert>
+
         <v-alert
         color="#2A3B4D"
         density="compact"
-        icon="mdi-firework"
+        icon="mdi-chat"
         theme="dark"
-        v-if="this.alertCnt >= 1"
+        v-if="this.exist()"
+        class="chat-alert"
       >
-        {{this.alertCnt}}개의 새로운 채팅이 있어요!
+        <p>{{this.localChatCnt}}개의 새로운 채팅이 있어요!</p>
       </v-alert>
+
+      
     </v-container>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
-    data() {
+    date() {
         return {
-            alertCnt: 0,
+            localChatCnt: 0,
+            localAlertCnt: 0,
         }
     },
-    created() {
-        this.alertCnt = Number(localStorage.getItem('chat'));
-        localStorage.setItem('chat', '0');
+    computed: {
+      ...mapGetters(['getChatCnt']),
+      ...mapGetters(['getAlertCnt']),
     },
+    created() {
+        this.localChatCnt = this.getChatCnt;
+        this.localAlertCnt = this.getAlertCnt;
+
+        this.$store.dispatch('updateAlertCnt', 0);
+        this.$store.dispatch('updateChatCnt', 0);
+
+        localStorage.setItem('alertCnt', 0);
+        localStorage.setItem('chatCnt', 0);
+    },
+    methods: {
+        exist() {
+            const total = this.localChatCnt + this.localAlertCnt;
+            if(total >= 1) return true;
+            return false;
+        }
+    }
 
 }
 </script>
+
+<style scoped>
+.chat-alert:hover {
+    opacity: 0.8;
+    transition: 0.5s ease;
+}
+</style>

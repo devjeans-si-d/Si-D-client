@@ -119,19 +119,12 @@
       },
       async subscribe() {
         const token = localStorage.getItem("token");
-        if(token) {
-            this.isLogin = true;
-            this.userRole = localStorage.getItem("role");
-            console.log('role' + this.userRole);
-        }
 
         // axios 요청이 아니라서 토큰을 따로 세팅해 주어야 한다.
-        if(this.userRole === 'ADMIN') {
-            let sse = new EventSourcePolyfill(`${process.env.VUE_APP_API_BASE_URL}/subscribe`, {headers: {Authorization: `Bearer ${token}`}});
-            sse.addEventListener('connect', (event) => {
-                console.log(event);
-            }); // connect라는 이름의 이벤트가 들어오면
-        }
+        let sse = new EventSourcePolyfill(`${process.env.VUE_APP_API_BASE_URL}/sse/subscribe`, {headers: {Authorization: `Bearer ${token}`}});
+        sse.addEventListener('connect', (event) => {
+            console.log(event);
+        }); // connect라는 이름의 이벤트가 들어오면
       }
     }
   };

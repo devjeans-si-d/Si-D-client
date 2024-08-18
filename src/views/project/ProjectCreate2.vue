@@ -1,38 +1,42 @@
 <template>
   <v-container max-width="1200px">
 
-    <v-spacer :style="{height: '20px'}"></v-spacer>
+    <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <h2 style="text-align:center; color:#094F08;">프로젝트 모집글 작성</h2>
 
-    <v-spacer :style="{height: '20px'}"></v-spacer>
+    <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <v-row class="mt-10 mb-10">
       <v-text-field label="제목" type="text" id="title" v-model="title" variant="underlined" rounded="xs"></v-text-field>
     </v-row>
 
     <v-row class="mt-10 mb-10">
-      <v-file-input label="프로젝트 이미지" accept="image/" @change="fileUpdate" variant="underlined"
-        rounded="xs">
+      <v-file-input label="프로젝트 이미지" accept="image/" @change="fileUpdate" variant="underlined" rounded="xs">
       </v-file-input>
+    </v-row>
+    <v-row v-if="this.projectImageUrl" class="justify-center">
+      <img :src="this.projectImageUrl" style="height:auto; width:500px;">
     </v-row>
 
     <v-row class="mt-10 mb-10">
-      <v-text-field label="한줄 설명" type="text" id="description" v-model="description" variant="underlined" rounded="xs"></v-text-field>
+      <v-text-field label="한줄 설명" type="text" id="description" v-model="description" variant="underlined"
+        rounded="xs"></v-text-field>
     </v-row>
 
-    <v-spacer :style="{height: '20px'}"></v-spacer>
+    <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <!-- 모집 기한 -->
     <v-row class="mt-10 mb-10">
-      <h3> 모집 기한 </h3>
-    </v-row>
-
-    <v-row>
+      <h3 class="mr-10"> 모집 기한 </h3>
       <input type="date" id="deadline" v-model="deadline" />
     </v-row>
+    <!-- 
+    <v-row>
+      <input type="date" id="deadline" v-model="deadline" />
+    </v-row> -->
 
-    <v-spacer :style="{height: '20px'}"></v-spacer>
+    <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <!-- 모집 정보 추가 -->
     <v-row class="mt-10 align-center justify-start">
@@ -63,20 +67,25 @@
     <!-- 모달 외부에서 showMemberList의 멤버들을 Chip으로 보여줌 -->
     <v-row class="mt-10 mb-10">
 
-      <v-chip v-for="(member, index) in showMemberList" :key="member.memberId" closable @click:close="removeMember(index)"
-        class="ma-2">
+      <v-chip v-for="(member, index) in showMemberList" :key="member.memberId" closable
+        @click:close="removeMember(index)" class="ma-2">
         {{ member.name }} - {{ member.jobfield }}
       </v-chip>
     </v-row>
-
     <v-row>
-      <div id="editor"></div>
+        <h3 class="mr-10 mb-5"> 프로젝트 소개 </h3>
+        <v-textarea class="textareaSize"  v-model="recruitContents" row-height="30" no-resize></v-textarea>
     </v-row>
-    <v-textarea v-model="recruitContents"></v-textarea >
-    <v-row justify="center" class="mt-15 ">
-      
+
+    <!-- <v-row>
+      <div id="editor"></div>
+    </v-row> -->
+
+    <v-row justify="center" class="mt-5">
+
       <v-col cols="auto">
-        <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF'}" @click="reloadPage()" class="ml-1" />
+        <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }" @click="clickBack()"
+          class="ml-1" />
       </v-col>
       <v-col cols="auto">
         <ButtonComponent content="확인" @click="saveContent()" class="mr-1" />
@@ -106,34 +115,22 @@
                 </v-row>
                 <!-- api 붙이면 풀 것 -->
                 <v-row class="mt-3 mb-10">
-                          <v-select
-                            v-model="searchType"
-                            :items="searchOptions"
-                            item-title="text"
-                            item-value="value"
-                            variant="outlined"
-                            density="compact"
-                            class="ml-10 mr-10"
-                          >
-                          </v-select>
-                        </v-row>
-                        <br />
-                        <v-row class="mt-3 mb-3 ml-10">
-                          <h3> 검색어 </h3>
-                        </v-row>
-                        <v-row class="mb-10">
-                          <v-text-field
-                            v-model="searchValue"
-                            label="Search"
-                            variant="outlined"
-                            class="ml-10 mr-10"
-                            density="compact"
-                          ></v-text-field>
-                        </v-row>
-                        <br />
+                  <v-select v-model="searchType" :items="searchOptions" item-title="text" item-value="value"
+                    variant="outlined" density="compact" class="ml-10 mr-10">
+                  </v-select>
+                </v-row>
+                <br />
+                <v-row class="mt-3 mb-3 ml-10">
+                  <h3> 검색어 </h3>
+                </v-row>
+                <v-row class="mb-10">
+                  <v-text-field v-model="searchValue" label="Search" variant="outlined" class="ml-10 mr-10"
+                    density="compact"></v-text-field>
+                </v-row>
+                <br />
 
                 <v-row>
-                  <ButtonComponent content="검색" type="submit" class="mx-auto" @click="searchMembersList()"/>
+                  <ButtonComponent content="검색" type="submit" class="mx-auto" @click="searchMembersList()" />
                 </v-row>
 
                 <!-- 테이블 및 페이지네이션 -->
@@ -168,11 +165,12 @@
         </v-card-text>
         <v-card-actions>
           <v-row justify="center">
-            <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF'}" @click="closeMemberAddDialog()" class="ml-1" />
+            <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }"
+              @click="closeMemberAddDialog()" class="ml-1" />
             <ButtonComponent content="확인" @click="confirmMemberSelection()" />
           </v-row>
         </v-card-actions>
-        <v-spacer :style="{height: '20px'}"></v-spacer>
+        <v-spacer :style="{ height: '20px' }"></v-spacer>
       </v-card>
     </v-dialog>
 
@@ -195,7 +193,8 @@
         </v-card-text>
         <v-card-actions>
           <v-row justify="center">
-            <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF'}" @click="recruitInfoDialogueClose()" class="ml-1" />
+            <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }"
+              @click="recruitInfoDialogueClose()" class="ml-1" />
             <ButtonComponent content="확인" @click="recruitInfoConfirm()" />
           </v-row>
         </v-card-actions>
@@ -205,8 +204,8 @@
 </template>
 <script>
 import ButtonComponent from "@/components/button/ButtonComponent.vue";
-import Editor from "@toast-ui/editor";
-import "@toast-ui/editor/dist/toastui-editor.css";
+//import Editor from "@toast-ui/editor";
+//import "@toast-ui/editor/dist/toastui-editor.css";
 import dayjs from "dayjs";
 import axios from "axios";
 export default {
@@ -240,31 +239,36 @@ export default {
       description: "",
       deadline: "",
       editor: null,
-      recruitContents:"",
+      recruitContents: "",
     };
   },
-  mounted() {
+  // mounted() {
 
 
-    this.editor = new Editor({
-      el: document.querySelector("#editor"),
-      height: "500px",
-      initialEditType: "wysiwyg",
-      width: 'auto',
-      hooks: {
-        addImageBlobHook: async (blob, callback) => {
-          // 1. 다른 서버에 이미지를 업로드
-          const uploadResult = await this.uploadImage(blob);
-          // 2. 1에서 업로드 된 이미지를 접근할 수 있는 url 세팅
-          callback(uploadResult);
-        },
-      },
-    });
-    // 추가: editor의 width를 1200px로 조정
-    document.querySelector("#editor").style.width = "1200px";
-  },
+  //   this.editor = new Editor({
+  //     el: document.querySelector("#editor"),
+  //     height: "500px",
+  //     initialEditType: "wysiwyg",
+  //     width: 'auto',
+  //     hooks: {
+  //       addImageBlobHook: async (blob, callback) => {
+  //         // 1. 다른 서버에 이미지를 업로드
+  //         const uploadResult = await this.uploadImage(blob);
+  //         // 2. 1에서 업로드 된 이미지를 접근할 수 있는 url 세팅
+  //         callback(uploadResult);
+  //       },
+  //     },
+  //   });
+  //   // 추가: editor의 width를 1200px로 조정
+  //   document.querySelector("#editor").style.width = "1200px";
+  // },
   methods: {
 
+    clickBack(){
+            window.history.back();
+        },
+        gotoDetail(){
+        },
 
     async uploadImage(blob) {
 
@@ -287,11 +291,11 @@ export default {
       );
 
       const urlContentType = getUrl.headers.get("content-type");
-      console.log("urlContentType"+urlContentType);
+      console.log("urlContentType" + urlContentType);
       let getUrlResult;
       if (urlContentType && urlContentType.includes("application/json")) {
         getUrlResult = await getUrl.json(); // JSON으로 파싱
-        console.log("json"+JSON.stringify(getUrlResult))
+        console.log("json" + JSON.stringify(getUrlResult))
       } else {
         getUrlResult = await getUrl.text(); // 텍스트로 파싱
       }
@@ -382,7 +386,7 @@ export default {
       }
     },
     selectMember(member) {
-      console.log("member 정보",member)
+      console.log("member 정보", member)
       this.selectedMember = member.memberId; // 멤버를 선택하면 해당 멤버의 ID를 저장
     },
     clearMemberAddModal() {
@@ -394,13 +398,13 @@ export default {
       const selected = this.memberList.find(
         (member) => member.memberId === this.selectedMember
       );
-      console.log("selected",selected)
+      console.log("selected", selected)
       if (selected) {
         // 선택된 멤버가 showMemberList에 이미 있는지 확인
         const alreadySelected = this.showMemberList.find(
           (item) => item.memberId === selected.memberId
         );
-      console.log("alreadySelected",alreadySelected)
+        console.log("alreadySelected", alreadySelected)
 
         if (!alreadySelected) {
           this.showMemberList.push({
@@ -421,7 +425,7 @@ export default {
       // const content = this.editor.getMarkdown();
 
       let projectMembers = [];
-      console.log("SAVE showmemberlist 확인"+this.showMemberList)
+      console.log("SAVE showmemberlist 확인" + this.showMemberList)
       this.showMemberList.forEach((member) => {
         let dataMember = {
           memberId: member.memberId,
@@ -432,7 +436,7 @@ export default {
       });
 
       let recruitInfos = [];
-      console.log("SAVE showrecruitlist 확인"+this.showRecruitInfoList)
+      console.log("SAVE showrecruitlist 확인" + this.showRecruitInfoList)
       this.showRecruitInfoList.forEach((info) => {
         let dataInfo = {
           jobField: info.recruitField,
@@ -440,7 +444,7 @@ export default {
         };
         recruitInfos.push(dataInfo);
       });
-
+      if (this.projectImageUrl == "") this.projectImageUrl = "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/test-prefix/start-5699157_640.jpg";
       try {
         const body = {
           imageUrl: this.projectImageUrl,
@@ -448,12 +452,16 @@ export default {
           deadline: this.deadline + 'T' + deadlineTime,
           description: this.description,
           // recruitmentContents: this.editor.getMarkdown().toString(),
-          recruitmentContents: `<div style="text-align: center;">${this.recruitContents}</div>`,
+          recruitmentContents: this.recruitContents,
           projectMembers,
           recruitInfos,
         };
-        const projectCreateResponse = axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/create`, body);
+        const projectCreateResponse = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/create`, body);
         console.log(projectCreateResponse);
+        const createdProjectId = projectCreateResponse?.data?.id; // 생성된 프로젝트 ID
+        console.log(createdProjectId)
+        // 프로젝트 상세 화면으로 라우팅
+        this.$router.push({ name: 'ProjectView', params: { projectId: createdProjectId } });
       } catch (e) {
         alert(e);
         console.log(e);
@@ -463,9 +471,11 @@ export default {
 };
 </script>
 <style>
-.editor {
-  border : 1px solid;
-  width : 70%;
-  margin : 0 auto;
+.textareaSize {
+
+  width: 100%;
+  height: 500px;
+  border: none;
+  resize: none !important;
 }
 </style>

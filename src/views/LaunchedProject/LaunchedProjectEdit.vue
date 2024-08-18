@@ -12,8 +12,8 @@
       </v-file-input>
 
     </v-row>
-    <v-row>
-      <img :src="this.projectImageUrl" />
+    <v-row v-if="this.projectImageUrl" class="justify-center">
+      <img :src="this.projectImageUrl" style="height:auto; width:500px;">
     </v-row>
     <v-row class="mt-10 mb-10">
       <!-- <label for="siteUrl" class="ma-auto">site url</label> -->
@@ -363,14 +363,14 @@ export default {
     this.launchedProjectId = route.params.launchedProjectId;
     this.project = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/basic-info`)
     const projectResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.project?.data?.projectId}`)
-    console.log("????", projectResponse)
+    console.log("launched",this.project);
     this.projectName = projectResponse?.data?.projectName ?? "";
     this.siteUrl = this.project.data.siteUrl;
-    // this.projectImageUrl = this.project.data.imageUrl;
+    this.projectImageUrl = this.project.data.launchedProjectImage;
     this.launchedProjectContents = this.project.data.launchedProjectContents;
-    const getMembers = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/members`).data;
-    console.log(getMembers);
-    this.showMemberList = getMembers.map((member) => {
+    const getMembers = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/members`);
+    console.log("????",getMembers);
+    this.showMemberList = getMembers?.data.map((member) => {
       return {
         memberId: member.memberId,
         memberName: member.nickname, // 이름을 Chip에 표시하기 위해 추가

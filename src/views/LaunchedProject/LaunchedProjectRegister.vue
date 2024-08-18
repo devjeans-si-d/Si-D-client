@@ -11,7 +11,9 @@
       <v-file-input label="프로젝트 이미지" accept="image/" @change="fileUpdate" variant="underlined" rounded="xs">
       </v-file-input>
     </v-row>
-
+    <v-row v-if="this.projectImageUrl" class="justify-center">
+      <img :src="this.projectImageUrl" style="height:auto; width:500px;">
+    </v-row>
     <v-row class="mt-10 mb-10">
       <!-- <label for="siteUrl" class="ma-auto">site url</label> -->
       <v-text-field type="text" id="siteUrl" label="site url" placeholder="https://www.si-d.com" v-model="siteUrl"
@@ -51,7 +53,7 @@
     <v-row justify="center" class="mt-15 ">
 
       <v-col cols="auto">
-        <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }" @click="reloadPage()"
+        <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }" @click="clickCancel()"
           class="ml-1" />
       </v-col>
       <v-col cols="auto">
@@ -222,10 +224,13 @@ export default {
         console.log('Launched Project 등록 성공:', response);
         // 필요 시 성공 후 처리 (예: 페이지 이동)
       } catch (error) {
-        alert(JSON.stringify(error.response));
+        // alert(JSON.stringify(error.response));
         console.error('Launched Project 등록 실패:', error.response);
         // 필요 시 에러 처리
       }
+    },
+    clickCancel(){
+      window.history.back();
     },
     searchMemberShowModal() {
       this.memberAddDialog = true;

@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid class="custom-container">
+    <v-container fluid  class="custom-container">
 
 
         <v-btn size="large" icon="$vuetify" variant="plain mt-10 mb-10 " width="30" height="30"
@@ -47,13 +47,15 @@
             </ul>
         </v-row>
 
+
+
         <v-spacer :style="{ height: '10px' }"></v-spacer>
         <v-row class="explainProject justify-center mt-10 mb-3">프로젝트 소개</v-row>
 
         <v-divider class="mb-4"></v-divider>
 
         <v-row class="mt-10 mb-5 justify-center">
-            <img :src="this.projectImageUrl" alt="Project Image" style="height:200px; width:80%;" />
+            <img :src="this.projectImageUrl" alt="Project Image" style="height:auto; width:500px;" />
 
         </v-row>
 
@@ -63,7 +65,8 @@
             <h5>{{ this.description }}</h5>
         </v-row>
 
-        <v-row style="white-space:pre-line" class="justify-center ma-10">{{ this.contents }}</v-row>
+
+        <v-row style="white-space: pre-line; text-align: center;" class="d-flex align-center justify-center ma-10 text-justify" v-html="this.contents.replace(/\n/g, '<br>')"></v-row>
 
         <v-spacer :style="{ height: '20px' }"></v-spacer>
         <v-row class=" subTitle mt-10 mb-10  justify-center">
@@ -142,6 +145,9 @@ export default {
                 return groups;
             }, {});
         },
+        formattedContent() {
+            return this.contents.replace(/\n/g, '<br>');
+        }
 
     },
     data() {
@@ -221,6 +227,9 @@ export default {
         document.querySelector("#editor").style.width = "1200px";
     },
     methods: {
+        clickBack(){
+            window.history.back();
+        },
         clickScrap() {
             if (!this.isScrap) this.doScrap();
             else this.unDoScrap();
@@ -230,6 +239,8 @@ export default {
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/scrap`)
                 console.log(response);
                 alert("scrap되었습니다");
+                this.isScrap=true;
+                // 스크랩수 늘리기
             }
             catch (e) {
                 console.log(e);
@@ -240,6 +251,8 @@ export default {
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/scrap/delete`)
                 console.log(response);
                 alert("스크랩 취소되었습니다")
+                this.isScrap=false;
+                // 스크랩수 줄이기
             }
             catch (e) {
                 console.log(e);
@@ -335,4 +348,11 @@ export default {
     color: #000;
     overflow-wrap: break-word;
 }
+p {
+    /* 수평 중앙 정렬하기 */
+    text-align: center;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
 </style>

@@ -20,10 +20,10 @@
         variant="underlined" rounded="xs"></v-text-field>
     </v-row>
 
-    <v-row class="mt-10 mb-10">
+    <!-- <v-row class="mt-10 mb-10">
       <v-text-field label="한줄 설명" type="text" id="description" v-model="description" variant="underlined"
         rounded="xs"></v-text-field>
-    </v-row>
+    </v-row> -->
 
     <v-spacer :style="{ height: '50px' }"></v-spacer>
 

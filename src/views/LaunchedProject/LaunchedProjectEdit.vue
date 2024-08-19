@@ -209,7 +209,7 @@ export default {
       console.log("siteUrl", this.siteUrl)
       console.log("image", this.projectImageUrl)
       console.log("member", this.showMemberList)
-      
+
       let members = this.showMemberList.map(member => ({
         id: member.memberId,
         jobField: member.jobField
@@ -278,7 +278,7 @@ export default {
     },
     confirmMemberSelection() {
       const selected = this.memberList.find(
-        (member) => member.memberId === this.selectedMember
+        (member) => member.memberId == this.selectedMember
       );
       if (selected) {
         // 선택된 멤버가 showMemberList에 이미 있는지 확인
@@ -286,16 +286,17 @@ export default {
           (item) => item.memberId === selected.memberId
         );
         if (!alreadySelected) {
-          this.showMemberList.push({
-            memberId: selected.memberId,
-            memberName: selected.nickname, // 이름을 Chip에 표시하기 위해 추가
-            jobField: this.memberField, // 사용자가 선택한 직무 필드
-          });
-          // this.showMemberList.push(selected);
+          if (selected.memberId && selected.memberName && this.memberField) {
+            this.showMemberList.push({
+              memberId: selected?.memberId,
+              memberName: selected?.name, // 이름을 Chip에 표시하기 위해 추가
+              jobField: this.memberField, // 사용자가 선택한 직무 필드
+            });
+            // this.showMemberList.push(selected);
+          }
         }
-
-
       }
+
       console.log("confirm?" + this.showMemberList);
 
       this.memberAddDialog = false; // 모달 닫기
@@ -363,20 +364,22 @@ export default {
     this.launchedProjectId = route.params.launchedProjectId;
     this.project = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/basic-info`)
     const projectResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.project?.data?.projectId}`)
-    console.log("launched",this.project);
+    console.log("launched", this.project);
     this.projectName = projectResponse?.data?.projectName ?? "";
     this.siteUrl = this.project.data.siteUrl;
     this.projectImageUrl = this.project.data.launchedProjectImage;
     this.launchedProjectContents = this.project.data.launchedProjectContents;
     const getMembers = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/members`);
-    console.log("????",getMembers);
-    this.showMemberList = getMembers?.data.map((member) => {
-      return {
-        memberId: member.memberId,
-        memberName: member.nickname, // 이름을 Chip에 표시하기 위해 추가
-        jobField: member.jobField, // 사용자가 선택한 직무 필드
-      }
-    });
+    console.log("????", getMembers);
+    if (getMembers.length > 0) {
+      this.showMemberList = getMembers?.data.map((member) => {
+        return {
+          memberId: member.memberId,
+          memberName: member.nickname, // 이름을 Chip에 표시하기 위해 추가
+          jobField: member.jobField, // 사용자가 선택한 직무 필드
+        }
+      });
+    }
     const getTechList = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/tech-stacks`);
     console.log("tech", getTechList)
     // this.techStackList = getTechList.data;

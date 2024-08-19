@@ -14,7 +14,11 @@
               md="4"
               class="d-flex justify-center"
             >
-              <v-card class="mx-auto" style="width: 100%; max-width: 300px; max-height:300px">
+              <v-card 
+              class="mx-auto" 
+              style="width: 100%; max-width: 300px; max-height:300px"
+              @click="() => moveToSiderCard(sidecard.id)"
+              >
                 <v-avatar size="150" class="mx-auto d-flex justify-center align-center">
                   <v-img
                   class="circle-img"
@@ -93,6 +97,12 @@
         const start = (page - 1) * sidecardsPerPage;
         const end = start + sidecardsPerPage;
         return this.sidecards.slice(start, end);
+      },
+      moveToSiderCard(memberId){
+        this.$router.push('/sider-card/' + memberId).then(() => {
+          // 페이지 이동 후 스크롤을 최상단으로 이동
+          window.scrollTo(0, 0);
+        });
       }
     }
   };

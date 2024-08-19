@@ -18,7 +18,7 @@
               <v-card 
               class="mx-auto" 
               style="width: 100%; max-width: 250px;"
-              @click="launchedProjectDetail(project.id)"
+              @click="() => moveToProject(project.id)"
               >
                 <v-img
                   class="custom-img"
@@ -103,11 +103,11 @@
         const end = start + projectsPerPage;
         return this.projects.slice(start, end);
       },
-      launchedProjectDetail(projectId){
-        alert('launchedProject 상세페이지로 이동');
-        console.log(projectId)
-        // view 화면 구현되면 주석해제
-        // this.$router.push('/launched-project/' + projectId);
+      moveToProject(projectId){
+        this.$router.push('/launched-project/' + projectId).then(() => {
+          // 페이지 이동 후 스크롤을 최상단으로 이동
+          window.scrollTo(0, 0);
+        });
       }
 
     }

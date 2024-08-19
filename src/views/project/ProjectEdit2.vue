@@ -304,7 +304,7 @@ export default {
     // this.contents=(await getProjectResponse).data.recruitmentContents;
   },
   async mounted() {
-    this.now = dayjs().format();
+
 
     const route = useRoute();
     this.projectId = route.params.projectId;
@@ -315,6 +315,10 @@ export default {
     this.description = getProjectResponse?.data?.description;
     this.recruitContents = getProjectResponse?.data?.recruitmentContents;
     this.isClosed = getProjectResponse?.data?.isClosed;
+
+
+    
+
     this.showMemberList = getProjectResponse?.data?.projectMembers.map((member) => {
       return {
         memberId: member.memberId,

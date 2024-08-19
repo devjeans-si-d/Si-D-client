@@ -2,10 +2,9 @@
     <v-container class="outer-box">
         <!-- <ProjectSidebar /> -->
 
-              <v-container class="d-flex">
+              <v-container class="d-flex justify-center">
                   <v-card
-                    class="mx-auto"
-                    max-width="400"
+                    class="apply-card"
                     v-for="project in projectList"
                     :key="project.id"
                     @click="spaMoveTo(project.projectId)"
@@ -15,36 +14,31 @@
                     :src="project.imageUrl"
                     cover
                     ></v-img>
-                    <v-card-title>
+                    <v-card-title class="d-flex justify-space-between">
                         {{ project.projectName }}
+                        <span>
+                            <BasicSmallChip :title="project.status" :color="this.getChipColor(project.status)" style="margin-right: 5px;"/>
+                            <BasicSmallChip :title="project.jobField" :color="this.getJobColor(project.jobField)"/>
+                        </span>
                     </v-card-title>
                     <v-card-text>
-                        <p>{{ project.description.substr(0, 7) }} <span style="font-size:small; color: gray;">...more</span></p>
-                         <!-- <p>{{ project.deadline }}</p> -->
+                        {{ project.description.substr(0,20) }}
+                        <!-- <span style="font-size:small; color: gray;">...more</span> -->
                     </v-card-text>
                         
-                    <!-- <v-btn color="orange" text="Share"></v-btn>
-                    <v-btn color="orange" text="Explore"></v-btn> -->
-
-                    <v-card-text  class="d-flex justify-space-between align-center">
-                        <BasicChip :title="project.status" :color="this.getChipColor(project.status)"/>
-                        <BasicChip :title="project.jobField" :color="this.getJobColor(project.jobField)"/>
-                    </v-card-text>
                 </v-card>
               </v-container>
     </v-container>
 </template>
 <script>
 // import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
-import BasicChip from '@/components/chip/BasicChip.vue';
+import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
 // import ProjectSidebar from '../navbar/ProjectSidebar.vue';
 
 export default{
   props: ['projectList'],
   components: {
-    //   BasicSmallChip,
-      BasicChip,
-    //   ProjectSidebar
+      BasicSmallChip,
   },
   data() {
       return {
@@ -155,9 +149,13 @@ export default{
 }
 
 .my-project-card {
-    margin-left: 20px;
     width: 100%;
     background-color: #F6F6F6;
+}
+
+.apply-card {
+    width: 33%;
+    margin-left: 10px;
 }
 
 </style>

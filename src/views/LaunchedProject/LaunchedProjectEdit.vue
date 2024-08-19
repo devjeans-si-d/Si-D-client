@@ -4,7 +4,7 @@
     <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <h4 style="text-align:center; color:#094F08;">Launched Project</h4>
-    <h2 style="text-align:center; color:#094F08;">{{ this.project?.data?.projectName ?? "" }}</h2>
+    <h2 style="text-align:center; color:#094F08;">{{ this.projectName }}</h2>
     <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <v-row class="mt-10 mb-10">
@@ -12,8 +12,8 @@
       </v-file-input>
 
     </v-row>
-    <v-row>
-      <img :src="this.projectImageUrl"/>
+    <v-row v-if="this.projectImageUrl" class="justify-center">
+      <img :src="this.projectImageUrl" style="height:auto; width:500px;">
     </v-row>
     <v-row class="mt-10 mb-10">
       <!-- <label for="siteUrl" class="ma-auto">site url</label> -->
@@ -54,13 +54,14 @@
 
     <v-row>
 
-          
+
 
     </v-row>
     <v-row justify="center" class="mt-15 ">
-      
+
       <v-col cols="auto">
-        <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF'}" @click="reloadPage()"  class="ml-1" />
+        <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }" @click="reloadPage()"
+          class="ml-1" />
       </v-col>
       <v-col cols="auto">
         <ButtonComponent content="확인" @click="registerLaunchedProject()" class="mr-1" />
@@ -167,12 +168,12 @@ export default {
     TechStackSelector,
     ButtonComponent,
   },
-  
-  
+
+
   data() {
     return {
-      launchedProjectId:0,
-      siteUrl:"",
+      launchedProjectId: 0,
+      siteUrl: "",
       project: {},
       projectId: 0,
       projectImageFile: null,
@@ -190,8 +191,9 @@ export default {
       selectedMember: null, // 현재 선택된 멤버 ID
       memberList: [], // 최종적으로 선택된 멤버들의 리스트
       showMemberList: [], // 화면에 아직 확정되진 않은 선택된 memberList
-      techStackList: [],
-      launchedProjectContents:"",
+      techStacks: [],
+      launchedProjectContents: "",
+      projectName: "",
     };
   },
 
@@ -201,26 +203,28 @@ export default {
       window.location.reload();
     },
     async registerLaunchedProject() {
-      console.log("url",this.projectImageUrl)
-      console.log("projectId",this.projectId)
-      console.log("contet",this.launchedProjectContents)
-      console.log("siteUrl",this.siteUrl)
-      console.log("image",this.projectImageUrl)
-      let members=this.showMemberList.map(member => ({
-          id: member.memberId,
-          jobField: member.jobField
-        }));
-        console.log(members)
-        // let techStackListJson = JSON.stringify(this.techStackList)
-        // let techStackListJson = this.techStackList;
-        // console.log("tech",techStackListJson)
+      console.log("url", this.projectImageUrl)
+      console.log("projectId", this.projectId)
+      console.log("contet", this.launchedProjectContents)
+      console.log("siteUrl", this.siteUrl)
+      console.log("image", this.projectImageUrl)
+      console.log("member", this.showMemberList)
+
+      let members = this.showMemberList.map(member => ({
+        id: member.memberId,
+        jobField: member.jobField
+      }));
+      console.log(members)
+      // let techStackListJson = JSON.stringify(this.techStackList)
+      // let techStackListJson = this.techStackList;
+      // console.log("tech",techStackListJson)
       const body = {
         projectId: this.projectId,
         launchedProjectContents: this.launchedProjectContents,
         siteUrl: this.siteUrl,
         members,
         // techStackList: JSON.stringify(this.techStackList),
-        techStackList:this.techStackList,
+        techStackList: this.techStackList,
         imageUrl: this.projectImageUrl,
       };
 
@@ -274,7 +278,7 @@ export default {
     },
     confirmMemberSelection() {
       const selected = this.memberList.find(
-        (member) => member.memberId === this.selectedMember
+        (member) => member.memberId == this.selectedMember
       );
       if (selected) {
         // 선택된 멤버가 showMemberList에 이미 있는지 확인
@@ -282,14 +286,17 @@ export default {
           (item) => item.memberId === selected.memberId
         );
         if (!alreadySelected) {
-          this.showMemberList.push({
-            memberId: selected.memberId,
-            memberName: selected.name, // 이름을 Chip에 표시하기 위해 추가
-            jobField: this.memberField, // 사용자가 선택한 직무 필드
-          });
-          // this.showMemberList.push(selected);
+          if (selected.memberId && selected.memberName && this.memberField) {
+            this.showMemberList.push({
+              memberId: selected?.memberId,
+              memberName: selected?.name, // 이름을 Chip에 표시하기 위해 추가
+              jobField: this.memberField, // 사용자가 선택한 직무 필드
+            });
+            // this.showMemberList.push(selected);
+          }
         }
       }
+
       console.log("confirm?" + this.showMemberList);
 
       this.memberAddDialog = false; // 모달 닫기
@@ -356,24 +363,29 @@ export default {
     const route = useRoute();
     this.launchedProjectId = route.params.launchedProjectId;
     this.project = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/basic-info`)
-    console.log(this.project);
+    const projectResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.project?.data?.projectId}`)
+    console.log("launched", this.project);
+    this.projectName = projectResponse?.data?.projectName ?? "";
     this.siteUrl = this.project.data.siteUrl;
-    // this.projectImageUrl = this.project.data.imageUrl;
+    this.projectImageUrl = this.project.data.launchedProjectImage;
     this.launchedProjectContents = this.project.data.launchedProjectContents;
-    const getMembers = await (await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/members`)).data;
-    console.log(getMembers);
-    this.showMemberList = getMembers.map((member) => {
-      return {
-        memberId: member.id,
-        memberName: member.nickname, // 이름을 Chip에 표시하기 위해 추가
-        jobField: member.jobField, // 사용자가 선택한 직무 필드
-      }
-    });
-    const getTechList = await (await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/tech-stacks`)).data;
-    console.log(getTechList)
-    this.techStackList = getTechList;
+    const getMembers = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/members`);
+    console.log("????", getMembers);
+    if (getMembers.length > 0) {
+      this.showMemberList = getMembers?.data.map((member) => {
+        return {
+          memberId: member.memberId,
+          memberName: member.nickname, // 이름을 Chip에 표시하기 위해 추가
+          jobField: member.jobField, // 사용자가 선택한 직무 필드
+        }
+      });
+    }
+    const getTechList = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/tech-stacks`);
+    console.log("tech", getTechList)
+    // this.techStackList = getTechList.data;
+    this.$store.dispatch('updateTechStacksRes', getTechList.data)
+
 
   },
 }
 </script>
-

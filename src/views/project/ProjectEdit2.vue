@@ -1,49 +1,52 @@
 <template>
   <v-container max-width="1200px">
 
-    <v-spacer :style="{height: '20px'}"></v-spacer>
+    <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <h2 style="text-align:center; color:#094F08;">프로젝트 모집글 수정</h2>
 
-    <v-spacer :style="{height: '20px'}"></v-spacer>
+    <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <v-row class="mt-10 mb-10">
       <v-text-field label="제목" type="text" id="title" v-model="title" variant="underlined" rounded="xs"></v-text-field>
     </v-row>
 
     <v-row class="mt-10 mb-10">
-      <v-file-input label="프로젝트 이미지" accept="image/" @change="fileUpdate" variant="underlined"
-        rounded="xs">
+      <v-file-input label="프로젝트 이미지" accept="image/" @change="fileUpdate" variant="underlined" rounded="xs">
       </v-file-input>
     </v-row>
-    <v-row>
-      <img :src="this.projectImageUrl"/>
-    </v-row>
-    <v-row>
-      <v-switch
-      v-model="this.isClosed"
-      :label="`Switch: ${model}`"
-      false-value="N"
-      true-value="Y"
-      hide-details
-    ></v-switch>
-    </v-row>
-    <v-row class="mt-10 mb-10">
-      <v-text-field label="한줄 설명" type="text" id="description" v-model="description" variant="underlined" rounded="xs"></v-text-field>
+    <v-row v-if="this.projectImageUrl" class="justify-center">
+      <img :src="this.projectImageUrl" style="height:auto; width:500px;">
     </v-row>
 
-    <v-spacer :style="{height: '20px'}"></v-spacer>
+    <v-row class="mt-10 mb-10">
+      <v-text-field label="한줄 설명" type="text" id="description" v-model="description" variant="underlined"
+        rounded="xs"></v-text-field>
+    </v-row>
+
+    <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <!-- 모집 기한 -->
     <v-row class="mt-10 mb-10">
-      <h3> 모집 기한 </h3>
-    </v-row>
+      <h3 class="mr-5"> 모집 기한 </h3>
 
-    <v-row>
+      <input type="datetime-local" v-model="deadline">
+
+      <!-- <input type="date" id="deadline" v-model="deadline" /> -->
+
+    </v-row>
+    <!-- 마감 여부 꾸미기 -->
+    <!-- <v-row  class="mt-10 mb-10 align-center ">
+      <h3 class="mr-5"> 모집 마감 </h3>
+
+      <v-switch class="align-center" v-model="this.isClosed"  false-value="N" true-value="Y"
+        hide-details></v-switch>
+    </v-row> -->
+    <!-- <v-row>
       <input type="date" id="deadline" v-model="deadline" />
-    </v-row>
+    </v-row> -->
 
-    <v-spacer :style="{height: '20px'}"></v-spacer>
+    <!-- <v-spacer :style="{ height: '20px' }"></v-spacer> -->
 
     <!-- 모집 정보 추가 -->
     <v-row class="mt-10 align-center justify-start">
@@ -64,27 +67,31 @@
     <!-- 멤버 추가  -->
 
     <!-- 멤버 추가 버튼 및 모달 -->
-    <v-row class="mt-10 align-center justify-start">
+    <!-- <v-row class="mt-10 align-center justify-start">
       <h3 style="margin-right: 20px;"> 멤버 추가 </h3>
       <ButtonComponent content="검색" @click="searchMemberShowModal()" />
-    </v-row>
+    </v-row> -->
 
     <!-- 모달 외부에서 showMemberList의 멤버들을 Chip으로 보여줌 -->
-    <v-row class="mt-10 mb-10">
-      <v-chip v-for="(member, index) in showMemberList" :key="member.memberId" closable @click:close="removeMember(index)"
-        class="ma-2">
+    <!-- <v-row class="mt-10 mb-10">
+      <v-chip v-for="(member, index) in showMemberList" :key="member.memberId" closable
+        @click:close="removeMember(index)" class="ma-2">
         {{ member.name }} - {{ member.jobfield }}
       </v-chip>
-    </v-row>
-
+    </v-row> -->
+    <!-- 
     <v-row>
       <div id="editor"></div>
+    </v-row> -->
+    <v-row>
+      <h3 class="mr-10 mb-5"> 프로젝트 소개 </h3>
+      <v-textarea class="textareaSize" v-model="recruitContents" row-height="30" no-resize></v-textarea>
     </v-row>
-
     <v-row justify="center" class="mt-15 ">
-      
+
       <v-col cols="auto">
-        <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF'}" @click="reloadPage()" class="ml-1" />
+        <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }" @click="reloadPage()"
+          class="ml-1" />
       </v-col>
       <v-col cols="auto">
         <ButtonComponent content="확인" @click="saveContent()" class="mr-1" />
@@ -92,7 +99,7 @@
     </v-row>
 
     <!-- member add 모달창을 위한 v-dialog -->
-    <v-dialog v-model="membrerAddDialog" max-width="800px" class="pa-10">
+    <!-- <v-dialog v-model="membrerAddDialog" max-width="800px" class="pa-10">
       <v-card class="modal-card">
         <v-card-title class="modal-title">멤버 추가</v-card-title>
         <v-divider class="mb-4"></v-divider>
@@ -112,39 +119,25 @@
                 <v-row class="mt-3 mb-3 ml-10">
                   <h3> 검색조건 </h3>
                 </v-row>
-                <!-- api 붙이면 풀 것 -->
                 <v-row class="mt-3 mb-10">
-                          <v-select
-                            v-model="searchType"
-                            :items="searchOptions"
-                            item-title="text"
-                            item-value="value"
-                            variant="outlined"
-                            density="compact"
-                            class="ml-10 mr-10"
-                          >
-                          </v-select>
-                        </v-row>
-                        <br />
-                        <v-row class="mt-3 mb-3 ml-10">
-                          <h3> 검색어 </h3>
-                        </v-row>
-                        <v-row class="mb-10">
-                          <v-text-field
-                            v-model="searchValue"
-                            label="Search"
-                            variant="outlined"
-                            class="ml-10 mr-10"
-                            density="compact"
-                          ></v-text-field>
-                        </v-row>
-                        <br />
+                  <v-select v-model="searchType" :items="searchOptions" item-title="text" item-value="value"
+                    variant="outlined" density="compact" class="ml-10 mr-10">
+                  </v-select>
+                </v-row>
+                <br />
+                <v-row class="mt-3 mb-3 ml-10">
+                  <h3> 검색어 </h3>
+                </v-row>
+                <v-row class="mb-10">
+                  <v-text-field v-model="searchValue" label="Search" variant="outlined" class="ml-10 mr-10"
+                    density="compact"></v-text-field>
+                </v-row>
+                <br />
 
                 <v-row>
-                  <ButtonComponent content="검색" type="submit" class="mx-auto" @click="searchMembersList()"/>
+                  <ButtonComponent content="검색" type="submit" class="mx-auto" @click="searchMembersList()" />
                 </v-row>
 
-                <!-- 테이블 및 페이지네이션 -->
                 <v-row>
                   <v-col cols="12" class="mt-2">
                     <v-table rounded="lg">
@@ -176,13 +169,14 @@
         </v-card-text>
         <v-card-actions>
           <v-row justify="center">
-            <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF'}" @click="closeMemberAddDialog()" class="ml-1" />
+            <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }"
+              @click="closeMemberAddDialog()" class="ml-1" />
             <ButtonComponent content="확인" @click="confirmMemberSelection()" />
           </v-row>
         </v-card-actions>
-        <v-spacer :style="{height: '20px'}"></v-spacer>
+        <v-spacer :style="{ height: '20px' }"></v-spacer>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
 
     <!-- recruitInfo 모달 창 -->
     <v-dialog v-model="recruitInfoDialogue" rounded="xl" max-width="430px" class="h-50">
@@ -203,18 +197,49 @@
         </v-card-text>
         <v-card-actions>
           <v-row justify="center">
-            <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF'}" @click="recruitInfoDialogueClose()" class="ml-1" />
+            <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }"
+              @click="recruitInfoDialogueClose()" class="ml-1" />
             <ButtonComponent content="확인" @click="recruitInfoConfirm()" />
           </v-row>
         </v-card-actions>
       </v-card>
     </v-dialog>
   </v-container>
+  <v-dialog v-model="dateModal" max-width="500px" rounded="xl">
+    <v-card>
+      <v-card-title>모집 마감 기한</v-card-title>
+      <v-divider class="mb-4"></v-divider>
+      <v-card-text>모집 마감 기한은 현재보다 이전으로 할 수 없습니다.</v-card-text>
+      <v-card-actions>
+        <v-row justify="center">
+          <v-btn rounded="xl" variant="flat" density="default" color="#A4DEC6" :style="{ color: '#FFFFFF' }"
+            @click="dateModalClose()">확인</v-btn>
+        </v-row>
+      </v-card-actions>
+      <v-divider class="mt-2 mb-10"></v-divider>
+    </v-card>
+  </v-dialog>
+
+
+  <v-dialog v-model="titleModal" max-width="500px" rounded="xl">
+    <v-card>
+      <v-card-title>제목</v-card-title>
+      <v-divider class="mb-4"></v-divider>
+      <v-card-text>제목을 입력하셔야 합니다.</v-card-text>
+      <v-card-actions>
+        <v-row justify="center">
+          <v-btn rounded="xl" variant="flat" density="default" color="#A4DEC6" :style="{ color: '#FFFFFF' }"
+            @click="titleModalClose()">확인</v-btn>
+        </v-row>
+      </v-card-actions>
+      <v-divider class="mt-2 mb-10"></v-divider>
+    </v-card>
+  </v-dialog>
 </template>
 <script>
 import ButtonComponent from "@/components/button/ButtonComponent.vue";
-import Editor from "@toast-ui/editor";
-import "@toast-ui/editor/dist/toastui-editor.css";
+// import Editor from "@toast-ui/editor";
+// import "@toast-ui/editor/dist/toastui-editor.css";
 import dayjs from "dayjs";
 import axios from "axios";
 import { useRoute } from 'vue-router';
@@ -225,6 +250,10 @@ export default {
   },
   data() {
     return {
+      dateModal: false,
+      titleModal: false,
+      now: null,
+      recruitContents: "",
       projectImageFile: null,
       projectImageUrl: "",
       // 기존 데이터
@@ -251,11 +280,12 @@ export default {
       title: "",
       description: "",
       deadline: "",
-      editor: null,
-      contents:"",
+      //editor: null,
+      contents: "",
+      isClosed: false,
     };
   },
-  async created(){
+  async created() {
     // const route = useRoute();
     // this.projectId = route.params.projectId;
     // const getProjectResponse = axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`)
@@ -274,56 +304,62 @@ export default {
     // this.contents=(await getProjectResponse).data.recruitmentContents;
   },
   async mounted() {
+    this.now = dayjs().format();
+
     const route = useRoute();
     this.projectId = route.params.projectId;
-    const getProjectResponse = axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`)
-    console.log(getProjectResponse);
-    this.deadline = (await getProjectResponse).data.deadline.split('T')[0];
-    this.title=(await getProjectResponse).data.projectName;
-    this.projectImageUrl=(await getProjectResponse).data.imageUrl;
-    this.description=(await getProjectResponse).data.description;
-    this.showMemberList = (await getProjectResponse).data.projectMembers.map((member) => {
-
+    const getProjectResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`)
+    this.deadline = getProjectResponse?.data?.deadline;
+    this.title = getProjectResponse?.data?.projectName;
+    this.projectImageUrl = getProjectResponse?.data?.imageUrl;
+    this.description = getProjectResponse?.data?.description;
+    this.recruitContents = getProjectResponse?.data?.recruitmentContents;
+    this.isClosed = getProjectResponse?.data?.isClosed;
+    this.showMemberList = getProjectResponse?.data?.projectMembers.map((member) => {
       return {
         memberId: member.memberId,
-        name: member.memberNickname, 
-        jobfield: member.jobField, 
+        name: member.memberNickname,
+        jobfield: member.jobField,
       }
     });
-    this.showRecruitInfoList=(await getProjectResponse).data.recruitInfos.map((info)=>{
+    this.showRecruitInfoList = getProjectResponse?.data?.recruitInfos.map((info) => {
       return {
-        recruitField:info.jobField,
-        count:info.count
+        recruitField: info.jobField,
+        count: info.count
       }
     })
 
 
-    this.contents=(await getProjectResponse).data.recruitmentContents;
+    this.contents = getProjectResponse?.data?.recruitmentContents;
 
-    this.editor = new Editor({
-      el: document.querySelector("#editor"),
-      height: "500px",
-      initialEditType: "wysiwyg",
-      initialValue:`${this.contents ?? ""}`,
-      width: 'auto',
-      hooks: {
-        addImageBlobHook: async (blob, callback) => {
-          // 1. 다른 서버에 이미지를 업로드
-          const uploadResult = await this.uploadImage(blob);
-          // 2. 1에서 업로드 된 이미지를 접근할 수 있는 url 세팅
-          callback(uploadResult);
-        },
-      },
-    });
-    // 추가: editor의 width를 1200px로 조정
-    document.querySelector("#editor").style.width = "1200px";
+    // this.editor = new Editor({
+    //   el: document.querySelector("#editor"),
+    //   height: "500px",
+    //   initialEditType: "wysiwyg",
+    //   initialValue:`${this.contents ?? ""}`,
+    //   width: 'auto',
+    //   hooks: {
+    //     addImageBlobHook: async (blob, callback) => {
+    //       // 1. 다른 서버에 이미지를 업로드
+    //       const uploadResult = await this.uploadImage(blob);
+    //       // 2. 1에서 업로드 된 이미지를 접근할 수 있는 url 세팅
+    //       callback(uploadResult);
+    //     },
+    //   },
+    // });
+    // // 추가: editor의 width를 1200px로 조정
+    // document.querySelector("#editor").style.width = "1200px";
   },
   methods: {
-
+    dateModalClose() {
+      this.dateModal = false;
+    },
+    titleModalClose() {
+      this.titleModal = false;
+    },
 
     async uploadImage(blob) {
 
-      console.log(blob.name);
       const accessToken = localStorage.getItem('token');
       const body = {
         prefix: "test-prefix",
@@ -342,11 +378,9 @@ export default {
       );
 
       const urlContentType = getUrl.headers.get("content-type");
-      console.log("urlContentType"+urlContentType);
       let getUrlResult;
       if (urlContentType && urlContentType.includes("application/json")) {
         getUrlResult = await getUrl.json(); // JSON으로 파싱
-        console.log("json"+JSON.stringify(getUrlResult))
       } else {
         getUrlResult = await getUrl.text(); // 텍스트로 파싱
       }
@@ -364,7 +398,6 @@ export default {
         },
         body: blob, // 업로드할 파일 데이터
       };
-      console.log(new Date());
       let response = await fetch(awsUrl.data + awsUrl.auth, options);
       console.log(response);
 
@@ -372,7 +405,6 @@ export default {
     },
     async fileUpdate(event) {
       this.projectImageFile = event.target.files[0];
-      console.log(this.projectImageFile)
       this.projectImageUrl = await this.uploadImage(this.projectImageFile);
 
     },
@@ -400,7 +432,6 @@ export default {
     },
     // recruit remove
     removeRecruitInfo(index) {
-      console.log(this.showRecruitInfoList[index])
       this.showRecruitInfoList.splice(index, 1);
     },
     // recruit clear
@@ -409,7 +440,7 @@ export default {
       this.count = "";
     },
     reloadPage() {
-      window.location.reload();
+      window.history.back();
     },
     searchMemberShowModal() {
       this.membrerAddDialog = true;
@@ -432,7 +463,6 @@ export default {
           `${process.env.VUE_APP_API_BASE_URL}/api/member/list`,
           { params });
         this.memberList = response.data.content;
-        console.log("memberList:" + this.memberList);
       } catch (error) {
         console.error("Error fetching members:", error);
       }
@@ -469,22 +499,19 @@ export default {
       this.showMemberList.splice(index, 1); // showMemberList에서 해당 멤버 제거
     },
     async saveContent() {
-      const deadlineTime = dayjs().format('HH:mm:ss');
       // const content = this.editor.getMarkdown();
 
-      let projectMembers = [];
-      console.log("SAVE showmemberlist 확인"+this.showMemberList)
-      this.showMemberList.forEach((member) => {
-        let dataMember = {
-          memberId: member.memberId,
-          jobField: member.jobfield,
-        };
-        projectMembers.push(dataMember);
+      // let projectMembers = [];
+      // this.showMemberList.forEach((member) => {
+      //   let dataMember = {
+      //     memberId: member.memberId,
+      //     jobField: member.jobfield,
+      //   };
+      //   projectMembers.push(dataMember);
 
-      });
+      // });
 
       let recruitInfos = [];
-      console.log("SAVE showrecruitlist 확인"+this.showRecruitInfoList)
       this.showRecruitInfoList.forEach((info) => {
         let dataInfo = {
           jobField: info.recruitField,
@@ -492,20 +519,33 @@ export default {
         };
         recruitInfos.push(dataInfo);
       });
-      console.log(this.deadline + 'T' + deadlineTime);
       try {
         const body = {
           imageUrl: this.projectImageUrl,
           projectName: this.title,
-          deadline: this.deadline + 'T' + deadlineTime,
+          deadline: this.deadline,
           description: this.description,
-          recruitmentContents: this.editor.getMarkdown().toString(),
-          projectMembers,
+          recruitmentContents: this.recruitContents,
+          // projectMembers,
           recruitInfos,
-          isClosed:'N'
+          isClosed: this.isClosed,
         };
-        const projectCreateResponse = await axios.put(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/update`, body);
-        console.log(projectCreateResponse);
+        if (this.title == "") {
+          this.titleModal = true;
+          // alert("제목을 입력해야합니다.");
+          return;
+        }
+        else if (this.deadline < this.now) {
+          this.dateModal = true;
+
+          // alert("모집 마감 기한은 현재보다 이후여야 합니다.")
+          return;
+        }
+        else {
+          const projectCreateResponse = await axios.put(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/update`, body);
+          const createdProjectId = projectCreateResponse?.data?.id; // 생성된 프로젝트 ID
+          this.$router.push({ name: 'ProjectView', params: { projectId: createdProjectId } });
+        }
       } catch (e) {
         alert(JSON.stringify(e.response));
         console.log(e);
@@ -515,9 +555,11 @@ export default {
 };
 </script>
 <style>
-.editor {
-  border : 1px solid;
-  width : 70%;
-  margin : 0 auto;
+.textareaSize {
+
+  width: 100%;
+  height: 500px;
+  border: none;
+  resize: none !important;
 }
 </style>

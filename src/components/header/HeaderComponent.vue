@@ -59,7 +59,12 @@
                     </v-list-item>
                   </v-list>
                 </v-menu>
-                🔔<span @click="spaMoveToAlram">{{this.getAlertCnt + this.getChatCnt}}</span>
+                <div v-if="isLogin"
+                class="alert-div"
+                @click="spaMoveToAlram">🔔
+                <div
+                :class="{ 'zero-alert': this.getAlertCnt + this.getChatCnt == 0 }"
+                class="alert-count">{{this.getAlertCnt + this.getChatCnt}}</div></div>
               </v-col>
 
 
@@ -211,6 +216,45 @@
       justify-content: center;
       text-align: center; /* 버튼 텍스트 중앙 정렬 */
     }
+  }
+
+  .alert-count {
+    display: inline-block;
+    border-radius: 50%;
+    background-color: #CC3D3D;
+    min-width: 25px;
+    min-height: 25px;
+    width: auto;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    margin-left: 3px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .zero-alert {
+    display: inline-block;
+    border-radius: 50%;
+    background-color: #D4D4D4;
+    min-width: 25px;
+    min-height: 25px;
+    width: auto;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    margin-left: 5px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .alert-div {
+    display: inline-block;
+    font-size: large;
+  }
+  .alert-div:hover {
+    opacity: 0.8;
+    transition: 0.5s ease;
   }
 
   </style>

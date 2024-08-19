@@ -43,6 +43,7 @@ export default {
             pageSize: 20,
             currentPage: 0,
             isLoading: false,
+            isLastPage: false,
         }
     },
     async created() {
@@ -62,15 +63,18 @@ export default {
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/sider-card/list`, { params })
                 this.currentPage++;
                 console.log(response.data.result);
+                this.isLastPage = response.data.result.last
                 this.cards = [...this.cards, ...response.data.result.content]
             } catch (e) {
                 console.log(e);
             }
         },
         async scrollPagination() {
+            console.log("스크롤");
+            
             // "현재화면 + 스크롤로 이동한 화면 > 전체화면 -n" 의 조건이 성립되면 추가 데이터 로드
             const isBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 20;
-            if (isBottom && !this.isLoading) {
+            if (isBottom && !this.isLastPage && !this.isLoading) {
                 this.isLoading = true
                 await this.loadSiderCard()
                 this.isLoading = false

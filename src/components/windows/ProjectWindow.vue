@@ -15,7 +15,11 @@
               md="3"
               class="d-flex justify-center"
             >
-              <v-card class="mx-auto" style="width: 100%; max-width: 250px;">
+              <v-card 
+              class="mx-auto" 
+              style="width: 100%; max-width: 250px;"
+              @click="() => moveToProject(project.id)"
+              >
                 <v-img
                   class="custom-img"
                   height="250"
@@ -96,6 +100,12 @@
         const start = (page - 1) * projectsPerPage;
         const end = start + projectsPerPage;
         return this.projects.slice(start, end);
+      },
+      moveToProject(projectId){
+        this.$router.push('/project/' + projectId).then(() => {
+          // 페이지 이동 후 스크롤을 최상단으로 이동
+          window.scrollTo(0, 0);
+        });
       }
     }
   };

@@ -59,7 +59,7 @@ export default{
       }
   },
   async created() {
-    this.myId = localStorage.getItem('id');
+    this.myId = Number(localStorage.getItem('id'));
 
     const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/list`)
     this.chatroomList = response.data.content;

@@ -3,28 +3,15 @@
     <v-row justify="center" align="center" class="line">
       <div style="position: relative; margin: 0 30px; overflow: visible;">
         <v-avatar class="mx-auto" size="120">
-          <img
-            :src="data.image"
-            alt="Profile Image"
-            style="height: 120px; width: auto"
-          />
+          <img :src="data.image" alt="Profile Image" style="height: 120px; width: auto" />
           <!-- 파일 선택 인풋 -->
-          <v-file-input
-            ref="fileInput"
-            hide-input
-            style="position: absolute; bottom: 0; right: 0; z-index: -3;"
-            v-model="imageFile"
-            @change="fileUpdate"
-          ></v-file-input>
+          <v-file-input ref="fileInput" hide-input style="position: absolute; bottom: 0; right: 0; z-index: -3;"
+            v-model="imageFile" @change="fileUpdate"></v-file-input>
         </v-avatar>
-        <v-btn
-            small
-            icon
-            style="position: absolute; bottom: 50px; right: -10px; font-size: 14px; z-index: 3;"
-            @click="$refs.fileInput.click()"
-          >
-            <v-icon>mdi-pencil</v-icon>
-          </v-btn>
+        <v-btn small icon style="position: absolute; bottom: 50px; right: -10px; font-size: 14px; z-index: 3;"
+          @click="$refs.fileInput.click()">
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
       </div>
       <v-col>
         <v-row>
@@ -32,20 +19,9 @@
         </v-row>
         <v-row>
           <v-sheet class="py-4 px-1">
-            <v-chip-group
-              v-model="data.jobField"
-              selected-class="text-primary"
-              mandatory
-            >
-              <v-chip
-                v-for="(job, index) in jobFields"
-                :key="index"
-                color="#094F08"
-                size="large"
-                filter
-                :value="job.value"
-                >{{ job.name }}</v-chip
-              >
+            <v-chip-group v-model="data.jobField" selected-class="text-primary" mandatory>
+              <v-chip v-for="(job, index) in jobFields" :key="index" color="#094F08" size="large" filter
+                :value="job.value">{{ job.name }}</v-chip>
             </v-chip-group>
           </v-sheet>
         </v-row>
@@ -58,14 +34,8 @@
           <h2 style="margin-bottom: 20px">자기소개</h2>
         </v-row>
         <v-row class="textarea">
-          <v-textarea
-            v-model="data.introduction"
-            :rules="rules"
-            label="자기소개"
-            counter
-            variant="outlined"
-            max-width="1200"
-          ></v-textarea>
+          <v-textarea v-model="data.introduction" :rules="rules" label="자기소개" counter variant="outlined"
+            max-width="1200" no-resize></v-textarea>
         </v-row>
       </v-col>
     </v-row>
@@ -76,50 +46,60 @@
           <h2 style="margin-bottom: 20px">소셜정보</h2>
         </v-row>
         <v-row class="email">
-          <v-text-field
-            v-model="data.socialLink.email"
-            prepend-icon="mdi-email"
-            label="개인 이메일 주소"
-            variant="solo-filled"
-            max-width="1200"
-            readonly
-          ></v-text-field>
+          <v-text-field v-model="data.socialLink.email" prepend-icon="mdi-email" label="개인 이메일 주소" variant="solo-filled"
+            max-width="1200" readonly></v-text-field>
         </v-row>
         <v-row class="email">
-          <v-text-field
-            v-model="data.socialLink.github"
-            prepend-icon="mdi-github"
-            label="깃허브 주소"
-            variant="solo-filled"
-            max-width="1200"
-          ></v-text-field>
+          <v-text-field v-model="data.socialLink.github" prepend-icon="mdi-github" label="깃허브 주소" variant="solo-filled"
+            max-width="1200"></v-text-field>
         </v-row>
         <v-row class="email">
-          <v-text-field
-            v-model="data.socialLink.behance"
-            prepend-icon="mdi-beta"
-            label="비핸스 주소"
-            variant="solo-filled"
-            max-width="1200"
-          ></v-text-field>
+          <v-text-field v-model="data.socialLink.behance" prepend-icon="mdi-beta" label="비핸스 주소" variant="solo-filled"
+            max-width="1200"></v-text-field>
         </v-row>
         <v-row class="email">
-          <v-text-field
-            v-model="data.socialLink.linkedin"
-            prepend-icon="mdi-linkedin"
-            label="링크드인 주소"
-            variant="solo-filled"
-            max-width="1200"
-          ></v-text-field>
+          <v-text-field v-model="data.socialLink.linkedin" prepend-icon="mdi-linkedin" label="링크드인 주소"
+            variant="solo-filled" max-width="1200"></v-text-field>
         </v-row>
         <v-row class="email">
-          <v-text-field
-            v-model="data.socialLink.etc"
-            prepend-icon="mdi-home"
-            label="개인 블로그 주소"
-            variant="solo-filled"
-            max-width="1200"
-          ></v-text-field>
+          <v-text-field v-model="data.socialLink.etc" prepend-icon="mdi-home" label="개인 블로그 주소" variant="solo-filled"
+            max-width="1200"></v-text-field>
+        </v-row>
+      </v-col>
+    </v-row>
+
+    <v-row class="line2">
+      <v-col class="margin-tb">
+        <v-row>
+          <h2>경력</h2>
+        </v-row>
+        <v-row v-for="(career, index) in data.careers" :key="index" class="my-4">
+          <v-col style="padding: 0px">
+            <v-row class="email">
+              <v-text-field v-model="career.company" label="회사명" max-width="1200"></v-text-field>
+            </v-row>
+            <v-row class="email">
+              <v-text-field v-model="career.position" label="포지션" max-width="1200"></v-text-field>
+            </v-row>
+            <v-row class="email">
+              <v-text-field placeholder="YYYY-MM" v-model="career.employedStart" label="재직기간 시작일"
+                max-width="1200"></v-text-field>
+              <v-spacer></v-spacer>
+              <v-text-field placeholder="YYYY-MM" v-model="career.employedEnd" label="재직기간 종료일"
+                max-width="1200"></v-text-field>
+            </v-row>
+            <v-row>
+              <v-col style="margin-left: 30px" class="row-1">
+                <v-checkbox v-model="career.employedYn" label="재직중"></v-checkbox>
+              </v-col>
+              <div style="margin-right: 5%;">
+                <v-btn style="margin-top: 10px" color="red" @click="removeCareer(index)">삭제</v-btn>
+              </div>
+            </v-row>
+          </v-col>
+        </v-row>
+        <v-row justify="center">
+          <v-btn variant="text" :disabled="data.careers.length >= 5" @click="addCareer" ><h3>+ 경력 추가하기</h3></v-btn>
         </v-row>
       </v-col>
     </v-row>
@@ -127,88 +107,23 @@
     <v-row class="line">
       <v-col class="margin-tb">
         <v-row>
-          <h2>경력</h2>
+          <h2>사용기술</h2>
         </v-row>
-        <v-row
-          v-for="(career, index) in data.careers"
-          :key="index"
-          class="my-4"
-        >
-          <v-col style="padding: 0px">
-            <v-row class="email">
-              <v-text-field
-                v-model="career.company"
-                label="회사명"
-                max-width="1200"
-              ></v-text-field>
-            </v-row>
-            <v-row class="email">
-              <v-text-field
-                v-model="career.position"
-                label="포지션"
-                max-width="1200"
-              ></v-text-field>
-            </v-row>
-            <v-row class="email">
-              <v-text-field
-                placeholder="YYYY-MM"
-                v-model="career.employedStart"
-                label="재직기간 시작일"
-                max-width="1200"
-              ></v-text-field>
-              <v-spacer></v-spacer>
-              <v-text-field
-                placeholder="YYYY-MM"
-                v-model="career.employedEnd"
-                label="재직기간 종료일"
-                max-width="1200"
-              ></v-text-field>
-            </v-row>
-            <v-row>
-              <v-col style="margin-left: 30px" class="row-1">
-                <v-checkbox
-                  v-model="career.employedYn"
-                  label="재직중"
-                ></v-checkbox>
-              </v-col>
-              <v-col cols="2" class="row-1">
-                <v-btn
-                  style="margin-top: 10px"
-                  color="red"
-                  @click="removeCareer(index)"
-                  >삭제</v-btn
-                >
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
-        <v-row justify="end">
-          <v-btn :disabled="data.careers.length >= 5" @click="addCareer"
-            >+ 경력 추가하기</v-btn
-          >
+        <v-row>
+          <TechStackSelector require="true" />
         </v-row>
       </v-col>
     </v-row>
-    <v-row class="line">
-      <TechStackSelector require="true" />
-    </v-row>
+    
     <v-row>
       <v-col class="margin-tb">
         <v-row>
           <h2 style="margin-bottom: 20px">프로젝트</h2>
         </v-row>
         <v-row>
-          <div
-            v-for="item in data.launchedProjects"
-            :key="item.launchedProjectId"
-            style="margin-right: 40px;"
-          >
-            <a :href="`/launched-project/${item.launchedProjectId}`"
-              ><img
-                :src="item.launchedProjectImage"
-                alt="출시 프로젝트"
-                style="height: 150px; width: auto"
-            /></a>
+          <div v-for="item in data.launchedProjects" :key="item.launchedProjectId" style="margin-right: 40px;">
+            <a :href="`/launched-project/${item.launchedProjectId}`"><img :src="item.launchedProjectImage" alt="출시 프로젝트"
+                style="height: 200px; width: 200px" /></a>
           </div>
         </v-row>
       </v-col>
@@ -309,7 +224,7 @@ export default {
       this.data.teckStacks = this.getTechStackIds;
     },
   },
-  updated() {},
+  updated() { },
   computed: {
     ...mapGetters(["getTechStackIds"]),
   },
@@ -338,7 +253,7 @@ export default {
           `${process.env.VUE_APP_API_BASE_URL}/api/sider-card/update`,
           this.data
         );
-        alert("사이더카드 업데이트 완료");
+        this.$router.push(`/sider-card/${this.data.id}`)
         console.log(response.data);
       } catch (e) {
         console.log(e.response.data);
@@ -390,19 +305,21 @@ export default {
       console.log(response);
 
       return awsUrl.data;
-      },
+    },
   },
 };
 </script>
 
 <style scoped>
 .margin-tb {
-  margin: 40px 20px;
+  margin: 20px 20px;
 }
+
 .row-1 {
   height: 50px;
   padding: 0px;
 }
+
 .email {
   min-height: 50px;
   margin: 20px;
@@ -421,6 +338,10 @@ export default {
 .line {
   border-bottom: 1px solid;
   padding-bottom: 20px;
+}
+
+.line2 {
+  border-bottom: 1px solid;
 }
 
 .textarea {

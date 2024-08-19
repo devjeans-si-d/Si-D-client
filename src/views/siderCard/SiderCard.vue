@@ -11,12 +11,21 @@
         </v-avatar>
       </div>
       <v-col>
-        <v-row>
+        <v-row justify="space-between">
           <h2>{{ data.nickname }}</h2>
+          <v-btn
+            small
+            icon
+            color="secondary"
+            style="margin-right: 50px;"
+            :to="{ path: '/sider-card'}"
+          >
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
         </v-row>
         <v-row>
           <v-sheet class="py-4 px-1">
-            <ButtonComponent :content="data.jobField" />
+            <ButtonComponent v-if="data.jobField" :content="data.jobField" />
           </v-sheet>
         </v-row>
       </v-col>
@@ -28,7 +37,7 @@
           <h2 style="margin-bottom: 20px">자기소개</h2>
         </v-row>
         <v-row class="introduction">
-          <v-textarea v-model="data.introduction" readonly></v-textarea>
+          <v-textarea v-model="data.introduction" readonly variant="solo" no-resize></v-textarea>
         </v-row>
       </v-col>
     </v-row>
@@ -108,9 +117,18 @@
         </v-row>
       </v-col>
     </v-row>
-    <v-row>
-      <TechStackSelector />
+
+    <v-row class="line">
+      <v-col class="margin-tb">
+        <v-row>
+          <h2>사용기술</h2>
+        </v-row>
+        <v-row>
+          <TechStackSelector />
+        </v-row>
+      </v-col>
     </v-row>
+
     <v-row>
       <v-col class="margin-tb">
         <v-row>
@@ -153,6 +171,7 @@ export default {
   },
   data() {
     return {
+      isMine: false,
       emailTogle: false,
       jobFields: [
         { name: "프론트엔드", value: "FRONTEND" },
@@ -200,6 +219,7 @@ export default {
     };
   },
   async created() {
+    this.isMine = this.id == localStorage.getItem("id")
     try {
       const response = await axios.get(
         `${process.env.VUE_APP_API_BASE_URL}/api/sider-card/${this.id}`
@@ -235,7 +255,7 @@ export default {
 
 <style scoped>
 .margin-tb {
-  margin: 40px 20px;
+  margin: 20px 20px;
 }
 .career {
   margin: 10px;

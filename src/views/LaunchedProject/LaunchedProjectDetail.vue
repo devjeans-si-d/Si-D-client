@@ -56,7 +56,7 @@
                         style="color:#094F08" 
                         size=large
                         @click="navigateToSite"
-                        >Launched site
+                        >출시 사이트 바로가기
                         </v-chip>
                     </v-container>   
                 </v-col>

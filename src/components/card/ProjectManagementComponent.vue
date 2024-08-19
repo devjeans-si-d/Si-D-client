@@ -99,14 +99,10 @@
 import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
 import { mapGetters } from 'vuex'
 import axios from 'axios';
-// import ProjectSidebar from '../navbar/ProjectSidebar.vue';
-// import ButtonComponent from '../button/ButtonComponent.vue';
 
 export default{
   components: {
       BasicSmallChip,
-    //   ProjectSidebar,
-    //   ButtonComponent /my-projects/pm
   },
   data() {
       return {
@@ -126,7 +122,6 @@ export default{
                     size: 3,
                     page: this.currentPage-1
             };
-
 
             if(this.getCurrentFilter === 1) {
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects`, { params });

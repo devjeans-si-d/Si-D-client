@@ -11,13 +11,14 @@
           ></v-img>
             <v-card-title>{{this.projectInfo.projectName}}</v-card-title>
             <v-card-text>{{this.projectInfo.projectName}}의 지원자 목록이에요.</v-card-text>
-            <v-card-text>모집 마감일: 
-                <p>{{this.getDay(this.projectInfo.deadline)}} {{this.getTime(this.projectInfo.deadline)}}</p>
-
+            <v-card-text style="color: gray;">
+                모집 마감일: <br>
+                {{this.getDay(this.projectInfo.deadline)}} {{this.getTime(this.projectInfo.deadline)}}
                 </v-card-text>
         </v-card>
         <v-card class="my-project-card" variant="elevated" :key="projectList">
           <v-card-text>
+            <span v-if="applyList.length == 0">아직은 지원자가 없네요. 📨</span>
               <v-container v-for="apply, index in applyList" class="element-row" :key="index">
                 <div class="project-img"  @click="applymentModal(apply.id, apply.name, apply.content)">
                     <img :src="apply.profileImageUrl" height="100px" width="100px" style="object-fit: cover; border-radius: 50px;" overflow="hidden">
@@ -407,13 +408,6 @@ export default{
   justify-self: flex-end;
 }
 
-/*.project-element:hover {
-  opacity: 0.7;
-  cursor:pointer;
-  transition: 0.5s ease-out;
-}*/
-    
-
 
 .outer-box2 {
     display: flex;
@@ -425,7 +419,9 @@ export default{
 .my-project-card {
     background-color: #F6F6F6;
     height: 100%;
+
     width: 75%;
+    min-height: 400px;
 }
 
 .sidebar {
@@ -433,6 +429,7 @@ export default{
     height: 100%;
     width: 30%;
     margin-right: 20px;
+    min-height: 400px;
 }
 
 .sidebar-element:hover {

@@ -163,7 +163,6 @@ export default {
                     techStacks: project.techStacks.join(' · ') // techStacks 배열을 문자열로 변환
                 };
             });
-
         } catch (error) {
             console.error("메인페이지 LaunchedProject 리스트 data load 에러:", error);
         }
@@ -203,4 +202,10 @@ export default {
         color: black !important;
         text-transform: none !important; /* 대문자 변환 방지 */
 }
+.custom-contents {
+    padding-right: 2px !important; /* 카드의 오른쪽 끝에서 2px 떨어지도록 */
+    white-space: nowrap !important; /* 텍스트가 한 줄로 표시되도록 */
+    overflow: hidden !important; /* 넘치는 부분이 보이지 않도록 */
+    text-overflow: ellipsis !important; /* 넘치는 부분은 '...'으로 표시되도록 */
+  }
 </style>

@@ -33,10 +33,14 @@
                     🍾 {{ project.scraps }}
                   </v-chip>
                 </v-card-title>
-                <v-card-subtitle class="pt-3 custom-contents">
+                <v-card-subtitle 
+                class="pt-3 mr-5 custom-contents"
+                >
                   <div>{{ project.launchedProjectContents }}</div>
                 </v-card-subtitle>
-                <v-card-subtitle class="pt-2 custom-contents">
+                <v-card-subtitle 
+                class="pt-2 mr-5 custom-contents"
+                >
                   <div class="mb-4">{{ project.techStacks }}</div>
                 </v-card-subtitle>
               </v-card>
@@ -116,6 +120,12 @@
     padding: 4px 8px; /* 버튼 내부 여백 */
     min-width: 40px; /* 버튼 최소 너비 */
     height: 24px; /* 버튼 높이 */
+  }
+ .custom-contents {
+    padding-right: 2px !important; /* 카드의 오른쪽 끝에서 2px 떨어지도록 */
+    white-space: nowrap !important; /* 텍스트가 한 줄로 표시되도록 */
+    overflow: hidden !important; /* 넘치는 부분이 보이지 않도록 */
+    text-overflow: ellipsis !important; /* 넘치는 부분은 '...'으로 표시되도록 */
   }
   </style>
   

@@ -28,7 +28,7 @@
                     <v-icon>mdi-bookmark</v-icon> {{ project.scrapCount }}
                   </v-chip>
                 </v-card-title>
-                <v-card-subtitle class="pt-3 mb-5 custom-contents">
+                <v-card-subtitle class="pt-3 mb-5 mr-5 custom-contents">
                   <div>{{ project.description }}</div>
                 </v-card-subtitle>
 

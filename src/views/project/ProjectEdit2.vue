@@ -240,7 +240,7 @@
 import ButtonComponent from "@/components/button/ButtonComponent.vue";
 // import Editor from "@toast-ui/editor";
 // import "@toast-ui/editor/dist/toastui-editor.css";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import axios from "axios";
 import { useRoute } from 'vue-router';
 

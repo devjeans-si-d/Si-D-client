@@ -31,6 +31,7 @@ export default {
                 const id = response.data.id;
                 localStorage.setItem('token', token)
                 localStorage.setItem('id', id)
+
                 window.location.href = '/'
             } catch (error) {
                 if (error.response.status == 401) {

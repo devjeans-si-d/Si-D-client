@@ -62,6 +62,7 @@ export default {
       phoneNumber: "",
       socialId: "",
       email: "",
+      KAKAO_AUTH_URI: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_REST_API_KEY}&redirect_uri=http://localhost:8082/oauth`,
     };
   },
   created() {
@@ -87,8 +88,8 @@ export default {
           data
         );
         console.log(response);
-        alert("회원가입 완료. 로그인 후 이용해주세요")
-        window.location.href = '/'
+        localStorage.setItem('state',"first")
+        window.location.href = this.KAKAO_AUTH_URI
       } catch (error) {
         console.error(error.response);
         alert("올바르지 않은 입력입니다.")

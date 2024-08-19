@@ -18,7 +18,8 @@
         density="compact"
         icon="mdi-chat"
         theme="dark"
-        class="d-flex justify-center"
+        class="d-flex justify-center chat-alert"
+        @click="this.$router.push('/member/chatting-list');"
         v-if="this.localChatCnt >= 1"
         >
         <p> {{this.localChatCnt}}개의 새로운 채팅이 있어요! </p>

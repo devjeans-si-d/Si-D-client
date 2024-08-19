@@ -1,27 +1,67 @@
 <template>
-    <v-container fluid  class="custom-container">
+    <v-container fluid class="custom-container">
+        <v-row class="justify-start ml-5 mt-10" style="align-items:center;">
+            <member-chip :url="this.pmImage" :name="this.pmNickname" :memberId="this.pmId" @navigate="moveToSiderCard">
+                <!-- <v-avatar start>
+                    <v-img :src="this.pmImage" class="profile-image" max-height="30" max-width="30"></v-img>
+                </v-avatar>
+                {{ this.pmNickname }} -->
+            </member-chip>
+            <v-btn size="large" variant="tonal" rounded style="margin-left: 5px;" @click="openChatModalFn()">
+                PM과의 채팅
+            </v-btn>
+            <v-btn size="large" variant="tonal" rounded style="margin-left: 5px;" @click="openApplyModal()">
+                프로젝트 지원
+            </v-btn>
+            <!-- <v-btn size="x-small" icon="$vuetify" variant="plain" style="margin-left: 5px;" @click="openChatModalFn()">
+                <v-icon left class="mr-1 justify-center">mdi-chat-processing-outline</v-icon><v-tooltip
+                    activator="parent" location="top">PM과의 채팅</v-tooltip>
+            </v-btn>
+            <v-btn size="x-small" icon="$vuetify" variant="plain" style="margin-left: 5px;" @click="openApplyModal()">
+                <v-icon left class="mr-1 justify-center">mdi-lead-pencil</v-icon><v-tooltip activator="parent"
+                    location="top">프로젝트 지원</v-tooltip>
+            </v-btn> -->
+
+            <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;"
+                @click="clickScrap()">
+                <v-icon left class="mr-1">{{ this.isScrap ? 'mdi-bookmark-multiple' : 'mdi-bookmark-multiple-outline'
+                    }}</v-icon>{{ this.scrapCount }}<v-tooltip activator="parent" location="top">프로젝트 스크랩</v-tooltip>
+            </v-btn>
+            <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;">
+                <v-icon left class="mr-1">mdi-eye</v-icon>{{ this.views }}
+            </v-btn>
 
 
-        <v-btn size="large" icon="$vuetify" variant="plain mt-10 mb-10 " width="30" height="30"
+        </v-row>
+        <v-spacer :style="{ height: '40px' }"></v-spacer>
+
+        <v-divider class="mb-4"></v-divider>
+        <v-spacer :style="{ height: '50px' }"></v-spacer>
+
+        <!-- <v-btn size="large" icon="$vuetify" variant="plain mt-10 mb-10 " width="30" height="30"
             style="margin-left: 5px;" @click="clickBack()">
             <v-icon left class="mr-1">mdi-arrow-left</v-icon>
-        </v-btn>
-        <v-row class="studyContent_title__3680o justify-center">{{ this.title }}</v-row>
+        </v-btn> -->
+        <v-row class="written-date" style="margin-left:50px">{{this.createdAt}}</v-row>
+        
+        <v-row class="studyContent_title__3680o" style="margin-left:50px">{{ this.title }}</v-row>
+        <v-row class=""  style="margin-top:60px; margin-left:50px">
+            <h5>{{ this.description }}</h5>
+        </v-row>
 
+        <v-row class="mt-10 mb-5 justify-center">
+            <img :src="this.projectImageUrl" class="rounded-lg" alt="Project Image" style="height:auto; width:800px; margin-left:50px" />
 
+        </v-row>
+        <!-- 
         <v-row class="justify-center ml-5 mt-10" style="align-items:center;">
             <v-avatar start>
                 <v-img :src="this.pmImage" class="profile-image" max-height="30" max-width="30"></v-img>
             </v-avatar>
             {{ this.pmNickname }}
 
-            <v-btn size="x-small" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;"
-                @click="clickScrap()">
-                <v-icon left class="mr-1">{{ this.isScrap ? 'mdi-bookmark-multiple' : 'mdi-bookmark-multiple-outline'
-                    }}</v-icon><v-tooltip activator="parent" location="top">프로젝트 스크랩</v-tooltip>
-            </v-btn>
-            <v-btn size="x-small" icon="$vuetify" variant="plain" style="margin-left: 5px;"
-                :to="{ path: '/team-building/list' }">
+
+            <v-btn size="x-small" icon="$vuetify" variant="plain" style="margin-left: 5px;" @click="openChatModalFn()">
                 <v-icon left class="mr-1 justify-center">mdi-chat-processing-outline</v-icon><v-tooltip
                     activator="parent" location="top">PM과의 채팅</v-tooltip>
             </v-btn>
@@ -29,10 +69,14 @@
                 <v-icon left class="mr-1 justify-center">mdi-lead-pencil</v-icon><v-tooltip activator="parent"
                     location="top">프로젝트 지원</v-tooltip>
             </v-btn>
-        </v-row>
-        <v-spacer :style="{ height: '20px' }"></v-spacer>
+            <v-btn size="x-small" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;"
+                @click="clickScrap()">
+                <v-icon left class="mr-1">{{ this.isScrap ? 'mdi-bookmark-multiple' : 'mdi-bookmark-multiple-outline'
+                    }}</v-icon><v-tooltip activator="parent" location="top">프로젝트 스크랩</v-tooltip>
+            </v-btn>
+        </v-row> -->
+        <v-spacer :style="{ height: '40px' }"></v-spacer>
 
-        <v-divider class="mb-4"></v-divider>
         <v-row class="justify-center ma-3">
             <ul id="recruitInfo" class="list-style-none p-0 m-0">
                 <li v-for="(info, index) in showRecruitInfoList" :key="index" class="mb-4 d-flex justify-between">
@@ -66,12 +110,25 @@
         </v-row>
 
 
-        <v-row style="white-space: pre-line;" class="d-flex align-center ma-10" v-html="this.contents.replace(/\n/g, '<br>')"></v-row>
+        <v-row style="white-space: pre-line;" class="d-flex align-center ma-10"
+            v-html="this.contents.replace(/\n/g, '<br>')"></v-row>
 
         <v-spacer :style="{ height: '20px' }"></v-spacer>
         <v-row class=" subTitle mt-10 mb-10">
             <h5>현재 팀 구성</h5>
         </v-row>
+        <v-container class="mx-7">
+            <v-row>
+                <v-col v-for="(members, jobField) in groupedMembers" :key="jobField" cols="12">
+                    <h3>{{ jobField }}</h3>
+                    <div class="chips-container">
+                        <member-chip v-for="member in members" :key="member.memberId" :url="member.profileImageUrl"
+                            :name="member.nickname" :memberId="member.memberId"
+                            @navigate="moveToSiderCard"></member-chip>
+                    </div>
+                </v-col>
+            </v-row>
+        </v-container>
         <v-row v-for="(members, jobfield) in groupedMembers" :key="jobfield" class="mt-10 mb-10">
             <v-col cols="12">
                 <h5>{{ jobfield }}</h5>
@@ -93,10 +150,6 @@
 
 
 
-        <v-row>
-            <div id="editor"></div>
-
-        </v-row>
 
         <!-- 지원하기 모달 -->
         <v-dialog v-model="applyModal" max-width="400px" rounded="xl">
@@ -126,11 +179,46 @@
             </v-card>
         </v-dialog>
     </v-container>
+
+
+    <v-dialog v-model="applyConfirmModal" max-width="500px" rounded="xl">
+        <v-card>
+            <v-card-title>지원</v-card-title>
+            <v-divider class="mb-4"></v-divider>
+            <v-card-text>지원되었습니다.</v-card-text>
+            <v-card-actions>
+                <v-row justify="center">
+                    <v-btn rounded="xl" variant="flat" density="default" color="#A4DEC6" :style="{ color: '#FFFFFF' }"
+                        @click="applyConfirmModalClose()">확인</v-btn>
+                </v-row>
+            </v-card-actions>
+            <v-divider class="mt-2 mb-10"></v-divider>
+        </v-card>
+    </v-dialog>
+    <v-dialog v-model="openChatModal" max-width="500px" rounded="xl">
+        <v-card>
+            <v-card-title>채팅</v-card-title>
+            <v-divider class="mb-4"></v-divider>
+            <v-card-text>PM에게 채팅하시겠습니까?</v-card-text>
+            <v-card-actions>
+                <v-row justify="center">
+                    <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }"
+                        @click="closeChatModal()" class="ml-1" />
+                    <ButtonComponent content="확인" @click="chatFn()" />
+                </v-row>
+
+            </v-card-actions>
+            <v-divider class="mt-2 mb-10"></v-divider>
+        </v-card>
+    </v-dialog>
 </template>
 <script>
 
 import axios from "axios";
 import { useRoute } from 'vue-router';
+import ButtonComponent from "@/components/button/ButtonComponent.vue";
+import MemberChip from '@/components/chip/MemberChip.vue';
+// import BasicChip from '@/components/chip/BasicChip.vue';
 
 export default {
     computed: {
@@ -150,8 +238,15 @@ export default {
         }
 
     },
+    components: {
+        ButtonComponent,
+        MemberChip,
+        // BasicChip
+    },
     data() {
         return {
+            openChatModal: false,
+            applyConfirmModal: false,
             applyModal: false,
             applyJobfield: "",
             applyJobFieldList: ['DESIGNER', 'FRONTEND', 'BACKEND', 'APP', 'PM'],
@@ -174,7 +269,7 @@ export default {
             selectedMember: null, // 현재 선택된 멤버 ID
             memberList: [], // 최종적으로 선택된 멤버들의 리스트
             showMemberList: [],
-
+            projectId: 0,
             // 모집 정보
             recruitInfoDialogue: false,
             showRecruitInfoList: [],
@@ -185,11 +280,15 @@ export default {
             title: "",
             description: "",
             deadline: "",
-            editor: null,
             contents: "",
 
             pmImage: "",
             pmNickname: "",
+            pmId: 0,
+
+            scrapCount: 0,
+            views: 0,
+            createdAt: "",
         };
     },
     async mounted() {
@@ -197,17 +296,21 @@ export default {
         this.projectId = route.params.projectId;
         const getProjectResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`)
         console.log(getProjectResponse);
-        this.deadline = (getProjectResponse).data.deadline.split('T')[0];
-        this.title = (getProjectResponse).data.projectName;
-        this.projectImageUrl = (getProjectResponse).data.imageUrl;
-        this.projectImageFile = (getProjectResponse).data.imageUrl;
-        this.description = (getProjectResponse).data.description;
+        this.scrapCount = getProjectResponse?.data?.scrapCount;
+        this.views = getProjectResponse?.data?.views;
+        this.deadline = (getProjectResponse)?.data?.deadline;
+        this.createdAt = getProjectResponse?.data?.createdAt.split('T')[0];
+        this.title = (getProjectResponse)?.data?.projectName;
+        this.projectImageUrl = (getProjectResponse)?.data?.imageUrl;
+        this.projectImageFile = (getProjectResponse)?.data?.imageUrl;
+        this.description = (getProjectResponse)?.data?.description;
         this.pmImage = getProjectResponse?.data?.pmImage;
         this.pmNickname = getProjectResponse?.data?.pmNickname;
-        this.showMemberList = (getProjectResponse).data.projectMembers.map((member) => {
+        this.pmId = getProjectResponse?.data?.pmId;
+        this.showMemberList = (getProjectResponse)?.data?.projectMembers.map((member) => {
             return {
                 memberId: member.id,
-                memberImageUrl: member.memberImageUrl,
+                profileImageUrl: member.memberImageUrl,
                 name: member.memberName, // 이름을 Chip에 표시하기 위해 추가
                 nickname: member.memberNickname,
                 jobfield: member.jobField, // 사용자가 선택한 직무 필드
@@ -223,11 +326,15 @@ export default {
         this.isScrap = getProjectResponse?.data?.scrap;
 
         this.contents = getProjectResponse.data.recruitmentContents;
-        // 추가: editor의 width를 1200px로 조정
-        document.querySelector("#editor").style.width = "1200px";
     },
     methods: {
-        clickBack(){
+        moveToSiderCard(memberId) {
+            this.$router.push({ path: `/sider-card/${memberId}` });
+        },
+        applyConfirmModalClose() {
+            this.applyConfirmModal = false;
+        },
+        clickBack() {
             window.history.back();
         },
         clickScrap() {
@@ -239,7 +346,8 @@ export default {
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/scrap`)
                 console.log(response);
                 alert("scrap되었습니다");
-                this.isScrap=true;
+                this.isScrap = true;
+                this.scrapCount++;
                 // 스크랩수 늘리기
             }
             catch (e) {
@@ -251,7 +359,8 @@ export default {
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/scrap/delete`)
                 console.log(response);
                 alert("스크랩 취소되었습니다")
-                this.isScrap=false;
+                this.isScrap = false;
+                this.scrapCount--;
                 // 스크랩수 줄이기
             }
             catch (e) {
@@ -273,6 +382,7 @@ export default {
         clearApplyModal() {
             this.applyJobfield = "";
             this.applyContents = "";
+
         },
         async confirmApply() {
             const data = {
@@ -285,20 +395,37 @@ export default {
             } catch (e) {
                 console.log(e)
             }
-            this.clearApplyModal();
+            this.closeApplyModal();
+            this.applyConfirmModal = true;
 
+        },
+
+        // 채팅하기 모달 관련 함수
+        openChatModalFn() {
+            this.openChatModal = true;
+        },
+        closeChatModal() {
+            this.openChatModal = false;
+        },
+        async chatFn() {
+            alert("여기서 채팅방 연결!");
+            // const data = {
+            //     projectId: this.projectId,
+            //     chatStarterMemberId: localStorage.id
+            // }
+            // try {
+            //     const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/create`, data)
+            //     console.log(response)
+            // } catch (e) {
+            //     console.log(e);
+            // }
+            this.closeChatModal();
         }
 
     },
 };
 </script>
-<style>
-.editor {
-    border: 1px solid;
-    width: 70%;
-    margin: 0 auto;
-}
-
+<style scoped>
 .explainProject {
     margin-top: 40px;
     font-weight: 700;
@@ -310,7 +437,7 @@ export default {
 }
 
 .studyContent_title__3680o {
-    margin-top: 40px;
+    margin-top: 20px;
     font-weight: 800;
     font-size: 36px;
     line-height: 126.5%;
@@ -320,7 +447,7 @@ export default {
 }
 
 .custom-container {
-    max-width: 1200px !important;
+    max-width: 800px !important;
     /* 원하는 최대 폭 */
     margin: 0 auto !important;
     /* 중앙 정렬 */
@@ -341,18 +468,27 @@ export default {
 
 .subTitle {
     margin-top: 10px;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 20px;
     line-height: 126.5%;
     letter-spacing: -.005em;
     color: #000;
     overflow-wrap: break-word;
 }
+
 p {
     /* 수평 중앙 정렬하기 */
     text-align: center;
     margin: 0 auto;
     display: flex;
     justify-content: center;
-  }
+}
+.written-date {
+    white-space: nowrap;
+    font-size: 15px;
+    margin-bottom: 24px;
+    line-height: 1em;
+    color: rgb(112, 112, 112);
+    width: 100%;
+}
 </style>

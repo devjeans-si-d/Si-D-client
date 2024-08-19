@@ -210,18 +210,21 @@ export default{
                 this.projectList = response.data.content;
                 this.currentPage = 0;
                 this.totalPage = response.data.totalPages;
+                console.log(response);
 
             } else if(this.getCurrentFilter === 2) {
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects/pm`, { params });
                 this.projectList = response.data.content;
                 this.currentPage = 0;
                 this.totalPage = response.data.totalPages;
+                console.log(response);
 
             } else {
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects/team`, { params });
                 this.projectList = response.data.content;
                 this.currentPage = 0;
                 this.totalPage = response.data.totalPages;
+                console.log(response);
             }
         }
   },

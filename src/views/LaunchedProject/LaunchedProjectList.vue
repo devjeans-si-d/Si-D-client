@@ -66,7 +66,7 @@
                 :key="project.id"
                 cols="12" md="4" lg="3"
             >
-                <v-card 
+                <v-card
                 class="mx-auto; custom-card"
                 :key="project.id"
                 :projectId="project.id"
@@ -116,7 +116,6 @@ export default{
           // ],
           // searchValue: "",
           selectedStack: '전체',  // 기본값: 전체
-          // isLaunched: false,       // 기본값: false
           sorted: 'recent', // 기본값: 조회수 정렬
           projects: [],
           pageSize:12,
@@ -136,9 +135,10 @@ export default{
     },
     watch: {
         sorted(newValue) {
-            console.log('New sorted value:', newValue); // 디버깅용 로그
-            // `sorted` 값이 변경될 때 데이터 로드
-            this.resetData(); // 페이지와 프로젝트 데이터를 초기화
+            this.sorted = newValue;
+            this.projects = [];
+            this.currentPage = 0;
+            this.isLastPage = false;
             this.loadLaunchProjectPage();
         }
     },
@@ -147,57 +147,25 @@ export default{
     },
     created(){
       this.loadLaunchProjectPage();
-      window.addEventListener('scroll', this.scrollPagination); // 화면상에서 스크롤이 감지될 때 scrollPagination 호출
-    },
-    beforeUnmount(){
-        window.removeEventListener('scroll', this.scrollPagination);
     },
     methods:{
       async loadLaunchProjectPage() {
         try {
-          if (this.isLoading || this.isLastPage) return;
-                  
-          this.isLoading = true;
-
           let params = {
-            size: this.pageSize,
-            page: this.currentPage,
             sorted: this.sorted
           };
 
           console.log(params);
           const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/list`, { params });
-          console.log(response.data.content);
+          console.log(response.data);
           
-          const additionalData = response.data.content.map(p => ({
+          this.projects = response.data.map(p => ({
             ...p,
             techStacks: p.techStacks.join(' · ')
           }));
-
-          if (additionalData.length === 0) {
-            this.isLastPage = true;
-          } else {
-            this.projects = [...this.projects, ...additionalData]; // 기존 projects 배열에 추가
-            this.currentPage++; // 페이지 증가
-          }
-
-          this.isLoading = false;
         } catch (error) {
-          console.error("완성된 페이지 Pageable data load 에러 : ", error);
-          this.isLoading = false;
+          console.error("완성된 프로젝트 리스트 data load 에러 : ", error);
         }
-    },
-    resetData() {
-        console.log('resetData 호출됨'); // 디버깅용 로그
-        this.projects = [];
-        this.currentPage = 0;
-        this.isLastPage = false;
-    },
-    scrollPagination() {
-      const isBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
-      if (isBottom && !this.isLastPage && !this.isLoading) {
-        this.loadLaunchProjectPage(); // 잘못된 함수명 수정
-      }
     },
     moveToProject(projectId){
       this.$router.push('/launched-project/' + projectId).then(() => {

@@ -3,9 +3,8 @@
     <div style="margin: auto; text-align:center; border-bottom: 1px solid #D4D4D4; width: 70%;">
     <br>
     </div>
-<v-container class="d-flex justify-center" style="width: 50%;">
-
-    <v-alert
+<v-container style="width: 50%;">
+        <v-alert
         v-if="!this.exist()"
         class="d-flex justify-center"
         title="아직은 새로운 알림이 없네요!"
@@ -13,23 +12,30 @@
         style="opacity: 0.8;"
     ></v-alert>
 
+        <v-alert
+        color="#2A3B4D"
+        density="compact"
+        icon="mdi-chat"
+        theme="dark"
+        class="d-flex justify-center"
+        v-if="this.localChatCnt >= 1"
+        >
+        <p> {{this.localChatCnt}}개의 새로운 채팅이 있어요! </p>
+        </v-alert>
+
     <v-alert
+    style="margin-top: 10px;"
     color="#2A3B4D"
     density="compact"
-    icon="mdi-chat"
+    icon="mdi-firework"
     theme="dark"
-    v-if="this.localChatCnt >= 1"
-    class="chat-alert"
+    class="d-flex justify-center"
+    v-for="al in this.aList" :key="al.id"
     >
-    <p> {{this.localChatCnt}}개의 새로운 채팅이 있어요! </p>
+    <p> {{ al.title }} </p>
+    <p> {{ al.content }} </p>
     </v-alert>
 
-
-
-    <p
-    v-for="al in this.aList" :key="al.id">
-    ddd
-    </p>
 
 
 </v-container>
@@ -39,7 +45,7 @@ import { mapGetters } from 'vuex';
 import axios from 'axios';
 
 export default {
-    date() {
+    data() {
         return {
             aList: [],
             localChatCnt: 0,

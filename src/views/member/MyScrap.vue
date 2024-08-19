@@ -230,5 +230,8 @@
   margin-left: 10px;
 }
 
-
+.scrap-img:hover {
+  opacity: 0.7;
+  transition: 0.5s ease;
+}
 </style>

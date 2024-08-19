@@ -11,7 +11,7 @@
 
               <v-col class="d-flex flex-row justify-start text-no-wrap" cols="auto">
                   <!-- 왼쪽 정렬 -->
-                  <v-btn class="custom-button" text :to="{path:'/team-building/list'}" >
+                  <v-btn class="custom-button" text :to="{path:'/project/list'}" >
                       <v-icon left class="mr-1">mdi-hammer-wrench</v-icon>
                       Team-Building
                   </v-btn>

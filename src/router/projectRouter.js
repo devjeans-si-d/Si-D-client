@@ -16,7 +16,7 @@ export const projectRouter = [
         component: projectCreate
     },
     {
-        path: '/project-list',
+        path: '/project/list',
         name: 'ProjectList',
         component: ProjectList
     },

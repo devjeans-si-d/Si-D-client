@@ -26,12 +26,10 @@
 
 
 
-    <v-card
-    class="mx-auto"
-    max-width="400"
+    <p
     v-for="al in this.aList" :key="al.id">
     ddd
-    </v-card>
+    </p>
 
 
 </v-container>

@@ -26,9 +26,7 @@
               <v-container>
                   <v-row v-for="project in projectList" class="element-row" :key="project.projectId" @click="spaMoveToProject(project.projectId)">
                       <v-col class="project-element">
-                          <div class="project-img">
-                              <img :src="project.imageUrl" height="100px" width="auto" overflow="hidden">
-                          </div>
+                            <img class="project-img" :src="project.imageUrl" height="100px" width="auto" overflow="hidden">
                           <div class="project-content">
                             <div class="project-info">
                                 <h3>{{ project.projectName }}</h3>
@@ -271,6 +269,8 @@ export default{
   height: 100px;
   background-color: black;
   text-align: center;
+  overflow: hidden;
+  object-fit: cover;
 }
 
 .project-content {

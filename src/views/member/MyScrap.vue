@@ -11,12 +11,11 @@
         <h2 style="text-align:center; margin: 20px;">📔 스크랩한 프로젝트</h2>
         <v-container class="outer-box">
 
-          <v-container class="d-flex">
+          <v-container class="d-flex justify-center">
               <v-card
-                class="mx-auto"
+                class="scrap-card"
                 v-for="project in projectList"
                 :key="project.id"
-
                 >
                 <v-img
                 height="200"
@@ -25,19 +24,23 @@
                 cover
                 class="scrap-img"
                 ></v-img>
-                <v-card-title>
+                <v-card-title class="d-flex justify-space-between">
                     {{ project.projectName }}
+                    <span>
+                      <BasicChip :title="this.getProjectStatus(project.isClosed)" :color="this.getChipColor(project.isClosed)"/>
+                      <v-icon style="margin-left: 15px" icon="mdi-bookmark" class="scrap-icon" @click="this.cancelBookmark(project.id)"></v-icon>
+                    </span>
                 </v-card-title>
                 <v-card-text>
-                     <p>{{ project.description.substr(0, 7) }} <span style="font-size:small; color: gray;">...more</span></p>
-                     <p style="font-size:small; color: gray;">모집 마감: </p>
-                     <p style="font-size:small; color: gray;">{{ this.getDay(project.deadline) }} {{ this.getTime(project.deadline) }}</p>
+                     {{ project.description.substr(0, 7) }} <span style="font-size:small; color: gray;">...more</span> <br>
+                     <span style="font-size:small; color: gray;">모집 마감: </span>
+                     <span style="font-size:small; color: gray;">{{ this.getDay(project.deadline) }} {{ this.getTime(project.deadline) }}</span>
                 </v-card-text>
       
-                <v-card-text  class="d-flex justify-space-between align-center">
+                <!-- <v-card-text class="d-flex justify-space-between align-center" style="margin: ">
                   <BasicChip :title="this.getProjectStatus(project.isClosed)" :color="this.getChipColor(project.isClosed)"/>
                   <v-icon style="margin-left: 15px" size="x-large" icon="mdi-bookmark" class="scrap-icon" @click="this.cancelBookmark(project.id)"></v-icon>
-                </v-card-text>
+                </v-card-text> -->
             </v-card>
           </v-container>
       </v-container>
@@ -84,12 +87,12 @@
   <script>
   import axios from 'axios';
   import PageNavbar from '@/components/navbar/PageNavbar.vue';
-  // import ProjectScrapComponent from '@/components/card/ProjectScrapComponent.vue';
+  import BasicChip from '@/components/chip/BasicChip.vue';
 
   export default {
     components: {
         PageNavbar,
-        // ProjectScrapComponent,
+        BasicChip
     },
     data() {
       return {
@@ -113,23 +116,7 @@
                 return 'sid_btn2';
             }
         },
-        getJobColor(job) {
-            if(job === 'Backend') {
-                return 'be_blue';
-            } else if(job === 'Frontend') {
-                return 'fe_yellow';
-            } else if(job === 'PM') {
-                return 'pm_green';
-            } else if(job === 'AOS') {
-                return 'app_red';
-            } else if(job === 'iOS') {
-                return 'app_red';
-            } else if(job === 'Designer') {
-                return 'de_purple';
-            } else {
-                return 'white';
-            }
-        },
+
         getProjectStatus(yn) {
             if(yn == 'Y') {
                 return '마감';
@@ -176,10 +163,10 @@
 
             return ampm + ' ' + hour + ':' + minute;
         },
+
     },
     watch: {
       async currentPage() {
-
         try {
             const params = {
               size: 3,
@@ -236,6 +223,12 @@
 .scrap-icon:hover {
   color: grey;
   justify-self: flex-end;
-  
 }
+
+.scrap-card {
+  width: 33%;
+  margin-left: 10px;
+}
+
+
 </style>

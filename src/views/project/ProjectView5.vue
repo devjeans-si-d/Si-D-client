@@ -33,19 +33,19 @@
 
 
         </v-row>
-        <v-spacer :style="{ height: '20px' }"></v-spacer>
+        <v-spacer :style="{ height: '40px' }"></v-spacer>
 
         <v-divider class="mb-4"></v-divider>
-        <v-spacer :style="{ height: '20px' }"></v-spacer>
+        <v-spacer :style="{ height: '50px' }"></v-spacer>
 
         <!-- <v-btn size="large" icon="$vuetify" variant="plain mt-10 mb-10 " width="30" height="30"
             style="margin-left: 5px;" @click="clickBack()">
             <v-icon left class="mr-1">mdi-arrow-left</v-icon>
         </v-btn> -->
-        <v-row class="written-date">{{this.createdAt}}</v-row>
-        <v-spacer :style="{ height: '30px' }"></v-spacer>
+        <v-row class="written-date" style="margin-left:50px">{{this.createdAt}}</v-row>
+        <v-spacer :style="{ height: '40px' }"></v-spacer>
         
-        <v-row class="studyContent_title__3680o">{{ this.title }}</v-row>
+        <v-row class="studyContent_title__3680o" style="margin-left:50px">{{ this.title }}</v-row>
 
         <!-- 
         <v-row class="justify-center ml-5 mt-10" style="align-items:center;">
@@ -69,9 +69,8 @@
                     }}</v-icon><v-tooltip activator="parent" location="top">프로젝트 스크랩</v-tooltip>
             </v-btn>
         </v-row> -->
-        <v-spacer :style="{ height: '20px' }"></v-spacer>
+        <v-spacer :style="{ height: '40px' }"></v-spacer>
 
-        <v-divider class="mb-4"></v-divider>
         <v-row class="justify-center ma-3">
             <ul id="recruitInfo" class="list-style-none p-0 m-0">
                 <li v-for="(info, index) in showRecruitInfoList" :key="index" class="mb-4 d-flex justify-between">
@@ -420,7 +419,7 @@ export default {
     },
 };
 </script>
-<style>
+<style scoped>
 .explainProject {
     margin-top: 40px;
     font-weight: 700;

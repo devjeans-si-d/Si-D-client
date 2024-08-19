@@ -30,7 +30,7 @@
 
 
     <!-- 멤버 추가 버튼 및 모달 -->
-    <v-row class="mt-10 align-center justify-start">
+    <!-- <v-row class="mt-10 align-center justify-start">
       <h3 style="margin-right: 20px;"> 멤버 추가 </h3>
       <ButtonComponent content="검색" @click="searchMemberShowModal()" />
     </v-row>
@@ -39,11 +39,12 @@
         @click:close="removeMember(index)" class="ma-2">
         {{ member.memberName }} - {{ member.jobField }}
       </v-chip>
-    </v-row>
+    </v-row> -->
     <v-spacer :style="{ height: '50px' }"></v-spacer>
 
     <v-row>
-      <tech-stack-selector v-model:techStackList="techStackList" :techStackList="this.techStackList" />
+      <!-- <tech-stack-selector v-model:techStackList="techStackList" :techStackList="this.techStackList" /> -->
+      <TechStackSelector require="true" />
     </v-row>
     <v-spacer :style="{ height: '50px' }"></v-spacer>
 
@@ -69,7 +70,7 @@
     </v-row>
 
     <!-- member add 모달창을 위한 v-dialog -->
-    <v-dialog v-model="memberAddDialog" max-width="800px" class="pa-10">
+    <!-- <v-dialog v-model="memberAddDialog" max-width="800px" class="pa-10">
       <v-card class="modal-card">
         <v-card-title class="modal-title">멤버 추가</v-card-title>
         <v-divider class="mb-4"></v-divider>
@@ -89,7 +90,6 @@
                 <v-row class="mt-3 mb-3 ml-10">
                   <h3> 검색조건 </h3>
                 </v-row>
-                <!-- api 붙이면 풀 것 -->
                 <v-row class="mt-3 mb-10">
                   <v-select v-model="searchType" :items="searchOptions" item-title="text" item-value="value"
                     variant="outlined" density="compact" class="ml-10 mr-10">
@@ -109,7 +109,6 @@
                   <ButtonComponent content="검색" type="submit" class="mx-auto" @click="searchMembersList()" />
                 </v-row>
 
-                <!-- 테이블 및 페이지네이션 -->
                 <v-row>
                   <v-col cols="12" class="mt-2">
                     <v-table rounded="lg">
@@ -148,7 +147,7 @@
         </v-card-actions>
         <v-spacer :style="{ height: '20px' }"></v-spacer>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
 
 
 
@@ -161,6 +160,7 @@ import TechStackSelector from '@/components/modal/TechStackSelector.vue';
 import { useRoute } from 'vue-router';
 import axios from "axios";
 import ButtonComponent from '@/components/button/ButtonComponent.vue';
+import { mapGetters } from 'vuex';
 
 
 export default {
@@ -191,7 +191,8 @@ export default {
       selectedMember: null, // 현재 선택된 멤버 ID
       memberList: [], // 최종적으로 선택된 멤버들의 리스트
       showMemberList: [], // 화면에 아직 확정되진 않은 선택된 memberList
-      techStacks: [],
+      // techStacks: [],
+      techStackList: [],
       launchedProjectContents: "",
       projectName: "",
     };
@@ -209,12 +210,13 @@ export default {
       console.log("siteUrl", this.siteUrl)
       console.log("image", this.projectImageUrl)
       console.log("member", this.showMemberList)
-
-      let members = this.showMemberList.map(member => ({
-        id: member.memberId,
-        jobField: member.jobField
-      }));
-      console.log(members)
+      console.log("textetst",this.techStackList)
+      let techStacks = [];
+      this.techStackList.map((tech)=>{techStacks.push(tech.id)})
+      // let members = this.showMemberList.map(member => ({
+      //   id: member.memberId,
+      //   jobField: member.jobField
+      // }));
       // let techStackListJson = JSON.stringify(this.techStackList)
       // let techStackListJson = this.techStackList;
       // console.log("tech",techStackListJson)
@@ -222,11 +224,12 @@ export default {
         projectId: this.projectId,
         launchedProjectContents: this.launchedProjectContents,
         siteUrl: this.siteUrl,
-        members,
+        // members,
         // techStackList: JSON.stringify(this.techStackList),
-        techStackList: this.techStackList,
+        techStackList: techStacks,
         imageUrl: this.projectImageUrl,
       };
+      console.log(body);
 
       try {
         const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/update/${this.launchedProjectId}`, body);
@@ -358,6 +361,14 @@ export default {
 
     },
   },
+  watch: {
+    getTechStackIds() {
+      this.techStackList= this.getTechStackIds;
+    }
+  },
+  computed: {
+    ...mapGetters(['getTechStackIds']),
+  },
   async created() {
     console.log("들어와썽?")
     const route = useRoute();
@@ -365,6 +376,7 @@ export default {
     this.project = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/basic-info`)
     const projectResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.project?.data?.projectId}`)
     console.log("launched", this.project);
+    this.projectId=this.project?.data?.projectId;
     this.projectName = projectResponse?.data?.projectName ?? "";
     this.siteUrl = this.project.data.siteUrl;
     this.projectImageUrl = this.project.data.launchedProjectImage;

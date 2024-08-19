@@ -29,7 +29,7 @@
 
 
     <!-- 멤버 추가 버튼 및 모달 -->
-    <v-row class="mt-10 align-center justify-start">
+    <!-- <v-row class="mt-10 align-center justify-start">
       <h3 style="margin-right: 20px;"> 멤버 추가 </h3>
       <ButtonComponent content="검색" @click="searchMemberShowModal()" />
     </v-row>
@@ -39,7 +39,7 @@
         {{ member.memberName }} - {{ member.jobField }}
       </v-chip>
     </v-row>
-    <v-spacer :style="{ height: '50px' }"></v-spacer>
+    <v-spacer :style="{ height: '50px' }"></v-spacer> -->
 
     <v-row>
       <TechStackSelector require="true"/>

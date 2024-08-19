@@ -29,8 +29,8 @@
     <!-- 모집 기한 -->
     <v-row class="mt-10 mb-10">
       <h3 class="mr-5"> 모집 기한 </h3>
-      
-      <input type="datetime-local"  v-model="deadline" name="datetime" @click="checkDate()">
+
+      <input type="datetime-local" v-model="deadline">
 
       <!-- <input type="date" id="deadline" v-model="deadline" /> -->
 
@@ -205,6 +205,36 @@
       </v-card>
     </v-dialog>
   </v-container>
+  <v-dialog v-model="dateModal" max-width="500px" rounded="xl">
+    <v-card>
+      <v-card-title>모집 마감 기한</v-card-title>
+      <v-divider class="mb-4"></v-divider>
+      <v-card-text>모집 마감 기한은 현재보다 이전으로 할 수 없습니다.</v-card-text>
+      <v-card-actions>
+        <v-row justify="center">
+          <v-btn rounded="xl" variant="flat" density="default" color="#A4DEC6" :style="{ color: '#FFFFFF' }"
+            @click="dateModalClose()">확인</v-btn>
+        </v-row>
+      </v-card-actions>
+      <v-divider class="mt-2 mb-10"></v-divider>
+    </v-card>
+  </v-dialog>
+
+
+  <v-dialog v-model="titleModal" max-width="500px" rounded="xl">
+    <v-card>
+      <v-card-title>제목</v-card-title>
+      <v-divider class="mb-4"></v-divider>
+      <v-card-text>제목을 입력하셔야 합니다.</v-card-text>
+      <v-card-actions>
+        <v-row justify="center">
+          <v-btn rounded="xl" variant="flat" density="default" color="#A4DEC6" :style="{ color: '#FFFFFF' }"
+            @click="titleModalClose()">확인</v-btn>
+        </v-row>
+      </v-card-actions>
+      <v-divider class="mt-2 mb-10"></v-divider>
+    </v-card>
+  </v-dialog>
 </template>
 <script>
 import ButtonComponent from "@/components/button/ButtonComponent.vue";
@@ -220,6 +250,9 @@ export default {
   },
   data() {
     return {
+      dateModal: false,
+      titleModal: false,
+      now: null,
       recruitContents: "",
       projectImageFile: null,
       projectImageUrl: "",
@@ -249,7 +282,7 @@ export default {
       deadline: "",
       //editor: null,
       contents: "",
-      isClosed:false,
+      isClosed: false,
     };
   },
   async created() {
@@ -271,16 +304,17 @@ export default {
     // this.contents=(await getProjectResponse).data.recruitmentContents;
   },
   async mounted() {
+    this.now = dayjs().format();
+
     const route = useRoute();
     this.projectId = route.params.projectId;
     const getProjectResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`)
-    console.log(getProjectResponse);
     this.deadline = getProjectResponse?.data?.deadline;
     this.title = getProjectResponse?.data?.projectName;
     this.projectImageUrl = getProjectResponse?.data?.imageUrl;
     this.description = getProjectResponse?.data?.description;
     this.recruitContents = getProjectResponse?.data?.recruitmentContents;
-    this.isClosed=getProjectResponse?.data?.isClosed;
+    this.isClosed = getProjectResponse?.data?.isClosed;
     this.showMemberList = getProjectResponse?.data?.projectMembers.map((member) => {
       return {
         memberId: member.memberId,
@@ -317,11 +351,15 @@ export default {
     // document.querySelector("#editor").style.width = "1200px";
   },
   methods: {
-
+    dateModalClose() {
+      this.dateModal = false;
+    },
+    titleModalClose() {
+      this.titleModal = false;
+    },
 
     async uploadImage(blob) {
 
-      console.log(blob.name);
       const accessToken = localStorage.getItem('token');
       const body = {
         prefix: "test-prefix",
@@ -340,11 +378,9 @@ export default {
       );
 
       const urlContentType = getUrl.headers.get("content-type");
-      console.log("urlContentType" + urlContentType);
       let getUrlResult;
       if (urlContentType && urlContentType.includes("application/json")) {
         getUrlResult = await getUrl.json(); // JSON으로 파싱
-        console.log("json" + JSON.stringify(getUrlResult))
       } else {
         getUrlResult = await getUrl.text(); // 텍스트로 파싱
       }
@@ -362,7 +398,6 @@ export default {
         },
         body: blob, // 업로드할 파일 데이터
       };
-      console.log(new Date());
       let response = await fetch(awsUrl.data + awsUrl.auth, options);
       console.log(response);
 
@@ -370,7 +405,6 @@ export default {
     },
     async fileUpdate(event) {
       this.projectImageFile = event.target.files[0];
-      console.log(this.projectImageFile)
       this.projectImageUrl = await this.uploadImage(this.projectImageFile);
 
     },
@@ -398,7 +432,6 @@ export default {
     },
     // recruit remove
     removeRecruitInfo(index) {
-      console.log(this.showRecruitInfoList[index])
       this.showRecruitInfoList.splice(index, 1);
     },
     // recruit clear
@@ -430,7 +463,6 @@ export default {
           `${process.env.VUE_APP_API_BASE_URL}/api/member/list`,
           { params });
         this.memberList = response.data.content;
-        console.log("memberList:" + this.memberList);
       } catch (error) {
         console.error("Error fetching members:", error);
       }
@@ -467,22 +499,19 @@ export default {
       this.showMemberList.splice(index, 1); // showMemberList에서 해당 멤버 제거
     },
     async saveContent() {
-      const deadlineTime = dayjs().format('HH:mm:ss');
       // const content = this.editor.getMarkdown();
 
-      let projectMembers = [];
-      console.log("SAVE showmemberlist 확인" + this.showMemberList)
-      this.showMemberList.forEach((member) => {
-        let dataMember = {
-          memberId: member.memberId,
-          jobField: member.jobfield,
-        };
-        projectMembers.push(dataMember);
+      // let projectMembers = [];
+      // this.showMemberList.forEach((member) => {
+      //   let dataMember = {
+      //     memberId: member.memberId,
+      //     jobField: member.jobfield,
+      //   };
+      //   projectMembers.push(dataMember);
 
-      });
+      // });
 
       let recruitInfos = [];
-      console.log("SAVE showrecruitlist 확인" + this.showRecruitInfoList)
       this.showRecruitInfoList.forEach((info) => {
         let dataInfo = {
           jobField: info.recruitField,
@@ -490,24 +519,33 @@ export default {
         };
         recruitInfos.push(dataInfo);
       });
-      console.log(this.deadline + 'T' + deadlineTime);
       try {
         const body = {
           imageUrl: this.projectImageUrl,
           projectName: this.title,
-          deadline: this.deadline ,
+          deadline: this.deadline,
           description: this.description,
           recruitmentContents: this.recruitContents,
-          projectMembers,
+          // projectMembers,
           recruitInfos,
           isClosed: this.isClosed,
         };
-        const projectCreateResponse = await axios.put(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/update`, body);
-        console.log(projectCreateResponse);
-        const createdProjectId = projectCreateResponse?.data?.id; // 생성된 프로젝트 ID
-        console.log(createdProjectId)
-        this.$router.push({ name: 'ProjectView', params: { projectId: createdProjectId } });
+        if (this.title == "") {
+          this.titleModal = true;
+          // alert("제목을 입력해야합니다.");
+          return;
+        }
+        else if (this.deadline < this.now) {
+          this.dateModal = true;
 
+          // alert("모집 마감 기한은 현재보다 이후여야 합니다.")
+          return;
+        }
+        else {
+          const projectCreateResponse = await axios.put(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/update`, body);
+          const createdProjectId = projectCreateResponse?.data?.id; // 생성된 프로젝트 ID
+          this.$router.push({ name: 'ProjectView', params: { projectId: createdProjectId } });
+        }
       } catch (e) {
         alert(JSON.stringify(e.response));
         console.log(e);

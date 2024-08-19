@@ -12,28 +12,29 @@
 
         </v-row>
         <v-row class="align-center">
-            <v-btn size="small" variant="tonal" rounded style="margin-left: 70px; margin-top:8px;"
+            <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded style="margin-left: 70px; margin-top:8px;"
                 @click="openChatModalFn()">
                 PM과의 채팅
             </v-btn>
-            <v-btn size="small" variant="tonal" rounded style="margin-left: 5px; margin-top:8px;"
+            <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded style="margin-left: 5px; margin-top:8px;"
                 @click="openApplyModal()">
                 프로젝트 지원
             </v-btn>
-
-            <v-btn v-if="canEdit" size="large" icon="$vuetify" variant="plain"
-                style="margin-left:270px; margin-right: 5px;" @click="goEdit()">
-                <v-icon left class="mr-1">
-                    mdi-lead-pencil</v-icon>수정
-            </v-btn>
-            <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;"
-                @click="clickScrap()">
-                <v-icon left class="mr-1">{{ this.isScrap ? 'mdi-bookmark-multiple' : 'mdi-bookmark-multiple-outline'
-                    }}</v-icon>{{ this.scrapCount }}<v-tooltip activator="parent" location="top">프로젝트 스크랩</v-tooltip>
-            </v-btn>
-            <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;">
-                <v-icon left class="mr-1">mdi-eye</v-icon>{{ this.views }}
-            </v-btn>
+            <v-col>
+                <v-btn v-if="canEdit" size="large" icon="$vuetify" variant="plain"
+                    style="margin-left:270px; margin-right: 5px;" @click="goEdit()">
+                    <v-icon left class="mr-1">
+                        mdi-lead-pencil</v-icon>수정
+                </v-btn>
+                <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;"
+                    @click="clickScrap()">
+                    <v-icon left class="mr-1">{{ this.isScrap ? 'mdi-bookmark-multiple' : 'mdi-bookmark-multiple-outline'
+                        }}</v-icon>{{ this.scrapCount }}<v-tooltip activator="parent" location="top">프로젝트 스크랩</v-tooltip>
+                </v-btn>
+                <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;">
+                    <v-icon left class="mr-1">mdi-eye</v-icon>{{ this.views }}
+                </v-btn>
+            </v-col>
             <!-- <v-btn size="x-small" icon="$vuetify" variant="plain" style="margin-left: 5px;" @click="openChatModalFn()">
                 <v-icon left class="mr-1 justify-center">mdi-chat-processing-outline</v-icon><v-tooltip
                     activator="parent" location="top">PM과의 채팅</v-tooltip>
@@ -336,6 +337,7 @@ export default {
             scrapCount: 0,
             views: 0,
             createdAt: "",
+            currnetMemberId: 0,
             colors: {
                 DESIGNER: 'pink lighten-1',
                 FRONTEND: 'cyan lighten-2',
@@ -347,6 +349,9 @@ export default {
             dayDiff: 0,
             showCreatedAt: "",
         };
+    },
+    created() {
+        this.currnetMemberId = Number(localStorage.getItem('id'));
     },
     async mounted() {
         const route = useRoute();
@@ -477,19 +482,21 @@ export default {
         closeChatModal() {
             this.openChatModal = false;
         },
+        // 이부분 복붙
         async chatFn() {
-            alert("여기서 채팅방 연결!");
-            // const data = {
-            //     projectId: this.projectId,
-            //     chatStarterMemberId: localStorage.id
-            // }
-            // try {
-            //     const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/create`, data)
-            //     console.log(response)
-            // } catch (e) {
-            //     console.log(e);
-            // }
-            this.closeChatModal();
+            const data = {
+                projectId: this.projectId,
+                chatStarterMemberId: localStorage.id
+            }
+            try {
+                const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/create`, data)
+                console.log(response)
+                const chatroomId = response.data.chatRoomId;
+                this.closeChatModal();
+                window.location.href = `/project/${this.projectId}/chatroom/${chatroomId}`;
+            } catch (e) {
+                console.log(e);
+            }
         },
         goEdit() {
             this.$router.push({ name: 'ProjectEdit', params: { projectId: this.projectId } });

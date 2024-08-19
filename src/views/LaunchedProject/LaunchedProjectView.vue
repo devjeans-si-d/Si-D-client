@@ -4,7 +4,7 @@
     <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <h4 style="text-align:center; color:#094F08;">Launched Project</h4>
-    <h2 style="text-align:center; color:#094F08;">{{ this.project.data.projectName }}</h2>
+    <h2 style="text-align:center; color:#094F08;">{{ projectName }}</h2>
     <v-spacer :style="{ height: '20px' }"></v-spacer>
 
 
@@ -53,7 +53,6 @@
     <v-row>
 
           
-    <div id="editor"></div>
 
     </v-row>
     <v-row justify="center" class="mt-15 ">
@@ -159,32 +158,20 @@ import TechStackSelector from '@/components/modal/TechStackSelector.vue';
 import { useRoute } from 'vue-router';
 import axios from "axios";
 import ButtonComponent from '@/components/button/ButtonComponent.vue';
-import '@toast-ui/editor/dist/toastui-editor.css';
-
-import { Editor } from '@toast-ui/vue-editor';
 
 export default {
   components: {
     TechStackSelector,
     ButtonComponent,
   },
-  mounted(){
-    console.log("왜 안 나와?")
-    this.editor = new Editor({
-      el:document.querySelector('#editor'),
-      height:'500px',
-      initialEditType:'markdown',
-      previewStyle:'vertical'
-    })
-  },
   
   data() {
     return {
       launchedProjectId:0,
-      editor:null,
       siteUrl:"",
       project: {},
       projectId: 0,
+      projectName:"",
       projectImageFile: null,
       projectImageUrl: "",
       description: "",
@@ -363,8 +350,12 @@ export default {
   async created() {
     const route = useRoute();
     this.launchedProjectId = route.params.launchedProjectId;
+
+   
     this.project = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/basic-info`)
     console.log(this.project);
+    const projectResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.project?.data?.projectId}`)
+    this.projectName = projectResponse?.data?.projectName ?? "";
     this.siteUrl = this.project.data.siteUrl;
     this.projectImageUrl = this.project.data.imageUrl;
     this.launchedProjectContents = this.project.data.launchedProjectContents;

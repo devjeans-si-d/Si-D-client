@@ -4,24 +4,26 @@
     <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <h4 style="text-align:center; color:#094F08;">Launched Project</h4>
-    <h2 style="text-align:center; color:#094F08;">{{ this.project.data.projectName }}</h2>
+    <h2 style="text-align:center; color:#094F08;">{{ this.projectName }}</h2>
     <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <v-row class="mt-10 mb-10">
       <v-file-input label="프로젝트 이미지" accept="image/" @change="fileUpdate" variant="underlined" rounded="xs">
       </v-file-input>
     </v-row>
-
+    <v-row v-if="this.projectImageUrl" class="justify-center">
+      <img :src="this.projectImageUrl" style="height:auto; width:500px;">
+    </v-row>
     <v-row class="mt-10 mb-10">
       <!-- <label for="siteUrl" class="ma-auto">site url</label> -->
       <v-text-field type="text" id="siteUrl" label="site url" placeholder="https://www.si-d.com" v-model="siteUrl"
         variant="underlined" rounded="xs"></v-text-field>
     </v-row>
 
-    <v-row class="mt-10 mb-10">
+    <!-- <v-row class="mt-10 mb-10">
       <v-text-field label="한줄 설명" type="text" id="description" v-model="description" variant="underlined"
         rounded="xs"></v-text-field>
-    </v-row>
+    </v-row> -->
 
     <v-spacer :style="{ height: '50px' }"></v-spacer>
 
@@ -40,7 +42,7 @@
     <v-spacer :style="{ height: '50px' }"></v-spacer>
 
     <v-row>
-      <tech-stack-selector v-model:techStackList="techStackList" />
+      <TechStackSelector require="true"/>
     </v-row>
     <v-spacer :style="{ height: '50px' }"></v-spacer>
 
@@ -48,17 +50,11 @@
       <v-textarea label="완성된 프로젝트 설명" variant="outlined" v-model="launchedProjectContents"></v-textarea>
     </v-row>
     <v-spacer :style="{ height: '200px' }"></v-spacer>
-
-    <v-row>
-
-          
-    <div id="editor"></div>
-
-    </v-row>
     <v-row justify="center" class="mt-15 ">
-      
+
       <v-col cols="auto">
-        <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF'}" @click="reloadPage()"  class="ml-1" />
+        <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }" @click="clickCancel()"
+          class="ml-1" />
       </v-col>
       <v-col cols="auto">
         <ButtonComponent content="확인" @click="registerLaunchedProject()" class="mr-1" />
@@ -158,29 +154,17 @@ import TechStackSelector from '@/components/modal/TechStackSelector.vue';
 import { useRoute } from 'vue-router';
 import axios from "axios";
 import ButtonComponent from '@/components/button/ButtonComponent.vue';
-import '@toast-ui/editor/dist/toastui-editor.css';
-
-import { Editor } from '@toast-ui/vue-editor';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
     TechStackSelector,
     ButtonComponent,
   },
-  mounted(){
-    console.log("왜 안 나와?")
-    this.editor = new Editor({
-      el:document.querySelector('#editor'),
-      height:'500px',
-      initialEditType:'markdown',
-      previewStyle:'vertical'
-    })
-  },
-  
+
   data() {
     return {
-      editor:null,
-      siteUrl:"",
+      siteUrl: "",
       project: {},
       projectId: 0,
       projectImageFile: null,
@@ -199,7 +183,8 @@ export default {
       memberList: [], // 최종적으로 선택된 멤버들의 리스트
       showMemberList: [], // 화면에 아직 확정되진 않은 선택된 memberList
       techStackList: [],
-      launchedProjectContents:"",
+      launchedProjectContents: "",
+      projectName: "",
     };
   },
 
@@ -209,25 +194,28 @@ export default {
       window.location.reload();
     },
     async registerLaunchedProject() {
-      console.log("url",this.projectImageUrl)
-      console.log("projectId",this.projectId)
-      console.log("contet",this.launchedProjectContents)
-      console.log("siteUrl",this.siteUrl)
-      let members=this.showMemberList.map(member => ({
-          id: member.memberId,
-          jobField: member.jobField
-        }));
-        console.log(members)
-        // let techStackListJson = JSON.stringify(this.techStackList)
-        // let techStackListJson = this.techStackList;
-        // console.log("tech",techStackListJson)
+      console.log("url", this.projectImageUrl)
+      console.log("projectId", this.projectId)
+      console.log("contet", this.launchedProjectContents)
+      console.log("siteUrl", this.siteUrl)
+      console.log("tech",this.techStackList)
+      let members = this.showMemberList.map(member => ({
+        id: member.memberId,
+        jobField: member.jobField
+      }));
+      let techStacks = [];
+      this.techStackList.map((tech)=>{techStacks.push(tech.id)})
+      console.log(members)
+      // let techStackListJson = JSON.stringify(this.techStackList)
+      // let techStackListJson = this.techStackList;
+      // console.log("tech",techStackListJson)
       const body = {
         projectId: this.projectId,
         launchedProjectContents: this.launchedProjectContents,
         siteUrl: this.siteUrl,
         members,
-        // techStackList: JSON.stringify(this.techStackList),
-        techStackList:this.techStackList,
+        // techStackList: this.techStackList,
+        techStackList:techStacks,
         imageUrl: this.projectImageUrl,
       };
 
@@ -236,10 +224,13 @@ export default {
         console.log('Launched Project 등록 성공:', response);
         // 필요 시 성공 후 처리 (예: 페이지 이동)
       } catch (error) {
-        alert(JSON.stringify(error.response));
+        // alert(JSON.stringify(error.response));
         console.error('Launched Project 등록 실패:', error.response);
         // 필요 시 에러 처리
       }
+    },
+    clickCancel(){
+      window.history.back();
     },
     searchMemberShowModal() {
       this.memberAddDialog = true;
@@ -255,7 +246,6 @@ export default {
     },
     removeMember(index) {
       this.showMemberList.splice(index, 1);
-      console.log("Updated Member List after removal:", this.showMemberList);
     },
     async searchMembersList() {
       const params = {};
@@ -277,6 +267,7 @@ export default {
       }
     },
     selectMember(member) {
+      console.log("member정보여", member)
       this.selectedMember = member.memberId; // 멤버를 선택하면 해당 멤버의 ID를 저장
     },
     confirmMemberSelection() {
@@ -362,17 +353,23 @@ export default {
     const route = useRoute();
     this.projectId = route.params.projectId;
     this.project = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`)
-    console.log(this.project);
-    console.log("이름" + this.project.data.projectName);
-    console.log("멤버" + JSON.stringify(this.project.data.projectMembers));
+    this.projectName = this.project?.data?.projectName ?? "";
+
     this.showMemberList = this.project.data.projectMembers.map((member) => {
       return {
-        memberId: member.id,
-        memberName: member.memberName, // 이름을 Chip에 표시하기 위해 추가
+        memberId: member.memberId,
+        memberName: member.memberNickname, // 이름을 Chip에 표시하기 위해 추가
         jobField: member.jobField, // 사용자가 선택한 직무 필드
       }
     });
   },
+  watch: {
+    getTechStackIds() {
+      this.techStackList= this.getTechStackIds;
+    }
+  },
+  computed: {
+    ...mapGetters(['getTechStackIds']),
+  },
 }
 </script>
-

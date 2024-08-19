@@ -99,14 +99,10 @@
 import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
 import { mapGetters } from 'vuex'
 import axios from 'axios';
-// import ProjectSidebar from '../navbar/ProjectSidebar.vue';
-// import ButtonComponent from '../button/ButtonComponent.vue';
 
 export default{
   components: {
       BasicSmallChip,
-    //   ProjectSidebar,
-    //   ButtonComponent /my-projects/pm
   },
   data() {
       return {

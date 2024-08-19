@@ -182,10 +182,13 @@ export default{
         this.loadLaunchProjectPage(); // 잘못된 함수명 수정
       }
     },
-      moveToProject(projectId){
-        this.$router.push('/launched-project/' + projectId);
-      }
+    moveToProject(projectId){
+      this.$router.push('/launched-project/' + projectId).then(() => {
+        // 페이지 이동 후 스크롤을 최상단으로 이동
+        window.scrollTo(0, 0);
+      });
     }
+  }
 }
 </script>
 

@@ -103,6 +103,7 @@
         </v-row>
       </v-col>
     </v-row>
+
     <v-row class="line">
       <v-col class="margin-tb">
         <v-row>
@@ -112,8 +113,8 @@
           <TechStackSelector require="true" />
         </v-row>
       </v-col>
-      
     </v-row>
+    
     <v-row>
       <v-col class="margin-tb">
         <v-row>

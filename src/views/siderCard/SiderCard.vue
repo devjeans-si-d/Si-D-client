@@ -117,9 +117,18 @@
         </v-row>
       </v-col>
     </v-row>
-    <v-row>
-      <TechStackSelector />
+
+    <v-row class="line">
+      <v-col class="margin-tb">
+        <v-row>
+          <h2>사용기술</h2>
+        </v-row>
+        <v-row>
+          <TechStackSelector />
+        </v-row>
+      </v-col>
     </v-row>
+
     <v-row>
       <v-col class="margin-tb">
         <v-row>
@@ -246,7 +255,7 @@ export default {
 
 <style scoped>
 .margin-tb {
-  margin: 40px 20px;
+  margin: 20px 20px;
 }
 .career {
   margin: 10px;

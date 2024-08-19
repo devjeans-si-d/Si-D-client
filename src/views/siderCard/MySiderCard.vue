@@ -68,7 +68,7 @@
       </v-col>
     </v-row>
 
-    <v-row class="line">
+    <v-row class="line2">
       <v-col class="margin-tb">
         <v-row>
           <h2>경력</h2>
@@ -104,7 +104,15 @@
       </v-col>
     </v-row>
     <v-row class="line">
-      <TechStackSelector require="true" />
+      <v-col class="margin-tb">
+        <v-row>
+          <h2>사용기술</h2>
+        </v-row>
+        <v-row>
+          <TechStackSelector require="true" />
+        </v-row>
+      </v-col>
+      
     </v-row>
     <v-row>
       <v-col class="margin-tb">
@@ -303,7 +311,7 @@ export default {
 
 <style scoped>
 .margin-tb {
-  margin: 40px 20px;
+  margin: 20px 20px;
 }
 
 .row-1 {
@@ -332,8 +340,7 @@ export default {
 }
 
 .line2 {
-  border-top: 1px solid;
-  margin-top: 20px;
+  border-bottom: 1px solid;
 }
 
 .textarea {

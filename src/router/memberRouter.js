@@ -6,9 +6,7 @@ import MyPageEdit from '@/views/member/MyPageEdit.vue';
 import MyProject from '@/views/member/MyProject.vue';
 import MyApply from '@/views/member/MyApply.vue';
 import MyScrap from '@/views/member/MyScrap.vue';
-import ChatroomView from '@/views/member/ChatroomView.vue';
 import EmailUpdate from '@/views/member/EmailUpdate.vue';
-// import TestView from '@/views/member/TestView.vue';
 import MyAlert from '@/views/member/MyAlert.vue';
 
 
@@ -48,11 +46,6 @@ export const memberRouter = [
         path: '/member/project/apply/:projectId', // TODO: project id 추가 필요
         name: 'ApplyManagement',
         component: ApplyManagement
-    },
-    {
-        path: '/member/chatroom/:chatroomId',
-        name: 'ChatroomView',
-        component: ChatroomView,
     },
     // {
     //     path: '/member/test',

@@ -28,7 +28,7 @@
           <h2 style="margin-bottom: 20px">자기소개</h2>
         </v-row>
         <v-row class="introduction">
-          <v-textarea v-model="data.introduction" readonly></v-textarea>
+          <v-textarea v-model="data.introduction" readonly variant="solo" no-resize></v-textarea>
         </v-row>
       </v-col>
     </v-row>

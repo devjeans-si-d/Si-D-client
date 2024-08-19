@@ -32,7 +32,6 @@
 
               <v-col cols="auto" md="auto" class="d-flex align-center justify-end text-no-wrap">
                 <!-- 오른쪽 정렬 -->
-                <span @click="spaMoveToAlram">{{this.getAlertCnt + this.getChatCnt}}</span>
                 <v-menu v-if="isLogin" open-on-hover>
                   <template v-slot:activator="{ props }">
                     <v-btn text v-bind="props" height="60">
@@ -60,7 +59,9 @@
                     </v-list-item>
                   </v-list>
                 </v-menu>
+                🔔<span @click="spaMoveToAlram">{{this.getAlertCnt + this.getChatCnt}}</span>
               </v-col>
+
 
               <v-col cols="auto" md="auto" class="d-flex align-center justify-end text-no-wrap">
                 <!-- 원래 !isLogin임 api 붙이는 작업 이후 수정 예정 -->

@@ -68,5 +68,5 @@ export const memberRouter = [
         path: '/member/my-alert',
         name: 'MyAlert',
         component: MyAlert
-    }
+    },
 ]

@@ -26,7 +26,13 @@
               <v-container>
                   <v-row v-for="project in projectList" class="element-row" :key="project.projectId" @click="spaMoveToProject(project.projectId)">
                       <v-col class="project-element">
-                            <img class="project-img" :src="project.imageUrl" height="100px" width="auto" overflow="hidden">
+                            <img class="project-img"
+                            :src="project.imageUrl"
+                            height="100px"
+                            width="auto"
+                            overflow="hidden"
+                            @click="this.$router.push(`/project/${project.projectId}`)"
+                             />
                           <div class="project-content">
                             <div class="project-info">
                                 <h3>{{ project.projectName }}</h3>

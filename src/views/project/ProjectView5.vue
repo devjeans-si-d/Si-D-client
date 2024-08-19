@@ -3,16 +3,13 @@
         <v-row class="justify-start ml-5 mt-10" style="align-items:center;">
             <member-chip variant="compact" :url="this.pmImage" :name="this.pmNickname" :memberId="this.pmId"
                 @navigate="moveToSiderCard">
-                <!-- <v-avatar start>
-                    <v-img :src="this.pmImage" class="profile-image" max-height="30" max-width="30"></v-img>
-                </v-avatar>
-                {{ this.pmNickname }} -->
 
             </member-chip>
 
         </v-row>
-        <v-row class="align-center">
-            <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded style="margin-left: 70px; margin-top:8px;"
+        <v-row>
+            <v-col cols="4">
+                <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded style="margin-top:8px;"
                 @click="openChatModalFn()">
                 PM과의 채팅
             </v-btn>
@@ -20,9 +17,11 @@
                 @click="openApplyModal()">
                 프로젝트 지원
             </v-btn>
-            <v-col>
+            </v-col>
+            <v-col cols="4"></v-col>
+            <v-col cols="4">
                 <v-btn v-if="canEdit" size="large" icon="$vuetify" variant="plain"
-                    style="margin-left:270px; margin-right: 5px;" @click="goEdit()">
+                    style="margin-right: 5px;" @click="goEdit()">
                     <v-icon left class="mr-1">
                         mdi-lead-pencil</v-icon>수정
                 </v-btn>
@@ -35,18 +34,6 @@
                     <v-icon left class="mr-1">mdi-eye</v-icon>{{ this.views }}
                 </v-btn>
             </v-col>
-            <!-- <v-btn size="x-small" icon="$vuetify" variant="plain" style="margin-left: 5px;" @click="openChatModalFn()">
-                <v-icon left class="mr-1 justify-center">mdi-chat-processing-outline</v-icon><v-tooltip
-                    activator="parent" location="top">PM과의 채팅</v-tooltip>
-            </v-btn>
-            <v-btn size="x-small" icon="$vuetify" variant="plain" style="margin-left: 5px;" @click="openApplyModal()">
-                <v-icon left class="mr-1 justify-center">mdi-lead-pencil</v-icon><v-tooltip activator="parent"
-                    location="top">프로젝트 지원</v-tooltip>
-            </v-btn> -->
-
-
-
-
         </v-row>
         <v-spacer :style="{ height: '40px' }"></v-spacer>
 

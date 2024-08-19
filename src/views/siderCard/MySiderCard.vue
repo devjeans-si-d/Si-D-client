@@ -207,7 +207,7 @@
               ><img
                 :src="item.launchedProjectImage"
                 alt="출시 프로젝트"
-                style="height: 150px; width: auto"
+                style="height: 200px; width: 200px"
             /></a>
           </div>
         </v-row>

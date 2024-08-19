@@ -1,19 +1,11 @@
 <template>
   <!-- 모달을 여는 버튼 -->
   <v-container>
-    <v-row v-if="require">
-      <v-col cols="auto">
-        <v-btn color="#A4DEC6" @click="showModal = true">기술 스택 선택하기</v-btn>
-      </v-col>
-      <v-col cols="auto">
-        <v-btn color="#FFAFAF" @click="resetFinalIds">전체 초기화</v-btn>
-      </v-col>
-    </v-row>
+    
 
     <!-- 최종 선택된 기술 스택을 직무별로 표시 -->
     <v-row v-if="Object.keys(finalSelectedTechStacks).length > 0">
       <v-col cols="12">
-        <h3>사용한 기술 스택</h3>
         <!-- 직무별로 기술 스택을 표시 -->
         <div v-for="(techs, jobField) in finalSelectedTechStacks" :key="jobField">
           <!-- 직무 이름 -->
@@ -67,6 +59,15 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-row v-if="require">
+      <v-col cols="auto">
+        <v-btn color="#A4DEC6" @click="showModal = true">기술 스택 선택하기</v-btn>
+      </v-col>
+      <v-col cols="auto">
+        <v-btn color="#FFAFAF" @click="resetFinalIds">전체 초기화</v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

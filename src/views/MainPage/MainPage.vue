@@ -123,6 +123,22 @@
 
     </v-container>
 
+    <v-dialog v-model="acceptDialog" width="500px">
+        <v-card class="dialog-card" style="text-align: center">
+            <v-card-title>
+                사이더카드 업데이트를 하면<br> 프로젝트 지원하는데 도움이 돼요!
+            </v-card-title>
+            <v-card-text>
+                사이더카드 업데이트를 권장합니다.
+            </v-card-text>
+        
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="sid_btn1" text @click="acceptDialog = false">다음에 할래요</v-btn>
+                <v-btn color="sid_btn2" text @click="accept">지금 할게요</v-btn>
+                </v-card-actions>
+        </v-card>
+    </v-dialog>
     
 </template>
 <script>
@@ -139,6 +155,7 @@ export default {
   },
   data() {
     return {
+      acceptDialog: false,
       launched_projects: [],
       projects: [],
       siderCards: [],
@@ -146,6 +163,10 @@ export default {
     }
   },
   created(){
+    if(localStorage.getItem('state') && localStorage.getItem('state')=="first"){
+        this.acceptDialog = true
+        localStorage.setItem('state',null)
+    }
     this.loadLaunchedProject();
     this.loadSiderCard();
     this.loadProject();
@@ -186,7 +207,11 @@ export default {
       } catch (error) {
         console.error("메인페이지 Project 리스트 data load 에러:", error);
       }  
-    }
+    },
+    accept(){
+            this.acceptDialog = false
+            this.$router.push(`/sider-card`)
+        },
   }
 };
 </script>

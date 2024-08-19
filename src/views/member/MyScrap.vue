@@ -27,8 +27,8 @@
                 <v-card-title class="d-flex justify-space-between">
                     {{ project.projectName }}
                     <span>
-                      <BasicChip :title="this.getProjectStatus(project.isClosed)" :color="this.getChipColor(project.isClosed)"/>
-                      <v-icon style="margin-left: 15px" icon="mdi-bookmark" class="scrap-icon" @click="this.cancelBookmark(project.id)"></v-icon>
+                      <BasicSmallChip :title="this.getProjectStatus(project.isClosed)" :color="this.getChipColor(project.isClosed)"/>
+                      <v-icon style="margin-left: 5px" icon="mdi-bookmark" class="scrap-icon" @click="this.cancelBookmark(project.id)"></v-icon>
                     </span>
                 </v-card-title>
                 <v-card-text>
@@ -87,12 +87,12 @@
   <script>
   import axios from 'axios';
   import PageNavbar from '@/components/navbar/PageNavbar.vue';
-  import BasicChip from '@/components/chip/BasicChip.vue';
+  import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
 
   export default {
     components: {
         PageNavbar,
-        BasicChip
+        BasicSmallChip
     },
     data() {
       return {

@@ -8,8 +8,8 @@
           <v-sheet class="py-4 px-1">
             <v-chip-group v-model="selectedStack" selected-class="text-primary" mandatory>
               <v-chip value="전체" color="#094F08" size="large" filter>전체</v-chip>
-              <filter-stack-chip title="프론트엔드" value="Spring" color="#77BC1F" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/spring.svg"/>
-              <filter-stack-chip title="Node.js" value="Node.js" color="#676F5E" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/nodejs.svg"/>
+              <filter-stack-chip title="프론트엔드" value="FRONTEND" color="#77BC1F" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/spring.svg"/>
+              <filter-stack-chip title="백엔드" value="BACKEND" color="#676F5E" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/nodejs.svg"/>
               <filter-stack-chip title="Android" value="Android" color="#A4C439" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/android.svg"/>
               <filter-stack-chip title="iOS" value="iOS" color="#5A5656" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/apple.svg"/>
               <filter-stack-chip title="React" value="React" color="#61DAFB" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/react.svg"/>

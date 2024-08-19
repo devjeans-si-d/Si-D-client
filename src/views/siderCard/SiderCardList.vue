@@ -46,8 +46,10 @@ export default {
             isLastPage: false,
         }
     },
-    async created() {
+    created() {
         this.loadSiderCard();
+    },
+    updated(){
         window.addEventListener('scroll', this.scrollPagination)
     },
     beforeUnmount() {

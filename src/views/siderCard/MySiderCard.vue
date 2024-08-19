@@ -1,14 +1,30 @@
 <template>
   <v-container>
     <v-row justify="center" align="center" class="line">
-      <div style="margin: 0 30px">
+      <div style="position: relative; margin: 0 30px; overflow: visible;">
         <v-avatar class="mx-auto" size="120">
           <img
             :src="data.image"
             alt="Profile Image"
             style="height: 120px; width: auto"
           />
+          <!-- 파일 선택 인풋 -->
+          <v-file-input
+            ref="fileInput"
+            hide-input
+            style="position: absolute; bottom: 0; right: 0; z-index: -3;"
+            v-model="imageFile"
+            @change="fileUpdate"
+          ></v-file-input>
         </v-avatar>
+        <v-btn
+            small
+            icon
+            style="position: absolute; bottom: 50px; right: -10px; font-size: 14px; z-index: 3;"
+            @click="$refs.fileInput.click()"
+          >
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
       </div>
       <v-col>
         <v-row>
@@ -225,6 +241,7 @@ export default {
         { name: "디자인", value: "DESIGNER" },
         { name: "PM", value: "PM" },
       ],
+      imageFile: null,
       date: null,
       name: "푸바오",
       rules: [(v) => v.length <= 3000 || "Max 3000 characters"],
@@ -327,6 +344,53 @@ export default {
         console.log(e.response.data);
       }
     },
+    async fileUpdate() {
+      this.data.image = await this.uploadImage(this.imageFile);
+    },
+    async uploadImage(blob) {
+      const accessToken = localStorage.getItem('token');
+      const body = {
+        prefix: "test-prefix",
+        url: `${blob.name}`,
+      };
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json", // JSON 형식의 데이터를 전송할 경우 Content-Type을 지정해야 합니다.
+      };
+      const getUrl = await fetch(`${process.env.VUE_APP_API_BASE_URL}/api/upload/prisigned-url`,
+        {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(body), // body를 JSON 문자열로 변환하여 전송합니다.
+        }
+      );
+
+      const urlContentType = getUrl.headers.get("content-type");
+      let getUrlResult;
+      if (urlContentType && urlContentType.includes("application/json")) {
+        getUrlResult = await getUrl.json(); // JSON으로 파싱
+      } else {
+        getUrlResult = await getUrl.text(); // 텍스트로 파싱
+      }
+
+      const awsUrl = {
+        data: `${getUrlResult.split("?")[0]}`,
+        auth: `?${getUrlResult.split("?")[1]}`,
+      };
+
+      // // 파일을 S3에 업로드
+      const options = {
+        method: "PUT", // PUT 메서드 사용
+        headers: {
+          "Content-Type": blob.type, // Blob의 MIME 타입 설정
+        },
+        body: blob, // 업로드할 파일 데이터
+      };
+      let response = await fetch(awsUrl.data + awsUrl.auth, options);
+      console.log(response);
+
+      return awsUrl.data;
+      },
   },
 };
 </script>

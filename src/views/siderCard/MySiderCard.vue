@@ -312,7 +312,7 @@ export default {
       this.data.careers.splice(index, 1);
     },
     async save() {
-      if (this.data.jobField == "") {
+      if (this.data.jobField == "" || this.data.jobField == null) {
         alert("직무를 선택해주세요");
         return;
       }

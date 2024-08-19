@@ -76,14 +76,21 @@
             </v-row>
         </v-container>
     </v-app-bar>
+
+
   </template>
+
   
   <script>
   import axios from 'axios'
   import { EventSourcePolyfill } from 'event-source-polyfill';
   import { mapGetters } from 'vuex'
 
+
+import MyAlert from '@/views/member/MyAlert.vue';
+
   export default{
+    components: [MyAlert],
     data(){
         return{
             isLogin : false,
@@ -175,7 +182,7 @@
         } 
       },
       spaMoveToAlram() {
-        this.$router.push('/member/my-alert')
+        this.$router.push('/member/my-alert');
       }
     }
   };

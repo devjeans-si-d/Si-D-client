@@ -1,5 +1,5 @@
 <template>
-<v-card>
+
     <h2 style="text-align:center; margin: 20px;">🔔 내 알림</h2>
     <div style="margin: auto; text-align:center; border-bottom: 1px solid #D4D4D4; width: 70%;">
     <br>
@@ -54,7 +54,7 @@
     </v-alert>
         </div>
 </v-container>
-</v-card>
+
 </template>
 <script>
 import { mapGetters } from 'vuex';

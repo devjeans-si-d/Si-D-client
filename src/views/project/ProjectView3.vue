@@ -61,22 +61,22 @@
 
         <v-spacer :style="{ height: '10px' }"></v-spacer>
 
-        <v-row class=" subTitle mt-10 mb-10 ml-5 justify-center">
+        <v-row class=" subTitle mt-10 mb-10 ml-5">
             <h5>{{ this.description }}</h5>
         </v-row>
 
 
-        <v-row style="white-space: pre-line; text-align: center;" class="d-flex align-center justify-center ma-10 text-justify" v-html="this.contents.replace(/\n/g, '<br>')"></v-row>
+        <v-row style="white-space: pre-line;" class="d-flex align-center ma-10" v-html="this.contents.replace(/\n/g, '<br>')"></v-row>
 
         <v-spacer :style="{ height: '20px' }"></v-spacer>
-        <v-row class=" subTitle mt-10 mb-10  justify-center">
+        <v-row class=" subTitle mt-10 mb-10">
             <h5>현재 팀 구성</h5>
         </v-row>
-        <v-row v-for="(members, jobfield) in groupedMembers" :key="jobfield" class="mt-10 mb-10 justify-center">
-            <v-col cols="12" class="text-center">
+        <v-row v-for="(members, jobfield) in groupedMembers" :key="jobfield" class="mt-10 mb-10">
+            <v-col cols="12">
                 <h5>{{ jobfield }}</h5>
             </v-col>
-            <v-col cols="12" class="d-flex justify-center flex-wrap">
+            <v-col cols="12" class="flex-wrap">
                 <v-chip v-for="member in members" :key="member.memberId" size="large" class="ma-2">
                     <v-avatar start>
                         <v-img :src="member.memberImageUrl"></v-img>

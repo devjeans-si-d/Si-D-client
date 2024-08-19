@@ -23,18 +23,39 @@
         <p> {{this.localChatCnt}}개의 새로운 채팅이 있어요! </p>
         </v-alert>
 
-    <v-alert
-    style="margin-top: 10px;"
-    color="#2A3B4D"
-    density="compact"
-    icon="mdi-firework"
-    theme="dark"
-    class="d-flex justify-center"
-    v-for="al in this.aList" :key="al.id"
-    >
-    <p> {{ al.title }} </p>
-    <p> {{ al.content }} </p>
+        <div v-for="al in this.aList" :key="al.id">
+        <v-alert
+            style="margin-top: 10px;"
+            color="#2A3B4D"
+            density="compact"
+            icon="mdi-firework"
+            type="info"
+            variant="tonal"
+            class="d-flex justify-center"
+            v-if="al.isRead == 'N'"
+        >
+        <p> {{ al.title }} </p>
+        <p> {{ al.content }} </p>
     </v-alert>
+
+        <v-alert
+        style="margin-top: 10px;"
+        color="#2A3B4D"
+        density="compact"
+        icon="mdi-firework"
+        type="info"
+        variant="tonal"
+        class="d-flex justify-center"
+        v-if="al.isRead == 'Y'"
+        >
+        <p> {{ al.title }} </p>
+        <p> {{ al.content }} </p>
+    </v-alert>
+        </div>
+
+
+
+
 
 
 

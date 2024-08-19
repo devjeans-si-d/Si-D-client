@@ -420,7 +420,7 @@ export default {
     },
 };
 </script>
-<style>
+<style scoped>
 .explainProject {
     margin-top: 40px;
     font-weight: 700;

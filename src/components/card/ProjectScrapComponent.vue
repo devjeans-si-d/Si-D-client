@@ -143,6 +143,10 @@ export default{
 
             return ampm + ' ' + hour + ':' + minute;
         },
+        changePage(newPage) {
+            this.
+
+        }
   },
   created() {
       console.log(this.projectList);

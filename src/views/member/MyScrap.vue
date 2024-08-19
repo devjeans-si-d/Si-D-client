@@ -10,7 +10,9 @@
       
         <h2 style="text-align:center; margin: 20px;">📔 스크랩한 프로젝트</h2>
         <ProjectScrapComponent
-        :projectList="this.projectList"/>
+        :projectList="this.projectList"
+        ref="myScrapComponent"
+        />
 
 
         <!-- 페이지네이션 -->
@@ -43,7 +45,7 @@
   export default {
     components: {
         PageNavbar,
-        ProjectScrapComponent
+        ProjectScrapComponent,
     },
     data() {
       return {
@@ -67,7 +69,7 @@
             } catch(e) {
             console.log(e);
           }
-          this.$refs.myProjectComponent.changePage(this.currentPage);
+          this.$refs.myScrapComponent.changePage(this.currentPage);
         },
     },
     watch: {

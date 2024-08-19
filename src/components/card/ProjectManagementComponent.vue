@@ -155,19 +155,6 @@ export default{
         //   alert('지금은 임시로 홈으로 이동합니다..');
         //   this.$router.push('/member/project/apply');
       },
-      async onPageChange() {
-          try {
-            const params = {
-              size: 3,
-              page: this.currentPage-1
-            }
-            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects`, {params});
-            console.log(response);
-            this.projectList = response.data.content;
-            } catch(e) {
-            console.log(e);
-          }
-        },
       getChipColor(title) {
             if(title === '승인') {
                 return 'sid_btn2';
@@ -212,29 +199,28 @@ export default{
 
             this.currentMenu = menu;
             this.$store.dispatch('updateCurrentFilter', menu);
-            console.log('getCurrent: ', this.getCurrentFilter);
 
             const params = {
                     size: 3,
-                    page: this.currentPage
+                    page: 0
             };
 
             if(this.getCurrentFilter === 1) {
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects`, { params });
                 this.projectList = response.data.content;
-                this.currentPage = response.data.page;
+                this.currentPage = 0;
                 this.totalPage = response.data.totalPages;
 
             } else if(this.getCurrentFilter === 2) {
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects/pm`, { params });
                 this.projectList = response.data.content;
-                this.currentPage = response.data.page;
+                this.currentPage = 0;
                 this.totalPage = response.data.totalPages;
 
             } else {
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects/team`, { params });
                 this.projectList = response.data.content;
-                this.currentPage = response.data.page;
+                this.currentPage = 0;
                 this.totalPage = response.data.totalPages;
             }
         }

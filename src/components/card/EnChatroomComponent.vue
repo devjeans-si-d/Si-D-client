@@ -8,12 +8,24 @@
                   <div>
                     <v-container v-if="!isVisible">
 
-                        <v-card max-height="500px" class="mx-auto" style="margin-bottom: 20px;">
-                            <v-img :src="this.projectInfo.imageUrl" style="filter: brightness(50%)"></v-img>
-                      <v-card-text style="text-align: center;">
-                        {{ this.projectInfo.projectName }}에 대한<br>채팅의 시작이에요!
-                      </v-card-text>
-                      </v-card>
+                    <!-- 배너 시작 -->
+                    <v-banner
+                      color="deep-purple-accent-4"
+                      lines="two"
+                      style="border-radius: 10px;"
+                    >
+                      <template v-slot:prepend>
+                    <v-avatar size="x-large">
+                        <v-img
+                        :src="this.projectInfo.imageUrl"
+                    ></v-img>
+                    </v-avatar>
+                      </template>
+                  
+                      <v-banner-title>
+                        {{ this.projectInfo.projectName }}에 대한 채팅의 시작이에요!
+                      </v-banner-title>
+                    </v-banner>
                         
                     </v-container>
                     <div class="chatroom-outer" v-for="(chat, index) in chatList" :key="chat.id">

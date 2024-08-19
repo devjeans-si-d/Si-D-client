@@ -340,7 +340,7 @@ export default {
           this.data
         );
         this.$router.push(`/sider-card/${this.data.id}`)
-        // console.log(response.data);
+        console.log(response.data);
       } catch (e) {
         console.log(e.response.data);
       }

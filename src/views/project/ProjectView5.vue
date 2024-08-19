@@ -42,16 +42,75 @@
             style="margin-left: 5px;" @click="clickBack()">
             <v-icon left class="mr-1">mdi-arrow-left</v-icon>
         </v-btn> -->
-        <v-row class="written-date" style="margin-left:50px">{{this.createdAt}}</v-row>
-        
+        <v-row class="written-date" style="margin-left:50px">{{ this.createdAt }}</v-row>
+
         <v-row class="studyContent_title__3680o" style="margin-left:50px">{{ this.title }}</v-row>
-        <v-row class=""  style="margin-top:60px; margin-left:50px">
-            <h5>{{ this.description }}</h5>
+        <v-row class="" style="margin-top:50px; margin-left:50px">
+            <h4>{{ this.description }}</h4>
         </v-row>
 
         <v-row class="mt-10 mb-5 justify-center">
-            <img :src="this.projectImageUrl" class="rounded-lg" alt="Project Image" style="height:auto; width:800px; margin-left:50px" />
+            <img :src="this.projectImageUrl" class="rounded-lg" alt="Project Image"
+                style="height:auto; width:800px; margin-left:50px" />
 
+        </v-row>
+        <v-row style="white-space: pre-line;" class="d-flex align-center ma-10" v-html="this.contents.replace(/\n/g, '<br>')"></v-row>
+        
+
+        <v-row class="" style="margin-top:50px; margin-left:50px; margin-bottom:20px">
+            <h4> 현재 모집중인 정보 </h4>
+        </v-row>
+
+        <v-row class="justify-start" style="margin-left:50px">
+            <ul id="recruitInfo" class="list-style-none p-0 m-0">
+                <li v-for="(info, index) in showRecruitInfoList" :key="index" class="mb-4 d-flex justify-between">
+                    <v-chip :color="getColorForJobField(info.recruitField)" class="mr-5 justify-center" style=" width: 100px; text-align: center;">
+                        {{ info.recruitField }} 
+                    </v-chip>
+                    <span class="d-flex align-center">
+                        <v-icon class="mr-2">mdi-account</v-icon>
+                        {{ info.count }} 명
+                    </span>
+                </li>
+
+            </ul>
+        </v-row>
+
+        <v-row class="" style="margin-top:50px; margin-left:50px; margin-bottom:20px">
+            <h4> 현재 팀 구성 </h4>
+        </v-row>
+
+        <v-row v-for="(members, jobfield) in groupedMembers" :key="jobfield" class="mt-10 mb-10">
+            <v-col cols="12">
+                <h5>{{ jobfield }}</h5>
+            </v-col>
+            <v-col cols="12">
+                <v-row class="d-flex flex-wrap">
+                    <v-col v-for="member in members" :key="member.memberId" cols="auto" class="pa-2">
+
+                        <v-chip size="large" class="ma-2 d-flex align-center">
+                            <v-avatar start>
+                                <v-img :src="member.memberImageUrl"></v-img>
+                            </v-avatar>
+                            {{ member.nickname }} ({{ member.jobfield }})
+                        </v-chip>
+                    </v-col>
+                </v-row>
+            </v-col>
+        </v-row>
+
+        <v-row v-for="(members, jobfield) in groupedMembers" :key="jobfield" class="mt-10 mb-10">
+            <v-col cols="12">
+                <h5>{{ jobfield }}</h5>
+            </v-col>
+            <v-col cols="12" class="flex-wrap">
+                <v-chip v-for="member in members" :key="member.memberId" size="large" class="ma-2">
+                    <v-avatar start>
+                        <v-img :src="member.memberImageUrl"></v-img>
+                    </v-avatar>
+                    {{ member.nickname }} ({{ member.jobfield }})
+                </v-chip>
+            </v-col>
         </v-row>
         <!-- 
         <v-row class="justify-center ml-5 mt-10" style="align-items:center;">
@@ -77,19 +136,9 @@
         </v-row> -->
         <v-spacer :style="{ height: '40px' }"></v-spacer>
 
-        <v-row class="justify-center ma-3">
-            <ul id="recruitInfo" class="list-style-none p-0 m-0">
-                <li v-for="(info, index) in showRecruitInfoList" :key="index" class="mb-4 d-flex justify-between">
-                    <span class="mr-5">{{ info.recruitField }} 모집</span>
-                    <span>{{ info.count }} 명</span>
-                </li>
-                <!-- this.deadline 값을 추가 -->
-                <li class="mt-4 d-flex justify-between">
-                    <span class="mr-5">마감일</span>
-                    <span>{{ deadline }}</span>
-                </li>
-            </ul>
-        </v-row>
+
+
+
 
 
 
@@ -114,21 +163,52 @@
             v-html="this.contents.replace(/\n/g, '<br>')"></v-row>
 
         <v-spacer :style="{ height: '20px' }"></v-spacer>
-        <v-row class=" subTitle mt-10 mb-10">
-            <h5>현재 팀 구성</h5>
-        </v-row>
+
         <v-container class="mx-7">
             <v-row>
-                <v-col v-for="(members, jobField) in groupedMembers" :key="jobField" cols="12">
+                <!-- 직무별 기술 스택을 나열하는 예제 -->
+                <v-col v-for="(techStacks, jobField) in techStacksByJobField" :key="jobField" cols="12">
                     <h3>{{ jobField }}</h3>
                     <div class="chips-container">
-                        <member-chip v-for="member in members" :key="member.memberId" :url="member.profileImageUrl"
-                            :name="member.nickname" :memberId="member.memberId"
-                            @navigate="moveToSiderCard"></member-chip>
+                        <v-chip v-for="techStack in techStacks" :key="techStack" :color="getColorForJobField(jobField)"
+                            size="x-large">
+                            {{ techStack }}
+                        </v-chip>
                     </div>
                 </v-col>
             </v-row>
         </v-container>
+        <v-row class="justify-center ma-3">
+            <ul id="recruitInfo" class="list-style-none p-0 m-0">
+                <li v-for="(info, index) in showRecruitInfoList" :key="index" class="mb-4 d-flex justify-between">
+                    <v-chip color="primary" class="mr-5" style="background-color: #DEF5EC;">
+                        {{ info.recruitField }}
+                    </v-chip>
+                    <span class="d-flex align-center">
+                        <v-icon class="mr-2">mdi-account</v-icon>
+                        {{ info.count }} 명
+                    </span>
+                </li>
+                <!-- this.deadline 값을 추가 -->
+                <li class="mt-4 d-flex justify-between">
+                    <span class="mr-5">마감일</span>
+                    <span>{{ deadline }}</span>
+                </li>
+            </ul>
+        </v-row>
+        <v-row class="justify-center ma-3">
+            <ul id="recruitInfo" class="list-style-none p-0 m-0">
+                <li v-for="(info, index) in showRecruitInfoList" :key="index" class="mb-4 d-flex justify-between">
+                    <span class="mr-5">{{ info.recruitField }} 모집</span>
+                    <span>{{ info.count }} 명</span>
+                </li>
+                <!-- this.deadline 값을 추가 -->
+                <li class="mt-4 d-flex justify-between">
+                    <span class="mr-5">마감일</span>
+                    <span>{{ deadline }}</span>
+                </li>
+            </ul>
+        </v-row>
         <v-row v-for="(members, jobfield) in groupedMembers" :key="jobfield" class="mt-10 mb-10">
             <v-col cols="12">
                 <h5>{{ jobfield }}</h5>
@@ -250,7 +330,7 @@ export default {
             applyModal: false,
             applyJobfield: "",
             applyJobFieldList: ['DESIGNER', 'FRONTEND', 'BACKEND', 'APP', 'PM'],
-
+            dDay:"",
             isScrap: false,
 
             applyContents: "",
@@ -289,6 +369,13 @@ export default {
             scrapCount: 0,
             views: 0,
             createdAt: "",
+            colors: {
+                DESIGNER: 'pink lighten-1',
+                FRONTEND: 'cyan lighten-2',
+                BACKEND: 'deep-orange lighten-1',
+                APP: 'green',
+                PM: 'purple lighten-1'
+            },
         };
     },
     async mounted() {
@@ -328,6 +415,9 @@ export default {
         this.contents = getProjectResponse.data.recruitmentContents;
     },
     methods: {
+        getColorForJobField(jobField) {
+            return this.colors[jobField] || 'grey'; // 기본 색상 설정
+        },
         moveToSiderCard(memberId) {
             this.$router.push({ path: `/sider-card/${memberId}` });
         },
@@ -345,7 +435,6 @@ export default {
             try {
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/scrap`)
                 console.log(response);
-                alert("scrap되었습니다");
                 this.isScrap = true;
                 this.scrapCount++;
                 // 스크랩수 늘리기
@@ -358,7 +447,6 @@ export default {
             try {
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/scrap/delete`)
                 console.log(response);
-                alert("스크랩 취소되었습니다")
                 this.isScrap = false;
                 this.scrapCount--;
                 // 스크랩수 줄이기
@@ -483,6 +571,7 @@ p {
     display: flex;
     justify-content: center;
 }
+
 .written-date {
     white-space: nowrap;
     font-size: 15px;

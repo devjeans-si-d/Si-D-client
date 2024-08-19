@@ -495,7 +495,6 @@ export default {
         closeChatModal() {
             this.openChatModal = false;
         },
-        // 이부분 복붙
         async chatFn() {
             const data = {
                 projectId: this.projectId,
@@ -504,12 +503,12 @@ export default {
             try {
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/create`, data)
                 console.log(response)
-                const chatroomId = response.data.chatRoomId;
-                this.closeChatModal();
-                window.location.href = `/project/${this.projectId}/chatroom/${chatroomId}`;
             } catch (e) {
                 console.log(e);
             }
+            this.closeChatModal();
+
+            // window.href-
         }
 
     },

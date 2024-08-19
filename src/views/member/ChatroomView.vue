@@ -109,7 +109,7 @@ export default {
             isVisible: true,
             myId: 0,
             projectId: 0,
-            projectInfo: [],
+            projectInfo: "",
         }
     },
     async created() {
@@ -133,7 +133,8 @@ export default {
             // 프로젝트 정보 얻기
             const projectRes = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`);
             this.projectInfo = projectRes.data;
-            console.log(this.projectInfo);
+            // console.log("projectINFO");
+            // console.log(this.projectInfo.isClosed);
             this.connect();
 
         } catch(e) {
@@ -290,7 +291,7 @@ export default {
         getDay(createdAt) {
             const createdTime = new Date(createdAt);
 
-            return `${createdTime.getFullYear()}년 ${createdTime.getMonth()}월 ${createdTime.getDate()}일`; 
+            return `${createdTime.getFullYear()}년 ${createdTime.getMonth()+1}월 ${createdTime.getDate()}일`; 
         }
     }
 }   

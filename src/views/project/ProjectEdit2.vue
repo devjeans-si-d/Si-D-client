@@ -29,16 +29,19 @@
     <!-- 모집 기한 -->
     <v-row class="mt-10 mb-10">
       <h3 class="mr-5"> 모집 기한 </h3>
-      <input type="date" id="deadline" v-model="deadline" />
+      
+      <input type="datetime-local"  v-model="deadline" name="datetime" @click="checkDate()">
+
+      <!-- <input type="date" id="deadline" v-model="deadline" /> -->
 
     </v-row>
     <!-- 마감 여부 꾸미기 -->
-    <v-row  class="mt-10 mb-10 align-center ">
+    <!-- <v-row  class="mt-10 mb-10 align-center ">
       <h3 class="mr-5"> 모집 마감 </h3>
 
       <v-switch class="align-center" v-model="this.isClosed"  false-value="N" true-value="Y"
         hide-details></v-switch>
-    </v-row>
+    </v-row> -->
     <!-- <v-row>
       <input type="date" id="deadline" v-model="deadline" />
     </v-row> -->
@@ -64,18 +67,18 @@
     <!-- 멤버 추가  -->
 
     <!-- 멤버 추가 버튼 및 모달 -->
-    <v-row class="mt-10 align-center justify-start">
+    <!-- <v-row class="mt-10 align-center justify-start">
       <h3 style="margin-right: 20px;"> 멤버 추가 </h3>
       <ButtonComponent content="검색" @click="searchMemberShowModal()" />
-    </v-row>
+    </v-row> -->
 
     <!-- 모달 외부에서 showMemberList의 멤버들을 Chip으로 보여줌 -->
-    <v-row class="mt-10 mb-10">
+    <!-- <v-row class="mt-10 mb-10">
       <v-chip v-for="(member, index) in showMemberList" :key="member.memberId" closable
         @click:close="removeMember(index)" class="ma-2">
         {{ member.name }} - {{ member.jobfield }}
       </v-chip>
-    </v-row>
+    </v-row> -->
     <!-- 
     <v-row>
       <div id="editor"></div>
@@ -96,7 +99,7 @@
     </v-row>
 
     <!-- member add 모달창을 위한 v-dialog -->
-    <v-dialog v-model="membrerAddDialog" max-width="800px" class="pa-10">
+    <!-- <v-dialog v-model="membrerAddDialog" max-width="800px" class="pa-10">
       <v-card class="modal-card">
         <v-card-title class="modal-title">멤버 추가</v-card-title>
         <v-divider class="mb-4"></v-divider>
@@ -116,7 +119,6 @@
                 <v-row class="mt-3 mb-3 ml-10">
                   <h3> 검색조건 </h3>
                 </v-row>
-                <!-- api 붙이면 풀 것 -->
                 <v-row class="mt-3 mb-10">
                   <v-select v-model="searchType" :items="searchOptions" item-title="text" item-value="value"
                     variant="outlined" density="compact" class="ml-10 mr-10">
@@ -136,7 +138,6 @@
                   <ButtonComponent content="검색" type="submit" class="mx-auto" @click="searchMembersList()" />
                 </v-row>
 
-                <!-- 테이블 및 페이지네이션 -->
                 <v-row>
                   <v-col cols="12" class="mt-2">
                     <v-table rounded="lg">
@@ -175,7 +176,7 @@
         </v-card-actions>
         <v-spacer :style="{ height: '20px' }"></v-spacer>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
 
     <!-- recruitInfo 모달 창 -->
     <v-dialog v-model="recruitInfoDialogue" rounded="xl" max-width="430px" class="h-50">
@@ -274,20 +275,20 @@ export default {
     this.projectId = route.params.projectId;
     const getProjectResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`)
     console.log(getProjectResponse);
-    this.deadline = (getProjectResponse).data.deadline.split('T')[0];
-    this.title = (getProjectResponse).data.projectName;
-    this.projectImageUrl = (getProjectResponse).data.imageUrl;
-    this.description = (getProjectResponse).data.description;
-    this.recruitContents = getProjectResponse.data.recruitmentContents;
+    this.deadline = getProjectResponse?.data?.deadline;
+    this.title = getProjectResponse?.data?.projectName;
+    this.projectImageUrl = getProjectResponse?.data?.imageUrl;
+    this.description = getProjectResponse?.data?.description;
+    this.recruitContents = getProjectResponse?.data?.recruitmentContents;
     this.isClosed=getProjectResponse?.data?.isClosed;
-    this.showMemberList = (getProjectResponse).data.projectMembers.map((member) => {
+    this.showMemberList = getProjectResponse?.data?.projectMembers.map((member) => {
       return {
         memberId: member.memberId,
         name: member.memberNickname,
         jobfield: member.jobField,
       }
     });
-    this.showRecruitInfoList = (getProjectResponse).data.recruitInfos.map((info) => {
+    this.showRecruitInfoList = getProjectResponse?.data?.recruitInfos.map((info) => {
       return {
         recruitField: info.jobField,
         count: info.count
@@ -295,7 +296,7 @@ export default {
     })
 
 
-    this.contents = (getProjectResponse).data.recruitmentContents;
+    this.contents = getProjectResponse?.data?.recruitmentContents;
 
     // this.editor = new Editor({
     //   el: document.querySelector("#editor"),
@@ -494,7 +495,7 @@ export default {
         const body = {
           imageUrl: this.projectImageUrl,
           projectName: this.title,
-          deadline: this.deadline + 'T' + deadlineTime,
+          deadline: this.deadline ,
           description: this.description,
           recruitmentContents: this.recruitContents,
           projectMembers,

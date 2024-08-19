@@ -29,7 +29,8 @@
     <!-- 모집 기한 -->
     <v-row class="mt-10 mb-10">
       <h3 class="mr-10"> 모집 기한 </h3>
-      <input type="date" id="deadline" v-model="deadline" />
+      <input type="datetime-local"  v-model="deadline" name="datetime" @click="checkDate()">
+      <!-- <input type="date" id="deadline" v-model="deadline" /> -->
     </v-row>
     <!-- 
     <v-row>
@@ -55,31 +56,10 @@
         {{ info.recruitField }} - {{ info.count }}명
       </v-chip>
     </v-row>
-
-    <!-- 멤버 추가  -->
-
-    <!-- 멤버 추가 버튼 및 모달 -->
-    <v-row class="mt-10 align-center justify-start">
-      <h3 style="margin-right: 20px;"> 멤버 추가 </h3>
-      <ButtonComponent content="검색" @click="searchMemberShowModal()" />
-    </v-row>
-
-    <!-- 모달 외부에서 showMemberList의 멤버들을 Chip으로 보여줌 -->
-    <v-row class="mt-10 mb-10">
-
-      <v-chip v-for="(member, index) in showMemberList" :key="member.memberId" closable
-        @click:close="removeMember(index)" class="ma-2">
-        {{ member.name }} - {{ member.jobfield }}
-      </v-chip>
-    </v-row>
     <v-row>
-        <h3 class="mr-10 mb-5"> 프로젝트 소개 </h3>
-        <v-textarea class="textareaSize"  v-model="recruitContents" row-height="30" no-resize></v-textarea>
+      <h3 class="mr-10 mb-5"> 프로젝트 소개 </h3>
+      <v-textarea class="textareaSize" v-model="recruitContents" row-height="30" no-resize></v-textarea>
     </v-row>
-
-    <!-- <v-row>
-      <div id="editor"></div>
-    </v-row> -->
 
     <v-row justify="center" class="mt-5">
 
@@ -92,87 +72,6 @@
       </v-col>
     </v-row>
 
-    <!-- member add 모달창을 위한 v-dialog -->
-    <v-dialog v-model="membrerAddDialog" max-width="800px" class="pa-10">
-      <v-card class="modal-card">
-        <v-card-title class="modal-title">멤버 추가</v-card-title>
-        <v-divider class="mb-4"></v-divider>
-        <v-card-text>
-          <v-container class="pa-4">
-            <v-row class="mt-3 mb-3 ml-9">
-              <h3> 직무 </h3>
-            </v-row>
-            <v-row class="mb-10">
-              <v-select v-model="memberField" clearable label="Field" density="compact"
-                :items="['DESIGNER', 'FRONTEND', 'BACKEND', 'APP', 'PM']" variant="outlined"
-                class="ml-10 mr-10"></v-select>
-            </v-row>
-
-            <v-row class="mt-10">
-              <v-form @submit.prevent="searchMembersList()">
-                <v-row class="mt-3 mb-3 ml-10">
-                  <h3> 검색조건 </h3>
-                </v-row>
-                <!-- api 붙이면 풀 것 -->
-                <v-row class="mt-3 mb-10">
-                  <v-select v-model="searchType" :items="searchOptions" item-title="text" item-value="value"
-                    variant="outlined" density="compact" class="ml-10 mr-10">
-                  </v-select>
-                </v-row>
-                <br />
-                <v-row class="mt-3 mb-3 ml-10">
-                  <h3> 검색어 </h3>
-                </v-row>
-                <v-row class="mb-10">
-                  <v-text-field v-model="searchValue" label="Search" variant="outlined" class="ml-10 mr-10"
-                    density="compact"></v-text-field>
-                </v-row>
-                <br />
-
-                <v-row>
-                  <ButtonComponent content="검색" type="submit" class="mx-auto" @click="searchMembersList()" />
-                </v-row>
-
-                <!-- 테이블 및 페이지네이션 -->
-                <v-row>
-                  <v-col cols="12" class="mt-2">
-                    <v-table rounded="lg">
-                      <thead>
-                        <tr>
-                          <th class="text-center">선택</th>
-                          <th class="text-center">이름</th>
-                          <th class="text-center">EMAIL</th>
-                          <th class="text-center">닉네임</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="member in memberList" :key="member.memberId" @click="selectMember(member)"
-                          class="hoverable">
-                          <td class="text-center">
-                            <v-radio :value="member.memberId" v-model="selectedMember"></v-radio>
-                          </td>
-                          <td class="text-center">{{ member.name }}</td>
-                          <td class="text-center">{{ member.email }}</td>
-                          <td class="text-center">{{ member.nickname }}</td>
-                        </tr>
-                      </tbody>
-                    </v-table>
-                  </v-col>
-                </v-row>
-              </v-form>
-            </v-row>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-row justify="center">
-            <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }"
-              @click="closeMemberAddDialog()" class="ml-1" />
-            <ButtonComponent content="확인" @click="confirmMemberSelection()" />
-          </v-row>
-        </v-card-actions>
-        <v-spacer :style="{ height: '20px' }"></v-spacer>
-      </v-card>
-    </v-dialog>
 
     <!-- recruitInfo 모달 창 -->
     <v-dialog v-model="recruitInfoDialogue" rounded="xl" max-width="430px" class="h-50">
@@ -184,7 +83,7 @@
           <v-row class="mb-10 ml-10">
             <h3 style="margin-right: 20px;"> 직무 </h3>
             <v-select v-model="recruitField" clearable label="Field" density="compact"
-              :items="['DESIGNER', 'FRONTEND', 'BACKEND', 'APP', 'PM']" variant="outlined" class="mr-10"></v-select>
+              :items="['DESIGNER', 'FRONTEND', 'BACKEND', 'APP']" variant="outlined" class="mr-10"></v-select>
           </v-row>
           <v-row class="ma-10">
             <h3 style="margin-right: 20px;"> 인원 수 </h3>
@@ -206,7 +105,7 @@
 import ButtonComponent from "@/components/button/ButtonComponent.vue";
 //import Editor from "@toast-ui/editor";
 //import "@toast-ui/editor/dist/toastui-editor.css";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import axios from "axios";
 export default {
   components: {
@@ -242,33 +141,17 @@ export default {
       recruitContents: "",
     };
   },
-  // mounted() {
 
-
-  //   this.editor = new Editor({
-  //     el: document.querySelector("#editor"),
-  //     height: "500px",
-  //     initialEditType: "wysiwyg",
-  //     width: 'auto',
-  //     hooks: {
-  //       addImageBlobHook: async (blob, callback) => {
-  //         // 1. 다른 서버에 이미지를 업로드
-  //         const uploadResult = await this.uploadImage(blob);
-  //         // 2. 1에서 업로드 된 이미지를 접근할 수 있는 url 세팅
-  //         callback(uploadResult);
-  //       },
-  //     },
-  //   });
-  //   // 추가: editor의 width를 1200px로 조정
-  //   document.querySelector("#editor").style.width = "1200px";
-  // },
   methods: {
 
-    clickBack(){
-            window.history.back();
-        },
-        gotoDetail(){
-        },
+    checkDate(){
+      console.log(this.deadline);
+    },
+
+    clickBack() {
+      window.history.back();
+    },
+
 
     async uploadImage(blob) {
 
@@ -421,7 +304,8 @@ export default {
       this.showMemberList.splice(index, 1); // showMemberList에서 해당 멤버 제거
     },
     async saveContent() {
-      const deadlineTime = dayjs().format('HH:mm:ss');
+      console.log(this.deadline)
+      // const deadlineTime = dayjs().format('HH:mm:ss');
       // const content = this.editor.getMarkdown();
 
       let projectMembers = [];
@@ -444,24 +328,32 @@ export default {
         };
         recruitInfos.push(dataInfo);
       });
+
       if (this.projectImageUrl == "") this.projectImageUrl = "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/test-prefix/start-5699157_640.jpg";
       try {
         const body = {
           imageUrl: this.projectImageUrl,
           projectName: this.title,
-          deadline: this.deadline + 'T' + deadlineTime,
+          deadline: this.deadline,
           description: this.description,
           // recruitmentContents: this.editor.getMarkdown().toString(),
           recruitmentContents: this.recruitContents,
           projectMembers,
           recruitInfos,
         };
-        const projectCreateResponse = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/create`, body);
-        console.log(projectCreateResponse);
-        const createdProjectId = projectCreateResponse?.data?.id; // 생성된 프로젝트 ID
-        console.log(createdProjectId)
-        // 프로젝트 상세 화면으로 라우팅
-        this.$router.push({ name: 'ProjectView', params: { projectId: createdProjectId } });
+        if (this.title == "") {
+          alert("제목을 입력해야합니다.");
+          return;
+        }
+        else {
+          const projectCreateResponse = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/create`, body);
+          console.log(projectCreateResponse);
+          const createdProjectId = projectCreateResponse?.data?.id; // 생성된 프로젝트 ID
+          console.log(createdProjectId)
+          // 프로젝트 상세 화면으로 라우팅
+          this.$router.push({ name: 'ProjectView', params: { projectId: createdProjectId } });
+        }
+
       } catch (e) {
         alert(e);
         console.log(e);

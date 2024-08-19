@@ -1,34 +1,62 @@
 <template>
   <v-container max-width="1200px">
+  <v-container style="width: 70%;">
 
-    <v-spacer :style="{ height: '20px' }"></v-spacer>
-
-    <h2 style="text-align:center; color:#094F08;">프로젝트 모집글 작성</h2>
-
-    <v-spacer :style="{ height: '20px' }"></v-spacer>
-
-    <v-row class="mt-10 mb-10">
-      <v-text-field label="제목" type="text" id="title" v-model="title" variant="underlined" rounded="xs"></v-text-field>
+    <h2 style="text-align:center; margin: 20px;">모집 글 작성 <BasicSmallChip @click="infoModal = true" title="?" :color="sid_green"/></h2>
+    <br>
+    <v-row>
+      <v-text-field
+      label="제목"
+      type="title"
+      v-model="title"
+      placeholder="프로젝트의 제목을 작성해주세요."
+      variant="plain"
+      class="font-weight-bold"
+    ></v-text-field>
     </v-row>
+    <v-spacer :style="{ height: '30px' }"></v-spacer>
 
     <v-row class="mt-10 mb-10">
-      <v-file-input label="프로젝트 이미지" accept="image/" @change="fileUpdate" variant="underlined" rounded="xs">
+      <v-text-field
+      label="한줄 설명"
+      type="text"
+      id="description"
+      placeholder="프로젝트를 대표하는 한마디를 적어주세요."
+      v-model="description"
+      variant="plain"
+      rounded="xs"></v-text-field>
+    </v-row>
+    <v-spacer :style="{ height: '5px' }"></v-spacer>
+    <v-row class="mt-10 mb-10">
+      <v-file-input label="프로젝트 대표 이미지"
+      prepend-icon="mdi-camera"
+      accept="image/"
+      @change="fileUpdate"
+      variant="plain"
+      rounded="xs">
       </v-file-input>
-    </v-row>
-    <v-row v-if="this.projectImageUrl" class="justify-center">
-      <img :src="this.projectImageUrl" style="height:auto; width:500px;">
+      <v-btn size="small" @click="imageDialog=true">이미지 확인</v-btn>
     </v-row>
 
-    <v-row class="mt-10 mb-10">
-      <v-text-field label="한줄 설명" type="text" id="description" v-model="description" variant="underlined"
-        rounded="xs"></v-text-field>
-    </v-row>
-
+    <!-- 사진 확인 -->
+    <v-dialog v-model="imageDialog">
+      <v-card>
+          <img :src="this.projectImageUrl">
+          <v-btn size="small" @click="imageDialog=false">닫기</v-btn>
+      </v-card>
+    </v-dialog>
+    <!-- 사진 확인 끝 -->
     <v-spacer :style="{ height: '20px' }"></v-spacer>
+    <v-row>
+      <span style="font-weight: bold; font-size:large; margin-right: 30px; margin-bottom: 10px;"> 프로젝트 소개 </span>
+    </v-row>
+    <v-row>
+      <v-textarea variant="solo" style="height: 220px;" v-model="recruitContents" row-height="30" no-resize></v-textarea><br>
+    </v-row>
 
     <!-- 모집 기한 -->
-    <v-row class="mt-10 mb-10">
-      <h3 class="mr-10"> 모집 기한 </h3>
+    <v-row>
+      <span style="font-weight: bold; font-size:large; margin-right: 30px"> 모집 기한 </span>
       <input type="datetime-local" v-model="deadline" :min="now">
       <!-- <input type="date" id="deadline" v-model="deadline" /> -->
     </v-row>
@@ -42,8 +70,8 @@
     <!-- 모집 정보 추가 -->
     <v-row class="mt-10 align-center justify-start">
       <!-- 추가 버튼 -->
-      <h3 style="margin-right: 20px;"> 모집 정보 </h3>
-      <ButtonComponent content="추가" class="mr-3" @click="recruitInfoAdd()" />
+      <span style="font-weight: bold; font-size:large; margin-right: 30px"> 모집 정보 </span>
+      <v-btn size="small" class="mr-3" @click="recruitInfoAdd()">추가</v-btn>
     </v-row>
 
 
@@ -52,23 +80,12 @@
 
       <v-chip v-for="(info, index) in showRecruitInfoList" :key="info.recruitField" class="ma-2" closable
         @click:close="removeRecruitInfo(index)">
-
         {{ info.recruitField }} - {{ info.count }}명
       </v-chip>
     </v-row>
-    <v-row>
-      <h3 class="mr-10 mb-5"> 프로젝트 소개 </h3>
-      <v-textarea class="textareaSize" v-model="recruitContents" row-height="30" no-resize></v-textarea>
-    </v-row>
-
-    <v-row justify="center" class="mt-5">
-
+    <v-row class="d-flex justify-end">
       <v-col cols="auto">
-        <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }" @click="clickBack()"
-          class="ml-1" />
-      </v-col>
-      <v-col cols="auto">
-        <ButtonComponent content="확인" @click="saveContent()" class="mr-1" />
+        <ButtonComponent content="업로드" @click="saveContent()" class="mr-1" />
       </v-col>
     </v-row>
 
@@ -99,7 +116,9 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    </v-container>
   </v-container>
+
   <v-dialog v-model="dateModal" max-width="500px" rounded="xl">
     <v-card>
       <v-card-title>모집 마감 기한</v-card-title>
@@ -130,9 +149,43 @@
       <v-divider class="mt-2 mb-10"></v-divider>
     </v-card>
   </v-dialog>
+
+
+  <!-- 모달 -->
+<v-dialog v-model="infoModal" width="500px">
+  <v-card class="dialog-card">
+      <v-card-title class="align-center" style="text-align:center;">
+        ❓ 프로젝트 모집 글이 뭔가요?
+      </v-card-title>
+      <v-card-text style="text-align:center;">
+        <p>프로젝트 모집 글을 올려서 팀원을 모집해 보세요!</p><br>
+        <p>모집 글을 올리면 내가 PM이자 리더가 되어 <br> 팀원들을 모으고 프로젝트를 관리할 수 있게 됩니다.</p><br>
+
+        <v-card-title class="align-center" style="text-align:center;">
+          🔍 모집 글은 어떻게 쓰는 건가요?
+        </v-card-title>
+        <p>제목: 프로젝트의 제목을 넣어주세요. (ex. 사이디)</p><br>
+        <p>한줄 설명: 나의 프로젝트를 한 줄로 정의해주세요!<br>(ex. 사이디에서 멋진 팀원들과 좋은 서비스를 런칭해요.)</p><br>
+        <p>프로젝트 대표 이미지 : 나의 프로젝트를 나타내는 사진을 올려주세요.<br>이미지를 넣지 않으면 썸네일이 기본 이미지로 보이게 돼요.</p>
+        <p>프로젝트 소개 : 나의 프로젝트를 소개하고, 모집에 대한 자세한 설명을 써주세요.</p><br>
+        <p>모집 기한 : 모집 마감 기한을 정해주세요.</p><br>
+        <p>모집 정보 : 모집하는 포지션과 인원 수를 정해주세요.</p>
+        <br>
+
+        <p>
+          
+        </p>
+      </v-card-text>
+    <v-card-actions>
+    <v-spacer></v-spacer>
+    <v-btn color="sid_btn1" text @click="infoModal = false">확인</v-btn>
+    </v-card-actions>
+  </v-card>
+</v-dialog>
 </template>
 <script>
 import ButtonComponent from "@/components/button/ButtonComponent.vue";
+import BasicSmallChip from "@/components/chip/BasicSmallChip.vue";
 //import Editor from "@toast-ui/editor";
 //import "@toast-ui/editor/dist/toastui-editor.css";
 import dayjs from "dayjs";
@@ -140,6 +193,7 @@ import axios from "axios";
 export default {
   components: {
     ButtonComponent,
+    BasicSmallChip
   },
   data() {
     return {
@@ -172,6 +226,8 @@ export default {
       deadline: "",
       editor: null,
       recruitContents: "",
+      imageDialog: false,
+      infoModal: false,
     };
   },
   created() {
@@ -392,10 +448,16 @@ export default {
 </script>
 <style>
 .textareaSize {
-
   width: 100%;
-  height: 500px;
+  height: 200px;
   border: none;
   resize: none !important;
 }
+
+.title-placeholder::placeholder {
+  font-size: 20px; /* 원하는 크기로 조정 */
+  font-weight: bold;
+}
+
+
 </style>

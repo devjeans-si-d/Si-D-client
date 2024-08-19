@@ -29,8 +29,6 @@
           
         </p>
       </v-card-text>
-
-
     <v-card-actions>
     <v-spacer></v-spacer>
     <v-btn color="sid_btn1" text @click="infoModal = false">확인</v-btn>

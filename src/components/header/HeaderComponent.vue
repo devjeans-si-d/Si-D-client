@@ -42,7 +42,7 @@
                     </v-btn>
                   </template>
                   <v-list>
-                    <v-list-item :to="{ path: '/sider-card'}">
+                    <v-list-item :to="{ path: `/sider-card/${id}`}">
                       <v-list-item-title>나의 사이더 카드</v-list-item-title>
                     </v-list-item>
                     <v-list-item :to="{ path: '/member/mypage'}">
@@ -86,9 +86,11 @@
             profileImageUrl: "",
             KAKAO_AUTH_URI: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_REST_API_KEY}&redirect_uri=http://localhost:8082/oauth`,
             alertCnt: 0,
+            id:'',
         };
     },
     created(){ 
+      this.id = localStorage.getItem("id")
       const token = localStorage.getItem("token");
       if(token){
           // localStorage에 token이 있으면 로그인된 상태

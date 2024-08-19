@@ -65,6 +65,7 @@
             counter
             variant="outlined"
             max-width="1200"
+            no-resize
           ></v-textarea>
         </v-row>
       </v-col>
@@ -338,8 +339,8 @@ export default {
           `${process.env.VUE_APP_API_BASE_URL}/api/sider-card/update`,
           this.data
         );
-        alert("사이더카드 업데이트 완료");
-        console.log(response.data);
+        this.$router.push(`/sider-card/${this.data.id}`)
+        // console.log(response.data);
       } catch (e) {
         console.log(e.response.data);
       }

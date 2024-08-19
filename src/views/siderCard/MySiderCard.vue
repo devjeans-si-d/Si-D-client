@@ -65,6 +65,7 @@
             counter
             variant="outlined"
             max-width="1200"
+            no-resize
           ></v-textarea>
         </v-row>
       </v-col>
@@ -207,7 +208,7 @@
               ><img
                 :src="item.launchedProjectImage"
                 alt="출시 프로젝트"
-                style="height: 150px; width: auto"
+                style="height: 200px; width: 200px"
             /></a>
           </div>
         </v-row>
@@ -338,7 +339,7 @@ export default {
           `${process.env.VUE_APP_API_BASE_URL}/api/sider-card/update`,
           this.data
         );
-        alert("사이더카드 업데이트 완료");
+        this.$router.push(`/sider-card/${this.data.id}`)
         console.log(response.data);
       } catch (e) {
         console.log(e.response.data);

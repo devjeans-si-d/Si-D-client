@@ -5,7 +5,7 @@
         <v-avatar class="mx-auto" size="120">
           <img
             :src="data.image"
-            alt="Profile Image"
+            alt=""
             style="height: 120px; width: auto"
           />
         </v-avatar>

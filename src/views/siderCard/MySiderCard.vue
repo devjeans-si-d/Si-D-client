@@ -3,7 +3,7 @@
     <v-row justify="center" align="center" class="line">
       <div style="position: relative; margin: 0 30px; overflow: visible;">
         <v-avatar class="mx-auto" size="120">
-          <img :src="data.image" alt="Profile Image" style="height: 120px; width: auto" />
+          <img :src="data.image" alt="" style="height: 120px; width: auto" />
           <!-- 파일 선택 인풋 -->
           <v-file-input ref="fileInput" hide-input style="position: absolute; bottom: 0; right: 0; z-index: -3;"
             v-model="imageFile" @change="fileUpdate"></v-file-input>

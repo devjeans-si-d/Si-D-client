@@ -133,9 +133,6 @@ export default{
       }
     });
   },
-  beforeUnmount(){
-    window.removeEventListener('error');
-  },
   methods:{
     async loadProjectList() {
       try {

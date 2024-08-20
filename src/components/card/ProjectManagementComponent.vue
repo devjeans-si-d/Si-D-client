@@ -91,7 +91,7 @@
                   v-model="currentPage"
                   :length="totalPage"
                   class="my-4 pagination mb-2"
-                  total-visible="100"
+                  total-visible="4"
                 ></v-pagination>
               </v-container>
             </v-col>
@@ -242,7 +242,8 @@ export default{
 }
 
 .manage-project:hover {
-    color: "indigo darken-4";
+    opacity: 0.5;
+    transition: 0.5s ease;
 }
 
 .element-row {
@@ -258,6 +259,12 @@ export default{
   text-align: center;
   overflow: hidden;
   object-fit: cover;
+}
+
+.project-img:hover {
+  opacity: 0.7;
+  transition: 0.5s ease;
+  cursor: pointer;
 }
 
 .project-content {

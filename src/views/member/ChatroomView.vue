@@ -1,16 +1,16 @@
 
 <template>
+    <v-container>
     <v-container class="chatroom-container">
         <v-card variant="elevated" class="chatroom-card">
             <v-card-text>
                 <v-container class="scroll-container" ref="chatroomScroll" id="messageContainer">
                   <div>
-                    <v-container v-if="!isVisible">
                     <!-- 배너 시작 -->
                     <v-banner
                       color="deep-purple-accent-4"
                       lines="two"
-                      style="border-radius: 10px;"
+                      style="border-radius: 10px; margin-bottom: 40px;"
                     >
                       <template v-slot:prepend>
                     <v-avatar size="x-large">
@@ -24,7 +24,6 @@
                       </v-banner-title>
                     </v-banner>
                         
-                    </v-container>
                     <div class="chatroom-outer" v-for="(chat, index) in chatList" :key="chat.id">
                         <div v-if="index === 0 || this.isDifferentDay(chat.createdAt, chatList[index-1].createdAt)">
                             <div style="display: flex; align-content: center; text-align: center; margin: auto;">
@@ -41,9 +40,6 @@
                             <div v-if="index === 0 || chat.sender != chatList[index-1].sender" style="margin-bottom: 20px;">
                                 <span v-if="chat.sender != this.myId" class="member-name">{{this.getMemberName(chat.sender)}}</span>
                                 <span v-if="chat.sender == this.myId" class="member-name">나</span>
-                                
-                                <!-- <span v-if="chat.sender != this.myId" style="font-size: small; color: gray; margin-left: 10px;">문의자</span>
-                                <span v-if="chat.sender != this.myId" style="font-size: small; color: gray; margin-left: 10px;">문의자</span> -->
                             </div>
                             <div>
                                 <span>{{chat.content}}</span>
@@ -53,16 +49,19 @@
                         </div>
                     </div>
                     </div>
+
                   </div>
                 </v-container>
             </v-card-text>
+            
         </v-card>
-        <v-container class="send-container">
+        <v-row class="send-container">
             <v-text-field v-on:keyup.enter="sendMessage" width="400" class="chat-text-field" v-model="chatMessage"></v-text-field>
             <ButtonComponent style="margin-left: 10px" @click="sendMessage()" content="전송"/>
-        </v-container>
+        </v-row>
 
     </v-container>
+</v-container>
 
 <!-- 모달 -->
 <v-dialog v-model="alertDialog" width="500px">
@@ -134,6 +133,7 @@ export default {
             const projectRes = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`);
             this.projectInfo = projectRes.data;
             console.log(this.projectInfo);
+
             this.connect();
 
         } catch(e) {
@@ -340,7 +340,7 @@ export default {
 
 .chatroom-card {
     width: 100%;
-    height: 550px;
+    max-height: 300px;
     background-color: #F6F6F6;
     overflow-y: auto;
     overflow-x: hidden;
@@ -355,7 +355,7 @@ export default {
 
 .chatroom-container {
     justify-content: center;
-    margin: 0px !important;
+    width: 70%;
 }
 
 .send-container {

@@ -32,6 +32,16 @@
                         color="sid_green" @click.stop="moveToCreateLaunched(project.projectId)">
                         🚀Launched-Project로 등록
                       </v-btn>
+                      <v-btn
+                      v-if="project.myJob === 'PM' && project?.isClosed === 'N' && project.isLaunched === 'N'"
+                      @click.stop="openModal(project.projectId)"
+                      rounded="xl"
+                      color="#ad3b4c"
+                      size="small"
+                      style="margin-left: 10px;"
+                      >
+                        마감
+                      </v-btn>
                     </div>
                   </div>
 
@@ -50,12 +60,6 @@
                     <v-list-item-icon>
                       <v-icon size=x-large class="manage-project" @click.stop="moveToEditProject(project.projectId)">
                         mdi-pencil-box-outline </v-icon>
-                    </v-list-item-icon>
-                  </p>
-                  <p v-if="project.myJob === 'PM' && project?.isClosed === `N`">
-                    <v-list-item-icon>
-                      <v-icon size=x-large class="manage-project" @click.stop="openModal(project.projectId)">
-                        mdi-alpha-x-box-outline </v-icon>
                     </v-list-item-icon>
                   </p>
                 </div>

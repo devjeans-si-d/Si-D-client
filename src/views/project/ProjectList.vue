@@ -49,7 +49,7 @@
                 />
 
                 <v-card-title class="d-flex justify-space-between align-center">
-                    <span>{{ project.projectName }}</span>
+                    <span class="custom-contents">{{ project.projectName }}</span>
                     <v-chip color="primary" text-color="white">
                       <v-icon>mdi-bookmark</v-icon> {{ project.scrapCount }}
                     </v-chip>

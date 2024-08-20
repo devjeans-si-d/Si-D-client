@@ -64,16 +64,16 @@
                 <v-col cols="5">
                     <v-container class="pa-7">
                         <div class="phone-frame">
-                            <v-img 
+                            <img 
                                 :src="phoneFrame"
                                 alt="Phone Frame"
                                 class="frame-image"
-                            ></v-img>
-                            <v-img 
+                            />
+                            <img 
                                 :src="basicInfo.launchedProjectImage" 
                                 alt="Launched Project Image"
                                 class="project-image"
-                            ></v-img>
+                            />
                         </div>    
                     </v-container>    
                 </v-col>
@@ -291,20 +291,22 @@ export default{
 
 .project-image {
     position: absolute;
-    top: 2%;  /* 프레임의 상단 여백을 설정 */
-    left: 2%;  /* 프레임의 좌측 여백을 설정 */
-    width: 96%;  /* 프레임 크기 대비 90% */
-    height: 96%;  /* 프레임 크기 대비 90% */
+    top: 2px;  /* 프레임의 상단 여백을 설정 */
+    left: 104px;  /* 프레임의 좌측 여백을 설정 */
+    width: 170px;  /* 프레임 크기 대비 90% */
+    height: 353px;  /* 프레임 크기 대비 90% */
     object-fit: cover;  /* 이미지를 프레임 크기에 맞춤 */
     z-index: 0;
+    border-radius: 30px;
+    overflow: hidden;
 }
 
 .frame-image {
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    left: 100px;
+    width: 180px;
+    height: 357.92px;
     object-fit: contain;  /* 프레임 이미지 크기 유지 */
     z-index: 1;
 }

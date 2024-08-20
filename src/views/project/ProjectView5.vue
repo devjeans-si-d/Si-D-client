@@ -9,11 +9,11 @@
         </v-row>
         <v-row>
             <v-col cols="4">
-                <v-btn v-if="currnetMemberId == this.pmId" size="small" variant="tonal" rounded style="margin-top:8px;"
+                <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded style="margin-top:8px;"
                 @click="openChatModalFn()">
                 💬 PM과의 채팅
             </v-btn>
-            <v-btn v-if="currnetMemberId == this.pmId" size="small" variant="tonal" rounded style="margin-left: 5px; margin-top:8px;"
+            <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded style="margin-left: 5px; margin-top:8px;"
                 @click="openApplyModal()">
                 🙌 프로젝트 지원
             </v-btn>
@@ -61,7 +61,7 @@
 
         </v-row>
         <v-row style="white-space: pre-line;" class="d-flex align-center ma-10"
-            v-html="this.contents.replace(/\n/g, '<br>')"></v-row>
+            v-html="this.contents?.replace(/\n/g, '<br>')"></v-row>
 
 
         <v-row class="" style="margin-top:50px; margin-left:50px; margin-bottom:20px">
@@ -264,7 +264,7 @@ export default {
             }, {});
         },
         formattedContent() {
-            return this.contents.replace(/\n/g, '<br>');
+            return this.contents?.replace(/\n/g, '<br>');
         }
 
     },

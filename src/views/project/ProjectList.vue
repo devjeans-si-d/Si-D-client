@@ -8,12 +8,10 @@
           <v-sheet class="py-4 px-1">
             <v-chip-group v-model="selectedStack" selected-class="text-primary" mandatory>
               <v-chip value="전체" color="#094F08" size="large" filter>전체</v-chip>
-              <filter-stack-chip title="프론트엔드" value="FRONTEND" color="#77BC1F" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/spring.svg"/>
-              <filter-stack-chip title="백엔드" value="BACKEND" color="#676F5E" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/nodejs.svg"/>
-              <filter-stack-chip title="Android" value="Android" color="#A4C439" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/android.svg"/>
-              <filter-stack-chip title="iOS" value="iOS" color="#5A5656" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/apple.svg"/>
-              <filter-stack-chip title="React" value="React" color="#61DAFB" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/react.svg"/>
-              <filter-stack-chip title="Vue.js" value="Vue.js" color="#35495E" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/vuejs.png"/>
+              <v-chip value="FRONTEND" color="" size="large" filter>프론트엔드</v-chip>
+              <v-chip value="BACKEND" color="" size="large" filter>백엔드</v-chip>
+              <v-chip value="APP" color="" size="large" filter>앱</v-chip>
+              <v-chip value="DESIGNER" color="" size="large" filter>디자인</v-chip>
             </v-chip-group>
           </v-sheet>
       </v-row>
@@ -23,8 +21,8 @@
       <v-row>
         <v-chip-group v-model="sorted" selected-class="text-primary" mandatory>
           <v-chip value="recent" class="ma-1" color="#094F08" size="large" filter>최신 순</v-chip>
-          <v-chip value="views" class="ma-1" color="#094F08" size="large" filter>조회수 정렬</v-chip>
-          <v-chip value="scraps" class="ma-1" color="#094F08" size="large" filter>🍾 순 정렬</v-chip>
+          <v-chip value="views" class="ma-1" color="#094F08" size="large" filter>조회 순</v-chip>
+          <v-chip value="scraps" class="ma-1" color="#094F08" size="large" filter>스크랩 순</v-chip>
         </v-chip-group>
       </v-row>
 
@@ -72,7 +70,6 @@
 </template>
 
 <script>
-import FilterStackChip from '@/components/chip/FilterStackChip.vue';
 import axios from 'axios';
 
 export default{
@@ -113,7 +110,6 @@ export default{
       }
   },
   components:{
-      FilterStackChip
   },
   created(){
     this.loadLaunchProjectPage();

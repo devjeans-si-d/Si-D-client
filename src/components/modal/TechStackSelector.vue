@@ -106,9 +106,9 @@ export default {
   watch: {
     getTechStackIdsRes() {
       for (const item in this.getTechStackIdsRes) {
-        console.log('getTechStackIdsRes: ', this.getTechStackIdsRes);
+        // console.log('getTechStackIdsRes: ', this.getTechStackIdsRes);
 
-        console.log('item.jobField: ', this.getTechStackIdsRes[item].jobField);
+        // console.log('item.jobField: ', this.getTechStackIdsRes[item].jobField);
 
         this.selectedTechStacks[this.getTechStackIdsRes[item].jobField].push({ id: this.getTechStackIdsRes[item].id, name: this.getTechStackIdsRes[item].techStackName })
       }
@@ -158,7 +158,7 @@ export default {
 
 
       this.updateTechStacks();
-      console.log('Selected IDs:', this.finalIds);
+      // console.log('Selected IDs:', this.finalIds);
       // console.log('Selected IDs:', this.finalSelectedTechStacks);
       // console.log('Selected IDs:', this.selectedTechStacks);
       // console.log('Selected IDs:', this.getTechStackIds);
@@ -184,7 +184,7 @@ export default {
         this.selectedTechStacks[jobField] = [];
       }
 
-      console.log('finalIds 초기화:', this.finalIds);
+      // console.log('finalIds 초기화:', this.finalIds);
     },
   },
 };

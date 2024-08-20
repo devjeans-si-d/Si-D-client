@@ -23,7 +23,7 @@
                     <v-pagination
                     v-model="currentPage"
                     :length="totalPage"
-                    total-visible="100"></v-pagination>
+                    total-visible="4"></v-pagination>
                 </v-container>
                 </v-col>
             </v-row>

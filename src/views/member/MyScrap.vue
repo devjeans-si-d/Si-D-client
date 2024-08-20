@@ -49,13 +49,13 @@
       <v-dialog v-model="dialog" width="500px">
       <v-card class="dialog-card">
           <v-card-title>
-              북마크를 취소하시겠습니까?
+              스크랮 취소하시겠습니까?
               </v-card-title>
       
               <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="sid_btn1" text @click="dialog = false">닫기</v-btn>
-              <v-btn color="sid_btn2" text @click="confirmCancel()">북마크 취소</v-btn>
+              <v-btn color="sid_btn2" text @click="confirmCancel()">스크랩 취소</v-btn>
               </v-card-actions>
       </v-card>
       
@@ -72,7 +72,7 @@
                   v-model="currentPage"
                   :length="totalPage"
                   class="my-4"
-                  total-visible="100"
+                  total-visible="4"
                   ></v-pagination>
               </v-container>
               </v-col>

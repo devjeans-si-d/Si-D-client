@@ -49,7 +49,7 @@
       <v-dialog v-model="dialog" width="500px">
       <v-card class="dialog-card">
           <v-card-title>
-              스크랮 취소하시겠습니까?
+              스크랩 취소하시겠습니까?
               </v-card-title>
       
               <v-card-actions>

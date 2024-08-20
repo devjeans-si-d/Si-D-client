@@ -54,7 +54,7 @@
                   </p>
                   <p v-if="project.myJob === 'PM' && project?.isClosed === `N`">
                     <v-list-item-icon>
-                      <v-icon size=x-large class="manage-project" @click.stop="CloseDeadline(project.projectId)">
+                      <v-icon size=x-large class="manage-project" @click.stop="openModal(project.projectId)">
                         mdi-alpha-x-box-outline </v-icon>
                     </v-list-item-icon>
                   </p>
@@ -81,6 +81,40 @@
     </div>
 
   </v-container>
+
+  <!-- 마감 모달 -->
+<v-dialog v-model="closeDialog" width="500px">
+  <v-card class="dialog-card">
+    <v-card-title>
+      프로젝트를 직접 마감하시겠습니까?
+      </v-card-title>
+      <v-card-text>
+        <p>"마감하기" 버튼을 누르면 프로젝트가 마감돼요.</p>
+        <p>프로젝트가 마감되면 현재 상태에서 팀 빌딩이 완료되며</p>
+        <p>다시 모집 중 상태로 돌아갈 수 없어요.</p>
+        <p>정말 모집을 마감하실 건가요?</p>
+      </v-card-text>
+
+      <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn color="sid_btn1" text @click="closeDialog = false">닫기</v-btn>
+      <v-btn color="sid_btn2" text @click="closeDeadline(this.closeProjectId)">마감하기</v-btn>
+      </v-card-actions>
+  </v-card>
+</v-dialog>
+
+  <!-- 마감 모달 -->
+<v-dialog v-model="noticeDialog" width="500px">
+  <v-card class="dialog-card">
+    <v-card-title>
+      마감되었습니다!
+    </v-card-title>
+      <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn color="sid_btn1" @click="confirmAndReload()">확인</v-btn>
+      </v-card-actions>
+  </v-card>
+</v-dialog>
 </template>
 <script>
 import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
@@ -98,6 +132,9 @@ export default {
       totalPage: 0,
       currentMenu: 1,
       projectList: [],
+      closeDialog: false,
+      noticeDialog: false,
+      closeProjectId: 0,
     }
   },
   computed: {
@@ -142,6 +179,10 @@ export default {
       //   alert('지금은 임시로 홈으로 이동합니다..');
       //   this.$router.push('/member/project/apply');
     },
+    openModal(projectId) {
+      this.closeProjectId = projectId;
+      this.closeDialog = true;
+    },
     getChipColor(title) {
       if (title === '승인') {
         return 'sid_btn2';
@@ -151,15 +192,15 @@ export default {
         return '#5D5D5D';
       }
     },
-    async CloseDeadline(projectId) {
+    async closeDeadline(projectId) {
+      this.closeDialog = false;
       try {
-        const response = await axios.patch(`${process.env.VUE_APP_API_BASE_URL}/api/project/${projectId}/deadline`);
-        console.log(response)
-        window.location.reload();
+        await axios.patch(`${process.env.VUE_APP_API_BASE_URL}/api/project/${projectId}/deadline`);
       }
       catch (e) {
         console.log(e)
       }
+      this.noticeDialog = true;
     },
     getJobColor(job) {
       if (job === 'Backend') {
@@ -190,6 +231,9 @@ export default {
     },
     spaMoveTo(destination) {
       this.$router.push(destination);
+    },
+    confirmAndReload() {
+      window.location.reload();
     },
     async changeMenu(menu) {
       if (menu === this.getCurrentFilter) return;

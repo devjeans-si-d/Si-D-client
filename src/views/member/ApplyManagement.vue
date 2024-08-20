@@ -265,7 +265,7 @@ export default{
                 return 'fe_yellow';
             } else if(job === 'PM') {
                 return 'pm_green';
-            } else if(job === 'APP') {
+            } else if(job === 'App') {
                 return 'app_red';
             } else if(job === 'Designer') {
                 return 'de_purple';

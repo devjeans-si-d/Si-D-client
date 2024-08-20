@@ -1,7 +1,7 @@
 <template>
     <v-container fluid class="custom-container">
 
-        <v-container style="background-color:#DEF5EC">
+        <v-container style="background-color:#DEF5EC; min-height: 500px">
             <v-spacer :style="{ height: '20px' }"></v-spacer>
             <h3 style="text-align:center; color:#094F08;">Launched Project</h3>
             
@@ -39,7 +39,7 @@
 
             <v-row>
                 <v-col cols="7">
-                    <v-container class="pa-7">
+                    <v-container class="pa-7" style="min-height: 500px; position: relative;">
                         <!-- contents의 첫번 째줄은 h2태그로 출력 -->
                         <h2>{{ firstLine }}</h2>
                         <v-spacer :style="{ height: '15px' }"></v-spacer>
@@ -53,7 +53,7 @@
                         <v-chip 
                         v-if="basicInfo && basicInfo.siteUrl"
                         class="mt-5" 
-                        style="color:#094F08" 
+                        style="color:#094F08; size: x-large; position: absolute; bottom: 0; left: 10;"
                         size=x-large
                         @click="navigateToSite"
                         >

@@ -323,8 +323,11 @@ export default {
 }
 
 .chip-wrap {
+  display: flex;
+  direction: row;
   margin-top: 10px;
   justify-self: flex-end;
+
 }
 
 /*.project-element:hover {
@@ -340,12 +343,12 @@ export default {
 
 .outer-box {
   display: flex;
-  width: 70%;
+  width: 90%;
 }
 
 .my-project-card {
-    width: 75%;
-    min-width: 600px;
+    width: 90%;
+    min-width: 620px;
     margin-left: 20px;
     background-color: #F6F6F6;
 }

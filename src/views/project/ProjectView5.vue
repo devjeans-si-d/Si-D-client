@@ -38,10 +38,9 @@
             </v-col>
         </v-row>
         <v-row class="ml-10">
-            <v-col class="written-date"><v-btn size="small" icon="$vuetify" variant="text"
-                    style="margin-left:30px; margin-right: 5px;" disabled><v-icon left
-                        class="mr-1 ml-10">mdi-bell-ring-outline</v-icon>모집 마감일 : ~
-                    {{ this.deadlineString }}</v-btn></v-col>
+            <v-col class="written-date"><v-span style="font-size:small;"><v-icon left
+                        class="mr-1">mdi-bell-ring-outline</v-icon>모집 마감일 : ~
+                    {{ this.deadlineString }}</v-span></v-col>
         </v-row>
         <v-spacer :style="{ height: '5px' }"></v-spacer>
 
@@ -52,7 +51,7 @@
             style="margin-left: 5px;" @click="clickBack()">
             <v-icon left class="mr-1">mdi-arrow-left</v-icon>
         </v-btn> -->
-        <v-row class="written-date" style="margin-left:50px; margin-bottom:20px;">{{ this.showCreatedAt }}</v-row>
+        <v-row class="written-date" style="margin-left: 50px; margin-bottom:20px;">{{ this.showCreatedAt }}</v-row>
 
         <v-row v-if="showDDay" class="studyContent_title__3680o align-center" style="margin-left:50px">{{ this.title }}
             <v-btn size="small" variant="tonal" class="ma-2" rounded style="margin-left: 10px; margin-left: 5px;">

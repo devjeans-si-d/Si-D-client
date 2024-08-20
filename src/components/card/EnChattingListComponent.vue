@@ -161,7 +161,7 @@ export default{
     justify-content: center;
     width: 100%;
     margin: 0px !important;
-    min-width: 300px;
+    min-width: 350px;
 }
 
 .chatting-card {

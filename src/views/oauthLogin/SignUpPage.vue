@@ -18,17 +18,17 @@
           <v-row class="item-wrap-field" style="margin: auto">
             <v-col cols="4"><span class="text-center">닉네임</span></v-col>
             <v-col cols="auto"
-              ><v-text-field density="compact" v-model="nickname"></v-text-field
+              ><v-text-field density="compact" v-model="nickname" required></v-text-field
             ></v-col>
           </v-row>
           <v-row class="item-wrap-field" style="margin: auto">
             <v-col cols="4"><span class="text-center">이름</span></v-col>
             <v-col cols="auto"
-              ><v-text-field density="compact" v-model="name"></v-text-field
+              ><v-text-field density="compact" v-model="name" required></v-text-field
             ></v-col>
           </v-row>
           <v-row class="item-wrap-field" style="margin: auto">
-            <v-col cols="4"><span class="text-center">전화번호</span></v-col>
+            <v-col cols="4"><span class="text-center" required>전화번호</span></v-col>
             <v-col cols="auto"
               ><v-text-field
                 density="compact"

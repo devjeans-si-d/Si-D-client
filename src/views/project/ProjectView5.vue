@@ -236,6 +236,20 @@
             <v-divider class="mt-2 mb-10"></v-divider>
         </v-card>
     </v-dialog>
+    <v-dialog v-model="applyErrorModal" max-width="500px" rounded="xl">
+        <v-card>
+            <v-card-title>지원</v-card-title>
+            <v-divider class="mb-4"></v-divider>
+            <v-card-text>이미 지원하셨습니다.</v-card-text>
+            <v-card-actions>
+                <v-row justify="center">
+                    <v-btn rounded="xl" variant="flat" density="default" color="#A4DEC6" :style="{ color: '#FFFFFF' }"
+                        @click="applyErrorModalClose()">확인</v-btn>
+                </v-row>
+            </v-card-actions>
+            <v-divider class="mt-2 mb-10"></v-divider>
+        </v-card>
+    </v-dialog>
     <v-dialog v-model="openChatModal" max-width="500px" rounded="xl">
         <v-card>
             <v-card-title>채팅</v-card-title>
@@ -289,6 +303,7 @@ export default {
     },
     data() {
         return {
+            applyErrorModal: false,
             teamShow: true,
             showDDay: true,
             canEdit: false,
@@ -400,6 +415,9 @@ export default {
         this.contents = getProjectResponse.data.recruitmentContents;
     },
     methods: {
+        applyErrorModalClose() {
+            this.applyErrorModal = false;
+        },
         getColorForJobField(jobField) {
             return this.colors[jobField.toUpperCase()] || 'grey'; // 기본 색상 설정
         },
@@ -462,14 +480,20 @@ export default {
                 jobField: this.applyJobfield,
                 content: this.applyContents
             };
+            console.log(data)
             try {
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/apply`, data)
                 console.log(response);
+
+                this.applyConfirmModal = true;
+
             } catch (e) {
                 console.log(e)
+                this.applyErrorModal = true;
+
             }
             this.closeApplyModal();
-            this.applyConfirmModal = true;
+
 
         },
 

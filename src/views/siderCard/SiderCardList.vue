@@ -9,12 +9,12 @@
             </v-sheet>
         </v-row>
         <v-row justify="space-around">
-            <v-col style="max-width: 286px;" v-for="(card, index) in cards" :key="index">
-                <a v-if="siderCardFilter==''" style="text-decoration-line: none;" :href="`/sider-card/${card.member_id}`"><CardComponent :name="card.member_nickname" :jobField="card.member_jobField"
+            <v-col style="max-width: 286px;" v-for="(card, index) in filteredCards" :key="index">
+                <a style="text-decoration-line: none;" :href="`/sider-card/${card.member_id}`"><CardComponent :name="card.member_nickname" :jobField="card.member_jobField"
                     :image="card.member_image ? card.member_image : 'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'" /></a>
-                <a v-if="card.member_jobField==siderCardFilter" style="text-decoration-line: none;" :href="`/sider-card/${card.member_id}`"><CardComponent :name="card.member_nickname" :jobField="card.member_jobField"
+                <!-- <a v-if="card.member_jobField==siderCardFilter" style="text-decoration-line: none;" :href="`/sider-card/${card.member_id}`"><CardComponent :name="card.member_nickname" :jobField="card.member_jobField"
                     :image="card.member_image ? card.member_image : 'https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png'" /></a>
-                    
+                     -->
             </v-col>
         </v-row>
     </v-container>
@@ -44,6 +44,11 @@ export default {
             currentPage: 0,
             isLoading: false,
             isLastPage: false,
+        }
+    },
+    computed: {
+        filteredCards() {
+            return this.cards.filter(card => this.siderCardFilter === '' || card.member_jobField === this.siderCardFilter);
         }
     },
     created() {

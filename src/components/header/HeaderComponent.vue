@@ -180,7 +180,7 @@ import MyAlert from '@/views/member/MyAlert.vue';
 
         sse.onerror = (error) => {
             console.log(error);
-            sse.close();
+            // sse.close();
         } 
       },
       spaMoveToAlram() {

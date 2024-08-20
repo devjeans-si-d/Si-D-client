@@ -252,7 +252,7 @@ export default {
       const accessToken = localStorage.getItem('token');
       const body = {
         prefix: "test-prefix",
-        url: `${blob.name}`,
+        url: `${blob?.name}`,
       };
       const headers = {
         Authorization: `Bearer ${accessToken}`,
@@ -293,7 +293,7 @@ export default {
       return awsUrl.data;
     },
     async fileUpdate(event) {
-      this.projectImageFile = event.target.files[0];
+      this.projectImageFile = event?.target?.files[0];
       this.projectImageUrl = await this.uploadImage(this.projectImageFile);
 
     },

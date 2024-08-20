@@ -154,16 +154,15 @@ export default {
             }
         },
         connect() {
+
             if (this.stompClient && this.stompClient.connected) return;
 
 
             const socket = new SockJS(`${process.env.VUE_APP_API_BASE_URL}/chat`);
             this.stompClient = Stomp.over(socket);
 
-            // enter chatroom api - Concurrent Hashmap에 넣어주는 부분
-            axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/enter`);
 
-            
+
             // 헤더에 토큰 끼워넣는 부분
             const authToken = localStorage.getItem('token');
             this.stompClient.connect({Authorization: `Bearer ${authToken}`}, () => {
@@ -268,7 +267,7 @@ export default {
         getDay(createdAt) {
             const createdTime = new Date(createdAt);
 
-            return `${createdTime.getFullYear()}년 ${createdTime.getMonth()}월 ${createdTime.getDate()}일`; 
+            return `${createdTime.getFullYear()}년 ${createdTime.getMonth() + 1}월 ${createdTime.getDate()}일`; 
         }
     }
 }   

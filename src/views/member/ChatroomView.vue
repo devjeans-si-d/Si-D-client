@@ -290,7 +290,7 @@ export default {
         getDay(createdAt) {
             const createdTime = new Date(createdAt);
 
-            return `${createdTime.getFullYear()}년 ${createdTime.getMonth()}월 ${createdTime.getDate()}일`; 
+            return `${createdTime.getFullYear()}년 ${createdTime.getMonth() + 1}월 ${createdTime.getDate()}일`; 
         }
     }
 }   

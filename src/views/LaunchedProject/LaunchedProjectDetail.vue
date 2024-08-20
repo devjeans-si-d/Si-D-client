@@ -54,9 +54,11 @@
                         v-if="basicInfo && basicInfo.siteUrl"
                         class="mt-5" 
                         style="color:#094F08" 
-                        size=large
+                        size=x-large
                         @click="navigateToSite"
-                        >출시 사이트 바로가기
+                        >
+                        <v-icon icon="mdi-web" start></v-icon>
+                        Web
                         </v-chip>
                     </v-container>   
                 </v-col>
@@ -142,10 +144,10 @@ export default{
             otherLines: [],
             phoneFrame: "https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/iPhoneMockup.png",
             colors: {
-                DESIGNER: 'pink lighten-1',
-                FRONTEND: 'cyan lighten-2',
-                BACKEND: 'deep-orange lighten-1',
-                APP: 'green',
+                Designer : 'pink lighten-1',
+                Frontend: 'cyan lighten-2',
+                Backend: 'deep-orange lighten-1',
+                App: 'green',
                 PM: 'purple lighten-1'
             },
             isScrapped: false, // 스크랩 여부를 저장하는 변수

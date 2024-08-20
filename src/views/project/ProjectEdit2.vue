@@ -8,7 +8,12 @@
     <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <v-row class="mt-10 mb-10">
-      <v-text-field label="제목" type="text" id="title" v-model="title" variant="underlined" rounded="xs"></v-text-field>
+      <v-text-field label="제목"
+      type="title"
+      v-model="title"
+      placeholder="프로젝트의 제목을 작성해주세요."
+      variant="plain"
+      class="font-weight-bold"></v-text-field>
     </v-row>
 
     <v-row class="mt-10 mb-10">
@@ -317,7 +322,7 @@ export default {
     this.isClosed = getProjectResponse?.data?.isClosed;
 
 
-    
+
 
     this.showMemberList = getProjectResponse?.data?.projectMembers.map((member) => {
       return {

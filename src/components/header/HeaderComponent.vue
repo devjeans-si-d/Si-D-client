@@ -42,7 +42,7 @@
                     </v-btn>
                   </template>
                   <v-list>
-                    <v-list-item :to="{ path: `/sider-card/${id}`}">
+                    <v-list-item :href="`/sider-card/${id}`">
                       <v-list-item-title>나의 사이더 카드</v-list-item-title>
                     </v-list-item>
                     <v-list-item :to="{ path: '/member/mypage'}">

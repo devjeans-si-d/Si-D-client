@@ -56,8 +56,8 @@
             
         </v-card>
         <v-row class="send-container">
-            <v-text-field v-on:keyup.enter="sendMessage" width="400" class="chat-text-field" v-model="chatMessage"></v-text-field>
-            <ButtonComponent style="margin-left: 10px" @click="sendMessage()" content="전송"/>
+            <v-text-field v-on:keyup.enter="sendMessage" style="width: 90%;" class="chat-text-field" v-model="chatMessage"></v-text-field>
+            <ButtonComponent style="margin-left: 10px; width:8%; min-width: 50px;" @click="sendMessage()" content="전송"/>
         </v-row>
 
     </v-container>
@@ -356,12 +356,12 @@ export default {
 .chatroom-container {
     justify-content: center;
     width: 70%;
+    min-width: 700px;
 }
 
 .send-container {
     margin: 20px;
     width: 100%;
-    display: flex;
 }
 
 .chat-text-field {

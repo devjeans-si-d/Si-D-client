@@ -37,7 +37,7 @@
                 </v-btn>
             </v-col>
         </v-row>
-        <v-row class="ml-10">
+        <v-row class="">
             <v-col class="written-date"><v-span style="font-size:small;"><v-icon left
                         class="mr-1">mdi-bell-ring-outline</v-icon>모집 마감일 : ~
                     {{ this.deadlineString }}</v-span></v-col>
@@ -102,12 +102,12 @@
 
         <v-row class="justify-start" style="margin-left:50px">
             <ul id="apply" class="list-style-none p-0 m-0">
-                <li v-for="(key, value) in applyCounts" :key="key" class="mb-4 d-flex justify-between">
-                    <v-chip :color="getColorForJobField(value)" class="mr-5 justify-center"
+                <li  v-for="(key, value) in applyCounts" :key="key" class="mb-4 d-flex justify-between">
+                    <v-chip v-if="value&&applyJobFieldList.includes(value.toUpperCase())" :color="getColorForJobField(value)" class="mr-5 justify-center"
                         style=" width: 100px; text-align: center;">
                         {{ value.toUpperCase() }}
                     </v-chip>
-                    <span class="d-flex align-center">
+                    <span v-if="value&&applyJobFieldList.includes(value.toUpperCase())" class="d-flex align-center">
                         <v-icon class="mr-2">mdi-account</v-icon>
                         {{ key }} 명
                     </span>
@@ -410,6 +410,7 @@ export default {
             }
         })
         this.applyJobFieldList = this.showRecruitInfoList.map((recruit) => recruit.recruitField);
+        console.log("jobfieldlist",this.applyJobFieldList)
         this.isScrap = getProjectResponse?.data?.scrap;
 
         this.contents = getProjectResponse.data.recruitmentContents;

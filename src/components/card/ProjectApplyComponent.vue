@@ -15,7 +15,7 @@
                     cover
                     ></v-img>
                     <v-card-title class="d-flex justify-space-between">
-                        {{ project.projectName }}
+                        {{ project.projectName.substr(0, 7) }}
                         <span>
                             <BasicSmallChip :title="project.status" :color="this.getChipColor(project.status)" style="margin-right: 5px;"/>
                             <BasicSmallChip :title="project.jobField" :color="this.getJobColor(project.jobField)"/>

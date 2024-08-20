@@ -25,7 +25,7 @@
                 class="scrap-img"
                 ></v-img>
                 <v-card-title class="d-flex justify-space-between">
-                    {{ project.projectName }}
+                    {{ project.projectName.substr(0, 7) }}
                     <span>
                       <BasicSmallChip :title="this.getProjectStatus(project.isClosed)" :color="this.getChipColor(project.isClosed)"/>
                       <v-icon style="margin-left: 5px" icon="mdi-bookmark" class="scrap-icon" @click="this.cancelBookmark(project.id)"></v-icon>

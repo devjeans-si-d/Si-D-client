@@ -6,7 +6,7 @@
       <v-spacer :style="{height: '20px'}"></v-spacer>
       <v-row>
           <v-sheet class="py-4 px-1">
-            <v-chip-group v-model="selectedStack" selected-class="text-primary" mandatory>
+            <v-chip-group v-model="selectedJobfield" selected-class="text-primary" mandatory>
               <v-chip value="전체" color="#094F08" size="large" filter>전체</v-chip>
               <v-chip value="FRONTEND" color="" size="large" filter>프론트엔드</v-chip>
               <v-chip value="BACKEND" color="" size="large" filter>백엔드</v-chip>
@@ -19,6 +19,7 @@
       <v-spacer :style="{height: '10px'}"></v-spacer>
 
       <v-row>
+        <v-switch v-model="isClosed" label="마감공고까지 표시" class="ml-1 mr-3" color="#A4DEC6"></v-switch>
         <v-chip-group v-model="sorted" selected-class="text-primary" mandatory>
           <v-chip value="recent" class="ma-1" color="#094F08" size="large" filter>최신 순</v-chip>
           <v-chip value="views" class="ma-1" color="#094F08" size="large" filter>조회 순</v-chip>
@@ -43,24 +44,37 @@
                 <v-img
                     class="custom-img"
                     height="250"
-                    :src="project.launchedProjectImage"
+                    :src="project.imageUrl"
                     cover
                 />
 
                 <v-card-title class="d-flex justify-space-between align-center">
                     <span>{{ project.projectName }}</span>
                     <v-chip color="primary" text-color="white">
-                    🍾 {{ project.scraps }}
+                      <v-icon>mdi-bookmark</v-icon> {{ project.scrapCount }}
                     </v-chip>
                 </v-card-title>
 
                 <v-card-subtitle class="pt-3; custom-contents">
-                    <div>{{ project.launchedProjectContents }}</div>
+                  <div>{{ project.description }}</div>
                 </v-card-subtitle>
 
-                <v-card-subtitle class="pt-2; custom-contents">
-                    <div class="mb-4">{{ project.techStacks }}</div>
+                <!-- <v-card-subtitle class="pt-2; custom-contents">
+                    <div class="mb-4">{{ project.recruitInfos }}</div>
+                </v-card-subtitle> -->
+                <v-card-subtitle class="pt-2 custom-contents">
+                  <div class="mb-4">
+                    <v-chip
+                      v-for="(info, index) in project.recruitInfos"
+                      :key="index"
+                      color="#094F08"
+                      size="small"
+                    >
+                      {{ info.jobField }} 
+                    </v-chip>
+                  </div>
                 </v-card-subtitle>
+                
               </v-card>
           </v-col>
       </v-row>
@@ -75,66 +89,57 @@ import axios from 'axios';
 export default{
   data() {
       return {
-        // searchType: 'optional',
-        // searchOptions: [
-        //     {text:"선택", value:'optional'},
-        //     {text:"프로젝트명", value: "projectName"},
-        //     {text:"회원명", value: "memberName"}
-        // ],
-        // searchValue: "",
-        selectedStack: '전체',  // 기본값: 전체
+        selectedJobfield: '전체',  // 기본값: 전체
+        isClosed : false, // 기본값: 마감된 공고까지 표시 false
         sorted: 'recent', // 기본값: 조회수 정렬
         projects: [],
-        pageSize:12,
-        currentPage:0,
-        isLastPage: false,
-        isLoading: false,
+        recruitInfos: []
       };
   },
   computed: {
-    filteredProjects() {
-      return this.projects.filter(project => {
-        const matchesStack = this.selectedStack === '전체' || project.techStacks.includes(this.selectedStack);
-        // const matchesLaunched = this.isLaunched ? project.siteUrl !== null : true;
-        return matchesStack;
-      });
-    }
-  },
+  filteredProjects() {
+    return this.projects.filter(project => {
+      const matchesJobfield = this.selectedJobfield === '전체' || 
+        project.recruitInfos.some(info => info.jobField === this.selectedJobfield);
+      const matchesClosed = this.isClosed || project.isClosed === 'N';
+      
+      return matchesJobfield && matchesClosed;
+    });
+  }
+},
   watch: {
-      sorted(newValue) {
-          this.sorted = newValue;
-          this.projects = [];
-          this.currentPage = 0;
-          this.isLastPage = false;
-          this.loadLaunchProjectPage();
-      }
+    sorted(newValue) {
+            this.sorted = newValue;
+            this.projects = [];
+            this.currentPage = 0;
+            this.isLastPage = false;
+            this.loadProjectList();
+        }
+
   },
   components:{
   },
   created(){
-    this.loadLaunchProjectPage();
+    this.loadProjectList();
   },
   methods:{
-    async loadLaunchProjectPage() {
+    async loadProjectList() {
       try {
         let params = {
           sorted: this.sorted
         };
 
         console.log(params);
-        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/list`, { params });
+        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/listAll`, { params });
         console.log(response.data);
         
-        this.projects = response.data.map(p => ({
-          ...p,
-          techStacks: p.techStacks.join(' · ')
-        }));
+        this.projects = response.data;
       } catch (error) {
-        console.error("완성된 프로젝트 리스트 data load 에러 : ", error);
+        console.error("프로젝트 리스트 data load 에러 : ", error);
       }
   },
   moveToProject(projectId){
-    this.$router.push('/launched-project/' + projectId).then(() => {
+    this.$router.push('/project/' + projectId).then(() => {
       // 페이지 이동 후 스크롤을 최상단으로 이동
       window.scrollTo(0, 0);
     });

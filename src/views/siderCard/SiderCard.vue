@@ -14,6 +14,7 @@
         <v-row justify="space-between">
           <h2>{{ data.nickname }}</h2>
           <v-btn
+            v-if="isMine"
             small
             icon
             color="secondary"

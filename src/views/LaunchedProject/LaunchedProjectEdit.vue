@@ -309,11 +309,11 @@ export default {
     },
     async uploadImage(blob) {
 
-      console.log(blob.name);
+      console.log(blob?.name);
       const accessToken = localStorage.getItem('token');
       const body = {
         prefix: "test-prefix",
-        url: `${blob.name}`,
+        url: `${blob?.name}`,
       };
       const headers = {
         Authorization: `Bearer ${accessToken}`,

@@ -35,7 +35,7 @@
         >
         <p> {{ al.title }} </p>
         <p> {{ al.content }} </p>
-        <p> {{ al.createdAt }} </p>
+        <p style="color: gray; font-size: small"> {{ getDay(al.createdAt)}} {{ getTime(al.createdAt) }} </p>
         </v-alert>
 
 

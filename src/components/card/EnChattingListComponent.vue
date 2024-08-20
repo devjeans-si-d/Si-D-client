@@ -169,6 +169,9 @@ export default{
     justify-content: center;
     margin: 0px;
     background-color: #F6F6F6;
+    height: 550px;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     /*overflow-y: auto;*/
     /*overflow-x: hidden;*/

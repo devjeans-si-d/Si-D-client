@@ -79,8 +79,8 @@
                       cover
                   />
 
-                  <v-card-title class="d-flex justify-space-between align-center">
-                      <span>{{ project.projectName }}</span>
+                  <v-card-title class="d-flex justify-space-between align-center ">
+                      <span class="custom-contents">{{ project.projectName }}</span>
                       <v-chip color="primary" text-color="white">
                       🍾 {{ project.scraps }}
                       </v-chip>

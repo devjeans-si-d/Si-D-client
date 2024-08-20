@@ -1,18 +1,40 @@
 <template>
     <v-container fluid class="custom-container">
         <v-row class="justify-start ml-5 mt-10" style="align-items:center;">
-            <member-chip :url="this.pmImage" :name="this.pmNickname" :memberId="this.pmId" @navigate="moveToSiderCard">
+            <member-chip variant="compact" :url="this.pmImage" :name="this.pmNickname" :memberId="this.pmId"
+                @navigate="moveToSiderCard">
                 <!-- <v-avatar start>
                     <v-img :src="this.pmImage" class="profile-image" max-height="30" max-width="30"></v-img>
                 </v-avatar>
                 {{ this.pmNickname }} -->
+
             </member-chip>
-            <v-btn size="large" variant="tonal" rounded style="margin-left: 5px;" @click="openChatModalFn()">
+
+        </v-row>
+        <v-row class="align-center">
+            <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded style="margin-left: 70px; margin-top:8px;"
+                @click="openChatModalFn()">
                 PM과의 채팅
             </v-btn>
-            <v-btn size="large" variant="tonal" rounded style="margin-left: 5px;" @click="openApplyModal()">
+            <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded style="margin-left: 5px; margin-top:8px;"
+                @click="openApplyModal()">
                 프로젝트 지원
             </v-btn>
+            <v-col>
+                <v-btn v-if="canEdit" size="large" icon="$vuetify" variant="plain"
+                    style="margin-left:270px; margin-right: 5px;" @click="goEdit()">
+                    <v-icon left class="mr-1">
+                        mdi-lead-pencil</v-icon>수정
+                </v-btn>
+                <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;"
+                    @click="clickScrap()">
+                    <v-icon left class="mr-1">{{ this.isScrap ? 'mdi-bookmark-multiple' : 'mdi-bookmark-multiple-outline'
+                        }}</v-icon>{{ this.scrapCount }}<v-tooltip activator="parent" location="top">프로젝트 스크랩</v-tooltip>
+                </v-btn>
+                <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;">
+                    <v-icon left class="mr-1">mdi-eye</v-icon>{{ this.views }}
+                </v-btn>
+            </v-col>
             <!-- <v-btn size="x-small" icon="$vuetify" variant="plain" style="margin-left: 5px;" @click="openChatModalFn()">
                 <v-icon left class="mr-1 justify-center">mdi-chat-processing-outline</v-icon><v-tooltip
                     activator="parent" location="top">PM과의 채팅</v-tooltip>
@@ -22,14 +44,7 @@
                     location="top">프로젝트 지원</v-tooltip>
             </v-btn> -->
 
-            <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;"
-                @click="clickScrap()">
-                <v-icon left class="mr-1">{{ this.isScrap ? 'mdi-bookmark-multiple' : 'mdi-bookmark-multiple-outline'
-                    }}</v-icon>{{ this.scrapCount }}<v-tooltip activator="parent" location="top">프로젝트 스크랩</v-tooltip>
-            </v-btn>
-            <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;">
-                <v-icon left class="mr-1">mdi-eye</v-icon>{{ this.views }}
-            </v-btn>
+
 
 
         </v-row>
@@ -42,17 +57,108 @@
             style="margin-left: 5px;" @click="clickBack()">
             <v-icon left class="mr-1">mdi-arrow-left</v-icon>
         </v-btn> -->
-        <v-row class="written-date" style="margin-left:50px">{{this.createdAt}}</v-row>
-        
-        <v-row class="studyContent_title__3680o" style="margin-left:50px">{{ this.title }}</v-row>
-        <v-row class=""  style="margin-top:60px; margin-left:50px">
-            <h5>{{ this.description }}</h5>
+        <v-row class="written-date" style="margin-left:50px">{{ this.showCreatedAt }}</v-row>
+
+        <v-row v-if="showDDay" class="studyContent_title__3680o align-center" style="margin-left:50px">{{ this.title }}
+            <v-btn size="small" variant="tonal" class="ma-2" rounded style="margin-left: 10px; margin-left: 5px;">
+                D - {{ this.dayDiff }}
+            </v-btn>
+        </v-row>
+        <v-row class="" style="margin-top:50px; margin-left:50px">
+            <h4>{{ this.description }}</h4>
         </v-row>
 
         <v-row class="mt-10 mb-5 justify-center">
-            <img :src="this.projectImageUrl" class="rounded-lg" alt="Project Image" style="height:auto; width:800px; margin-left:50px" />
+            <img :src="this.projectImageUrl" class="rounded-lg" alt="Project Image"
+                style="height:auto; width:800px; margin-left:50px" />
 
         </v-row>
+        <v-row style="white-space: pre-line;" class="d-flex align-center ma-10"
+            v-html="this.contents.replace(/\n/g, '<br>')"></v-row>
+
+
+        <v-row class="" style="margin-top:50px; margin-left:50px; margin-bottom:20px">
+            <h4> 현재 모집중인 정보 </h4>
+        </v-row>
+
+        <v-row class="justify-start" style="margin-left:50px">
+            <ul id="recruitInfo" class="list-style-none p-0 m-0">
+                <li v-for="(info, index) in showRecruitInfoList" :key="index" class="mb-4 d-flex justify-between">
+                    <v-chip :color="getColorForJobField(info.recruitField)" class="mr-5 justify-center"
+                        style=" width: 100px; text-align: center;">
+                        {{ info.recruitField }}
+                    </v-chip>
+                    <span class="d-flex align-center">
+                        <v-icon class="mr-2">mdi-account</v-icon>
+                        {{ info.count }} 명
+                    </span>
+                </li>
+
+            </ul>
+        </v-row>
+
+        <v-row class="" style="margin-top:50px; margin-left:50px; margin-bottom:20px">
+            <h4> 지원 현황 </h4>
+        </v-row>
+
+        <v-row class="justify-start" style="margin-left:50px">
+            <ul id="apply" class="list-style-none p-0 m-0">
+                <li v-for="(key, value) in applyCounts" :key="key" class="mb-4 d-flex justify-between">
+                    <v-chip :color="getColorForJobField(value)" class="mr-5 justify-center"
+                        style=" width: 100px; text-align: center;">
+                        {{ value.toUpperCase() }}
+                    </v-chip>
+                    <span class="d-flex align-center">
+                        <v-icon class="mr-2">mdi-account</v-icon>
+                        {{ key }} 명
+                    </span>
+                </li>
+
+            </ul>
+        </v-row>
+
+        <v-row v-if="teamShow" class="" style="margin-top:50px; margin-left:50px; margin-bottom:20px">
+            <h4> 현재 팀 구성 </h4>
+        </v-row>
+
+        <v-row v-for="(members, jobfield) in groupedMembers" :key="jobfield" class="mt-10 mb-10"
+            style="margin-left:50px;">
+            <!-- <v-col cols="12"> -->
+            <!-- <h5>{{ jobfield }}</h5> -->
+            <!-- </v-col> -->
+            <v-col cols="auto">
+                <v-row class="d-flex flex-wrap align-center">
+                    <h4 class="align-center">{{ jobfield }}</h4>
+
+                    <v-col v-for="member in members" :key="member.memberId" cols="auto" class="pa-2">
+                        <member-chip size="small" :url="member.profileImageUrl" :name="member.nickname"
+                            :memberId="member.memberId" @navigate="moveToSiderCard(member.memberId)"></member-chip>
+                        <!-- <v-chip size="large" class="ml-2 mr-2 d-flex align-center">
+                            <v-avatar start>
+                                <v-img :src="member.memberImageUrl"></v-img>
+                            </v-avatar>
+                            {{ member.nickname }}
+                        </v-chip> -->
+                    </v-col>
+                </v-row>
+            </v-col>
+        </v-row>
+        <v-row class="" style="margin-top:50px; margin-left:50px; margin-bottom:20px">
+            <h4> 마감 일정 : {{ this.deadlineString }} 까지 </h4>
+        </v-row>
+        <!-- <v-row v-for="(members, jobfield) in groupedMembers" :key="jobfield" class="mt-10 mb-10">
+            <v-col cols="12">
+                <h5>{{ jobfield }}</h5>
+            </v-col>
+            <v-col cols="12" class="flex-wrap">
+                <v-chip v-for="member in members" :key="member.memberId" size="large" class="ma-2">
+                    <v-avatar start>
+                        <v-img :src="member.memberImageUrl"></v-img>
+                    </v-avatar>
+                    {{ member.nickname }} ({{ member.jobfield }})
+                </v-chip>
+            </v-col>
+        </v-row> -->
         <!-- 
         <v-row class="justify-center ml-5 mt-10" style="align-items:center;">
             <v-avatar start>
@@ -77,75 +183,10 @@
         </v-row> -->
         <v-spacer :style="{ height: '40px' }"></v-spacer>
 
-        <v-row class="justify-center ma-3">
-            <ul id="recruitInfo" class="list-style-none p-0 m-0">
-                <li v-for="(info, index) in showRecruitInfoList" :key="index" class="mb-4 d-flex justify-between">
-                    <span class="mr-5">{{ info.recruitField }} 모집</span>
-                    <span>{{ info.count }} 명</span>
-                </li>
-                <!-- this.deadline 값을 추가 -->
-                <li class="mt-4 d-flex justify-between">
-                    <span class="mr-5">마감일</span>
-                    <span>{{ deadline }}</span>
-                </li>
-            </ul>
-        </v-row>
 
 
 
-        <v-spacer :style="{ height: '10px' }"></v-spacer>
-        <v-row class="explainProject justify-center mt-10 mb-3">프로젝트 소개</v-row>
 
-        <v-divider class="mb-4"></v-divider>
-
-        <v-row class="mt-10 mb-5 justify-center">
-            <img :src="this.projectImageUrl" alt="Project Image" style="height:auto; width:500px;" />
-
-        </v-row>
-
-        <v-spacer :style="{ height: '10px' }"></v-spacer>
-
-        <v-row class=" subTitle mt-10 mb-10 ml-5">
-            <h5>{{ this.description }}</h5>
-        </v-row>
-
-
-        <v-row style="white-space: pre-line;" class="d-flex align-center ma-10"
-            v-html="this.contents.replace(/\n/g, '<br>')"></v-row>
-
-        <v-spacer :style="{ height: '20px' }"></v-spacer>
-        <v-row class=" subTitle mt-10 mb-10">
-            <h5>현재 팀 구성</h5>
-        </v-row>
-        <v-container class="mx-7">
-            <v-row>
-                <v-col v-for="(members, jobField) in groupedMembers" :key="jobField" cols="12">
-                    <h3>{{ jobField }}</h3>
-                    <div class="chips-container">
-                        <member-chip v-for="member in members" :key="member.memberId" :url="member.profileImageUrl"
-                            :name="member.nickname" :memberId="member.memberId"
-                            @navigate="moveToSiderCard"></member-chip>
-                    </div>
-                </v-col>
-            </v-row>
-        </v-container>
-        <v-row v-for="(members, jobfield) in groupedMembers" :key="jobfield" class="mt-10 mb-10">
-            <v-col cols="12">
-                <h5>{{ jobfield }}</h5>
-            </v-col>
-            <v-col cols="12" class="flex-wrap">
-                <v-chip v-for="member in members" :key="member.memberId" size="large" class="ma-2">
-                    <v-avatar start>
-                        <v-img :src="member.memberImageUrl"></v-img>
-                    </v-avatar>
-                    {{ member.nickname }} ({{ member.jobfield }})
-                </v-chip>
-            </v-col>
-        </v-row>
-
-        <v-divider class="mb-4"></v-divider>
-
-        <v-spacer :style="{ height: '20px' }"></v-spacer>
 
 
 
@@ -218,6 +259,8 @@ import axios from "axios";
 import { useRoute } from 'vue-router';
 import ButtonComponent from "@/components/button/ButtonComponent.vue";
 import MemberChip from '@/components/chip/MemberChip.vue';
+import dayjs from "dayjs";
+
 // import BasicChip from '@/components/chip/BasicChip.vue';
 
 export default {
@@ -245,12 +288,17 @@ export default {
     },
     data() {
         return {
+            teamShow:true,
+            showDDay:true,
+            canEdit: false,
+            deadlineString: "",
+            applyCounts: null,
             openChatModal: false,
             applyConfirmModal: false,
             applyModal: false,
             applyJobfield: "",
             applyJobFieldList: ['DESIGNER', 'FRONTEND', 'BACKEND', 'APP', 'PM'],
-
+            dDay: "",
             isScrap: false,
 
             applyContents: "",
@@ -289,17 +337,40 @@ export default {
             scrapCount: 0,
             views: 0,
             createdAt: "",
+            currnetMemberId: 0,
+            colors: {
+                DESIGNER: 'pink lighten-1',
+                FRONTEND: 'cyan lighten-2',
+                BACKEND: 'deep-orange lighten-1',
+                APP: 'green',
+                PM: 'purple lighten-1'
+            },
+
+            dayDiff: 0,
+            showCreatedAt: "",
         };
+    },
+    created() {
+        this.currnetMemberId = Number(localStorage.getItem('id'));
     },
     async mounted() {
         const route = useRoute();
         this.projectId = route.params.projectId;
         const getProjectResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`)
         console.log(getProjectResponse);
+        this.applyCounts = getProjectResponse?.data?.applicantsCount;
+        console.log("aooky", this.applyCounts)
         this.scrapCount = getProjectResponse?.data?.scrapCount;
         this.views = getProjectResponse?.data?.views;
         this.deadline = (getProjectResponse)?.data?.deadline;
-        this.createdAt = getProjectResponse?.data?.createdAt.split('T')[0];
+        this.deadlineString = dayjs(this.deadline).format("YYYY년 MM월 DD일");
+        const now = dayjs();  //현재날짜
+        const dDay = dayjs(this.deadline);  //D-day로 설정할 날짜
+        this.dayDiff = dDay.diff(now, "day");  //남은 일 수 구하기
+        console.log("d-day", this.dayDiff)
+        if(now>dDay) this.showDDay=false;
+        this.createdAt = getProjectResponse?.data?.createdAt;
+        this.showCreatedAt = dayjs(this.createdAt).format("YYYY년 MM월 DD일");
         this.title = (getProjectResponse)?.data?.projectName;
         this.projectImageUrl = (getProjectResponse)?.data?.imageUrl;
         this.projectImageFile = (getProjectResponse)?.data?.imageUrl;
@@ -307,6 +378,7 @@ export default {
         this.pmImage = getProjectResponse?.data?.pmImage;
         this.pmNickname = getProjectResponse?.data?.pmNickname;
         this.pmId = getProjectResponse?.data?.pmId;
+        if (localStorage.id == this.pmId) this.canEdit = true;
         this.showMemberList = (getProjectResponse)?.data?.projectMembers.map((member) => {
             return {
                 memberId: member.id,
@@ -316,6 +388,7 @@ export default {
                 jobfield: member.jobField, // 사용자가 선택한 직무 필드
             }
         });
+        if(this.showMemberList.length==0) this.teamShow=false;
         this.showRecruitInfoList = (getProjectResponse).data.recruitInfos.map((info) => {
             return {
                 recruitField: info.jobField,
@@ -328,6 +401,9 @@ export default {
         this.contents = getProjectResponse.data.recruitmentContents;
     },
     methods: {
+        getColorForJobField(jobField) {
+            return this.colors[jobField.toUpperCase()] || 'grey'; // 기본 색상 설정
+        },
         moveToSiderCard(memberId) {
             this.$router.push({ path: `/sider-card/${memberId}` });
         },
@@ -345,7 +421,6 @@ export default {
             try {
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/scrap`)
                 console.log(response);
-                alert("scrap되었습니다");
                 this.isScrap = true;
                 this.scrapCount++;
                 // 스크랩수 늘리기
@@ -355,10 +430,10 @@ export default {
             }
         },
         async unDoScrap() {
+            console.log("group member", this.groupedMembers)
             try {
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/scrap/delete`)
                 console.log(response);
-                alert("스크랩 취소되었습니다")
                 this.isScrap = false;
                 this.scrapCount--;
                 // 스크랩수 줄이기
@@ -407,19 +482,25 @@ export default {
         closeChatModal() {
             this.openChatModal = false;
         },
+        // 이부분 복붙
         async chatFn() {
-            alert("여기서 채팅방 연결!");
-            // const data = {
-            //     projectId: this.projectId,
-            //     chatStarterMemberId: localStorage.id
-            // }
-            // try {
-            //     const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/create`, data)
-            //     console.log(response)
-            // } catch (e) {
-            //     console.log(e);
-            // }
-            this.closeChatModal();
+            const data = {
+                projectId: this.projectId,
+                chatStarterMemberId: localStorage.id
+            }
+            try {
+                const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/create`, data)
+                console.log(response)
+                const chatroomId = response.data.chatRoomId;
+                this.closeChatModal();
+                window.location.href = `/project/${this.projectId}/chatroom/${chatroomId}`;
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        goEdit() {
+            this.$router.push({ name: 'ProjectEdit', params: { projectId: this.projectId } });
+
         }
 
     },
@@ -483,6 +564,7 @@ p {
     display: flex;
     justify-content: center;
 }
+
 .written-date {
     white-space: nowrap;
     font-size: 15px;

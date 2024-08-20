@@ -92,8 +92,8 @@
     
             <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="sid_btn1" text @click="acceptDialog = false">닫기</v-btn>
-            <v-btn color="sid_btn1" text @click="acceptComfirm">승인하기</v-btn>
+            <v-btn color="sid_btn2" text @click="acceptDialog = false">닫기</v-btn>
+            <v-btn color="sid_btn2" text @click="acceptComfirm">승인하기</v-btn>
             </v-card-actions>
     </v-card>
 </v-dialog>
@@ -121,7 +121,7 @@
             <b>지원 내용:</b> <br>
             {{ this.currentContent }}
         </v-card-text>
-        <v-btn style="width: 30%; margin: auto;" color="sid_btn1" @click="this.$router.push('/sider-card/' + this.currentMemberId)">사이더카드 보러가기</v-btn>
+        <v-btn style="width: 30%; margin: auto;" color="sid_btn2" @click="this.$router.push('/sider-card/' + this.currentMemberId)">사이더카드 보러가기</v-btn>
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="sid_btn1" text @click="applyDialog = false">닫기</v-btn>

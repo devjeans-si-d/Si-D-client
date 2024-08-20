@@ -285,8 +285,9 @@ export default {
 }
 
 .element-row {
-  border-bottom: 1px solid #D4D4D4;
-  align-items: center;
+    border-bottom: 1px solid #D4D4D4;
+    align-items: center;
+    min-width: 600px;
 }
 
 .project-img {
@@ -339,15 +340,17 @@ export default {
 }
 
 .my-project-card {
-  width: 75%;
-  margin-left: 20px;
-  background-color: #F6F6F6;
+    width: 75%;
+    min-width: 600px;
+    margin-left: 20px;
+    background-color: #F6F6F6;
 }
 
 .sidebar {
-  width: 25%;
-  height: auto;
-  text-align: center;
+    width: 25%;
+    min-width: 150px;
+    height: auto;
+    text-align: center;
 }
 
 .sidebar-element:hover {

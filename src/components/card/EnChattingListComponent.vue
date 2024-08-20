@@ -14,8 +14,8 @@
                       <v-col :class="{selected}" cols="12">
                         <div class="chatroom-element">
                             <div class="member-img">
-                                <img class="img1" :src="chatroom.projectImage" height="100px" width="auto" overflow="hidden">
-                                <img class="profile-img img2" :src="chatroom.participantProfileImageUrl" height="100px" width="auto" overflow="hidden"> 
+                                <img class="img1" :src="chatroom.projectImage" width="20%" height="auto" overflow="hidden">
+                                <img class="profile-img img2" :src="chatroom.participantProfileImageUrl" width="20%" height="auto" overflow="hidden"> 
                             </div>
                           <div class="project-content">
                             <div class="project-info">
@@ -161,6 +161,7 @@ export default{
     justify-content: center;
     width: 100%;
     margin: 0px !important;
+    min-width: 300px;
 }
 
 .chatting-card {

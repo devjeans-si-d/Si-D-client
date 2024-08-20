@@ -8,34 +8,42 @@
 
         </v-row>
         <v-row>
-            <v-col cols="4">
+            <v-col cols="5">
                 <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded style="margin-top:8px;"
-                @click="openChatModalFn()">
-                💬 PM과의 채팅
-            </v-btn>
-            <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded style="margin-left: 5px; margin-top:8px;"
-                @click="openApplyModal()">
-                🙌 프로젝트 지원
-            </v-btn>
+                    @click="openChatModalFn()">
+                    💬 PM과의 채팅
+                </v-btn>
+                <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded
+                    style="margin-left: 5px; margin-top:8px;" @click="openApplyModal()">
+                    🙌 프로젝트 지원
+                </v-btn>
             </v-col>
-            <v-col cols="4"></v-col>
+            <v-col cols="3"></v-col>
             <v-col cols="4">
-                <v-btn v-if="canEdit" size="large" icon="$vuetify" variant="plain"
-                    style="margin-right: 5px;" @click="goEdit()">
+                <v-btn v-if="canEdit" size="large" icon="$vuetify" variant="plain" style="margin-right: 5px;"
+                    @click="goEdit()">
                     <v-icon left class="mr-1">
                         mdi-lead-pencil</v-icon>수정
                 </v-btn>
                 <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;"
                     @click="clickScrap()">
-                    <v-icon left class="mr-1">{{ this.isScrap ? 'mdi-bookmark-multiple' : 'mdi-bookmark-multiple-outline'
-                        }}</v-icon>{{ this.scrapCount }}<v-tooltip activator="parent" location="top">프로젝트 스크랩</v-tooltip>
+                    <v-icon left class="mr-1">{{ this.isScrap ? 'mdi-bookmark-multiple' :
+                        'mdi-bookmark-multiple-outline'
+                        }}</v-icon>{{ this.scrapCount }}<v-tooltip activator="parent" location="top">프로젝트
+                        스크랩</v-tooltip>
                 </v-btn>
                 <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;">
                     <v-icon left class="mr-1">mdi-eye</v-icon>{{ this.views }}
                 </v-btn>
             </v-col>
         </v-row>
-        <v-spacer :style="{ height: '40px' }"></v-spacer>
+        <v-row class="ml-10">
+            <v-col class="written-date"><v-btn size="small" icon="$vuetify" variant="text"
+                    style="margin-left:30px; margin-right: 5px;" disabled><v-icon left
+                        class="mr-1 ml-10">mdi-bell-ring-outline</v-icon>모집 마감일 : ~
+                    {{ this.deadlineString }}</v-btn></v-col>
+        </v-row>
+        <v-spacer :style="{ height: '5px' }"></v-spacer>
 
         <v-divider class="mb-4"></v-divider>
         <v-spacer :style="{ height: '50px' }"></v-spacer>
@@ -44,11 +52,16 @@
             style="margin-left: 5px;" @click="clickBack()">
             <v-icon left class="mr-1">mdi-arrow-left</v-icon>
         </v-btn> -->
-        <v-row class="written-date" style="margin-left:50px">{{ this.showCreatedAt }}</v-row>
+        <v-row class="written-date" style="margin-left:50px; margin-bottom:20px;">{{ this.showCreatedAt }}</v-row>
 
         <v-row v-if="showDDay" class="studyContent_title__3680o align-center" style="margin-left:50px">{{ this.title }}
             <v-btn size="small" variant="tonal" class="ma-2" rounded style="margin-left: 10px; margin-left: 5px;">
                 D - {{ this.dayDiff }}
+            </v-btn>
+        </v-row>
+        <v-row v-else class="studyContent_title__3680o align-center" style="margin-left:50px">{{ this.title }}
+            <v-btn size="small" variant="tonal" class="ma-2" rounded style="margin-left: 10px; margin-left: 5px;">
+                마감
             </v-btn>
         </v-row>
         <v-row class="" style="margin-top:50px; margin-left:50px">
@@ -119,7 +132,7 @@
 
                     <v-col v-for="member in members" :key="member.memberId" cols="auto" class="pa-2">
                         <member-chip size="small" :url="member.profileImageUrl" :name="member.nickname"
-                            :memberId="member.memberId" @navigate="moveToSiderCard(member.memberId)"></member-chip>
+                            :memberId="member.memberId" @navigate="moveToSiderCard"></member-chip>
                         <!-- <v-chip size="large" class="ml-2 mr-2 d-flex align-center">
                             <v-avatar start>
                                 <v-img :src="member.memberImageUrl"></v-img>
@@ -130,9 +143,7 @@
                 </v-row>
             </v-col>
         </v-row>
-        <v-row class="" style="margin-top:50px; margin-left:50px; margin-bottom:20px">
-            <h4> 마감 일정 : {{ this.deadlineString }} 까지 </h4>
-        </v-row>
+
         <!-- <v-row v-for="(members, jobfield) in groupedMembers" :key="jobfield" class="mt-10 mb-10">
             <v-col cols="12">
                 <h5>{{ jobfield }}</h5>
@@ -198,10 +209,13 @@
 
                 <v-card-actions>
                     <v-row justify="center">
-                        <v-btn rounded="xl" variant="flat" density="default" color="#A4DEC6"
+                        <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }"
+                            @click="this.closeApplyModal()" class="ml-1" />
+                        <ButtonComponent content="확인" @click="this.confirmApply()" />
+                        <!-- <v-btn rounded="xl" variant="flat" density="default" color="#A4DEC6"
                             :style="{ color: '#FFFFFF' }" @click="this.confirmApply()">확인</v-btn>
                         <v-btn rounded="xl" variant="flat" density="default" color="#808080"
-                            :style="{ color: '#FFFFFF' }" @click="this.closeApplyModal()">취소</v-btn>
+                            :style="{ color: '#FFFFFF' }" @click="this.closeApplyModal()">취소</v-btn> -->
                     </v-row>
                 </v-card-actions>
             </v-card>
@@ -256,6 +270,7 @@ export default {
         groupedMembers() {
             return this.showMemberList.reduce((groups, member) => {
                 const field = member.jobfield;
+                console.log("group member check", member)
                 if (!groups[field]) {
                     groups[field] = [];
                 }
@@ -275,8 +290,8 @@ export default {
     },
     data() {
         return {
-            teamShow:true,
-            showDDay:true,
+            teamShow: true,
+            showDDay: true,
             canEdit: false,
             deadlineString: "",
             applyCounts: null,
@@ -346,7 +361,6 @@ export default {
         const getProjectResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`)
         console.log(getProjectResponse);
         this.applyCounts = getProjectResponse?.data?.applicantsCount;
-        console.log("aooky", this.applyCounts)
         this.scrapCount = getProjectResponse?.data?.scrapCount;
         this.views = getProjectResponse?.data?.views;
         this.deadline = (getProjectResponse)?.data?.deadline;
@@ -354,8 +368,7 @@ export default {
         const now = dayjs();  //현재날짜
         const dDay = dayjs(this.deadline);  //D-day로 설정할 날짜
         this.dayDiff = dDay.diff(now, "day");  //남은 일 수 구하기
-        console.log("d-day", this.dayDiff)
-        if(now>dDay) this.showDDay=false;
+        if (now > dDay || getProjectResponse?.data?.isClosed === 'Y') this.showDDay = false;
         this.createdAt = getProjectResponse?.data?.createdAt;
         this.showCreatedAt = dayjs(this.createdAt).format("YYYY년 MM월 DD일");
         this.title = (getProjectResponse)?.data?.projectName;
@@ -368,14 +381,14 @@ export default {
         if (localStorage.id == this.pmId) this.canEdit = true;
         this.showMemberList = (getProjectResponse)?.data?.projectMembers.map((member) => {
             return {
-                memberId: member.id,
+                memberId: member.memberId,
                 profileImageUrl: member.memberImageUrl,
                 name: member.memberName, // 이름을 Chip에 표시하기 위해 추가
                 nickname: member.memberNickname,
                 jobfield: member.jobField, // 사용자가 선택한 직무 필드
             }
         });
-        if(this.showMemberList.length==0) this.teamShow=false;
+        if (this.showMemberList.length == 0) this.teamShow = false;
         this.showRecruitInfoList = (getProjectResponse).data.recruitInfos.map((info) => {
             return {
                 recruitField: info.jobField,
@@ -417,7 +430,6 @@ export default {
             }
         },
         async unDoScrap() {
-            console.log("group member", this.groupedMembers)
             try {
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/scrap/delete`)
                 console.log(response);
@@ -555,7 +567,6 @@ p {
 .written-date {
     white-space: nowrap;
     font-size: 15px;
-    margin-bottom: 24px;
     line-height: 1em;
     color: rgb(112, 112, 112);
     width: 100%;

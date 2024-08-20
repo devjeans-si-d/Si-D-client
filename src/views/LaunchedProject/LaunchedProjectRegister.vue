@@ -222,6 +222,8 @@ export default {
       try {
         const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/register`, body);
         console.log('Launched Project 등록 성공:', response);
+        const launchedProjectId = response?.data
+        this.$router.push({ name: 'LaunchedProjectDetail', params: { launchedProjectId: launchedProjectId } });
         // 필요 시 성공 후 처리 (예: 페이지 이동)
       } catch (error) {
         // alert(JSON.stringify(error.response));

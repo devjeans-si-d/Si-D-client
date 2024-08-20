@@ -62,7 +62,7 @@
 
     <v-row v-if="require">
       <v-col cols="auto">
-        <v-btn color="#A4DEC6" @click="showModal = true">기술 스택 선택하기</v-btn>
+        <v-btn color="secondary" @click="showModal = true">기술 스택 선택하기</v-btn>
       </v-col>
       <v-col cols="auto">
         <v-btn color="#FFAFAF" @click="resetFinalIds">전체 초기화</v-btn>

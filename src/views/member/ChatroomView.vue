@@ -342,8 +342,6 @@ export default {
     width: 100%;
     max-height: 300px;
     background-color: #F6F6F6;
-    overflow-y: auto;
-    overflow-x: hidden;
 }
 
 .scroll-container {

@@ -5,33 +5,6 @@
 
         <v-spacer :style="{height: '20px'}"></v-spacer>
 
-        <!-- 검색창 -->
-        <!-- <v-row>
-          <v-col cols="auto">
-            <v-select
-              v-model="searchType"
-              :items="searchOptions"
-              item-title="text"
-              item-value="value"
-              dense
-              style="custom-height"
-            >
-            </v-select>
-          </v-col>
-
-          <v-col cols="auto">
-            <v-text-field
-            v-model="searchValue" label="Search"
-            dense
-            >
-            </v-text-field>
-          </v-col>
-
-          <v-col cols="auto">
-              <v-btn type="submit">검색</v-btn>    
-          </v-col>
-        </v-row> -->
-        <!-- <v-spacer :style="{height: '50px'}"></v-spacer> -->
         <v-row>
             <v-sheet class="py-4 px-1">
               <v-chip-group v-model="selectedStack" selected-class="text-primary" mandatory>

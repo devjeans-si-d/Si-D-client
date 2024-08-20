@@ -4,28 +4,37 @@
       <h1 style="text-align:center; color:#094F08;">Team Building</h1>
 
       <v-spacer :style="{height: '20px'}"></v-spacer>
-      <v-row>
+      <v-row class="d-flex justify-space-between">
           <v-sheet class="py-4 px-1">
             <v-chip-group v-model="selectedJobfield" selected-class="text-primary" mandatory>
               <v-chip value="전체" color="#094F08" size="large" filter>전체</v-chip>
-              <v-chip value="FRONTEND" color="" size="large" filter>프론트엔드</v-chip>
-              <v-chip value="BACKEND" color="" size="large" filter>백엔드</v-chip>
-              <v-chip value="APP" color="" size="large" filter>앱</v-chip>
-              <v-chip value="DESIGNER" color="" size="large" filter>디자인</v-chip>
+              <v-chip value="FRONTEND" color="#094F08" size="large" filter>프론트엔드</v-chip>
+              <v-chip value="BACKEND" color="#094F08" size="large" filter>백엔드</v-chip>
+              <v-chip value="APP" color="#094F08" size="large" filter>앱</v-chip>
+              <v-chip value="DESIGNER" color="#094F08" size="large" filter>디자인</v-chip>
             </v-chip-group>
           </v-sheet>
+          <!-- <v-spacer></v-spacer> -->
+          <v-btn small icon style="bottom: -60px; right:20px; font-size: 14px;"
+          color="secondary"
+          text :to="{path:'/project-create'}"
+          >
+          <v-tooltip activator="parent" location="top">프로젝트 모집 글 쓰기</v-tooltip>
+          <v-icon>mdi-pencil</v-icon>
+          </v-btn>
       </v-row>
 
       <v-spacer :style="{height: '10px'}"></v-spacer>
 
-      <v-row>
-        <v-switch v-model="isClosed" label="마감공고까지 표시" class="ml-1 mr-3" color="#A4DEC6"></v-switch>
-        <v-chip-group v-model="sorted" selected-class="text-primary" mandatory>
-          <v-chip value="recent" class="ma-1" color="#094F08" size="large" filter>최신 순</v-chip>
-          <v-chip value="views" class="ma-1" color="#094F08" size="large" filter>조회 순</v-chip>
-          <v-chip value="scraps" class="ma-1" color="#094F08" size="large" filter>스크랩 순</v-chip>
-        </v-chip-group>
-      </v-row>
+  <v-row>
+    <v-switch v-model="isClosed" label="마감공고까지 표시" class="ml-1 mr-3" color="#A4DEC6"></v-switch>
+    <v-chip-group v-model="sorted" selected-class="text-primary" mandatory>
+      <v-chip value="recent" class="ma-1" color="#094F08" size="large" filter>최신 순</v-chip>
+      <v-chip value="views" class="ma-1" color="#094F08" size="large" filter>조회 순</v-chip>
+      <v-chip value="scraps" class="ma-1" color="#094F08" size="large" filter>스크랩 순</v-chip>
+    </v-chip-group>
+  </v-row>
+      
 
       <v-spacer :style="{height: '30px'}"></v-spacer>
       
@@ -59,9 +68,6 @@
                   <div>{{ project.description }}</div>
                 </v-card-subtitle>
 
-                <!-- <v-card-subtitle class="pt-2; custom-contents">
-                    <div class="mb-4">{{ project.recruitInfos }}</div>
-                </v-card-subtitle> -->
                 <v-card-subtitle class="pt-2 custom-contents">
                   <div class="mb-4">
                     <v-chip

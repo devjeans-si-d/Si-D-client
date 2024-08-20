@@ -121,13 +121,13 @@
             </ul>
         </v-row>
 
-        <v-row class="" style="margin-top:50px; margin-left:50px; margin-bottom:20px">
+        <v-row class="" style="margin-top:50px; margin-left:50px; margin-bottom: 10px;">
             <h4> 지원 현황 </h4>
         </v-row>
 
         <v-row class="justify-start" style="margin-left:50px">
-            <ul id="apply" class="list-style-none p-0 m-0">
-                <li  v-for="(key, value) in applyCounts" :key="key" class="mb-4 d-flex justify-between">
+            <ul class="">
+                <li  v-for="(key, value) in applyCounts" :key="key" class="mb-2 d-flex ">
                     <v-chip v-if="value&&applyJobFieldList.includes(value.toUpperCase())" :color="getColorForJobField(value)" class="mr-5 justify-center"
                         style=" width: 100px; text-align: center;">
                         {{ value.toUpperCase() }}

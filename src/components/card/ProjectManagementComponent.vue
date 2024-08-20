@@ -91,7 +91,7 @@
                   v-model="currentPage"
                   :length="totalPage"
                   class="my-4 pagination mb-2"
-                  total-visible="100"
+                  total-visible="4"
                 ></v-pagination>
               </v-container>
             </v-col>

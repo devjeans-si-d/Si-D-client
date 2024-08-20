@@ -123,7 +123,7 @@
         <v-row>
           <div v-for="item in data.launchedProjects" :key="item.launchedProjectId" style="margin-right: 40px;">
             <a :href="`/launched-project/${item.launchedProjectId}`"><img :src="item.launchedProjectImage" alt="출시 프로젝트"
-                style="height: 200px; width: 200px" /></a>
+                style="height: 200px; width: 200px; object-fit: cover;" /></a>
           </div>
         </v-row>
       </v-col>

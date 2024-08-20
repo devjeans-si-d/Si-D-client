@@ -9,13 +9,13 @@
         </v-row>
         <v-row>
             <v-col cols="4">
-                <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded style="margin-top:8px;"
+                <v-btn v-if="currnetMemberId == this.pmId" size="small" variant="tonal" rounded style="margin-top:8px;"
                 @click="openChatModalFn()">
-                PM과의 채팅
+                💬 PM과의 채팅
             </v-btn>
-            <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded style="margin-left: 5px; margin-top:8px;"
+            <v-btn v-if="currnetMemberId == this.pmId" size="small" variant="tonal" rounded style="margin-left: 5px; margin-top:8px;"
                 @click="openApplyModal()">
-                프로젝트 지원
+                🙌 프로젝트 지원
             </v-btn>
             </v-col>
             <v-col cols="4"></v-col>

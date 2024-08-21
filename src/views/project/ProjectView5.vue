@@ -1,13 +1,21 @@
 <template>
     <v-container fluid class="custom-container">
-        <v-row class="justify-start ml-5 mt-10" style="align-items:center;">
+        <v-row class="mt-10" style="align-items:center; margin-bottom: 20px;">
             <member-chip variant="compact" :url="this.pmImage" :name="this.pmNickname" :memberId="this.pmId"
                 @navigate="moveToSiderCard">
 
             </member-chip>
+            <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded style="margin-top:8px;"
+                    @click="openChatModalFn()">
+                    💬 PM과의 채팅
+                </v-btn>
+                <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded
+                    style="margin-left: 5px; margin-top:8px;" @click="openApplyModal()">
+                    🙌 프로젝트 지원
+                </v-btn>
 
         </v-row>
-        <v-row>
+        <!-- <v-row>
             <v-col cols="5">
                 <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded style="margin-top:8px;"
                     @click="openChatModalFn()">
@@ -36,11 +44,28 @@
                     <v-icon left class="mr-1">mdi-eye</v-icon>{{ this.views }}
                 </v-btn>
             </v-col>
-        </v-row>
+        </v-row> -->
         <v-row class="">
             <v-col class="written-date"><v-span style="font-size:small;"><v-icon left
                         class="mr-1">mdi-bell-ring-outline</v-icon>모집 마감일 : ~
                     {{ this.deadlineString }}</v-span></v-col>
+                    <v-btn v-if="canEdit" size="large" icon="$vuetify" variant="plain" style="margin-right: 5px;"
+                    @click="goEdit()">
+                    <v-icon left class="mr-1">
+                        mdi-lead-pencil</v-icon>수정
+                </v-btn>
+                <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;"
+                    @click="clickScrap()">
+                    <v-icon left class="mr-1">{{ this.isScrap ? 'mdi-bookmark-multiple' :
+                        'mdi-bookmark-multiple-outline'
+                        }}</v-icon>{{ this.scrapCount }}<v-tooltip activator="parent" location="top">프로젝트
+                        스크랩</v-tooltip>
+                </v-btn>
+                <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;">
+                    <v-icon left class="mr-1">mdi-eye</v-icon>{{ this.views }}
+                </v-btn>
+                    
+                    
         </v-row>
         <v-spacer :style="{ height: '5px' }"></v-spacer>
 
@@ -96,13 +121,13 @@
             </ul>
         </v-row>
 
-        <v-row class="" style="margin-top:50px; margin-left:50px; margin-bottom:20px">
+        <v-row class="" style="margin-top:50px; margin-left:50px; margin-bottom: 10px;">
             <h4> 지원 현황 </h4>
         </v-row>
 
         <v-row class="justify-start" style="margin-left:50px">
-            <ul id="apply" class="list-style-none p-0 m-0">
-                <li  v-for="(key, value) in applyCounts" :key="key" class="mb-4 d-flex justify-between">
+            <ul class="">
+                <li  v-for="(key, value) in applyCounts" :key="key" class="mb-2 d-flex ">
                     <v-chip v-if="value&&applyJobFieldList.includes(value.toUpperCase())" :color="getColorForJobField(value)" class="mr-5 justify-center"
                         style=" width: 100px; text-align: center;">
                         {{ value.toUpperCase() }}

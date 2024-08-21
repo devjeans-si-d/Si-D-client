@@ -6,7 +6,7 @@
           <img
             :src="data.image"
             alt=""
-            style="height: 120px; width: auto"
+            style="height: 120px; width: 120px; object-fit: cover;"
           />
         </v-avatar>
       </div>
@@ -139,13 +139,14 @@
           <div
             v-for="item in data.launchedProjects"
             :key="item.launchedProjectId"
-            style="margin-right: 40px"
+            style="margin-right: 100px"
           >
             <a :href="`/launched-project/${item.launchedProjectId}`"
-              ><img
+              >
+              <img
                 :src="item.launchedProjectImage"
                 alt="출시 프로젝트"
-                style="height: 150px; width: auto"
+                style="height: 200px; width: 200px; object-fit: cover;"
             /></a>
           </div>
         </v-row>

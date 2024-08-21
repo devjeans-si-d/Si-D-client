@@ -2,9 +2,9 @@
 <template>
     <v-container>
     <v-container class="chatroom-container">
-        <v-card variant="elevated" class="chatroom-card">
+        <v-card variant="elevated" class="chatroom-card" id="messageContainer">
             <v-card-text>
-                <v-container class="scroll-container" ref="chatroomScroll" id="messageContainer">
+                <v-container class="scroll-container" ref="chatroomScroll">
                   <div>
                     <!-- 배너 시작 -->
                     <v-banner
@@ -348,8 +348,6 @@ export default {
 
 .scroll-container {
     height: 500px;
-    overflow-y: auto;
-    overflow-x: hidden;
 }
 
 

@@ -18,21 +18,22 @@
           <v-row class="item-wrap-field" style="margin: auto">
             <v-col cols="4"><span class="text-center">닉네임</span></v-col>
             <v-col cols="auto"
-              ><v-text-field density="compact" v-model="nickname" required></v-text-field
+              ><v-text-field density="compact" v-model="nickname" :rules="nicknameRules"></v-text-field
             ></v-col>
           </v-row>
           <v-row class="item-wrap-field" style="margin: auto">
             <v-col cols="4"><span class="text-center">이름</span></v-col>
             <v-col cols="auto"
-              ><v-text-field density="compact" v-model="name" required></v-text-field
+              ><v-text-field density="compact" v-model="name" :rules="nameRules"></v-text-field
             ></v-col>
           </v-row>
           <v-row class="item-wrap-field" style="margin: auto">
-            <v-col cols="4"><span class="text-center" required>전화번호</span></v-col>
+            <v-col cols="4"><span class="text-center">전화번호</span></v-col>
             <v-col cols="auto"
               ><v-text-field
                 density="compact"
                 v-model="phoneNumber"
+                :rules="phoneRules"
               ></v-text-field
             ></v-col>
           </v-row>
@@ -62,6 +63,20 @@ export default {
       phoneNumber: "",
       socialId: "",
       email: "",
+      nicknameRules: [
+        v => !!v || '필수값 입니다.',
+        v => (v && v.length >= 3) || '최소 3자 이상',
+        v => (v && v.length <= 15) || '최대 15자 이하'
+      ],
+      nameRules: [
+        v => !!v || '이름을 입력하세요.'
+      ],
+      phoneRules: [
+        v => !!v || '필수값 입니다.',
+        v => /^\d+$/.test(v) || '숫자만 입력',
+        v => (v && v.length >= 10) || '최소 10자 이상',
+        v => (v && v.length <= 11) || '최대 11자 이하'
+      ],
       KAKAO_AUTH_URI: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_REST_API_KEY}&redirect_uri=http://localhost:8082/oauth`,
     };
   },
@@ -73,7 +88,29 @@ export default {
     console.log(this.socialId, this.email);
   },
   methods: {
+    validateInput() {
+      const validNickname = this.nicknameRules.every(rule => rule(this.nickname) === true);
+      const validName = this.nameRules.every(rule => rule(this.name) === true);
+      const validPhone = this.phoneRules.every(rule => rule(this.phoneNumber) === true);
+
+      if (!validNickname) {
+        alert('닉네임을 올바르게 입력해주세요.');
+        return false;
+      }
+      if (!validName) {
+        alert('이름을 올바르게 입력해주세요.');
+        return false;
+      }
+      if (!validPhone) {
+        alert('전화번호를 올바르게 입력해주세요.');
+        return false;
+      }
+      return true;
+    },
     async signup() {
+      if (!this.validateInput()) {
+        return;
+      }
       try {
         const data = {
           name: this.name,
@@ -129,8 +166,8 @@ export default {
 .item-wrap-field {
   display: flex;
   justify-content: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 30px;
   border-bottom: 1px solid #d4d4d4;
   width: 80%;
 }

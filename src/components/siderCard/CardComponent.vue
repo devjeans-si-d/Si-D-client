@@ -2,7 +2,7 @@
     <v-card class="rounded-xl text-center fixed-card">
         <v-card-item class="card-avatar">
             <v-avatar class="mx-auto" size="120">
-                <img :src="image" alt="Profile Image" style="height:120px; width:120px;"/>
+                <img :src="image" alt="Profile Image" style="height:120px; width:120px; object-fit: cover;"/>
             </v-avatar>
         </v-card-item>
         <v-card-item class="card-text">

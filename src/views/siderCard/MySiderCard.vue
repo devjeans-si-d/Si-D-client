@@ -75,17 +75,17 @@
         </v-row>
         <v-row v-for="(career, index) in data.careers" :key="index" class="my-4">
           <v-col style="padding: 0px">
-            <v-row class="email">
-              <v-text-field v-model="career.company" label="회사명" max-width="1200"></v-text-field>
+            <v-row class="email" style="margin-bottom: 30px;">
+              <v-text-field v-model="career.company" label="회사명" max-width="1200" :rules="careerRules.company"></v-text-field>
+            </v-row>
+            <v-row class="email" style="margin-bottom: 30px;">
+              <v-text-field v-model="career.position" label="포지션" max-width="1200" :rules="careerRules.position"></v-text-field>
             </v-row>
             <v-row class="email">
-              <v-text-field v-model="career.position" label="포지션" max-width="1200"></v-text-field>
-            </v-row>
-            <v-row class="email">
-              <v-text-field placeholder="YYYY-MM" v-model="career.employedStart" label="재직기간 시작일"
+              <v-text-field placeholder="YYYY-MM" v-model="career.employedStart" label="재직기간 시작일" :rules="careerRules.employedStart"
                 max-width="1200"></v-text-field>
               <v-spacer></v-spacer>
-              <v-text-field placeholder="YYYY-MM" v-model="career.employedEnd" label="재직기간 종료일"
+              <v-text-field placeholder="YYYY-MM" v-model="career.employedEnd" label="재직기간 종료일" :rules="careerRules.employedEnd"
                 max-width="1200"></v-text-field>
             </v-row>
             <v-row>
@@ -161,6 +161,25 @@ export default {
       name: "푸바오",
       rules: [(v) => v.length <= 3000 || "Max 3000 characters"],
 
+      careerRules: {
+      company: [
+        v => !!v || '회사명을 입력해주세요.',
+        v => v.length <= 100 || '회사명은 100자 이내여야 합니다.',
+      ],
+      position: [
+        v => !!v || '포지션을 입력해주세요.',
+        v => v.length <= 100 || '포지션은 100자 이내여야 합니다.',
+      ],
+      employedStart: [
+        v => !!v || '재직기간 시작일을 입력해주세요.',
+        v => /^\d{4}-(0[1-9]|1[0-2])$/.test(v) || '날짜 형식은 YYYY-MM이어야 합니다.',
+      ],
+      employedEnd: [
+        v => (this.data.careers.some(c => c.employedYn) || !!v) || '재직기간 종료일을 입력해주세요.',
+        v =>  /^\d{4}-(0[1-9]|1[0-2])$/.test(v) || '날짜 형식은 YYYY-MM이어야 합니다.',
+      ],
+    },
+
       data: {
         id: "",
         nickname: "",
@@ -176,23 +195,7 @@ export default {
         },
         careers: [],
         teckStacks: [],
-        launchedProjects: [
-          {
-            launchedProjectId: 1,
-            launchedProjectImage:
-              "https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png",
-          },
-          {
-            launchedProjectId: 2,
-            launchedProjectImage:
-              "https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png",
-          },
-          {
-            launchedProjectId: 3,
-            launchedProjectImage:
-              "https://seho-files.s3.ap-northeast-2.amazonaws.com/3_devjeans.png",
-          },
-        ],
+        launchedProjects: [],
       },
     };
   },
@@ -243,11 +246,23 @@ export default {
     removeCareer(index) {
       this.data.careers.splice(index, 1);
     },
+    validateCareers() {
+    return this.data.careers.every(career => {
+      return this.careerRules.company.every(rule => rule(career.company) === true) &&
+             this.careerRules.position.every(rule => rule(career.position) === true) &&
+             this.careerRules.employedStart.every(rule => rule(career.employedStart) === true) &&
+             (career.employedYn || this.careerRules.employedEnd.every(rule => rule(career.employedEnd) === true));
+    });
+  },
     async save() {
       if (this.data.jobField == "" || this.data.jobField == null) {
         alert("직무를 선택해주세요");
         return;
       }
+      if (!this.validateCareers()) {
+      alert("경력 정보가 올바르지 않습니다.");
+      return;
+    }
       try {
         const response = await axios.post(
           `${process.env.VUE_APP_API_BASE_URL}/api/sider-card/update`,

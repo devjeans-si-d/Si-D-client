@@ -73,7 +73,7 @@ export default {
       ],
       phoneRules: [
         v => !!v || '필수값 입니다.',
-        v => /^\d+$/.test(v) || '전화번호는 숫자만 입력할 수 있습니다.',
+        v => /^\d+$/.test(v) || '숫자만 입력',
         v => (v && v.length >= 10) || '최소 10자 이상',
         v => (v && v.length <= 11) || '최대 11자 이하'
       ],
@@ -166,8 +166,8 @@ export default {
 .item-wrap-field {
   display: flex;
   justify-content: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 30px;
   border-bottom: 1px solid #d4d4d4;
   width: 80%;
 }

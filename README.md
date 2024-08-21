@@ -222,7 +222,7 @@ Designer와 Developer를 이어주는 사이드(Side) 프로젝트 플랫폼
         </div>
     </details>
 
-    <details> <summary><b>>프로젝트 마감 시 알람수신 시연영상</b></summary>
+    <details> <summary><b>프로젝트 마감 시 알람수신 시연영상</b></summary>
         <div markdown="1"> 
             <img src="https://github.com/user-attachments/assets/08e1221b-fe2a-4206-940c-5aa41b4a9b9c"/>
         </div>
@@ -236,7 +236,7 @@ Designer와 Developer를 이어주는 사이드(Side) 프로젝트 플랫폼
     - Launched Project 글에는 좋아요(사이다)를 누를 수 있다.
   
 
-    <details> <summary><b>>런칭 프로젝트 등록 시연영상</b></summary>
+    <details> <summary><b>런칭 프로젝트 등록 시연영상</b></summary>
         <div markdown="1"> 
             <img src="https://github.com/user-attachments/assets/4709aee2-1c3f-4eba-b8f1-02131d2009ea"/>
         </div>

@@ -5,183 +5,70 @@
 
     <h2 style="text-align:center; color:#094F08;">프로젝트 모집글 수정</h2>
 
-    <v-spacer :style="{ height: '20px' }"></v-spacer>
+    <v-spacer :style="{ height: '30px' }"></v-spacer>
 
     <v-row class="mt-10 mb-10">
-      <v-text-field label="제목"
-      type="title"
-      v-model="title"
-      placeholder="프로젝트의 제목을 작성해주세요."
-      variant="plain"
-      class="font-weight-bold"></v-text-field>
+      <v-text-field label="제목" type="title" v-model="title" placeholder="프로젝트의 제목을 작성해주세요." variant="plain"
+        class="font-weight-bold"></v-text-field>
+    </v-row>
+    <v-spacer :style="{ height: '30px' }"></v-spacer>
+    <v-row class="mt-10 mb-10">
+      <v-text-field label="한줄 설명" type="text" id="description" placeholder="프로젝트를 대표하는 한마디를 적어주세요."
+        v-model="description" variant="plain" rounded="xs"></v-text-field>
     </v-row>
 
+    <v-spacer :style="{ height: '5px' }"></v-spacer>
     <v-row class="mt-10 mb-10">
-      <v-file-input label="프로젝트 이미지" accept="image/" @change="fileUpdate" variant="underlined" rounded="xs">
+      <v-file-input label="프로젝트 이미지" prepend-icon="mdi-camera" accept="image/" @change="fileUpdate" variant="plain"
+        rounded="xs">
       </v-file-input>
-    </v-row>
-    <v-row v-if="this.projectImageUrl" class="justify-center">
-      <img :src="this.projectImageUrl" style="height:auto; width:500px;">
+      <v-btn size="small" @click="imageDialog=true">이미지 확인</v-btn>
     </v-row>
 
-    <v-row class="mt-10 mb-10">
-      <v-text-field label="한줄 설명" type="text" id="description" v-model="description" variant="underlined"
-        rounded="xs"></v-text-field>
+    <v-dialog v-model="imageDialog">
+      <v-card>
+          <img :src="this.projectImageUrl">
+          <v-btn size="small" @click="imageDialog=false">닫기</v-btn>
+      </v-card>
+    </v-dialog>
+    <v-row>
+      <span style="font-weight: bold; font-size:large; margin-right: 30px; margin-bottom: 10px;"> 프로젝트 소개 </span>
     </v-row>
+    <v-row>
+      <v-textarea variant="solo" style="height: 220px;" v-model="recruitContents" row-height="30" no-resize></v-textarea><br>
+    </v-row>
+    <v-row justify="center" class="mt-15 "></v-row>
 
-    <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <!-- 모집 기한 -->
-    <v-row class="mt-10 mb-10">
-      <h3 class="mr-5"> 모집 기한 </h3>
-
-      <input type="datetime-local" v-model="deadline">
-
+    <v-row>
+      <span style="font-weight: bold; font-size:large; margin-right: 30px"> 모집 기한 </span>
+      <input type="datetime-local" v-model="deadline" :min="now">
       <!-- <input type="date" id="deadline" v-model="deadline" /> -->
-
     </v-row>
-    <!-- 마감 여부 꾸미기 -->
-    <!-- <v-row  class="mt-10 mb-10 align-center ">
-      <h3 class="mr-5"> 모집 마감 </h3>
-
-      <v-switch class="align-center" v-model="this.isClosed"  false-value="N" true-value="Y"
-        hide-details></v-switch>
-    </v-row> -->
-    <!-- <v-row>
-      <input type="date" id="deadline" v-model="deadline" />
-    </v-row> -->
-
-    <!-- <v-spacer :style="{ height: '20px' }"></v-spacer> -->
+    <v-spacer :style="{ height: '20px' }"></v-spacer>
 
     <!-- 모집 정보 추가 -->
     <v-row class="mt-10 align-center justify-start">
       <!-- 추가 버튼 -->
-      <h3 style="margin-right: 20px;"> 모집 정보 </h3>
-      <ButtonComponent content="추가" class="mr-3" @click="recruitInfoAdd()" />
+      <span style="font-weight: bold; font-size:large; margin-right: 30px"> 모집 정보 </span>
+      <v-btn size="small" class="mr-3" @click="recruitInfoAdd()">추가</v-btn>
     </v-row>
 
 
     <!-- 모집 정보 리스트 표시 -->
     <v-row class="mt-10 mb-10 d-flex align-center justify-start">
+
       <v-chip v-for="(info, index) in showRecruitInfoList" :key="info.recruitField" class="ma-2" closable
         @click:close="removeRecruitInfo(index)">
         {{ info.recruitField }} - {{ info.count }}명
       </v-chip>
     </v-row>
-
-    <!-- 멤버 추가  -->
-
-    <!-- 멤버 추가 버튼 및 모달 -->
-    <!-- <v-row class="mt-10 align-center justify-start">
-      <h3 style="margin-right: 20px;"> 멤버 추가 </h3>
-      <ButtonComponent content="검색" @click="searchMemberShowModal()" />
-    </v-row> -->
-
-    <!-- 모달 외부에서 showMemberList의 멤버들을 Chip으로 보여줌 -->
-    <!-- <v-row class="mt-10 mb-10">
-      <v-chip v-for="(member, index) in showMemberList" :key="member.memberId" closable
-        @click:close="removeMember(index)" class="ma-2">
-        {{ member.name }} - {{ member.jobfield }}
-      </v-chip>
-    </v-row> -->
-    <!-- 
-    <v-row>
-      <div id="editor"></div>
-    </v-row> -->
-    <v-row>
-      <h3 class="mr-10 mb-5"> 프로젝트 소개 </h3>
-      <v-textarea class="textareaSize" v-model="recruitContents" row-height="30" no-resize></v-textarea>
-    </v-row>
-    <v-row justify="center" class="mt-15 ">
-
+    <v-row class="d-flex justify-end">
       <v-col cols="auto">
-        <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }" @click="reloadPage()"
-          class="ml-1" />
-      </v-col>
-      <v-col cols="auto">
-        <ButtonComponent content="확인" @click="saveContent()" class="mr-1" />
+        <ButtonComponent content="업로드" @click="saveContent()" class="mr-1" />
       </v-col>
     </v-row>
-
-    <!-- member add 모달창을 위한 v-dialog -->
-    <!-- <v-dialog v-model="membrerAddDialog" max-width="800px" class="pa-10">
-      <v-card class="modal-card">
-        <v-card-title class="modal-title">멤버 추가</v-card-title>
-        <v-divider class="mb-4"></v-divider>
-        <v-card-text>
-          <v-container class="pa-4">
-            <v-row class="mt-3 mb-3 ml-9">
-              <h3> 직무 </h3>
-            </v-row>
-            <v-row class="mb-10">
-              <v-select v-model="memberField" clearable label="Field" density="compact"
-                :items="['DESIGNER', 'FRONTEND', 'BACKEND', 'APP', 'PM']" variant="outlined"
-                class="ml-10 mr-10"></v-select>
-            </v-row>
-
-            <v-row class="mt-10">
-              <v-form @submit.prevent="searchMembersList()">
-                <v-row class="mt-3 mb-3 ml-10">
-                  <h3> 검색조건 </h3>
-                </v-row>
-                <v-row class="mt-3 mb-10">
-                  <v-select v-model="searchType" :items="searchOptions" item-title="text" item-value="value"
-                    variant="outlined" density="compact" class="ml-10 mr-10">
-                  </v-select>
-                </v-row>
-                <br />
-                <v-row class="mt-3 mb-3 ml-10">
-                  <h3> 검색어 </h3>
-                </v-row>
-                <v-row class="mb-10">
-                  <v-text-field v-model="searchValue" label="Search" variant="outlined" class="ml-10 mr-10"
-                    density="compact"></v-text-field>
-                </v-row>
-                <br />
-
-                <v-row>
-                  <ButtonComponent content="검색" type="submit" class="mx-auto" @click="searchMembersList()" />
-                </v-row>
-
-                <v-row>
-                  <v-col cols="12" class="mt-2">
-                    <v-table rounded="lg">
-                      <thead>
-                        <tr>
-                          <th class="text-center">선택</th>
-                          <th class="text-center">이름</th>
-                          <th class="text-center">EMAIL</th>
-                          <th class="text-center">닉네임</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="member in memberList" :key="member.memberId" @click="selectMember(member)"
-                          class="hoverable">
-                          <td class="text-center">
-                            <v-radio :value="member.memberId" v-model="selectedMember"></v-radio>
-                          </td>
-                          <td class="text-center">{{ member.name }}</td>
-                          <td class="text-center">{{ member.email }}</td>
-                          <td class="text-center">{{ member.nickname }}</td>
-                        </tr>
-                      </tbody>
-                    </v-table>
-                  </v-col>
-                </v-row>
-              </v-form>
-            </v-row>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-row justify="center">
-            <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }"
-              @click="closeMemberAddDialog()" class="ml-1" />
-            <ButtonComponent content="확인" @click="confirmMemberSelection()" />
-          </v-row>
-        </v-card-actions>
-        <v-spacer :style="{ height: '20px' }"></v-spacer>
-      </v-card>
-    </v-dialog> -->
 
     <!-- recruitInfo 모달 창 -->
     <v-dialog v-model="recruitInfoDialogue" rounded="xl" max-width="430px" class="h-50">
@@ -245,7 +132,7 @@
 import ButtonComponent from "@/components/button/ButtonComponent.vue";
 // import Editor from "@toast-ui/editor";
 // import "@toast-ui/editor/dist/toastui-editor.css";
-// import dayjs from "dayjs";
+import dayjs from "dayjs";
 import axios from "axios";
 import { useRoute } from 'vue-router';
 
@@ -253,6 +140,7 @@ export default {
   components: {
     ButtonComponent,
   },
+
   data() {
     return {
       dateModal: false,
@@ -288,25 +176,11 @@ export default {
       //editor: null,
       contents: "",
       isClosed: false,
+      imageDialog:false,
     };
   },
   async created() {
-    // const route = useRoute();
-    // this.projectId = route.params.projectId;
-    // const getProjectResponse = axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`)
-    // console.log(getProjectResponse);
-    // this.deadline = (await getProjectResponse).data.deadline.split('T')[0];
-    // this.title=(await getProjectResponse).data.projectName;
-    // this.projectImageUrl=(await getProjectResponse).data.imageUrl;
-    // this.description=(await getProjectResponse).data.description;
-    // this.showMemberList = (await getProjectResponse).data.projectMembers.map((member) => {
-    //   return {
-    //     memberId: member.id,
-    //     name: member.memberName, // 이름을 Chip에 표시하기 위해 추가
-    //     jobfield: member.jobField, // 사용자가 선택한 직무 필드
-    //   }
-    // });
-    // this.contents=(await getProjectResponse).data.recruitmentContents;
+    this.now = dayjs().format();
   },
   async mounted() {
 
@@ -341,23 +215,6 @@ export default {
 
     this.contents = getProjectResponse?.data?.recruitmentContents;
 
-    // this.editor = new Editor({
-    //   el: document.querySelector("#editor"),
-    //   height: "500px",
-    //   initialEditType: "wysiwyg",
-    //   initialValue:`${this.contents ?? ""}`,
-    //   width: 'auto',
-    //   hooks: {
-    //     addImageBlobHook: async (blob, callback) => {
-    //       // 1. 다른 서버에 이미지를 업로드
-    //       const uploadResult = await this.uploadImage(blob);
-    //       // 2. 1에서 업로드 된 이미지를 접근할 수 있는 url 세팅
-    //       callback(uploadResult);
-    //     },
-    //   },
-    // });
-    // // 추가: editor의 width를 1200px로 조정
-    // document.querySelector("#editor").style.width = "1200px";
   },
   methods: {
     dateModalClose() {

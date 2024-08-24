@@ -6,13 +6,13 @@
 
             </member-chip>
             <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded style="margin-top:8px;"
-                    @click="openChatModalFn()">
-                    💬 PM과의 채팅
-                </v-btn>
-                <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded
-                    style="margin-left: 5px; margin-top:8px;" @click="openApplyModal()">
-                    🙌 프로젝트 지원
-                </v-btn>
+                @click="openChatModalFn()">
+                💬 PM과의 채팅
+            </v-btn>
+            <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded
+                style="margin-left: 5px; margin-top:8px;" @click="openApplyModal()">
+                🙌 프로젝트 지원
+            </v-btn>
 
         </v-row>
         <!-- <v-row>
@@ -49,23 +49,23 @@
             <v-col class="written-date"><v-span style="font-size:small;"><v-icon left
                         class="mr-1">mdi-bell-ring-outline</v-icon>모집 마감일 : ~
                     {{ this.deadlineString }}</v-span></v-col>
-                    <v-btn v-if="canEdit" size="large" icon="$vuetify" variant="plain" style="margin-right: 5px;"
-                    @click="goEdit()">
-                    <v-icon left class="mr-1">
-                        mdi-lead-pencil</v-icon>수정
-                </v-btn>
-                <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;"
-                    @click="clickScrap()">
-                    <v-icon left class="mr-1">{{ this.isScrap ? 'mdi-bookmark-multiple' :
-                        'mdi-bookmark-multiple-outline'
-                        }}</v-icon>{{ this.scrapCount }}<v-tooltip activator="parent" location="top">프로젝트
-                        스크랩</v-tooltip>
-                </v-btn>
-                <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;">
-                    <v-icon left class="mr-1">mdi-eye</v-icon>{{ this.views }}
-                </v-btn>
-                    
-                    
+            <v-btn v-if="canEdit" size="large" icon="$vuetify" variant="plain" style="margin-right: 5px;"
+                @click="goEdit()">
+                <v-icon left class="mr-1">
+                    mdi-lead-pencil</v-icon>수정
+            </v-btn>
+            <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;"
+                @click="clickScrap()">
+                <v-icon left class="mr-1">{{ this.isScrap ? 'mdi-bookmark-multiple' :
+                    'mdi-bookmark-multiple-outline'
+                    }}</v-icon>{{ this.scrapCount }}<v-tooltip activator="parent" location="top">프로젝트
+                    스크랩</v-tooltip>
+            </v-btn>
+            <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;">
+                <v-icon left class="mr-1">mdi-eye</v-icon>{{ this.views }}
+            </v-btn>
+
+
         </v-row>
         <v-spacer :style="{ height: '5px' }"></v-spacer>
 
@@ -127,12 +127,13 @@
 
         <v-row class="justify-start" style="margin-left:50px">
             <ul class="">
-                <li  v-for="(key, value) in applyCounts" :key="key" class="mb-2 d-flex ">
-                    <v-chip v-if="value&&applyJobFieldList.includes(value.toUpperCase())" :color="getColorForJobField(value)" class="mr-5 justify-center"
+                <li v-for="(key, value) in applyCounts" :key="key" class="mb-2 d-flex ">
+                    <v-chip v-if="value && applyJobFieldList.includes(value.toUpperCase())"
+                        :color="getColorForJobField(value)" class="mr-5 justify-center"
                         style=" width: 100px; text-align: center;">
                         {{ value.toUpperCase() }}
                     </v-chip>
-                    <span v-if="value&&applyJobFieldList.includes(value.toUpperCase())" class="d-flex align-center">
+                    <span v-if="value && applyJobFieldList.includes(value.toUpperCase())" class="d-flex align-center">
                         <v-icon class="mr-2">mdi-account</v-icon>
                         {{ key }} 명
                     </span>
@@ -291,6 +292,20 @@
             <v-divider class="mt-2 mb-10"></v-divider>
         </v-card>
     </v-dialog>
+    <v-dialog v-model="notMemberModal" max-width="500px" rounded="xl">
+        <v-card>
+            <v-card-title>로그인</v-card-title>
+            <v-divider class="mb-4"></v-divider>
+            <v-card-text>해당 기능은 로그인하셔야 사용하실 수 있습니다.</v-card-text>
+            <v-card-actions>
+                <v-row justify="center">
+                    <v-btn rounded="xl" variant="flat" density="default" color="#A4DEC6" :style="{ color: '#FFFFFF' }"
+                        @click="notMemberModal = false">확인</v-btn>
+                </v-row>
+            </v-card-actions>
+            <v-divider class="mt-2 mb-10"></v-divider>
+        </v-card>
+    </v-dialog>
 </template>
 <script>
 
@@ -341,6 +356,7 @@ export default {
             applyJobFieldList: ['DESIGNER', 'FRONTEND', 'BACKEND', 'APP', 'PM'],
             dDay: "",
             isScrap: false,
+            notMemberModal: false,
 
             applyContents: "",
             projectImageFile: null,
@@ -435,8 +451,9 @@ export default {
             }
         })
         this.applyJobFieldList = this.showRecruitInfoList.map((recruit) => recruit.recruitField);
-        console.log("jobfieldlist",this.applyJobFieldList)
-        this.isScrap = getProjectResponse?.data?.scrap;
+        console.log("jobfieldlist", this.applyJobFieldList)
+
+        // this.isScrap = getProjectResponse?.data?.scrap;
 
         this.contents = getProjectResponse.data.recruitmentContents;
     },
@@ -456,11 +473,20 @@ export default {
         clickBack() {
             window.history.back();
         },
-        clickScrap() {
-            if (!this.isScrap) this.doScrap();
-            else this.unDoScrap();
+        async clickScrap() {
+            console.log(localStorage.length === 2)
+            if (localStorage.length === 2) this.notMemberModal = true;
+            else {
+                const scrapResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/isScrap`)
+                console.log("scrap response", scrapResponse?.data)
+                this.isScrap = scrapResponse?.data;
+                if (!this.isScrap) this.doScrap();
+                else this.unDoScrap();
+            }
+
         },
         async doScrap() {
+
             try {
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/scrap`)
                 console.log(response);
@@ -485,9 +511,12 @@ export default {
             }
         },
 
+        // member check
         // 지원하기 모달 관련 함수
         openApplyModal() {
-            this.applyModal = true;
+            if(localStorage.length===2) this.notMemberModal= true;
+
+            else this.applyModal = true;
         },
         closeApplyModal() {
             this.applyModal = false;
@@ -508,6 +537,8 @@ export default {
             };
             console.log(data)
             try {
+                console.log(localStorage.length === 2)
+
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/apply`, data)
                 console.log(response);
 
@@ -523,15 +554,19 @@ export default {
 
         },
 
+        // member check
         // 채팅하기 모달 관련 함수
         openChatModalFn() {
-            this.openChatModal = true;
+            if(localStorage.length===2) this.notMemberModal= true;
+            else this.openChatModal = true;
         },
         closeChatModal() {
             this.openChatModal = false;
         },
         // 이부분 복붙
         async chatFn() {
+            console.log(localStorage.length === 2)
+
             const data = {
                 projectId: this.projectId,
                 chatStarterMemberId: localStorage.id

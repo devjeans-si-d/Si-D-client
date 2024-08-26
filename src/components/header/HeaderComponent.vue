@@ -266,5 +266,20 @@ import MyAlert from '@/views/member/MyAlert.vue';
     transition: 0.5s ease;
   }
 
+  .notification-icon {
+    position: relative;
+    cursor: pointer;
+}
+
+.notification-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+}
   </style>
   

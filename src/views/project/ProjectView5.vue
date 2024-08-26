@@ -456,6 +456,9 @@ export default {
         // this.isScrap = getProjectResponse?.data?.scrap;
 
         this.contents = getProjectResponse.data.recruitmentContents;
+        const scrapResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/isScrap`)
+        console.log("scrap response", scrapResponse?.data)
+        this.isScrap = scrapResponse?.data;
     },
     methods: {
         applyErrorModalClose() {
@@ -477,9 +480,6 @@ export default {
             console.log(localStorage.length === 2)
             if (localStorage.length === 2) this.notMemberModal = true;
             else {
-                const scrapResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/isScrap`)
-                console.log("scrap response", scrapResponse?.data)
-                this.isScrap = scrapResponse?.data;
                 if (!this.isScrap) this.doScrap();
                 else this.unDoScrap();
             }
@@ -514,7 +514,7 @@ export default {
         // member check
         // 지원하기 모달 관련 함수
         openApplyModal() {
-            if(localStorage.length===2) this.notMemberModal= true;
+            if (localStorage.length === 2) this.notMemberModal = true;
 
             else this.applyModal = true;
         },
@@ -557,7 +557,7 @@ export default {
         // member check
         // 채팅하기 모달 관련 함수
         openChatModalFn() {
-            if(localStorage.length===2) this.notMemberModal= true;
+            if (localStorage.length === 2) this.notMemberModal = true;
             else this.openChatModal = true;
         },
         closeChatModal() {

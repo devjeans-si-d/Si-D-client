@@ -347,7 +347,7 @@ export default {
 }
 
 .scroll-container {
-    height: 500px;
+    height: 300px;
 }
 
 

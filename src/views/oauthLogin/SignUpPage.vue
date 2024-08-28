@@ -77,7 +77,7 @@ export default {
         v => (v && v.length >= 10) || '최소 10자 이상',
         v => (v && v.length <= 11) || '최대 11자 이하'
       ],
-      KAKAO_AUTH_URI: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_REST_API_KEY}&redirect_uri=https://dev.si-d.site/oauth`,
+      KAKAO_AUTH_URI: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_REST_API_KEY}&redirect_uri=https://server.si-d.site/oauth`,
     };
   },
   created() {

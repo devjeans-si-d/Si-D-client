@@ -76,7 +76,7 @@ export default {
         v => /^\d+$/.test(v) || '숫자만 입력',
         v => (v && v.length === 11) || '11자리가 아닙니다.'
       ],
-      KAKAO_AUTH_URI: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_REST_API_KEY}&redirect_uri=https://server.si-d.site/oauth`,
+      KAKAO_AUTH_URI: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_REST_API_KEY}&redirect_uri=https://dev.si-d.site/oauth`,
     };
   },
   created() {

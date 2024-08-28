@@ -117,7 +117,6 @@
                         {{ info.count }} 명
                     </span>
                 </li>
-
             </ul>
         </v-row>
 

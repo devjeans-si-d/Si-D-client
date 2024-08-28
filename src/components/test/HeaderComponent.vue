@@ -86,7 +86,6 @@
             // localStorage에 token이 있으면 로그인된 상태
             this.isLogin = true;
             this.loadUserProfile();
-
         }
     },
     methods:{

@@ -22,7 +22,7 @@
                     size="large"
                     :color="isScrapped ? '#8DBCA8' : 'grey lighten-2'"
                     :variant="isScrapped ? 'flat' : 'tonal'" 
-                    @click="clickScrap"
+                    @click="handleClickScrap"
                     > 🍾 {{basicInfo.scrapCount}}
                     </v-chip>
 
@@ -151,18 +151,26 @@ export default{
                 PM: 'purple lighten-1'
             },
             isScrapped: false, // 스크랩 여부를 저장하는 변수
-
+            isLogin: false, // 로그인 여부
         };
     },
     async created(){
         const route = useRoute();
+
+        const token = localStorage.getItem("token");
+        if(token){
+            this.isLogin = true;
+        }
         this.launchedProjectId = route.params.launchedProjectId;
-        await this.loadBasicInfo(); // 기본 정보 로드 후 호출
     },
     async mounted(){
+        await this.loadBasicInfo(); // 기본 정보 로드 후 호출
         await this.loadTechStacks();
         await this.loadMembers();
-        await this.checkScrapStatus(); // 페이지가 로드된 후 스크랩 상태 확인
+
+        if(this.isLogin){
+             await this.checkScrapStatus(); // 페이지가 로드된 후 스크랩 상태 확인
+        }   
     },
     computed: {
         techStacksByJobField() {
@@ -220,7 +228,7 @@ export default{
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/is-scrapped/${this.launchedProjectId}`);
                 this.isScrapped = response.data; // API 응답으로 `isScrapped` 업데이트
             } catch (error) {
-                console.error("스크랩 상태 확인 실패:", error);
+                console.error("스크랩 상태 확인 실패:", error.response ? error.response.data : error.message);
             }
         },
             async loadTechStacks(){
@@ -279,6 +287,13 @@ export default{
                 // await this.loadBasicInfo(); // 데이터 새로 로드
             } catch (e) {
                 console.error("완성된 프로젝트 스크랩 삭제 API 호출 실패:", e);
+            }
+        },
+        handleClickScrap() {
+            if(this.isLogin){
+                this.clickScrap();
+            }else{
+                alert('로그인 후 이용해주세요');
             }
         }
     }

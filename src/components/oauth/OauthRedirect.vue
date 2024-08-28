@@ -14,6 +14,7 @@ export default {
         }
     },
     created() {
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!');
         const code = new URL(window.location.href).searchParams.get('code');
         if (code) {
             // 백엔드로 인가 코드를 전송

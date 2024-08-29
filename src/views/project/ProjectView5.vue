@@ -62,9 +62,8 @@
                 style="height:auto; width:800px; margin-left:50px" />
 
         </v-row>
-        <v-row style="white-space: pre-line;" class="d-flex align-center ma-10"
-            v-html="this.contents?.replace(/\n/g, '<br>')"></v-row>
-
+        <br/>
+        <v-row style="white-space: pre-line;" class="d-flex align-center ma-10">{{ this.contents }}</v-row>
 
         <v-row class="" style="margin-top:50px; margin-left:50px; margin-bottom:20px">
             <h4> 현재 모집중인 정보 </h4>

@@ -32,16 +32,6 @@
         variant="plain"
         rounded="xs"></v-text-field>
       </v-row>
-      <!-- <v-row class="mt-10 mb-10">
-        <v-text-field type="text" id="siteUrl" label="site url" placeholder="https://www.si-d.com" v-model="siteUrl"
-          variant="underlined" rounded="xs"></v-text-field>
-      </v-row> -->
-
-      <!-- <v-row class="mt-10 mb-10">
-      <v-text-field label="한줄 설명" type="text" id="description" v-model="description" variant="underlined"
-        rounded="xs"></v-text-field>
-    </v-row> -->
-
       <v-spacer :style="{ height: '50px' }"></v-spacer>
 
       <v-row>
@@ -55,11 +45,6 @@
       <v-row>
         <v-textarea variant="solo" style="height: 220px;" v-model="launchedProjectContents" row-height="30" no-resize></v-textarea><br>
       </v-row>
-      <!-- <v-row class="mt-10 mb-10">
-        <v-textarea label="완성된 프로젝트 설명" variant="outlined" v-model="launchedProjectContents"></v-textarea>
-      </v-row>
-      <v-spacer :style="{ height: '200px' }"></v-spacer> -->
-
       <v-row class="d-flex justify-end">
         <v-col cols="auto">
           <ButtonComponent content="업로드" @click="registerLaunchedProject()" class="mr-1" />
@@ -211,15 +196,11 @@ export default {
       let techStacks = [];
       this.techStackList.map((tech) => { techStacks.push(tech.id) })
       console.log(members)
-      // let techStackListJson = JSON.stringify(this.techStackList)
-      // let techStackListJson = this.techStackList;
-      // console.log("tech",techStackListJson)
       const body = {
         projectId: this.projectId,
         launchedProjectContents: this.launchedProjectContents,
         siteUrl: this.siteUrl,
         members,
-        // techStackList: this.techStackList,
         techStackList: techStacks,
         imageUrl: this.projectImageUrl,
       };
@@ -231,9 +212,7 @@ export default {
         this.$router.push({ name: 'LaunchedProjectDetail', params: { launchedProjectId: launchedProjectId } });
         // 필요 시 성공 후 처리 (예: 페이지 이동)
       } catch (error) {
-        // alert(JSON.stringify(error.response));
         console.error('Launched Project 등록 실패:', error.response);
-        // 필요 시 에러 처리
       }
     },
     clickCancel() {
@@ -292,7 +271,6 @@ export default {
             memberName: selected.name, // 이름을 Chip에 표시하기 위해 추가
             jobField: this.memberField, // 사용자가 선택한 직무 필드
           });
-          // this.showMemberList.push(selected);
         }
       }
       console.log("confirm?" + this.showMemberList);

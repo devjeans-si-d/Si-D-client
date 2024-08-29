@@ -39,7 +39,6 @@
       <v-spacer :style="{ height: '50px' }"></v-spacer>
 
       <v-row>
-        <!-- <tech-stack-selector v-model:techStackList="techStackList" :techStackList="this.techStackList" /> -->
         <TechStackSelector require="true" />
       </v-row>
       <v-spacer :style="{ height: '50px' }"></v-spacer>
@@ -100,7 +99,6 @@ export default {
       selectedMember: null, // 현재 선택된 멤버 ID
       memberList: [], // 최종적으로 선택된 멤버들의 리스트
       showMemberList: [], // 화면에 아직 확정되진 않은 선택된 memberList
-      // techStacks: [],
       techStackList: [],
       launchedProjectContents: "",
       projectName: "",
@@ -122,19 +120,11 @@ export default {
       console.log("textetst", this.techStackList)
       let techStacks = [];
       this.techStackList.map((tech) => { techStacks.push(tech.id) })
-      // let members = this.showMemberList.map(member => ({
-      //   id: member.memberId,
-      //   jobField: member.jobField
-      // }));
-      // let techStackListJson = JSON.stringify(this.techStackList)
-      // let techStackListJson = this.techStackList;
-      // console.log("tech",techStackListJson)
+
       const body = {
         projectId: this.projectId,
         launchedProjectContents: this.launchedProjectContents,
         siteUrl: this.siteUrl,
-        // members,
-        // techStackList: JSON.stringify(this.techStackList),
         techStackList: techStacks,
         imageUrl: this.projectImageUrl,
       };
@@ -305,7 +295,6 @@ export default {
     }
     const getTechList = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/tech-stacks`);
     console.log("tech", getTechList)
-    // this.techStackList = getTechList.data;
     this.$store.dispatch('updateTechStacksRes', getTechList.data)
 
 

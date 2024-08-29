@@ -15,36 +15,6 @@
             </v-btn>
 
         </v-row>
-        <!-- <v-row>
-            <v-col cols="5">
-                <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded style="margin-top:8px;"
-                    @click="openChatModalFn()">
-                    💬 PM과의 채팅
-                </v-btn>
-                <v-btn v-if="currnetMemberId != this.pmId" size="small" variant="tonal" rounded
-                    style="margin-left: 5px; margin-top:8px;" @click="openApplyModal()">
-                    🙌 프로젝트 지원
-                </v-btn>
-            </v-col>
-            <v-col cols="3"></v-col>
-            <v-col cols="4">
-                <v-btn v-if="canEdit" size="large" icon="$vuetify" variant="plain" style="margin-right: 5px;"
-                    @click="goEdit()">
-                    <v-icon left class="mr-1">
-                        mdi-lead-pencil</v-icon>수정
-                </v-btn>
-                <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;"
-                    @click="clickScrap()">
-                    <v-icon left class="mr-1">{{ this.isScrap ? 'mdi-bookmark-multiple' :
-                        'mdi-bookmark-multiple-outline'
-                        }}</v-icon>{{ this.scrapCount }}<v-tooltip activator="parent" location="top">프로젝트
-                        스크랩</v-tooltip>
-                </v-btn>
-                <v-btn size="large" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;">
-                    <v-icon left class="mr-1">mdi-eye</v-icon>{{ this.views }}
-                </v-btn>
-            </v-col>
-        </v-row> -->
         <v-row class="">
             <v-col class="written-date"><v-span style="font-size:small;"><v-icon left
                         class="mr-1">mdi-bell-ring-outline</v-icon>모집 마감일 : ~
@@ -71,11 +41,6 @@
 
         <v-divider class="mb-4"></v-divider>
         <v-spacer :style="{ height: '50px' }"></v-spacer>
-
-        <!-- <v-btn size="large" icon="$vuetify" variant="plain mt-10 mb-10 " width="30" height="30"
-            style="margin-left: 5px;" @click="clickBack()">
-            <v-icon left class="mr-1">mdi-arrow-left</v-icon>
-        </v-btn> -->
         <v-row class="written-date" style="margin-left: 50px; margin-bottom:20px;">{{ this.showCreatedAt }}</v-row>
 
         <v-row v-if="showDDay" class="studyContent_title__3680o align-center" style="margin-left:50px">{{ this.title }}
@@ -97,9 +62,8 @@
                 style="height:auto; width:800px; margin-left:50px" />
 
         </v-row>
-        <v-row style="white-space: pre-line;" class="d-flex align-center ma-10"
-            v-html="this.contents?.replace(/\n/g, '<br>')"></v-row>
-
+        <br/>
+        <v-row style="white-space: pre-line;" class="d-flex align-center ma-10">{{ this.contents }}</v-row>
 
         <v-row class="" style="margin-top:50px; margin-left:50px; margin-bottom:20px">
             <h4> 현재 모집중인 정보 </h4>
@@ -147,9 +111,6 @@
 
         <v-row v-for="(members, jobfield) in groupedMembers" :key="jobfield" class="mt-10 mb-10"
             style="margin-left:50px;">
-            <!-- <v-col cols="12"> -->
-            <!-- <h5>{{ jobfield }}</h5> -->
-            <!-- </v-col> -->
             <v-col cols="auto">
                 <v-row class="d-flex flex-wrap align-center">
                     <h4 class="align-center">{{ jobfield }}</h4>
@@ -157,52 +118,10 @@
                     <v-col v-for="member in members" :key="member.memberId" cols="auto" class="pa-2">
                         <member-chip size="small" :url="member.profileImageUrl" :name="member.nickname"
                             :memberId="member.memberId" @navigate="moveToSiderCard"></member-chip>
-                        <!-- <v-chip size="large" class="ml-2 mr-2 d-flex align-center">
-                            <v-avatar start>
-                                <v-img :src="member.memberImageUrl"></v-img>
-                            </v-avatar>
-                            {{ member.nickname }}
-                        </v-chip> -->
                     </v-col>
                 </v-row>
             </v-col>
         </v-row>
-
-        <!-- <v-row v-for="(members, jobfield) in groupedMembers" :key="jobfield" class="mt-10 mb-10">
-            <v-col cols="12">
-                <h5>{{ jobfield }}</h5>
-            </v-col>
-            <v-col cols="12" class="flex-wrap">
-                <v-chip v-for="member in members" :key="member.memberId" size="large" class="ma-2">
-                    <v-avatar start>
-                        <v-img :src="member.memberImageUrl"></v-img>
-                    </v-avatar>
-                    {{ member.nickname }} ({{ member.jobfield }})
-                </v-chip>
-            </v-col>
-        </v-row> -->
-        <!-- 
-        <v-row class="justify-center ml-5 mt-10" style="align-items:center;">
-            <v-avatar start>
-                <v-img :src="this.pmImage" class="profile-image" max-height="30" max-width="30"></v-img>
-            </v-avatar>
-            {{ this.pmNickname }}
-
-
-            <v-btn size="x-small" icon="$vuetify" variant="plain" style="margin-left: 5px;" @click="openChatModalFn()">
-                <v-icon left class="mr-1 justify-center">mdi-chat-processing-outline</v-icon><v-tooltip
-                    activator="parent" location="top">PM과의 채팅</v-tooltip>
-            </v-btn>
-            <v-btn size="x-small" icon="$vuetify" variant="plain" style="margin-left: 5px;" @click="openApplyModal()">
-                <v-icon left class="mr-1 justify-center">mdi-lead-pencil</v-icon><v-tooltip activator="parent"
-                    location="top">프로젝트 지원</v-tooltip>
-            </v-btn>
-            <v-btn size="x-small" icon="$vuetify" variant="plain" style="margin-left:10px; margin-right: 5px;"
-                @click="clickScrap()">
-                <v-icon left class="mr-1">{{ this.isScrap ? 'mdi-bookmark-multiple' : 'mdi-bookmark-multiple-outline'
-                    }}</v-icon><v-tooltip activator="parent" location="top">프로젝트 스크랩</v-tooltip>
-            </v-btn>
-        </v-row> -->
         <v-spacer :style="{ height: '40px' }"></v-spacer>
 
 

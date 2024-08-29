@@ -44,7 +44,6 @@
     <v-row>
       <span style="font-weight: bold; font-size:large; margin-right: 30px"> 모집 기한 </span>
       <input type="datetime-local" v-model="deadline" :min="now">
-      <!-- <input type="date" id="deadline" v-model="deadline" /> -->
     </v-row>
     <v-spacer :style="{ height: '20px' }"></v-spacer>
 
@@ -130,8 +129,6 @@
 </template>
 <script>
 import ButtonComponent from "@/components/button/ButtonComponent.vue";
-// import Editor from "@toast-ui/editor";
-// import "@toast-ui/editor/dist/toastui-editor.css";
 import dayjs from "dayjs";
 import axios from "axios";
 import { useRoute } from 'vue-router';
@@ -173,7 +170,6 @@ export default {
       title: "",
       description: "",
       deadline: "",
-      //editor: null,
       contents: "",
       isClosed: false,
       imageDialog:false,
@@ -365,18 +361,6 @@ export default {
       this.showMemberList.splice(index, 1); // showMemberList에서 해당 멤버 제거
     },
     async saveContent() {
-      // const content = this.editor.getMarkdown();
-
-      // let projectMembers = [];
-      // this.showMemberList.forEach((member) => {
-      //   let dataMember = {
-      //     memberId: member.memberId,
-      //     jobField: member.jobfield,
-      //   };
-      //   projectMembers.push(dataMember);
-
-      // });
-
       let recruitInfos = [];
       this.showRecruitInfoList.forEach((info) => {
         let dataInfo = {
@@ -392,19 +376,15 @@ export default {
           deadline: this.deadline,
           description: this.description,
           recruitmentContents: this.recruitContents,
-          // projectMembers,
           recruitInfos,
           isClosed: this.isClosed,
         };
         if (this.title == "") {
           this.titleModal = true;
-          // alert("제목을 입력해야합니다.");
           return;
         }
         else if (this.deadline < this.now) {
           this.dateModal = true;
-
-          // alert("모집 마감 기한은 현재보다 이후여야 합니다.")
           return;
         }
         else {

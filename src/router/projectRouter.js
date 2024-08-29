@@ -2,9 +2,8 @@
 import projectCreate from "@/views/project/ProjectCreate2.vue"
 import ProjectEdit from "@/views/project/ProjectEdit2.vue"
 import ProjectList from "@/views/project/ProjectList.vue"
-// import ProjectView from "@/views/project/ProjectView3.vue"
 import ChatroomView from '@/views/member/ChatroomView.vue';
-import ProjectView from "@/views/project/ProjectView5.vue"
+import ProjectView from "@/views/project/ProjectView.vue"
 export const projectRouter = [
 
     {

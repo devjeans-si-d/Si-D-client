@@ -278,6 +278,7 @@ export default {
       return;
     }
       try {
+        this.data.teckStacks = this.getTechStackIds;
         this.data2.jobField=this.data.jobField
         this.data2.introduction=this.data.introduction
         this.data2.image=this.data.image

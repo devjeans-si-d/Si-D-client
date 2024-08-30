@@ -172,11 +172,11 @@ export default {
       ],
       employedStart: [
         v => !!v || '재직기간 시작일을 입력해주세요.',
-        // v => /^\d{4}-(0[1-9]|1[0-2])$/.test(v) || '날짜 형식은 YYYY-MM이어야 합니다.',
+        v => /^\d{4}-(0[1-9]|1[0-2])$/.test(v) || '날짜 형식은 YYYY-MM이어야 합니다.',
       ],
       employedEnd: [
         v => (this.data.careers.some(c => c.employedYn) || !!v) || '재직기간 종료일을 입력해주세요.',
-        // v =>  /^\d{4}-(0[1-9]|1[0-2])$/.test(v) || '날짜 형식은 YYYY-MM이어야 합니다.',
+        v =>  /^\d{4}-(0[1-9]|1[0-2])$/.test(v) || '날짜 형식은 YYYY-MM이어야 합니다.',
       ],
     },
 

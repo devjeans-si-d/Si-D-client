@@ -197,6 +197,20 @@ export default {
         teckStacks: [],
         launchedProjects: [],
       },
+      data2: {
+        image: "",
+        jobField: "",
+        introduction: "",
+        socialLink: {
+          email: "",
+          github: "",
+          behance: "",
+          linkedin: "",
+          etc: "",
+        },
+        careers: [],
+        teckStacks: [],
+      },
     };
   },
   async created() {
@@ -264,9 +278,15 @@ export default {
       return;
     }
       try {
+        this.data2.jobField=this.data.jobField
+        this.data2.introduction=this.data.introduction
+        this.data2.image=this.data.image
+        this.data2.socialLink=this.data.socialLink
+        this.data2.careers=this.data.careers
+        this.data2.teckStacks=this.data.teckStacks
         const response = await axios.post(
           `${process.env.VUE_APP_API_BASE_URL}/api/sider-card/update`,
-          this.data
+          this.data2
         );
         this.$router.push(`/sider-card/${this.data.id}`)
         console.log(response.data);

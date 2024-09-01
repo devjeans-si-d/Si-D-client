@@ -213,6 +213,13 @@ export default {
         // 필요 시 성공 후 처리 (예: 페이지 이동)
       } catch (error) {
         console.error('Launched Project 등록 실패:', error.response);
+
+            // 에러가 발생한 경우, 서버에서 반환한 메시지를 alert로 표시
+        if (error.response && error.response.data) {
+            alert(error.response.data.message);// 서버에서 반환한 에러 메시지
+        } else {
+            alert('An unknown error occurred. Please try again later.');
+        }
       }
     },
     clickCancel() {

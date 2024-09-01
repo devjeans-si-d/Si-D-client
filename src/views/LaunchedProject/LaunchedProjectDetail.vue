@@ -4,7 +4,6 @@
         <v-container style="background-color:#DEF5EC; min-height: 500px">
             <v-spacer :style="{ height: '20px' }"></v-spacer>
             <h3 style="text-align:center; color:#094F08;">Launched Project</h3>
-            
             <v-row justify="space-between" align="center">
                 <!-- 왼쪽 빈 공간을 차지하는 v-col -->
                 <v-col cols="4">
@@ -34,12 +33,36 @@
                     </v-chip>
                 </v-col>
             </v-row>
+            <v-row class="mt-0">
+                <v-col cols="12" class="d-flex justify-end">
+                    <v-chip
+                    v-if="isPm" 
+                    style="width: 40px; height: 40px; border-radius: 50%;" 
+                    color="#094F08"
+                    class="mr-3"
+                    @click="$router.push({ path: `/launched-project/${launchedProjectId}/edit` })"
+                    >
+                        <v-tooltip activator="parent" location="top">글 수정하기</v-tooltip>
+                        <v-icon>mdi-pencil</v-icon>
+                    </v-chip>
+                    <v-chip 
+                    v-if="isPm"
+                    style="width: 40px; height: 40px; border-radius: 50%;" 
+                    color="#094F08"
+                    class="mr-10"
+                    @click="deleteLaunchedProject"
+                    >
+                        <v-tooltip activator="parent" location="top">글 삭제하기</v-tooltip>
+                        <v-icon>mdi-trash-can</v-icon>
+                    </v-chip>
+                </v-col>
+            </v-row>
             
-            <v-spacer :style="{ height: '50px' }"></v-spacer>
+            <!-- <v-spacer :style="{ height: '50px' }"></v-spacer> -->
 
             <v-row>
                 <v-col cols="7">
-                    <v-container class="pa-7" style="min-height: 500px; position: relative;">
+                    <v-container class="pa-7" style="position: relative;">
                         <!-- contents의 첫번 째줄은 h2태그로 출력 -->
                         <h2>{{ firstLine }}</h2>
                         <v-spacer :style="{ height: '15px' }"></v-spacer>
@@ -49,7 +72,7 @@
                                 {{ line }}<br>
                             </span>
                         </v-text> 
-                        <!-- <v-spacer :style="{ height: '15px' }"></v-spacer> -->
+                        <v-spacer :style="{ height: '40px' }"></v-spacer>
                         <v-chip 
                         v-if="basicInfo && basicInfo.siteUrl"
                         class="mt-5" 
@@ -121,6 +144,22 @@
             </v-container>
         </v-container>
 
+        <!-- 비회원 스크랩 금지 모달 -->
+        <v-dialog v-model="notMemberModal" max-width="500px" rounded="xl">
+            <v-card>
+                <v-card-title>로그인</v-card-title>
+                <v-divider class="mb-4"></v-divider>
+                <v-card-text>해당 기능은 로그인하셔야 사용하실 수 있습니다.</v-card-text>
+                <v-card-actions>
+                    <v-row justify="center">
+                        <v-btn rounded="xl" variant="flat" density="default" color="#A4DEC6" :style="{ color: '#FFFFFF' }"
+                            @click="notMemberModal = false">확인</v-btn>
+                    </v-row>
+                </v-card-actions>
+                <v-divider class="mt-2 mb-10"></v-divider>
+            </v-card>
+        </v-dialog>
+
     </v-container>
     
 </template>
@@ -131,11 +170,12 @@ import { useRoute } from 'vue-router';
 
 export default{
     components: {
-        MemberChip
+        MemberChip,
     },
     data(){
         return{
             id:"",
+            isPm: false,
             project: [],
             basicInfo: [],
             techStacks: [],
@@ -152,6 +192,9 @@ export default{
             },
             isScrapped: false, // 스크랩 여부를 저장하는 변수
             isLogin: false, // 로그인 여부
+            modalTitle: "로그인",
+            modalContents: "로그인 이용자만 가능한 서비스입니다. 로그인 후 이용해주세요",
+            notMemberModal: false, // 모달 상태
         };
     },
     async created(){
@@ -201,11 +244,16 @@ export default{
     methods:{
         async loadBasicInfo(){
             try{
-                // 이후 9 => {id}로 바꿔야됨
                 const basicInfoResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/basic-info`);
                 console.log(basicInfoResponse.data);
                 this.basicInfo = basicInfoResponse.data;
-                
+
+                // pm인지 확인
+                const pmId = basicInfoResponse.data.pmId;
+                console.log(pmId);
+                this.isPm = pmId == localStorage.getItem("id") ? true : false;
+                console.log(this.isPm);
+
                 // 완성된프로젝트 글내용
                 const contents = basicInfoResponse.data.launchedProjectContents;
                 // 줄바꿈 기준으로 첫 번째 줄과 나머지 줄을 분리
@@ -221,6 +269,12 @@ export default{
 
             }catch(error){
                 console.error("완성된 프로젝트 기본정보 API 호출 실패:", error);
+                // 에러가 발생한 경우, 서버에서 반환한 메시지를 alert로 표시
+                if (error.response && error.response.data) {
+                    alert(error.response.data.message);// 서버에서 반환한 에러 메시지
+                } else {
+                    alert('An unknown error occurred. Please try again later.');
+                }
             }
         },
         async checkScrapStatus() {
@@ -238,6 +292,12 @@ export default{
                 this.techStacks = response.data;
             }catch(error){
                 console.error("완성된 프로젝트 기술스택 API 호출 실패:", error);
+                // 에러가 발생한 경우, 서버에서 반환한 메시지를 alert로 표시
+                if (error.response && error.response.data) {
+                    alert(error.response.data.message);// 서버에서 반환한 에러 메시지
+                } else {
+                    alert('An unknown error occurred. Please try again later.');
+                }
             }
         },
         async loadMembers(){
@@ -247,6 +307,12 @@ export default{
                 this.members = response.data;
             }catch(error){
                 console.error("완성된 프로젝트 참여멤버 API 호출 실패:", error);
+                // 에러가 발생한 경우, 서버에서 반환한 메시지를 alert로 표시
+                if (error.response && error.response.data) {
+                    alert(error.response.data.message);// 서버에서 반환한 에러 메시지
+                } else {
+                    alert('An unknown error occurred. Please try again later.');
+                }
             }
         },
         getColorForJobField(jobField) {
@@ -293,7 +359,16 @@ export default{
             if(this.isLogin){
                 this.clickScrap();
             }else{
-                alert('로그인 후 이용해주세요');
+                // alert('로그인 후 이용해주세요');
+                this.notMemberModal = true;
+            }
+        },
+        async deleteLaunchedProject(){
+            try{
+                const response = await axios.delete(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/delete/${this.launchedProjectId}`);
+                console.log(response.data);
+            }catch(e){
+                console.error("완성된 프로젝트 삭제 API 호출 실패:", e);
             }
         }
     }

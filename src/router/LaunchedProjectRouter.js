@@ -15,18 +15,12 @@ export const LaunchedProjectRouter = [
         name: 'LaunchedProjectRegister',
         component: LaunchedProjectRegister
     },
-    // {
-    //     path:'/launched-project/:launchedProjectId',
-    //     name: 'LaunchedProjectView',
-    //     component: LaunchedProjectView
-    // },
     {
         path:'/launched-project/:launchedProjectId/edit',
         name: 'LaunchedProjectEdit',
         component: LaunchedProjectEdit
     },
     {
-        // 완성된 프로젝트 디테일 페이지 임시 추가 (:launchedProjectId 추가해야됨)
         path:'/launched-project/:launchedProjectId',
         name: 'LaunchedProjectDetail',
         component: LaunchedProjectDetail

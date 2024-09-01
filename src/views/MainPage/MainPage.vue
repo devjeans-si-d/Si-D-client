@@ -41,7 +41,7 @@
                 <v-btn
                     class="custom-button"
                     style="background-color: #E6E6E6;"
-                    text :to="{path:'/team-building/list'}"
+                    text :to="{path:'/project/list'}"
                 >모집 공고 더보기</v-btn>
             </v-row> 
 

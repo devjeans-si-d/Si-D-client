@@ -96,7 +96,7 @@ import MyAlert from '@/views/member/MyAlert.vue';
             isLogin : false,
             nickname : "", 
             profileImageUrl: "",
-            KAKAO_AUTH_URI: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_REST_API_KEY}&redirect_uri=https://dev.si-d.site/oauth`,
+            KAKAO_AUTH_URI: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_REST_API_KEY}&redirect_uri=https://${process.env.VUE_APP_MY_URL}/oauth`,
             alertCnt: 0,
             id:'',
         };

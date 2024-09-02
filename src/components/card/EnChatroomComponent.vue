@@ -168,6 +168,7 @@ export default {
             this.stompClient.connect({Authorization: `Bearer ${authToken}`}, () => {
                 // 수신할 메시지를 구독합니다.
                 this.stompClient.subscribe('/sub/chatroom/' + this.chatroomId, response => {
+                    this.scrollToBottom();
                     const resObj = JSON.parse(response.body);
                     this.chatList.push(resObj);
                 });
@@ -311,7 +312,6 @@ export default {
     color: gray;
     justify-self: flex-end;
     margin-left: 30px;
-    
 }
 
 
@@ -326,7 +326,7 @@ export default {
 .scroll-container {
     height: 500px;
     overflow-y: auto;
-    overflow-x: hidden;
+    /*overflow-x: hidden;*/
 }
 
 

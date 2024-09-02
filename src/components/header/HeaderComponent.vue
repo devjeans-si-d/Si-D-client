@@ -152,8 +152,6 @@ import MyAlert from '@/views/member/MyAlert.vue';
 
         // axios 요청이 아니라서 토큰을 따로 세팅해 주어야 한다.
         let sse = new EventSourcePolyfill(`${process.env.VUE_APP_API_BASE_URL}/sse/subscribe`, {headers: {Authorization: `Bearer ${token}`}});
-        console.log("line 155");
-        console.log(sse);
         sse.addEventListener('connect', (event) => {
             console.log(event);
         }); // connect라는 이름의 이벤트가 들어오면

@@ -58,12 +58,8 @@
     <v-row>
       <span style="font-weight: bold; font-size:large; margin-right: 30px"> 모집 기한 </span>
       <input type="datetime-local" v-model="deadline" :min="now">
-      <!-- <input type="date" id="deadline" v-model="deadline" /> -->
     </v-row>
-    <!-- 
-    <v-row>
-      <input type="date" id="deadline" v-model="deadline" />
-    </v-row> -->
+
 
     <v-spacer :style="{ height: '20px' }"></v-spacer>
 
@@ -186,8 +182,6 @@
 <script>
 import ButtonComponent from "@/components/button/ButtonComponent.vue";
 import BasicSmallChip from "@/components/chip/BasicSmallChip.vue";
-//import Editor from "@toast-ui/editor";
-//import "@toast-ui/editor/dist/toastui-editor.css";
 import dayjs from "dayjs";
 import axios from "axios";
 export default {
@@ -390,20 +384,6 @@ export default {
       this.showMemberList.splice(index, 1); // showMemberList에서 해당 멤버 제거
     },
     async saveContent() {
-      // const deadlineTime = dayjs().format('HH:mm:ss');
-      // const content = this.editor.getMarkdown();
-
-      // let projectMembers = [];
-      // console.log("SAVE showmemberlist 확인" + this.showMemberList)
-      // this.showMemberList.forEach((member) => {
-      //   let dataMember = {
-      //     memberId: member.memberId,
-      //     jobField: member.jobfield,
-      //   };
-      //   projectMembers.push(dataMember);
-
-      // });
-
       let recruitInfos = [];
       this.showRecruitInfoList.forEach((info) => {
         let dataInfo = {
@@ -418,9 +398,7 @@ export default {
           projectName: this.title,
           deadline: this.deadline,
           description: this.description,
-          // recruitmentContents: this.editor.getMarkdown().toString(),
           recruitmentContents: this.recruitContents,
-          // projectMembers,
           recruitInfos,
         };
         if (this.title == "") {

@@ -41,7 +41,7 @@
     <v-spacer :style="{ height: '50px' }"></v-spacer>
 
     <v-row>
-      <tech-stack-selector v-model:techStackList="techStackList" />
+      <TechStackSelector v-model:techStackList="techStackList" />
     </v-row>
     <v-spacer :style="{ height: '50px' }"></v-spacer>
 

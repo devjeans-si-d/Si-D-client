@@ -1,157 +1,64 @@
 <template>
-  <v-container class="custom-container">
+  <v-container max-width="1200px">
+    <v-container style="width: 70%;">
 
-    <v-spacer :style="{ height: '20px' }"></v-spacer>
+      <v-spacer :style="{ height: '20px' }"></v-spacer>
 
-    <h4 style="text-align:center; color:#094F08;">Launched Project</h4>
-    <h2 style="text-align:center; color:#094F08;">{{ this.projectName }}</h2>
-    <v-spacer :style="{ height: '20px' }"></v-spacer>
+      <h4 style="text-align:center; color:#094F08;">Launched Project</h4>
+      <h2 style="text-align:center; color:#094F08;">{{ this.projectName }}</h2>
+      <v-spacer :style="{ height: '20px' }"></v-spacer>
 
-    <v-row class="mt-10 mb-10">
-      <v-file-input label="프로젝트 이미지" accept="image/" @change="fileUpdate" variant="underlined" rounded="xs">
-      </v-file-input>
+      <v-row class="mt-10 mb-10 align-center">
+        <v-file-input label="프로젝트 대표 이미지" prepend-icon="mdi-camera" accept="image/" @change="fileUpdate" variant="plain"
+          rounded="xs">
+        </v-file-input>
+        <v-btn size="small" @click="imageDialog = true">이미지 확인</v-btn>
 
-    </v-row>
-    <v-row v-if="this.projectImageUrl" class="justify-center">
-      <img :src="this.projectImageUrl" style="height:auto; width:500px;">
-    </v-row>
-    <v-row class="mt-10 mb-10">
-      <!-- <label for="siteUrl" class="ma-auto">site url</label> -->
-      <v-text-field type="text" id="siteUrl" label="site url" placeholder="https://www.si-d.com" v-model="siteUrl"
-        variant="underlined" rounded="xs"></v-text-field>
-    </v-row>
-
-    <!-- <v-row class="mt-10 mb-10">
-      <v-text-field label="한줄 설명" type="text" id="description" v-model="description" variant="underlined"
+      </v-row>
+      <v-dialog v-model="imageDialog">
+        <v-card>
+          <img :src="this.projectImageUrl">
+          <v-btn size="small" @click="imageDialog = false">닫기</v-btn>
+        </v-card>
+      </v-dialog>
+      <v-row class="mt-10 mb-10">
+        <!-- <label for="siteUrl" class="ma-auto">site url</label> -->
+        <v-text-field
+        label="site url"
+        type="text"
+        id="siteUrl"
+        placeholder="https://www.si-d.com"
+        v-model="siteUrl"
+        variant="plain"
         rounded="xs"></v-text-field>
-    </v-row> -->
-
-    <v-spacer :style="{ height: '50px' }"></v-spacer>
+      </v-row>
 
 
-    <!-- 멤버 추가 버튼 및 모달 -->
-    <!-- <v-row class="mt-10 align-center justify-start">
-      <h3 style="margin-right: 20px;"> 멤버 추가 </h3>
-      <ButtonComponent content="검색" @click="searchMemberShowModal()" />
-    </v-row>
-    <v-row class="mt-10 mb-10">
-      <v-chip v-for="(member, index) in showMemberList" :key="member.memberId" closable
-        @click:close="removeMember(index)" class="ma-2">
-        {{ member.memberName }} - {{ member.jobField }}
-      </v-chip>
-    </v-row> -->
-    <v-spacer :style="{ height: '50px' }"></v-spacer>
+      <v-spacer :style="{ height: '50px' }"></v-spacer>
 
-    <v-row>
-      <!-- <tech-stack-selector v-model:techStackList="techStackList" :techStackList="this.techStackList" /> -->
-      <TechStackSelector require="true" />
-    </v-row>
-    <v-spacer :style="{ height: '50px' }"></v-spacer>
+      <v-spacer :style="{ height: '50px' }"></v-spacer>
 
-    <v-row class="mt-10 mb-10">
-      <v-textarea label="완성된 프로젝트 설명" variant="outlined" v-model="launchedProjectContents"></v-textarea>
-    </v-row>
-    <v-spacer :style="{ height: '200px' }"></v-spacer>
-
-    <v-row>
+      <v-row>
+        <TechStackSelector require="true" />
+      </v-row>
+      <v-spacer :style="{ height: '50px' }"></v-spacer>
+      <v-row>
+        <span style="font-weight: bold; font-size:large; margin-right: 30px; margin-bottom: 10px;"> 프로젝트 소개 </span>
+      </v-row>
+      <v-row>
+        <v-textarea variant="solo" style="height: 220px;" v-model="launchedProjectContents" row-height="30" no-resize></v-textarea><br>
+      </v-row>
 
 
-
-    </v-row>
-    <v-row justify="center" class="mt-15 ">
-
-      <v-col cols="auto">
-        <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }" @click="reloadPage()"
-          class="ml-1" />
-      </v-col>
-      <v-col cols="auto">
-        <ButtonComponent content="확인" @click="registerLaunchedProject()" class="mr-1" />
-      </v-col>
-    </v-row>
-
-    <!-- member add 모달창을 위한 v-dialog -->
-    <!-- <v-dialog v-model="memberAddDialog" max-width="800px" class="pa-10">
-      <v-card class="modal-card">
-        <v-card-title class="modal-title">멤버 추가</v-card-title>
-        <v-divider class="mb-4"></v-divider>
-        <v-card-text>
-          <v-container class="pa-4">
-            <v-row class="mt-3 mb-3 ml-9">
-              <h3> 직무 </h3>
-            </v-row>
-            <v-row class="mb-10">
-              <v-select v-model="memberField" clearable label="Field" density="compact"
-                :items="['DESIGNER', 'FRONTEND', 'BACKEND', 'APP', 'PM']" variant="outlined"
-                class="ml-10 mr-10"></v-select>
-            </v-row>
-
-            <v-row class="mt-10">
-              <v-form @submit.prevent="searchMembersList()">
-                <v-row class="mt-3 mb-3 ml-10">
-                  <h3> 검색조건 </h3>
-                </v-row>
-                <v-row class="mt-3 mb-10">
-                  <v-select v-model="searchType" :items="searchOptions" item-title="text" item-value="value"
-                    variant="outlined" density="compact" class="ml-10 mr-10">
-                  </v-select>
-                </v-row>
-                <br />
-                <v-row class="mt-3 mb-3 ml-10">
-                  <h3> 검색어 </h3>
-                </v-row>
-                <v-row class="mb-10">
-                  <v-text-field v-model="searchValue" label="Search" variant="outlined" class="ml-10 mr-10"
-                    density="compact"></v-text-field>
-                </v-row>
-                <br />
-
-                <v-row>
-                  <ButtonComponent content="검색" type="submit" class="mx-auto" @click="searchMembersList()" />
-                </v-row>
-
-                <v-row>
-                  <v-col cols="12" class="mt-2">
-                    <v-table rounded="lg">
-                      <thead>
-                        <tr>
-                          <th class="text-center">선택</th>
-                          <th class="text-center">이름</th>
-                          <th class="text-center">EMAIL</th>
-                          <th class="text-center">닉네임</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="member in memberList" :key="member.memberId" @click="selectMember(member)"
-                          class="hoverable">
-                          <td class="text-center">
-                            <v-radio :value="member.memberId" v-model="selectedMember"></v-radio>
-                          </td>
-                          <td class="text-center">{{ member.name }}</td>
-                          <td class="text-center">{{ member.email }}</td>
-                          <td class="text-center">{{ member.nickname }}</td>
-                        </tr>
-                      </tbody>
-                    </v-table>
-                  </v-col>
-                </v-row>
-              </v-form>
-            </v-row>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-row justify="center">
-            <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }"
-              @click="closeMemberAddModal()" class="ml-1" />
-            <ButtonComponent content="확인" @click="confirmMemberSelection()" />
-          </v-row>
-        </v-card-actions>
-        <v-spacer :style="{ height: '20px' }"></v-spacer>
-      </v-card>
-    </v-dialog> -->
+      <v-row class="d-flex justify-end">
+        <v-col cols="auto">
+          <ButtonComponent content="업로드" @click="registerLaunchedProject()" class="mr-1" />
+        </v-col>
+      </v-row>
 
 
-
-
+  
+    </v-container>
   </v-container>
 </template>
 
@@ -172,6 +79,7 @@ export default {
 
   data() {
     return {
+      imageDialog:false,
       launchedProjectId: 0,
       siteUrl: "",
       project: {},
@@ -191,7 +99,6 @@ export default {
       selectedMember: null, // 현재 선택된 멤버 ID
       memberList: [], // 최종적으로 선택된 멤버들의 리스트
       showMemberList: [], // 화면에 아직 확정되진 않은 선택된 memberList
-      // techStacks: [],
       techStackList: [],
       launchedProjectContents: "",
       projectName: "",
@@ -210,22 +117,14 @@ export default {
       console.log("siteUrl", this.siteUrl)
       console.log("image", this.projectImageUrl)
       console.log("member", this.showMemberList)
-      console.log("textetst",this.techStackList)
+      console.log("textetst", this.techStackList)
       let techStacks = [];
-      this.techStackList.map((tech)=>{techStacks.push(tech.id)})
-      // let members = this.showMemberList.map(member => ({
-      //   id: member.memberId,
-      //   jobField: member.jobField
-      // }));
-      // let techStackListJson = JSON.stringify(this.techStackList)
-      // let techStackListJson = this.techStackList;
-      // console.log("tech",techStackListJson)
+      this.techStackList.map((tech) => { techStacks.push(tech.id) })
+
       const body = {
         projectId: this.projectId,
         launchedProjectContents: this.launchedProjectContents,
         siteUrl: this.siteUrl,
-        // members,
-        // techStackList: JSON.stringify(this.techStackList),
         techStackList: techStacks,
         imageUrl: this.projectImageUrl,
       };
@@ -365,7 +264,7 @@ export default {
   },
   watch: {
     getTechStackIds() {
-      this.techStackList= this.getTechStackIds;
+      this.techStackList = this.getTechStackIds;
     }
   },
   computed: {
@@ -378,7 +277,7 @@ export default {
     this.project = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/basic-info`)
     const projectResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.project?.data?.projectId}`)
     console.log("launched", this.project);
-    this.projectId=this.project?.data?.projectId;
+    this.projectId = this.project?.data?.projectId;
     this.projectName = projectResponse?.data?.projectName ?? "";
     this.siteUrl = this.project.data.siteUrl;
     this.projectImageUrl = this.project.data.launchedProjectImage;
@@ -396,7 +295,6 @@ export default {
     }
     const getTechList = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/tech-stacks`);
     console.log("tech", getTechList)
-    // this.techStackList = getTechList.data;
     this.$store.dispatch('updateTechStacksRes', getTechList.data)
 
 

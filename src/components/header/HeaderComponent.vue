@@ -96,7 +96,7 @@ import MyAlert from '@/views/member/MyAlert.vue';
             isLogin : false,
             nickname : "", 
             profileImageUrl: "",
-            KAKAO_AUTH_URI: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_REST_API_KEY}&redirect_uri=http://localhost:8082/oauth`,
+            KAKAO_AUTH_URI: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_REST_API_KEY}&redirect_uri=https://dev.si-d.site/oauth`,
             alertCnt: 0,
             id:'',
         };
@@ -268,5 +268,20 @@ import MyAlert from '@/views/member/MyAlert.vue';
     transition: 0.5s ease;
   }
 
+  .notification-icon {
+    position: relative;
+    cursor: pointer;
+}
+
+.notification-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+}
   </style>
   

@@ -176,7 +176,7 @@ export default {
       ],
       employedEnd: [
         v => (this.data.careers.some(c => c.employedYn) || !!v) || '재직기간 종료일을 입력해주세요.',
-        v =>  /^\d{4}-(0[1-9]|1[0-2])$/.test(v) || '날짜 형식은 YYYY-MM이어야 합니다.',
+        v => (this.data.careers.some(c => c.employedYn) || /^\d{4}-(0[1-9]|1[0-2])$/.test(v)) || '날짜 형식은 YYYY-MM이어야 합니다.',
       ],
     },
 
@@ -196,6 +196,20 @@ export default {
         careers: [],
         teckStacks: [],
         launchedProjects: [],
+      },
+      data2: {
+        image: "",
+        jobField: "",
+        introduction: "",
+        socialLink: {
+          email: "",
+          github: "",
+          behance: "",
+          linkedin: "",
+          etc: "",
+        },
+        careers: [],
+        teckStacks: [],
       },
     };
   },
@@ -264,9 +278,16 @@ export default {
       return;
     }
       try {
+        this.data.teckStacks = this.getTechStackIds;
+        this.data2.jobField=this.data.jobField
+        this.data2.introduction=this.data.introduction
+        this.data2.image=this.data.image
+        this.data2.socialLink=this.data.socialLink
+        this.data2.careers=this.data.careers
+        this.data2.teckStacks=this.data.teckStacks
         const response = await axios.post(
           `${process.env.VUE_APP_API_BASE_URL}/api/sider-card/update`,
-          this.data
+          this.data2
         );
         this.$router.push(`/sider-card/${this.data.id}`)
         console.log(response.data);

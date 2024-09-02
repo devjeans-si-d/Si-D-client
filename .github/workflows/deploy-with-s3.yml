@@ -24,6 +24,8 @@ jobs:
         run: npm install
       - name: npm build
         working-directory: .
+        env:
+        VUE_APP_REST_API_KEY: ${{ secrets.KAKAO_API_KEY }}
         run: npm run build
       - name: setup aws cli
       # aws 관련한 aws actions가 제공된다. 지금 이게 configure 세팅하는 거임

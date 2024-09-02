@@ -130,14 +130,14 @@
                     <v-col v-for="(members, jobField) in membersByJobField" :key="jobField" cols="12">
                       <h3>{{ jobField }}</h3>
                         <div class="chips-container">
-                            <member-chip
+                            <MemberChip
                             v-for="member in members"
                             :key="member.memberId"
                             :url="member.profileImageUrl"
                             :name="member.nickname"
                             :memberId="member.memberId" 
                             @navigate="moveToSiderCard"
-                            ></member-chip>
+                            ></MemberChip>
                         </div>
                     </v-col>
                   </v-row>

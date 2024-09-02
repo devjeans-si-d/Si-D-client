@@ -30,11 +30,11 @@
             <!-- <v-spacer :style="{height: '20px'}"></v-spacer> -->
 
             <v-row justify="center">
-                <project-window
+                <ProjectWindow
                     :windowCount="2"
                     :projects="projects"
                 >
-                </project-window>
+                </ProjectWindow>
             </v-row>
 
             <v-row justify="center" style="margin-top: -20px;">
@@ -70,11 +70,11 @@
             <v-spacer :style="{ height: '30px' }"></v-spacer>
 
             <v-row justify="center">
-                <launched-project-window
+                <LaunchedProjectWindow
                     :windowCount="2"
                     :projects="launched_projects"
                 >
-                </launched-project-window>
+                </LaunchedProjectWindow>
             </v-row>
 
             <v-row justify="center" style="margin-top: -20px;">
@@ -102,12 +102,12 @@
                 </v-col>
             </v-row>
 
-            <sider-card-window
+            <SiderCardWindow
                 :windowCount="2"
                 :sidecards="siderCards" 
                 :defaultImageUrl=defaultImageUrl
             >
-            </sider-card-window>
+            </SiderCardWindow>
 
             <v-row justify="center" style="margin-top: -20px;">
                 <v-btn

@@ -116,7 +116,7 @@
                     <h4 class="align-center">{{ jobfield }}</h4>
 
                     <v-col v-for="member in members" :key="member.memberId" cols="auto" class="pa-2">
-                        <member-chip size="small" :url="member.profileImageUrl" :name="member.nickname"
+                        <member-chip size="large" :url="member.profileImageUrl" :name="member.nickname"
                             :memberId="member.memberId" @navigate="moveToSiderCard"></member-chip>
                     </v-col>
                 </v-row>

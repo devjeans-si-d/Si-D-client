@@ -4,9 +4,9 @@
       rounded="0"
       flat
     >
-      <v-window v-model="onboarding" style="max-width: 1200px; width: 100%;">
+      <v-carousel v-model="onboarding" hide-delimiter-background>
         <!-- v-model="onboarding": 현재 활성화된 슬라이드의 인덱스를 바인딩 -->
-        <v-window-item v-for="n in windowCount" :key="`window-${n}`" :value="n">
+        <v-carousel-item v-for="n in windowCount" :key="`window-${n}`">
           <v-row class="d-flex justify-center">
             <v-col
               v-for="(project, index) in paginatedProjects(n)"
@@ -15,10 +15,10 @@
               md="3"
               class="d-flex justify-center"
             >
-              <v-card 
-              class="mx-auto" 
-              style="width: 100%; max-width: 250px;"
-              @click="() => moveToProject(project.id)"
+              <v-card
+                class="mx-auto"
+                style="width: 100%; max-width: 250px;"
+                @click="() => moveToProject(project.id)"
               >
                 <v-img
                   class="custom-img"
@@ -40,25 +40,11 @@
               </v-card>
             </v-col>
           </v-row>
-        </v-window-item>
-      </v-window>
+        </v-carousel-item>
+      </v-carousel>
   
       <v-card-actions class="justify-space-between">
         <v-btn icon="mdi-chevron-left" variant="plain" @click="prev"></v-btn>
-        <v-item-group v-model="onboarding" class="text-center" mandatory>
-          <v-item
-            v-for="n in windowCount"
-            :key="`btn-${n}`"
-            v-slot="{ isSelected, toggle }"
-            :value="n"
-          >
-            <v-btn
-              :color="isSelected ? 'primary' : 'secondary'"
-              icon="mdi-circle-small"
-              @click="toggle"
-            ></v-btn>
-          </v-item>
-        </v-item-group>
         <v-btn icon="mdi-chevron-right" variant="plain" @click="next"></v-btn>
       </v-card-actions>
     </v-card>
@@ -72,35 +58,32 @@
         default: 1
       },
       projects: {
-        // 이후 Project에 맞게 수정예정
         type: Array,
         default: () => []
       }
     },
     data() {
       return {
-        onboarding: 1
+        onboarding: 0 // v-carousel의 인덱스는 0부터 시작
       };
     },
     methods: {
       next() {
         this.onboarding =
-          this.onboarding + 1 > this.windowCount ? 1 : this.onboarding + 1;
+          this.onboarding + 1 >= this.windowCount ? 0 : this.onboarding + 1;
       },
       prev() {
         this.onboarding =
-          this.onboarding - 1 <= 0 ? this.windowCount : this.onboarding - 1;
+          this.onboarding - 1 < 0 ? this.windowCount - 1 : this.onboarding - 1;
       },
       paginatedProjects(page) {
-        // 페이지에 따라 프로젝트를 반환하도록 수정
         const projectsPerPage = 4;
         const start = (page - 1) * projectsPerPage;
         const end = start + projectsPerPage;
         return this.projects.slice(start, end);
       },
-      moveToProject(projectId){
+      moveToProject(projectId) {
         this.$router.push('/project/' + projectId).then(() => {
-          // 페이지 이동 후 스크롤을 최상단으로 이동
           window.scrollTo(0, 0);
         });
       }
@@ -110,10 +93,10 @@
   
   <style scoped>
   .small-btn {
-    font-size: 12px; /* 버튼 텍스트 크기 */
-    padding: 4px 8px; /* 버튼 내부 여백 */
-    min-width: 40px; /* 버튼 최소 너비 */
-    height: 24px; /* 버튼 높이 */
+    font-size: 12px;
+    padding: 4px 8px;
+    min-width: 40px;
+    height: 24px;
   }
   </style>
   

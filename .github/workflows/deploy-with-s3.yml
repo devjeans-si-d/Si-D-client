@@ -21,7 +21,9 @@ jobs:
       - name: pnpm install
         working-directory: .
         # run은 직접 사용하고자 하는 명령어이다.
-        run: npm install
+        run: |
+          npm install -g pnpm
+          pnpm install
       - name: npm build
         env:
           VUE_APP_REST_API_KEY: ${{ secrets.KAKAO_API_KEY }}

@@ -22,6 +22,7 @@
               >
                 <v-img
                   class="custom-img"
+                    width="250"
                   height="250"
                   :src= project.launchedProjectImage
                   alt="LaunchedProject 썸네일"

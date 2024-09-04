@@ -117,12 +117,12 @@
         <v-card-text>
             <b>닉네임:</b> {{ this.currentMemberName }}
         </v-card-text>
-        <v-card-text style="white-space:pre;">
+        <!-- <v-card-text style="white-space:pre;"> -->
             <b>지원 내용:</b> <br>
-            <div style="width:480px; overflow-x: hidden;">
+            <div class="apply-content-div">
                 {{ this.currentContent }}
             </div>
-        </v-card-text>
+        <!-- </v-card-text> -->
         <v-btn style="width: 30%; margin: auto;" color="sid_btn2" @click="this.$router.push('/sider-card/' + this.currentMemberId)">사이더카드 보러가기</v-btn>
             <v-card-actions>
                 <v-spacer></v-spacer>
@@ -447,5 +447,11 @@ export default{
     max-width: 1200px !important; /* 원하는 최대 폭 */
     margin: 0 auto !important;    /* 중앙 정렬 */
     width: 100% !important; /* 컨테이너의 폭을 100%로 설정 */
+}
+
+.apply-content-div {
+    width:480px !important;
+    height: 200px !important;
+    overflow-y: auto !important;
 }
 </style>

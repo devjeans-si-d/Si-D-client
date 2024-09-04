@@ -117,7 +117,7 @@
         <v-card-text>
             <b>닉네임:</b> {{ this.currentMemberName }}
         </v-card-text>
-        <v-card-text style="white-space:pre; width:90%;">
+        <v-card-text style="white-space:pre; width:480px; overflow-y: auto;">
             <b>지원 내용:</b> <br>
             {{ this.currentContent }}
         </v-card-text>

@@ -1,15 +1,15 @@
 <template>
-    <v-card class="rounded-xl text-center fixed-card">
+    <v-card class="rounded-xl fixed-card d-flex flex-column align-center justify-center">
         <v-card-item class="card-avatar">
             <v-avatar class="mx-auto" size="120">
                 <img :src="image" alt="Profile Image" style="height:120px; width:120px; object-fit: cover;"/>
             </v-avatar>
         </v-card-item>
         <v-card-item class="card-text">
-            <v-card-title class="font-weight-bold">
+            <v-card-title class="d-flex justify-center align-center" style="font-weight: bold;">
                 {{ name }}
             </v-card-title>
-            <v-card-subtitle class="text-body-2">
+            <v-card-subtitle class="d-flex justify-center align-center" style="font-size: 18px;">
                 {{ jobField }}
             </v-card-subtitle>
         </v-card-item>

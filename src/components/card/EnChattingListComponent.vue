@@ -19,7 +19,7 @@
                             </div>
                           <div class="project-content">
                             <div class="project-info">
-                                <span style="margin-bottom: 10px; font-weight: bold;">{{ chatroom.participantNickName.substring(0, 5)}} <span v-if="chatroom.participantNickName.length >= 5" style="color:gray;">...</span></span>
+                                <span style="margin-bottom: 10px; font-weight: bold;">{{ chatroom.participantNickName.substring(0, 5) }} <span v-if="chatroom.participantNickName.length >= 5" style="color:gray;">...</span></span>
                                 <span style="font-size: small; color: gray; margin-left: 10px;" v-if="this.myId == chatroom.pmId">내 프로젝트</span>
                                 <p class="unread-count-text">{{ chatroom.unreadContent }}</p>
                             </div>

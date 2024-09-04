@@ -4,7 +4,7 @@
       rounded="0"
       flat
     >
-      <v-window v-model="onboarding" style="width: 1080px;">
+      <v-window v-model="onboarding" style="max-width: 1200px; width: 100%;">
         <!-- v-model="onboarding": 현재 활성화된 슬라이드의 인덱스를 바인딩 -->
         <v-window-item v-for="n in windowCount" :key="`window-${n}`" :value="n">
           <v-row class="d-flex justify-center">
@@ -16,7 +16,7 @@
               class="d-flex justify-center"
             >
               <v-card 
-              style="width:250px; height:375px;"
+              style="width: 250px; height:375px; max-width: 250px;"
               @click="() => moveToProject(project.id)"
               >
                 <v-img
@@ -118,10 +118,10 @@
   
   <style scoped>
   .small-btn {
-    font-size: 12px;
-    padding: 4px 8px;
-    min-width: 40px;
-    height: 24px;
+    font-size: 12px; /* 버튼 텍스트 크기 */
+    padding: 4px 8px; /* 버튼 내부 여백 */
+    min-width: 40px; /* 버튼 최소 너비 */
+    height: 24px; /* 버튼 높이 */
   }
  .custom-contents {
     padding-right: 2px !important; /* 카드의 오른쪽 끝에서 2px 떨어지도록 */

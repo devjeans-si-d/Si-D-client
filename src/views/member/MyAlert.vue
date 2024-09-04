@@ -94,7 +94,6 @@ export default {
             return false;
         },
         getTime(createdAt) {
-            console.log("ㄴㄴㄴ",createdAt)
             let hour = createdAt[3];
             let minute = createdAt[4];
             let ampm;

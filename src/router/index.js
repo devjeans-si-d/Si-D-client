@@ -4,6 +4,7 @@ import { siderCardRouter } from './siderCardRouter';
 import { LaunchedProjectRouter } from './LaunchedProjectRouter';
 import { memberRouter } from './memberRouter';
 import MainPage from '@/views/MainPage/MainPage.vue';
+// import MainPage3 from '@/views/MainPage/MainPage3.vue';
 import { oauthLoginRouter } from './oauthLoginRouter';
 import {projectRouter} from './projectRouter'
 

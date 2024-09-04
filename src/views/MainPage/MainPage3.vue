@@ -30,11 +30,11 @@
             <!-- <v-spacer :style="{height: '20px'}"></v-spacer> -->
 
             <v-row justify="center">
-                <ProjectWindow
+                <ProjectCarousel
                     :windowCount="2"
                     :projects="projects"
                 >
-                </ProjectWindow>
+                </ProjectCarousel>
             </v-row>
 
             <v-row justify="center" style="margin-top: -20px;">
@@ -70,11 +70,11 @@
             <v-spacer :style="{ height: '30px' }"></v-spacer>
 
             <v-row justify="center">
-                <LaunchedProjectWindow
+                <LaunchedProjectCarousel
                     :windowCount="2"
                     :projects="launched_projects"
                 >
-                </LaunchedProjectWindow>
+                </LaunchedProjectCarousel>
             </v-row>
 
             <v-row justify="center" style="margin-top: -20px;">
@@ -102,12 +102,12 @@
                 </v-col>
             </v-row>
 
-            <SiderCardWindow
+            <SiderCardCarousel
                 :windowCount="2"
                 :sidecards="siderCards" 
                 :defaultImageUrl=defaultImageUrl
             >
-            </SiderCardWindow>
+            </SiderCardCarousel>
 
             <v-row justify="center" style="margin-top: -20px;">
                 <v-btn
@@ -142,16 +142,16 @@
     
 </template>
 <script>
-  import LaunchedProjectWindow from '@/components/windows/LaunchedProjectWindow.vue';
-  import ProjectWindow from '@/components/windows/ProjectWindow.vue';
-  import SiderCardWindow from '@/components/windows/SiderCardWindow.vue';
+  import LaunchedProjectCarousel from '@/components/carousel/LaunchedProjectCarousel.vue';
+  import ProjectCarousel from '@/components/carousel/ProjectCarousel.vue';
+  import SiderCardCarousel from '@/components/carousel/SiderCardCarousel.vue';
   import axios from 'axios';
 
 export default {
   components: {
-    LaunchedProjectWindow,
-    ProjectWindow,
-    SiderCardWindow
+    LaunchedProjectCarousel,
+    ProjectCarousel,
+    SiderCardCarousel
   },
   data() {
     return {

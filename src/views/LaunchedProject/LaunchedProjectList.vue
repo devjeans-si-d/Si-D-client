@@ -9,12 +9,12 @@
             <v-sheet class="py-4 px-1">
               <v-chip-group v-model="selectedStack" selected-class="text-primary" mandatory>
                 <v-chip value="전체" color="#094F08" size="large" filter>전체</v-chip>
-                <filter-stack-chip title="Spring" value="Spring Boot" color="#77BC1F" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/spring.svg"/>
-                <filter-stack-chip title="Node.js" value="Node.js" color="#676F5E" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/nodejs.svg"/>
-                <filter-stack-chip title="Android" value="Kotlin (Android)" color="#A4C439" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/android.svg"/>
-                <filter-stack-chip title="iOS" value="Swift (iOS)" color="#5A5656" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/apple.svg"/>
-                <filter-stack-chip title="React" value="React.js" color="#61DAFB" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/react.svg"/>
-                <filter-stack-chip title="Vue.js" value="Vue.js" color="#35495E" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/vuejs.png"/>
+                <FilterStackChip title="Spring" value="Spring Boot" color="#77BC1F" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/spring.svg"/>
+                <FilterStackChip title="Node.js" value="Node.js" color="#676F5E" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/nodejs.svg"/>
+                <FilterStackChip title="Android" value="Kotlin (Android)" color="#A4C439" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/android.svg"/>
+                <FilterStackChip title="iOS" value="Swift (iOS)" color="#5A5656" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/apple.svg"/>
+                <FilterStackChip title="React" value="React.js" color="#61DAFB" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/react.svg"/>
+                <FilterStackChip title="Vue.js" value="Vue.js" color="#35495E" url="https://sejeong-file.s3.ap-northeast-2.amazonaws.com/devjeans-sid/vuejs.png"/>
               </v-chip-group>
             </v-sheet>
         </v-row>

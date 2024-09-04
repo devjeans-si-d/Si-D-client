@@ -117,7 +117,7 @@
         <v-card-text>
             <b>닉네임:</b> {{ this.currentMemberName }}
         </v-card-text>
-        <v-card-text style="white-space:pre;">
+        <v-card-text style="white-space:pre; width:90%;">
             <b>지원 내용:</b> <br>
             {{ this.currentContent }}
         </v-card-text>
@@ -318,9 +318,8 @@ export default{
             }
         },
         getTime(createdAt) {
-            const createdTime = new Date(createdAt);
-            let hour = createdTime.getHours();
-            let minute = createdTime.getMinutes();
+            let hour = createdAt[3];
+            let minute = createdAt[4];
             let ampm;
             if(hour < 12) {
                 ampm = '오전'
@@ -339,9 +338,7 @@ export default{
             return ampm + ' ' + hour + ':' + minute;
         },
         getDay(createdAt) {
-            const createdTime = new Date(createdAt);
-
-            return `${createdTime.getFullYear()}년 ${createdTime.getMonth() + 1}월 ${createdTime.getDate()}일`; 
+            return `${createdAt[0]}년 ${createdAt[1].toString().padStart(2, "0")}월 ${createdAt[2].toString().padStart(2, "0")}일`; 
         },
         applymentModal(id, name, description) {
             this.currentMemberId = id;

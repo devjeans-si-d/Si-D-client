@@ -152,6 +152,7 @@
     align-content: center;
     margin: auto;
     background-color: #F6F6F6;
+    color: black !important;
   }
   .item-wrap {
     display: flex;
@@ -170,6 +171,7 @@
   }
   
   .text-left {
+    color: black !important;
     text-align: left;
     width: 300px;
     padding-bottom: 20px;

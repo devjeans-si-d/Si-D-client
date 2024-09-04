@@ -339,7 +339,7 @@ export default{
         },
         getDay(createdAt) {
             return `${createdAt[0]}년 ${createdAt[1].toString().padStart(2, "0")}월 ${createdAt[2].toString().padStart(2, "0")}일`; 
-        }
+        },
         applymentModal(id, name, description) {
             this.currentMemberId = id;
             this.currentMemberName = name;

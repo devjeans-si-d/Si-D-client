@@ -19,12 +19,12 @@
                             </div>
                           <div class="project-content">
                             <div class="project-info">
-                                <span style="margin-bottom: 10px; font-weight: bold; font-size: medium;">{{ chatroom.participantNickName}}</span>
+                                <span style="margin-bottom: 10px; font-weight: bold;">{{ chatroom.participantNickName.substring(0, 5)}} <span v-if="chatroom.participantNickName.length >= 5" style="color:gray;">...</span></span>
                                 <span style="font-size: small; color: gray; margin-left: 10px;" v-if="this.myId == chatroom.pmId">내 프로젝트</span>
                                 <p class="unread-count-text">{{ chatroom.unreadContent }}</p>
                             </div>
                             <div v-if="chatroom.unreadCount >= 1" class="unread-count">
-                                <span>{{chatroom.unreadCount}}</span>
+                                <!-- <span>{{chatroom.unreadCount}}</span> -->
                             </div>
                           </div>
   
@@ -207,11 +207,11 @@ export default{
     justify-self: flex-end;
     background-color: rgb(218, 69, 69);
     color: white;
-    width: 30px;
-    height: 30px;
+    width: 12px;
+    height: 12px;
     text-align: center;
     align-content: center;
-    border-radius: 20px;
+    border-radius: 25px;
 }
 
 </style>

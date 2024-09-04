@@ -11,15 +11,15 @@
               v-for="(sidecard, index) in paginatedSidecards(n)"
               :key="index"
               cols="12"
-              md="4"
+              md="3"
               class="d-flex justify-center"
             >
               <v-card
               class="d-flex flex-column justify-center align-center" 
-              style="width: 300px; height:300px"
+              style="width: 250px; height:250px"
               @click="() => moveToSiderCard(sidecard.id)"
               >
-                <v-avatar size="150" class="mx-auto d-flex justify-center align-center">
+                <v-avatar size="120" class="mx-auto d-flex justify-center align-center">
                   <v-img
                   class="circle-img"
                   :src="sidecard.profileImageUrl ? sidecard.profileImageUrl : defaultImageUrl"

@@ -5,7 +5,8 @@
     />
     <div width="100px" height="100px"></div>
     <v-card class="my-page-card" color="#F3F3F3">
-      <div style="margin: auto" width="100%">
+  
+      <div class="logo-wrap-field" style="margin: auto;">
         <img
           src="@/assets/si-d_logo.png"
           alt="sid-logo"
@@ -148,7 +149,9 @@ export default {
   align-self: center;
   align-content: center;
   margin: auto;
+  margin-top: 30px;
   flex-direction: column;
+
 }
 .item-wrap {
   display: flex;
@@ -161,6 +164,14 @@ export default {
   justify-content: center;
   padding-top: 10px;
   padding-bottom: 30px;
+  border-bottom: 1px solid #d4d4d4;
+  width: 80%;
+}
+.logo-wrap-field {
+  display: flex;
+  justify-content: center;
+  margin-top:10px;
+  padding-bottom: 10px;
   border-bottom: 1px solid #d4d4d4;
   width: 80%;
 }
@@ -208,6 +219,6 @@ export default {
 
 .row-center {
   text-align: center;
-  align-items: centee;
+  align-items: center;
 }
 </style>

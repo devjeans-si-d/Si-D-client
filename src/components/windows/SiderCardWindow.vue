@@ -4,7 +4,7 @@
       rounded="0"
       flat
     >
-      <v-window v-model="onboarding" style="max-width: 1200px; width: 100%;">
+      <v-window v-model="onboarding" style="width: 1080px;">
         <v-window-item v-for="n in windowCount" :key="`window-${n}`" :value="n">
           <v-row class="d-flex justify-center">
             <v-col
@@ -15,8 +15,7 @@
               class="d-flex justify-center"
             >
               <v-card 
-              class="mx-auto" 
-              style="width: 100%; max-width: 300px; max-height:300px"
+              style="width: 300px; height:300px"
               @click="() => moveToSiderCard(sidecard.id)"
               >
                 <v-avatar size="150" class="mx-auto d-flex justify-center align-center">

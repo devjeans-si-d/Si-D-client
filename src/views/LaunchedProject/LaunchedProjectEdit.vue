@@ -122,7 +122,7 @@ export default {
       this.techStackList.map((tech) => { techStacks.push(tech.id) })
 
       const body = {
-        projectId: this.projectId,
+        // launchedProjectId: this.launchedProjectId,
         launchedProjectContents: this.launchedProjectContents,
         siteUrl: this.siteUrl,
         techStackList: techStacks,

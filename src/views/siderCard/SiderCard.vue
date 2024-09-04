@@ -136,19 +136,21 @@
           <h2 style="margin-bottom: 20px">프로젝트</h2>
         </v-row>
         <v-row>
-          <div
+          <v-col
             v-for="item in data.launchedProjects"
             :key="item.launchedProjectId"
-            style="margin-right: 100px"
+            cols="12"
+            md="3"
+            class="d-flex justify-center"
           >
             <a :href="`/launched-project/${item.launchedProjectId}`"
               >
               <img
                 :src="item.launchedProjectImage"
                 alt="출시 프로젝트"
-                style="height: 200px; width: 200px; object-fit: cover;"
+                style="height: 250px; width: 250px; object-fit: cover;"
             /></a>
-          </div>
+          </v-col>
         </v-row>
       </v-col>
     </v-row>

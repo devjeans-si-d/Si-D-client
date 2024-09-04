@@ -119,7 +119,7 @@
         </v-card-text>
         <v-card-text style="white-space:pre;">
             <b>지원 내용:</b> <br>
-            <div style="width:480px; overflow-x: hidden;">
+            <div style="width:480px; overflow-y: auto;">
                 {{ this.currentContent }}
             </div>
         </v-card-text>

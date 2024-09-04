@@ -451,7 +451,7 @@ export default{
 
 .apply-content-div {
     width:480px !important;
-    height: 200px !important;
+    height: 80px !important;
     overflow-y: auto !important;
 }
 </style>

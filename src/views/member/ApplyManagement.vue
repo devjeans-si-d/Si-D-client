@@ -117,9 +117,11 @@
         <v-card-text>
             <b>닉네임:</b> {{ this.currentMemberName }}
         </v-card-text>
-        <v-card-text style="white-space:pre; width:480px; overflow-y: auto;">
+        <v-card-text style="white-space:pre;">
             <b>지원 내용:</b> <br>
-            {{ this.currentContent }}
+            <div style="width:480px; overflow-y: auto;">
+                {{ this.currentContent }}
+            </div>
         </v-card-text>
         <v-btn style="width: 30%; margin: auto;" color="sid_btn2" @click="this.$router.push('/sider-card/' + this.currentMemberId)">사이더카드 보러가기</v-btn>
             <v-card-actions>

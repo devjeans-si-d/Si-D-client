@@ -14,7 +14,8 @@
               md="4"
               class="d-flex justify-center"
             >
-              <v-card 
+              <v-card
+              class="d-flex flex-column justify-center align-center" 
               style="width: 300px; height:300px"
               @click="() => moveToSiderCard(sidecard.id)"
               >

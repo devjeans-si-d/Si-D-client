@@ -3,9 +3,9 @@
     <PageNavbar
       :menus="[{ menu: '회원가입', url: '/member/mypage', selected: true }]"
     />
-    <div style="margin: 60px"></div>
+    <div width="100px" height="100px"></div>
     <v-card class="my-page-card" color="#F3F3F3">
-      <div class="mx-auto">
+      <div style="margin: auto" width="100%">
         <img
           src="@/assets/si-d_logo.png"
           alt="sid-logo"
@@ -136,14 +136,7 @@ export default {
 </script>
 
 <style>
-.mx-auto {
-  width: 200px;
-  height: auto;
-  display: flex;
-  align-self: center;
-  align-content: center;
-  margin-top: 40px;
-}
+
 .v-text-field {
   height: 10px;
   width: 150px;
@@ -155,6 +148,7 @@ export default {
   align-self: center;
   align-content: center;
   margin: auto;
+  flex-direction: column;
 }
 .item-wrap {
   display: flex;

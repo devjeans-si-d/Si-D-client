@@ -15,24 +15,27 @@
               class="d-flex justify-center"
             >
               <v-card
-              style="width: 250px; height:250px"
-              class="d-flex justify-center align-center flex-column"
+              class="rounded-xl fixed-card d-flex flex-column align-center justify-center"
               @click="() => moveToSiderCard(sidecard.id)"
               >
-                <v-avatar size="120" class="mx-auto d-flex justify-center align-center">
-                  <v-img
-                  class="circle-img"
-                  :src="sidecard.profileImageUrl ? sidecard.profileImageUrl : defaultImageUrl"
-                  />
-                </v-avatar>
+                <v-card-item>
+                  <v-avatar class="mx-auto" size="120">
+                    <v-img
+                    class="circle-img"
+                    :src="sidecard.profileImageUrl ? sidecard.profileImageUrl : defaultImageUrl"
+                    />
+                  </v-avatar>
+                </v-card-item>
                 
-                <v-card-title class="d-flex justify-center align-center" style="font-weight: bold;">
-                  <span>{{ sidecard.nickname }}</span>
-                </v-card-title>
-                <v-card-text class="d-flex justify-center align-center" style="font-size: 18px;">
-                  <div>{{ sidecard.jobField }}</div>
-                </v-card-text>
-                <v-spacer :style="{height: '20px'}"></v-spacer>
+                <v-card-item>
+                  <v-card-title class="d-flex justify-center align-center" style="font-weight: bold;">
+                    <span>{{ sidecard.nickname }}</span>
+                  </v-card-title>
+                  <v-card-text class="d-flex justify-center align-center" style="font-size: 18px;">
+                    <div>{{ sidecard.jobField }}</div>
+                  </v-card-text>
+                </v-card-item>
+                <!-- <v-spacer :style="{height: '20px'}"></v-spacer> -->
               </v-card>
 
             </v-col>
@@ -109,9 +112,15 @@
   </script>
   
   <style scoped>
+  .fixed-card {
+    width: 250px;
+    /* 고정 너비 */
+    height: 250px;
+    /* 고정 높이 */
+  }
   .circle-img {
-    width: 150px;
-    height: 150px;
+    /* width: 150px;*/
+    /* height: 150px; */
     border-radius: 50%;
     object-fit: cover; /* 이미지가 컨테이너를 완전히 덮도록 설정 */
     object-position: center;

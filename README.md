@@ -119,6 +119,8 @@ Designer와 Developer를 이어주는 사이드(Side) 프로젝트 플랫폼
 ## CI/CD 아키텍처 설계서
 
 ## CI/CD를 위한 구성 스크립트
+<details>
+<summary>deploy-with-s3.yml</summary>
 
 ```
 
@@ -176,6 +178,7 @@ jobs:
         run: aws cloudfront create-invalidation --distribution-id E14HFSJX2ZLQKJ --paths "/*"
 
 ```
+</details>
 
 ## 테스트 결과서
 

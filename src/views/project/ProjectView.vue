@@ -413,7 +413,7 @@ export default {
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/scrap`)
                 console.log(response);
                 this.isScrap = true;
-                this.scrapCount++;
+                this.scrapCount = response?.data?.scrapCount;
                 // 스크랩수 늘리기
             }
             catch (e) {
@@ -425,7 +425,7 @@ export default {
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/scrap/delete`)
                 console.log(response);
                 this.isScrap = false;
-                this.scrapCount--;
+                this.scrapCount = response?.data?.scrapCount;
                 // 스크랩수 줄이기
             }
             catch (e) {

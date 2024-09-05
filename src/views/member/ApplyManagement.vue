@@ -117,10 +117,12 @@
         <v-card-text>
             <b>닉네임:</b> {{ this.currentMemberName }}
         </v-card-text>
-        <v-card-text style="white-space:pre;">
+        <!-- <v-card-text style="white-space:pre;"> -->
             <b>지원 내용:</b> <br>
-            {{ this.currentContent }}
-        </v-card-text>
+            <div class="apply-content-div">
+                {{ this.currentContent }}
+            </div>
+        <!-- </v-card-text> -->
         <v-btn style="width: 30%; margin: auto;" color="sid_btn2" @click="this.$router.push('/sider-card/' + this.currentMemberId)">사이더카드 보러가기</v-btn>
             <v-card-actions>
                 <v-spacer></v-spacer>
@@ -308,9 +310,8 @@ export default{
             }
         },
         getTime(createdAt) {
-            const createdTime = new Date(createdAt);
-            let hour = createdTime.getHours();
-            let minute = createdTime.getMinutes();
+            let hour = createdAt[3];
+            let minute = createdAt[4];
             let ampm;
             if(hour < 12) {
                 ampm = '오전'
@@ -329,9 +330,7 @@ export default{
             return ampm + ' ' + hour + ':' + minute;
         },
         getDay(createdAt) {
-            const createdTime = new Date(createdAt);
-
-            return `${createdTime.getFullYear()}년 ${createdTime.getMonth() + 1}월 ${createdTime.getDate()}일`; 
+            return `${createdAt[0]}년 ${createdAt[1].toString().padStart(2, "0")}월 ${createdAt[2].toString().padStart(2, "0")}일`; 
         },
         applymentModal(id, name, description) {
             this.currentMemberId = id;
@@ -438,5 +437,11 @@ export default{
     max-width: 1200px !important; /* 원하는 최대 폭 */
     margin: 0 auto !important;    /* 중앙 정렬 */
     width: 100% !important; /* 컨테이너의 폭을 100%로 설정 */
+}
+
+.apply-content-div {
+    width:480px !important;
+    height: 80px !important;
+    overflow-y: auto !important;
 }
 </style>

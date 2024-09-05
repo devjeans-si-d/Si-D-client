@@ -120,7 +120,7 @@ export default {
 
         try {
             const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}`);
-            this.chatList = response.data.content;
+            this.chatList = response.data;
 
             // 참여자 정보 얻기
             const memberInfo = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/get-member-info`);
@@ -230,7 +230,7 @@ export default {
 
             try {
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}`);
-                this.chatList = response.data.content;
+                this.chatList = response.data;
 
                 // 참여자 정보 얻기
                 const memberInfo = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/get-member-info`);

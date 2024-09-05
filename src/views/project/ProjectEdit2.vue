@@ -66,6 +66,8 @@
     <v-row class="d-flex justify-end">
       <v-col cols="auto">
         <ButtonComponent content="업로드" @click="saveContent()" class="mr-1" />
+        <ButtonComponent content="삭제" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }"
+              @click="removeDialog=true" class="ml-1" />
       </v-col>
     </v-row>
 
@@ -89,7 +91,7 @@
         <v-card-actions>
           <v-row justify="center">
             <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }"
-              @click="recruitInfoDialogueClose()" class="ml-1" />
+              @click="recruitInfoDialogueClose()" class="mr-1" />
             <ButtonComponent content="확인" @click="recruitInfoConfirm()" />
           </v-row>
         </v-card-actions>
@@ -111,7 +113,22 @@
     </v-card>
   </v-dialog>
 
-
+  <v-dialog v-model="removeDialog" max-width="500px" rounded="xl">
+    <v-card>
+      <v-card-title>삭제 확인</v-card-title>
+      <v-divider class="mb-4"></v-divider>
+      <v-card-text>삭제하시겠습니까?</v-card-text>
+      <v-card-actions>
+        <v-row justify="center">
+          <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }"
+          @click="removeDialog = false" class="mr-1" />
+          <v-btn rounded="xl" variant="flat" density="default" color="#A4DEC6" :style="{ color: '#FFFFFF' }"
+            @click="removeProject()">확인</v-btn>
+        </v-row>
+      </v-card-actions>
+      <v-divider class="mt-2 mb-10"></v-divider>
+    </v-card>
+  </v-dialog>
   <v-dialog v-model="titleModal" max-width="500px" rounded="xl">
     <v-card>
       <v-card-title>제목</v-card-title>
@@ -173,6 +190,8 @@ export default {
       contents: "",
       isClosed: false,
       imageDialog:false,
+
+      removeDialog:false,
     };
   },
   async created() {
@@ -184,7 +203,9 @@ export default {
     const route = useRoute();
     this.projectId = route.params.projectId;
     const getProjectResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`)
-    this.deadline = getProjectResponse?.data?.deadline;
+    this.deadline = getProjectResponse?.data?.deadline[0]+"-"+getProjectResponse?.data?.deadline[1].toString().padStart(2, "0")+"-"+getProjectResponse?.data?.deadline[2].toString().padStart(2, "0")+"T"+getProjectResponse?.data?.deadline[3].toString().padStart(2, "0")+":"+getProjectResponse?.data?.deadline[4].toString().padStart(2, "0");
+    console.log("deadline",this.deadline)
+
     this.title = getProjectResponse?.data?.projectName;
     this.projectImageUrl = getProjectResponse?.data?.imageUrl;
     this.description = getProjectResponse?.data?.description;
@@ -213,6 +234,17 @@ export default {
 
   },
   methods: {
+    async removeProject(){
+      try {
+        const response = await axios.delete(
+          `${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`);
+        console.log(response)
+        this.$router.push({ name: 'ProjectList' });
+
+      } catch (error) {
+        console.error("Error fetching members:", error);
+      }
+    },
     dateModalClose() {
       this.dateModal = false;
     },

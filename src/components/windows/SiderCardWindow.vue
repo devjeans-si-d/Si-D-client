@@ -16,6 +16,7 @@
             >
               <v-card
               style="width: 250px; height:250px"
+              class="d-flex justify-center align-center flex-column"
               @click="() => moveToSiderCard(sidecard.id)"
               >
                 <v-avatar size="120" class="mx-auto d-flex justify-center align-center">

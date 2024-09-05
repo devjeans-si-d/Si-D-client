@@ -25,7 +25,6 @@ export default {
       this.showDialog = true;
     },
     handleConfirm() {
-      console.log('확인 버튼이 클릭되었습니다.');
       // 추가적인 로직을 여기서 처리
       this.showDialog = false;
     }

@@ -160,6 +160,8 @@
             </v-card>
         </v-dialog>
 
+        <!-- 글 삭제 후 띄워줄 모달 -->
+
     </v-container>
     
 </template>
@@ -194,7 +196,8 @@ export default{
             isLogin: false, // 로그인 여부
             modalTitle: "로그인",
             modalContents: "로그인 이용자만 가능한 서비스입니다. 로그인 후 이용해주세요",
-            notMemberModal: false, // 모달 상태
+            notMemberModal: false, // 비회원 스크랩금지 모달 상태
+            // deleteModal: false, // 글 삭제 후 띄워줄 모달 상태
         };
     },
     async created(){
@@ -245,14 +248,11 @@ export default{
         async loadBasicInfo(){
             try{
                 const basicInfoResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/basic-info`);
-                console.log(basicInfoResponse.data);
                 this.basicInfo = basicInfoResponse.data;
 
                 // pm인지 확인
                 const pmId = basicInfoResponse.data.pmId;
-                console.log(pmId);
                 this.isPm = pmId == localStorage.getItem("id") ? true : false;
-                console.log(this.isPm);
 
                 // 완성된프로젝트 글내용
                 const contents = basicInfoResponse.data.launchedProjectContents;
@@ -264,11 +264,9 @@ export default{
                 // 완성된 프로젝트에 fk 걸린 project id
                 const projectId = basicInfoResponse.data.projectId;
                 const projectResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/`+ projectId);
-                console.log(projectResponse.data);
                 this.project = projectResponse.data;
 
             }catch(error){
-                console.error("완성된 프로젝트 기본정보 API 호출 실패:", error);
                 // 에러가 발생한 경우, 서버에서 반환한 메시지를 alert로 표시
                 if (error.response && error.response.data) {
                     alert(error.response.data.message);// 서버에서 반환한 에러 메시지
@@ -281,17 +279,19 @@ export default{
             try {
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/is-scrapped/${this.launchedProjectId}`);
                 this.isScrapped = response.data; // API 응답으로 `isScrapped` 업데이트
-            } catch (error) {
-                console.error("스크랩 상태 확인 실패:", error.response ? error.response.data : error.message);
+            } catch (error) {                
+                if (error.response && error.response.data) {
+                    alert(error.response.data.message);// 서버에서 반환한 에러 메시지
+                } else {
+                    alert('An unknown error occurred. Please try again later.');
+                }
             }
         },
             async loadTechStacks(){
             try{
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/tech-stacks`);
-                console.log(response.data);
                 this.techStacks = response.data;
             }catch(error){
-                console.error("완성된 프로젝트 기술스택 API 호출 실패:", error);
                 // 에러가 발생한 경우, 서버에서 반환한 메시지를 alert로 표시
                 if (error.response && error.response.data) {
                     alert(error.response.data.message);// 서버에서 반환한 에러 메시지
@@ -303,10 +303,8 @@ export default{
         async loadMembers(){
             try{
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/members`);
-                console.log(response.data);
                 this.members = response.data;
             }catch(error){
-                console.error("완성된 프로젝트 참여멤버 API 호출 실패:", error);
                 // 에러가 발생한 경우, 서버에서 반환한 메시지를 alert로 표시
                 if (error.response && error.response.data) {
                     alert(error.response.data.message);// 서버에서 반환한 에러 메시지
@@ -341,8 +339,12 @@ export default{
                 this.isScrapped = true;
                 this.basicInfo.scrapCount = response.data.scrapCount;
                 // await this.loadBasicInfo(); // 데이터 새로 로드
-            } catch (e) {
-                console.error("완성된 프로젝트 스크랩 추가 API 호출 실패:", e);
+            } catch (error) {
+                if (error.response && error.response.data) {
+                    alert(error.response.data.message);// 서버에서 반환한 에러 메시지
+                } else {
+                    alert('An unknown error occurred. Please try again later.');
+                }
             }
         },
         async unDoScrap() {
@@ -351,24 +353,30 @@ export default{
                 this.isScrapped = false;
                 this.basicInfo.scrapCount = response.data.scrapCount;
                 // await this.loadBasicInfo(); // 데이터 새로 로드
-            } catch (e) {
-                console.error("완성된 프로젝트 스크랩 삭제 API 호출 실패:", e);
+            } catch (error) {
+                if (error.response && error.response.data) {
+                    alert(error.response.data.message);// 서버에서 반환한 에러 메시지
+                } else {
+                    alert('An unknown error occurred. Please try again later.');
+                }
             }
         },
         handleClickScrap() {
             if(this.isLogin){
                 this.clickScrap();
             }else{
-                // alert('로그인 후 이용해주세요');
                 this.notMemberModal = true;
             }
         },
         async deleteLaunchedProject(){
             try{
-                const response = await axios.delete(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/delete/${this.launchedProjectId}`);
-                console.log(response.data);
-            }catch(e){
-                console.error("완성된 프로젝트 삭제 API 호출 실패:", e);
+                await axios.delete(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/delete/${this.launchedProjectId}`);
+            }catch(error){
+                if (error.response && error.response.data) {
+                    alert(error.response.data.message);// 서버에서 반환한 에러 메시지 
+                } else {
+                    alert('An unknown error occurred. Please try again later.');
+                }
             }
         }
     }

@@ -101,7 +101,6 @@ export default{
     },
     computed: {
       filteredProjects() {
-        console.log(this.projects);
         return this.projects.filter(project => {
           const matchesStack = this.selectedStack === '전체' || 
             project.techStacks.some(tech => tech === this.selectedStack);
@@ -130,10 +129,7 @@ export default{
           let params = {
             sorted: this.sorted
           };
-
-          console.log(params);
           const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/list`, { params });
-          console.log(response.data);
           this.projects = response.data;
         } catch (error) {
           console.error("완성된 프로젝트 리스트 data load 에러 : ", error);
@@ -161,7 +157,7 @@ export default{
 }
 .custom-card{
   max-width: 280px !important;
-  min-height: 368px !important;
+  min-height: 368px;
 }
 .custom-img {
     width: 100%;

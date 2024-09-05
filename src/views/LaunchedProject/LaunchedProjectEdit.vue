@@ -111,13 +111,6 @@ export default {
       window.location.reload();
     },
     async registerLaunchedProject() {
-      console.log("url", this.projectImageUrl)
-      console.log("projectId", this.projectId)
-      console.log("contet", this.launchedProjectContents)
-      console.log("siteUrl", this.siteUrl)
-      console.log("image", this.projectImageUrl)
-      console.log("member", this.showMemberList)
-      console.log("textetst", this.techStackList)
       let techStacks = [];
       this.techStackList.map((tech) => { techStacks.push(tech.id) })
 
@@ -128,11 +121,9 @@ export default {
         techStackList: techStacks,
         imageUrl: this.projectImageUrl,
       };
-      console.log(body);
 
       try {
         const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/update/${this.launchedProjectId}`, body);
-        console.log('Launched Project 등록 성공:', response);
         const launchedProjectId = response?.data
         this.$router.push({ name: 'LaunchedProjectDetail', params: { launchedProjectId: launchedProjectId } });
         // 필요 시 성공 후 처리 (예: 페이지 이동)
@@ -156,7 +147,6 @@ export default {
     },
     removeMember(index) {
       this.showMemberList.splice(index, 1);
-      console.log("Updated Member List after removal:", this.showMemberList);
     },
     async searchMembersList() {
       const params = {};
@@ -172,7 +162,6 @@ export default {
           `${process.env.VUE_APP_API_BASE_URL}/api/member/list`,
           { params });
         this.memberList = response.data.content;
-        console.log("memberList:" + this.memberList);
       } catch (error) {
         console.error("Error fetching members:", error);
       }
@@ -200,15 +189,10 @@ export default {
           }
         }
       }
-
-      console.log("confirm?" + this.showMemberList);
-
       this.memberAddDialog = false; // 모달 닫기
       this.clearMemberAddModal();
     },
     async uploadImage(blob) {
-
-      console.log(blob?.name);
       const accessToken = localStorage.getItem('token');
       const body = {
         prefix: "test-prefix",
@@ -227,11 +211,9 @@ export default {
       );
 
       const urlContentType = getUrl.headers.get("content-type");
-      console.log("urlContentType" + urlContentType);
       let getUrlResult;
       if (urlContentType && urlContentType.includes("application/json")) {
         getUrlResult = await getUrl.json(); // JSON으로 파싱
-        console.log("json" + JSON.stringify(getUrlResult))
       } else {
         getUrlResult = await getUrl.text(); // 텍스트로 파싱
       }
@@ -249,15 +231,12 @@ export default {
         },
         body: blob, // 업로드할 파일 데이터
       };
-      console.log(new Date());
-      let response = await fetch(awsUrl.data + awsUrl.auth, options);
-      console.log(response);
+      await fetch(awsUrl.data + awsUrl.auth, options);
 
       return awsUrl.data;
     },
     async fileUpdate(event) {
       this.projectImageFile = event.target.files[0];
-      console.log(this.projectImageFile)
       this.projectImageUrl = await this.uploadImage(this.projectImageFile);
 
     },
@@ -271,19 +250,17 @@ export default {
     ...mapGetters(['getTechStackIds']),
   },
   async created() {
-    console.log("들어와썽?")
     const route = useRoute();
     this.launchedProjectId = route.params.launchedProjectId;
     this.project = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/basic-info`)
     const projectResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.project?.data?.projectId}`)
-    console.log("launched", this.project);
     this.projectId = this.project?.data?.projectId;
     this.projectName = projectResponse?.data?.projectName ?? "";
     this.siteUrl = this.project.data.siteUrl;
     this.projectImageUrl = this.project.data.launchedProjectImage;
     this.launchedProjectContents = this.project.data.launchedProjectContents;
     const getMembers = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/members`);
-    console.log("????", getMembers);
+
     if (getMembers.length > 0) {
       this.showMemberList = getMembers?.data.map((member) => {
         return {
@@ -294,10 +271,7 @@ export default {
       });
     }
     const getTechList = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/tech-stacks`);
-    console.log("tech", getTechList)
     this.$store.dispatch('updateTechStacksRes', getTechList.data)
-
-
   },
 }
 </script>

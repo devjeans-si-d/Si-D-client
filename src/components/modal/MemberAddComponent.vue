@@ -126,7 +126,6 @@
         };
   
         this.selectedMembers.push(memberData);
-        console.log(this.selectedMembers);
       },
   
       searchMemberShowModal() {
@@ -162,7 +161,6 @@
           this.totalPages = response.data.totalPages;
           this.totalElements = response.data.totalElements;
   
-          console.log(this.memberList); // 검색 결과 멤버 리스트
         } catch (error) {
           console.error("Error fetching members:", error);
         }

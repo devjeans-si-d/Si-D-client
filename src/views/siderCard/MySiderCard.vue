@@ -231,7 +231,6 @@ export default {
       this.data.launchedProjects = data.launchedProjectRes
       // this.data.teckStacks = data.teckStackRes
       this.$store.dispatch("updateTechStacksRes", data.teckStackRes);
-      console.log(response.data.result);
     } catch (e) {
       console.log(e.response.data);
     }
@@ -285,12 +284,11 @@ export default {
         this.data2.socialLink=this.data.socialLink
         this.data2.careers=this.data.careers
         this.data2.teckStacks=this.data.teckStacks
-        const response = await axios.post(
+        await axios.post(
           `${process.env.VUE_APP_API_BASE_URL}/api/sider-card/update`,
           this.data2
         );
         this.$router.push(`/sider-card/${this.data.id}`)
-        console.log(response.data);
       } catch (e) {
         console.log(e.response.data);
       }
@@ -337,8 +335,7 @@ export default {
         },
         body: blob, // 업로드할 파일 데이터
       };
-      let response = await fetch(awsUrl.data + awsUrl.auth, options);
-      console.log(response);
+      await fetch(awsUrl.data + awsUrl.auth, options);
 
       return awsUrl.data;
     },

@@ -132,7 +132,6 @@ export default {
             // 프로젝트 정보 얻기
             const projectRes = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`);
             this.projectInfo = projectRes.data;
-            console.log(this.projectInfo);
 
             this.connect();
 

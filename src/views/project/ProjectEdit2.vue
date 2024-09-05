@@ -260,8 +260,7 @@ export default {
         },
         body: blob, // 업로드할 파일 데이터
       };
-      let response = await fetch(awsUrl.data + awsUrl.auth, options);
-      console.log(response);
+      await fetch(awsUrl.data + awsUrl.auth, options);
 
       return awsUrl.data;
     },

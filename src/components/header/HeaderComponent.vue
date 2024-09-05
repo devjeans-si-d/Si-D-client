@@ -136,7 +136,6 @@ import MyAlert from '@/views/member/MyAlert.vue';
         async loadUserProfile() {
         try {
             const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/member`);
-            console.log(response.data);
 
             this.nickname = response.data.nickname; // 로그인한 사용자 닉네임
             // 프로필 이미지가 null이거나 빈 문자열인 경우 기본 이미지 할당

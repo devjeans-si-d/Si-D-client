@@ -281,8 +281,7 @@ export default {
         },
         body: blob, // 업로드할 파일 데이터
       };
-      let response = await fetch(awsUrl.data + awsUrl.auth, options);
-      console.log(response);
+      await fetch(awsUrl.data + awsUrl.auth, options);
 
       return awsUrl.data;
     },
@@ -351,7 +350,6 @@ export default {
       }
     },
     selectMember(member) {
-      console.log("member 정보", member)
       this.selectedMember = member.memberId; // 멤버를 선택하면 해당 멤버의 ID를 저장
     },
     clearMemberAddModal() {

@@ -160,7 +160,6 @@
         const member=this.memerList.find(p=>p.id==key);
         return {id:member.id, field: jobfield};
       });
-      console.log(selectedMemberList)
         this.selectedMembers.push(memberData);
         this.$emit('selected-members', this.selectedMembers);
       },

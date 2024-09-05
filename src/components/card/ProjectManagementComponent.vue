@@ -15,8 +15,7 @@
       <v-card class="my-project-card" variant="elevated" :key="projectList">
         <v-card-text>
           <v-container>
-            <v-row v-for="project in projectList" class="element-row" :key="project.projectId"
-              @click="spaMoveToProject(project.projectId)">
+            <v-row v-for="project in projectList" class="element-row" :key="project.projectId">
               <v-col class="project-element">
                 <img class="project-img" :src="project.imageUrl" height="100px" width="auto" overflow="hidden"
                   @click="this.$router.push(`/project/${project.projectId}`)" />
@@ -176,13 +175,6 @@ export default {
     this.totalPage = response.data.totalPages;
   },
   methods: {
-    spaMoveToProject(projectId) {
-      // 이동하는 코드 구현
-      console.log(this.projectList);
-      console.log(projectId);
-      //   alert('지금은 임시로 홈으로 이동합니다..');
-      //   this.$router.push('/member/project/apply');
-    },
     openModal(projectId) {
       this.closeProjectId = projectId;
       this.closeDialog = true;
@@ -255,21 +247,18 @@ export default {
         this.projectList = response.data.content;
         this.currentPage = 0;
         this.totalPage = response.data.totalPages;
-        console.log(response);
 
       } else if (this.getCurrentFilter === 2) {
         const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects/pm`, { params });
         this.projectList = response.data.content;
         this.currentPage = 0;
         this.totalPage = response.data.totalPages;
-        console.log(response);
 
       } else {
         const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects/team`, { params });
         this.projectList = response.data.content;
         this.currentPage = 0;
         this.totalPage = response.data.totalPages;
-        console.log(response);
       }
     }
   },

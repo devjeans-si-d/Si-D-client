@@ -111,6 +111,7 @@ export default {
             myId: 0,
             projectId: 0,
             projectInfo: [],
+            socket: ""
         }
     },
     async created() {
@@ -162,8 +163,8 @@ export default {
             if (this.stompClient && this.stompClient.connected) return;
 
 
-            const socket = new SockJS(`${process.env.VUE_APP_API_BASE_URL}/chat`);
-            this.stompClient = Stomp.over(socket);
+            this.socket = new SockJS(`${process.env.VUE_APP_API_BASE_URL}/chat`);
+            this.stompClient = Stomp.over(this.socket);
 
 
 
@@ -179,7 +180,7 @@ export default {
             });
 
 
-            socket.onclose = function() {
+            this.socket.onclose = function() {
             }
 
             this.scrollToBottom();
@@ -189,6 +190,7 @@ export default {
             return new Promise((resolve, reject) => {
                 if (this.stompClient && this.stompClient.connected) {
                     this.stompClient.unsubscribe('/sub/chatroom/' + this.chatroomId);
+                    this.socket.close();
                     try {
                         this.stompClient.disconnect(() => {
                         this.isConnected = false;

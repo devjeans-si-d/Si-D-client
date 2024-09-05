@@ -109,6 +109,7 @@ export default {
             myId: 0,
             projectId: 0,
             projectInfo: [],
+            socket: ""
         }
     },
     async created() {
@@ -149,7 +150,7 @@ export default {
         if (container) {
             // 잠시 딜레이를 주고 스크롤을 최하단으로 이동
             setTimeout(() => {
-            container.scrollTop = container.scrollHeight;
+                container.scrollTop = container.scrollHeight;
             }, 100);
         }
         },
@@ -178,8 +179,8 @@ export default {
             if (this.stompClient && this.stompClient.connected) return;
 
 
-            const socket = new SockJS(`${process.env.VUE_APP_API_BASE_URL}/chat`);
-            this.stompClient = Stomp.over(socket);
+            this.socket = new SockJS(`${process.env.VUE_APP_API_BASE_URL}/chat`);
+            this.stompClient = Stomp.over(this.socket);
 
             // enter chatroom api - Concurrent Hashmap에 넣어주는 부분
             try {
@@ -203,7 +204,7 @@ export default {
             });
 
 
-            socket.onclose = function() {
+            this.onclose = function() {
                 console.log('WebSocket connection closed for user');
             }
 
@@ -214,6 +215,7 @@ export default {
             return new Promise((resolve, reject) => {
                 if (this.stompClient && this.stompClient.connected) {
                     this.stompClient.unsubscribe('/sub/chatroom/' + this.chatroomId);
+                    this.socket.close();
                     try {
                         this.stompClient.disconnect(() => {
                         this.isConnected = false;

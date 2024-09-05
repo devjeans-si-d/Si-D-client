@@ -30,12 +30,17 @@ export default {
     },
     methods: {
         async move(dest, projectId) {
-            this.$refs.chatroomComponent.changeRoom(dest, projectId);
+            
             this.chatroomId = dest;
-            if(this.chatroomId != undefined) {
-            await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/enter`);
-        }
 
+            // enter chatroom api - Concurrent Hashmap에 넣어주는 부분
+            try {
+                console.log(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/enter`);
+                await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/enter`);
+            } catch(e) {
+                console.log(e);
+            }
+            this.$refs.chatroomComponent.changeRoom(this.chatroomId, projectId);
         },
 
     },

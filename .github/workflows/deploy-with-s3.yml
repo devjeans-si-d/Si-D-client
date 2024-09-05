@@ -41,11 +41,11 @@ jobs:
         # 버킷에 소스코드 붓기
       - name: clear s3 bucket
         # 기존 s3 버킷을 비워주기
-        run: aws s3 rm s3://dev.si-d.site/ --recursive
+        run: aws s3 rm s3://www.si-d.site/ --recursive
         
         # S3에 넣기
       - name: deploy to s3
-        run: aws s3 cp ./dist s3://dev.si-d.site/ --recursive
+        run: aws s3 cp ./dist s3://www.si-d.site/ --recursive
 
       # cloud front의 캐시를 지워주는 작업이다.
       - name: invalidate cloudfront caches

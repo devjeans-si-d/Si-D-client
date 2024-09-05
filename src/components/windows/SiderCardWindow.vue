@@ -11,7 +11,7 @@
               v-for="(sidecard, index) in paginatedSidecards(n)"
               :key="index"
               cols="12"
-              md="4"
+              md="3"
               class="d-flex justify-center"
             >
               <v-card

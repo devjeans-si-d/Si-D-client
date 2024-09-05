@@ -1,14 +1,14 @@
 <template>
   <v-container>
     <v-row justify="center" align="center" class="line">
-      <div style="margin: 0 30px;" justify="center" align="center">
-        <!-- <v-avatar class="mx-auto" size="120"> -->
+      <div style="margin: 20px 30px;" justify="center" align="center">
+        <v-avatar class="mx-auto" size="120">
           <img
             :src="data.image"
             alt=""
             style="height: 120px; width: 120px; object-fit: cover;"
           />
-        <!-- </v-avatar> -->
+        </v-avatar>
       </div>
       <v-col>
         <v-row justify="space-between">
@@ -241,6 +241,7 @@ export default {
       this.data.launchedProjects = data.launchedProjectRes;
       // this.data.teckStacks = data.teckStackRes
       this.$store.dispatch("updateTechStacksRes", data.teckStackRes);
+      console.log(response.data.result);
     } catch (e) {
       console.log(e.response.data);
     }
@@ -281,8 +282,6 @@ export default {
 }
 
 .mx-auto {
-  margin-left: auto;
-  margin-right: auto;
   margin-bottom: 60px;
 }
 

@@ -25,6 +25,10 @@ export default {
     methods: {
         async sendCodeToBackend(code) {
             try {
+                console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+                
+                console.log(`VUE_APP_MY_URL : ${process.env.VUE_APP_MY_URL}`);
+                
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/auth/login`, { code })
                 const token = response.data.token;
                 const id = response.data.id;

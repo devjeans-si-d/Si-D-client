@@ -174,7 +174,7 @@ export default {
                 this.scrollToBottom();
             }
         },
-        connect() {
+        async connect() {
             if (this.stompClient && this.stompClient.connected) return;
 
 
@@ -182,7 +182,7 @@ export default {
             this.stompClient = Stomp.over(socket);
 
             // enter chatroom api - Concurrent Hashmap에 넣어주는 부분
-            axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/enter`);
+            await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/enter`);
 
             
             // 헤더에 토큰 끼워넣는 부분

@@ -115,8 +115,12 @@ export default {
     },
     async created() {
         this.myId = localStorage.getItem('id');
+    
         this.chatroomId = this.chatRoomIdProp;
         this.scrollToBottom();
+    },
+    async mount() {
+
     },
     beforeUnmount() {
         this.disconnect();

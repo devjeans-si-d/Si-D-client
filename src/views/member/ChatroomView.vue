@@ -176,11 +176,17 @@ export default {
             }
         },
         async connect() {
-            if (this.stompClient && this.stompClient.connected) return;
-
-
-            this.socket = new SockJS(`${process.env.VUE_APP_API_BASE_URL}/chat`);
+            if(this.getSocket == undefined) {
+                this.$store.dispatch('updateSocket', new SockJS(`${process.env.VUE_APP_API_BASE_URL}/chat`));
+            }
+            this.socket = this.getSocket;
             this.stompClient = Stomp.over(this.socket);
+
+            this.stompClient.subscribe('/sub/chatroom/' + this.chatroomId, response => {
+                    this.scrollToBottom();
+                    const resObj = JSON.parse(response.body);
+                    this.chatList.push(resObj);
+            });
 
             // enter chatroom api - Concurrent Hashmap에 넣어주는 부분
             try {
@@ -204,7 +210,7 @@ export default {
             });
 
 
-            this.onclose = function() {
+            this.socket.onclose = function() {
                 console.log('WebSocket connection closed for user');
             }
 
@@ -215,15 +221,12 @@ export default {
             return new Promise((resolve, reject) => {
                 if (this.stompClient && this.stompClient.connected) {
                     this.stompClient.unsubscribe('/sub/chatroom/' + this.chatroomId);
-                    this.socket.close();
                     try {
                         this.stompClient.disconnect(() => {
                         this.isConnected = false;
-                        // console.log("Disconnected from the WebSocket Connection.");
                         resolve();
                         });
                     } catch (error) {
-                        // console.log("Failed to disconnect: ", error);
                         reject(error);
                     }
             }

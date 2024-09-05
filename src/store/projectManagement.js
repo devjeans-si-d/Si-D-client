@@ -1,3 +1,4 @@
+
 function initState() {
     return {
         currentFilter: 1,

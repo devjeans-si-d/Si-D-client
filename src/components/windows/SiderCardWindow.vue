@@ -11,7 +11,7 @@
               v-for="(sidecard, index) in paginatedSidecards(n)"
               :key="index"
               cols="12"
-              md="3"
+              md="4"
               class="d-flex justify-center"
             >
               <v-card
@@ -35,7 +35,6 @@
                     <div>{{ sidecard.jobField }}</div>
                   </v-card-text>
                 </v-card-item>
-                <!-- <v-spacer :style="{height: '20px'}"></v-spacer> -->
               </v-card>
 
             </v-col>

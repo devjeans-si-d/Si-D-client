@@ -18,6 +18,7 @@
 <script>
 import EnChattingListComponent from '@/components/card/EnChattingListComponent.vue';
 import EnChatroomComponent from '@/components/card/EnChatroomComponent.vue';
+import axios from 'axios';
 
 
 export default {
@@ -31,6 +32,10 @@ export default {
         async move(dest, projectId) {
             this.$refs.chatroomComponent.changeRoom(dest, projectId);
             this.chatroomId = dest;
+            if(this.chatroomId != undefined) {
+            await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}/enter`);
+        }
+
         },
 
     },

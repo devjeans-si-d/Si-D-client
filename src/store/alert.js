@@ -3,7 +3,8 @@ function initState() {
         alertCnt: 0,
         chatCnt: 0,
         teamBuildCnt: 0,
-        socket: null
+        socket: null,
+        stompClient: null,
     }
 }
 
@@ -18,6 +19,9 @@ const projectManagement = {
         },
         mutateSocket(state, socket) {
             state.socket = socket;
+        },
+        mutateStompClient(state, stompClient) {
+            state.stompClient = stompClient;
         }
 
     },
@@ -30,12 +34,16 @@ const projectManagement = {
         },
         updateSocket(context, socket) {
             context.commit('mutateSocket', socket);
+        },
+        updateStompClient(context, stompClient) {
+            context.commit('stompClient', stompClient);
         }
     },
     getters: {
         getChatCnt: state => state.chatCnt,
         getAlertCnt: state => state.alertCnt,
         getSocket: state => state.socket,
+        getStompCliet: state => state.stompClient
     },
 }
 

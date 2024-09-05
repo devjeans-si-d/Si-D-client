@@ -86,7 +86,7 @@
   import { EventSourcePolyfill } from 'event-source-polyfill';
   import { mapGetters } from 'vuex'
   import SockJS from 'sockjs-client'
-  import Stomp from 'webstomp-client'
+  // import Stomp from 'webstomp-client'
 
 
 import MyAlert from '@/views/member/MyAlert.vue';
@@ -126,10 +126,6 @@ import MyAlert from '@/views/member/MyAlert.vue';
       localStorage.setItem('chatCnt', chatCnt);
 
       this.$store.dispatch('updateSocket', new SockJS(`${process.env.VUE_APP_API_BASE_URL}/chat`));
-      this.stompClient = Stomp.over(this.getSocket);
-      // 헤더에 토큰 끼워넣는 부분
-      const authToken = localStorage.getItem('token');
-      this.stompClient.connect({Authorization: `Bearer ${authToken}`})
     },
     computed: {
       ...mapGetters(['getChatCnt']),

@@ -85,10 +85,9 @@
 <script>
 import ButtonComponent from '@/components/button/ButtonComponent.vue';
 import axios from 'axios'
-import { mapGetters } from 'vuex';
 
 import Stomp from 'webstomp-client'
-import SockJS from 'sockjs-client'
+// import SockJS from 'sockjs-client'
 
 
 
@@ -98,9 +97,6 @@ export default {
     ],
     components: {
         ButtonComponent
-    },
-    computed: {
-      ...mapGetters(['getSocket']),
     },
     data() {
         return {
@@ -115,12 +111,12 @@ export default {
             myId: 0,
             projectId: 0,
             projectInfo: [],
-            socket: "",
-            currentSubscribtion: null
+            socket: ""
         }
     },
     async created() {
         this.myId = localStorage.getItem('id');
+    
         this.chatroomId = this.chatRoomIdProp;
         this.scrollToBottom();
     },
@@ -162,18 +158,27 @@ export default {
                 this.scrollToBottom();
             }
         },
-        async connect() {
+        connect() {
+            if (this.stompClient && this.stompClient.connected) return;
+
             if(this.getSocket == undefined) {
-                this.$store.dispatch('updateSocket', new SockJS(`${process.env.VUE_APP_API_BASE_URL}/chat`));
+                // this.$store.dispatch('updateSocket', new SockJS(`${process.env.VUE_APP_API_BASE_URL}/chat`));
             }
+
             this.socket = this.getSocket;
             this.stompClient = Stomp.over(this.socket);
 
-            this.currentSubscribtion = await this.stompClient.subscribe('/sub/chatroom/' + this.chatroomId, response => {
+            // 헤더에 토큰 끼워넣는 부분
+            const authToken = localStorage.getItem('token');
+            this.stompClient.connect({Authorization: `Bearer ${authToken}`}, () => {
+                // 수신할 메시지를 구독합니다.
+                this.stompClient.subscribe('/sub/chatroom/' + this.chatroomId, response => {
                     this.scrollToBottom();
                     const resObj = JSON.parse(response.body);
                     this.chatList.push(resObj);
+                });
             });
+
 
             this.socket.onclose = function() {
             }
@@ -182,21 +187,27 @@ export default {
         },
 
         disconnect() {
-            // return new Promise((resolve, reject) => {
-            //     if (this.stompClient && this.stompClient.connected) {
-            //         this.currentSubscribtion.unsubscribe();
-            // }
-            // });
-            if(this.currentSubscribtion != undefined) {
-                this.currentSubscribtion.unsubscribe();
+            return new Promise((resolve, reject) => {
+                if (this.stompClient && this.stompClient.connected) {
+                    this.stompClient.unsubscribe('/sub/chatroom/' + this.chatroomId);
+                    this.socket.close();
+                    try {
+                        this.stompClient.disconnect(() => {
+                        this.isConnected = false;
+                        resolve();
+                        });
+                    } catch (error) {
+                        reject(error);
+                    }
             }
-            
+            });
         },
         async changeRoom(dest, projectId) {
             this.disconnect();
             this.isVisible = false;
             this.chatroomId = dest;
             this.projectId = projectId;
+
 
             try {
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/${this.chatroomId}`);

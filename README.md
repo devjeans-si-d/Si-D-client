@@ -45,6 +45,12 @@ chore: 코드 수정, 내부 파일 수정
 
 - [기술스택](#기술스택)
 
+- [CI/CD 아키텍처 설계서](#CI/CD-아키텍처-설계서)
+
+- [CI/CD를 위한 구성 스크립트](#CI/CD를-위한-구성-스크립트)
+
+- [테스트 결과서](#테스트결과서)
+
 - [협업관리](#️-협업-관리)
 
 - [기능 및 시연영상](#기능)
@@ -107,9 +113,75 @@ Designer와 Developer를 이어주는 사이드(Side) 프로젝트 플랫폼
 [요구사항 정의 보기](https://www.notion.so/af1a856a1abc4164a9efece3bf72cc57?v=8e30938bc7664893bed667c194fde673&pvs=4)
 
 ## ERD
-<img alt="ERD" src="https://cdn.discordapp.com/attachments/1254677623242493975/1275450348819189860/2024-08-20_9.14.53.png?ex=66c5ef33&is=66c49db3&hm=15effec0a39ab3bc0c10894372e3646bf8de8e7b93962ac657719680a6e8d0ad&">
+<img width="542" alt="erd_devops" src="https://github.com/user-attachments/assets/b080f6af-fa08-4842-b571-fa421662e5d3">
 
 <!-- <h2>Wire Frame</h2> -->
+## CI/CD 아키텍처 설계서
+![architecture](https://github.com/user-attachments/assets/46aae50e-79fa-4a77-a7e5-7c013db1baae)
+
+## CI/CD를 위한 구성 스크립트
+<details>
+<summary>deploy-with-s3.yml</summary>
+
+```
+
+name: deploy to aws s3
+# main 브랜치에 push 될 때 현재 스크립트 실행 트리거 발동
+on:
+  push:
+    branches:
+      - main
+jobs:
+# workflow는 하나 이상의 작업(job)으로 구성. 여기서는 하나의 작업만을 정의
+  build-and-deploy:
+    runs-on: ubuntu-latest # 우분투 최신 판에서 작업(빌드, 배포 작업 어디서 할건지 지정)
+    steps:
+    # actions는 깃헙에서 제공되는 공식 워크플로이다.
+    # checkout은 현재 repo의 main 브랜치 소스코드를 copy
+      - name: source code checkout
+        uses: actions/checkout@v2
+        # node js 세팅
+      - name: setup node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      - name: pnpm install
+        working-directory: .
+        # run은 직접 사용하고자 하는 명령어이다.
+        run: |
+          npm install -g pnpm
+          pnpm install
+      - name: npm build
+        env:
+          VUE_APP_REST_API_KEY: ${{ secrets.KAKAO_API_KEY }}
+          VUE_APP_API_BASE_URL: ${{secrets.SERVER_URL}}
+          VUE_APP_MY_URL: ${{secrets.CLIENT_URL}}
+        working-directory: .
+        run: pnpm run build
+      - name: setup aws cli
+      # aws 관련한 aws actions가 제공된다. 지금 이게 configure 세팅하는 거임
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{secrets.AWS_ACCESS_KEY}}
+          aws-secret-access-key: ${{secrets.AWS_SECRET_KEY}}
+          aws-region: "ap-northeast-2"
+        # 버킷에 소스코드 붓기
+      - name: clear s3 bucket
+        # 기존 s3 버킷을 비워주기
+        run: aws s3 rm s3://www.si-d.site/ --recursive
+        
+        # S3에 넣기
+      - name: deploy to s3
+        run: aws s3 cp ./dist s3://www.si-d.site/ --recursive
+
+      # cloud front의 캐시를 지워주는 작업이다.
+      - name: invalidate cloudfront caches
+        run: aws cloudfront create-invalidation --distribution-id E14HFSJX2ZLQKJ --paths "/*"
+
+```
+</details>
+
+## 테스트 결과서
 
 ## 이슈 관리
 [이슈 관리 보기](https://www.notion.so/01f6e9a772864d789a2aa5f35798e92b?v=8288992a047b499f853c24bfc5f2c1cd&pvs=4)

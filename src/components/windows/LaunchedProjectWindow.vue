@@ -16,19 +16,21 @@
               class="d-flex justify-center"
             >
               <v-card 
-              class="mx-auto" 
-              style="width: 100%; max-width: 250px;"
+              style="width: 250px; height:375px; max-width: 250px;"
               @click="() => moveToProject(project.id)"
               >
                 <v-img
                   class="custom-img"
-                  height="250"
+                  width="250px"
+                  height="250px"
                   :src= project.launchedProjectImage
                   alt="LaunchedProject 썸네일"
                   cover
                 />
                 <v-card-title class="d-flex justify-space-between align-center">
-                  <span>{{ project.projectName }}</span>
+                  <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    {{ project.projectName }}
+                  </span>
                   <v-chip color="primary" text-color="white">
                     🍾 {{ project.scraps }}
                   </v-chip>

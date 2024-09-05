@@ -4,35 +4,37 @@
       rounded="0"
       flat
     >
-      <v-window v-model="onboarding" style="max-width: 1200px; width: 100%;">
+      <v-window v-model="onboarding" style="width: 1080px;">
         <v-window-item v-for="n in windowCount" :key="`window-${n}`" :value="n">
           <v-row class="d-flex justify-center">
             <v-col
               v-for="(sidecard, index) in paginatedSidecards(n)"
               :key="index"
               cols="12"
-              md="4"
+              md="3"
               class="d-flex justify-center"
             >
-              <v-card 
-              class="mx-auto" 
-              style="width: 100%; max-width: 300px; max-height:300px"
+              <v-card
+              class="rounded-xl fixed-card d-flex flex-column align-center justify-center"
               @click="() => moveToSiderCard(sidecard.id)"
               >
-                <v-avatar size="150" class="mx-auto d-flex justify-center align-center">
-                  <v-img
-                  class="circle-img"
-                  :src="sidecard.profileImageUrl ? sidecard.profileImageUrl : defaultImageUrl"
-                  />
-                </v-avatar>
+                <v-card-item>
+                  <v-avatar class="mx-auto" size="120">
+                    <v-img
+                    class="circle-img"
+                    :src="sidecard.profileImageUrl ? sidecard.profileImageUrl : defaultImageUrl"
+                    />
+                  </v-avatar>
+                </v-card-item>
                 
-                <v-card-title class="d-flex justify-center align-center" style="font-weight: bold;">
-                  <span>{{ sidecard.nickname }}</span>
-                </v-card-title>
-                <v-card-text class="d-flex justify-center align-center" style="font-size: 18px;">
-                  <div>{{ sidecard.jobField }}</div>
-                </v-card-text>
-                <v-spacer :style="{height: '20px'}"></v-spacer>
+                <v-card-item>
+                  <v-card-title class="d-flex justify-center align-center" style="font-weight: bold;">
+                    <span>{{ sidecard.nickname }}</span>
+                  </v-card-title>
+                  <v-card-text class="d-flex justify-center align-center" style="font-size: 18px;">
+                    <div>{{ sidecard.jobField }}</div>
+                  </v-card-text>
+                </v-card-item>
               </v-card>
 
             </v-col>
@@ -109,9 +111,15 @@
   </script>
   
   <style scoped>
+  .fixed-card {
+    width: 250px;
+    /* 고정 너비 */
+    height: 250px;
+    /* 고정 높이 */
+  }
   .circle-img {
-    width: 150px;
-    height: 150px;
+    /* width: 150px;*/
+    /* height: 150px; */
     border-radius: 50%;
     object-fit: cover; /* 이미지가 컨테이너를 완전히 덮도록 설정 */
     object-position: center;

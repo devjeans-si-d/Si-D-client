@@ -129,6 +129,7 @@ export default {
   align-content: center;
   margin: auto;
   background-color: #F6F6F6;
+  color: black !important;
 }
 .item-wrap {
   display: flex;

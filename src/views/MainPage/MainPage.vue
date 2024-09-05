@@ -172,6 +172,7 @@ export default {
     this.loadProject();
   },
   methods:{
+    
     async loadLaunchedProject(){
         try {
             const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/main/top-launched-project`);

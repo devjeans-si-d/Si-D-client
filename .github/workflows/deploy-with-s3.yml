@@ -21,14 +21,16 @@ jobs:
       - name: pnpm install
         working-directory: .
         # run은 직접 사용하고자 하는 명령어이다.
-        run: npm install
+        run: |
+          npm install -g pnpm
+          pnpm install
       - name: npm build
         env:
           VUE_APP_REST_API_KEY: ${{ secrets.KAKAO_API_KEY }}
           VUE_APP_API_BASE_URL: ${{secrets.SERVER_URL}}
           VUE_APP_MY_URL: ${{secrets.CLIENT_URL}}
         working-directory: .
-        run: npm run build
+        run: pnpm run build
       - name: setup aws cli
       # aws 관련한 aws actions가 제공된다. 지금 이게 configure 세팅하는 거임
         uses: aws-actions/configure-aws-credentials@v2

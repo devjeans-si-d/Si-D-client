@@ -161,6 +161,7 @@ export default{
 }
 .custom-card{
   max-width: 280px !important;
+  min-height: 368px !important;
 }
 .custom-img {
     width: 100%;

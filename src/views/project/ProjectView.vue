@@ -62,7 +62,7 @@
                 style="height:auto; width:800px; margin-left:50px" />
 
         </v-row>
-        <br/>
+        <br />
         <v-row style="white-space: pre-line;" class="d-flex align-center ma-10">{{ this.contents }}</v-row>
 
         <v-row class="" style="margin-top:50px; margin-left:50px; margin-bottom:20px">
@@ -116,7 +116,7 @@
                     <h4 class="align-center">{{ jobfield }}</h4>
 
                     <v-col v-for="member in members" :key="member.memberId" cols="auto" class="pa-2">
-                        <member-chip size="small" :url="member.profileImageUrl" :name="member.nickname"
+                        <member-chip size="large" :url="member.profileImageUrl" :name="member.nickname"
                             :memberId="member.memberId" @navigate="moveToSiderCard"></member-chip>
                     </v-col>
                 </v-row>
@@ -336,13 +336,17 @@ export default {
         this.applyCounts = getProjectResponse?.data?.applicantsCount;
         this.scrapCount = getProjectResponse?.data?.scrapCount;
         this.views = getProjectResponse?.data?.views;
-        this.deadline = (getProjectResponse)?.data?.deadline;
+        // this.deadline = (getProjectResponse)?.data?.deadline;
+        this.deadline = getProjectResponse?.data?.deadline[0] + "-" + getProjectResponse?.data?.deadline[1].toString().padStart(2, "0") + "-" + getProjectResponse?.data?.deadline[2].toString().padStart(2, "0") + "T" + getProjectResponse?.data?.deadline[3].toString().padStart(2, "0") + ":" + getProjectResponse?.data?.deadline[4].toString().padStart(2, "0");
+
         this.deadlineString = dayjs(this.deadline).format("YYYY년 MM월 DD일");
         const now = dayjs();  //현재날짜
         const dDay = dayjs(this.deadline);  //D-day로 설정할 날짜
         this.dayDiff = dDay.diff(now, "day");  //남은 일 수 구하기
         if (now > dDay || getProjectResponse?.data?.isClosed === 'Y') this.showDDay = false;
         this.createdAt = getProjectResponse?.data?.createdAt;
+    this.createdAt = getProjectResponse?.data?.createdAt[0]+"-"+getProjectResponse?.data?.createdAt[1].toString().padStart(2, "0")+"-"+getProjectResponse?.data?.createdAt[2].toString().padStart(2, "0")+"T"+getProjectResponse?.data?.createdAt[3].toString().padStart(2, "0")+":"+getProjectResponse?.data?.createdAt[4].toString().padStart(2, "0");
+
         this.showCreatedAt = dayjs(this.createdAt).format("YYYY년 MM월 DD일");
         this.title = (getProjectResponse)?.data?.projectName;
         this.projectImageUrl = (getProjectResponse)?.data?.imageUrl;

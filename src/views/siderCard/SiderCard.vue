@@ -6,7 +6,7 @@
           <img
             :src="data.image"
             alt=""
-            style="height: 120px; width: 120px; object-fit: cover; border-radius: 50%;"
+            style="height: 120px; width: 120px; object-fit: cover; border-radius: 50%; margin-bottom: 60px;"
           />
         <!-- </v-avatar> -->
       </div>

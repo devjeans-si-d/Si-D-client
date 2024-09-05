@@ -6,7 +6,7 @@
           <img
             :src="data.image"
             alt=""
-            style="height: 120px; width: 120px; object-fit: cover;"
+            style="height: 120px; width: 120px; object-fit: cover; border-radius: 50%;"
           />
         <!-- </v-avatar> -->
       </div>
@@ -284,6 +284,7 @@ export default {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 60px;
+  border-radius: 50%;
 }
 
 .line {

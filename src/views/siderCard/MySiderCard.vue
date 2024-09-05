@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row justify="center" align="center" class="line">
-      <div style="position: relative; margin: 0 30px; overflow: visible;">
+      <div style="position: relative; margin: 20px 30px; overflow: visible;">
         <v-avatar class="mx-auto" size="120">
           <img :src="data.image" alt="" style="height: 120px; width: 120px; object-fit: cover;" />
           <!-- 파일 선택 인풋 -->
@@ -363,7 +363,6 @@ export default {
 }
 
 .mx-auto {
-  padding-top: 20px;
   margin-bottom: 60px;
 }
 

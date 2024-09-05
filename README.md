@@ -117,6 +117,7 @@ Designer와 Developer를 이어주는 사이드(Side) 프로젝트 플랫폼
 
 <!-- <h2>Wire Frame</h2> -->
 ## CI/CD 아키텍처 설계서
+![architecture](https://github.com/user-attachments/assets/46aae50e-79fa-4a77-a7e5-7c013db1baae)
 
 ## CI/CD를 위한 구성 스크립트
 <details>

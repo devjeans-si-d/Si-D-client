@@ -50,15 +50,13 @@
                     style="width: 40px; height: 40px; border-radius: 50%;" 
                     color="#094F08"
                     class="mr-10"
-                    @click="deleteLaunchedProject"
+                    @click="deleteModal=true"
                     >
                         <v-tooltip activator="parent" location="top">글 삭제하기</v-tooltip>
                         <v-icon>mdi-trash-can</v-icon>
                     </v-chip>
                 </v-col>
-            </v-row>
-            
-            <!-- <v-spacer :style="{ height: '50px' }"></v-spacer> -->
+            </v-row> 
 
             <v-row>
                 <v-col cols="7">
@@ -160,19 +158,36 @@
             </v-card>
         </v-dialog>
 
-        <!-- 글 삭제 후 띄워줄 모달 -->
-
+        <!-- 글 삭제 모달 -->
+        <v-dialog v-model="deleteModal" max-width="500px" rounded="xl">
+            <v-card>
+              <v-card-title>삭제 확인</v-card-title>
+              <v-divider class="mb-4"></v-divider>
+              <v-card-text>삭제하시겠습니까?</v-card-text>
+              <v-card-actions>
+                <v-row justify="center">
+                  <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }"
+                  @click="deleteModal = false" class="mr-1" />
+                  <v-btn rounded="xl" variant="flat" density="default" color="#A4DEC6" :style="{ color: '#FFFFFF' }"
+                    @click="deleteLaunchedProject()">확인</v-btn>
+                </v-row>
+              </v-card-actions>
+              <v-divider class="mt-2 mb-10"></v-divider>
+            </v-card>
+          </v-dialog>
     </v-container>
     
 </template>
 <script>
 import axios from 'axios';
 import MemberChip from '@/components/chip/MemberChip.vue';
+import ButtonComponent from '@/components/button/ButtonComponent.vue';
 import { useRoute } from 'vue-router';
 
 export default{
     components: {
         MemberChip,
+        ButtonComponent
     },
     data(){
         return{
@@ -197,7 +212,7 @@ export default{
             modalTitle: "로그인",
             modalContents: "로그인 이용자만 가능한 서비스입니다. 로그인 후 이용해주세요",
             notMemberModal: false, // 비회원 스크랩금지 모달 상태
-            // deleteModal: false, // 글 삭제 후 띄워줄 모달 상태
+            deleteModal: false, // 글 삭제 후 띄워줄 모달 상태
         };
     },
     async created(){
@@ -371,6 +386,7 @@ export default{
         async deleteLaunchedProject(){
             try{
                 await axios.delete(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/delete/${this.launchedProjectId}`);
+                this.$router.push({ name: 'LaunchedProjectList' });
             }catch(error){
                 if (error.response && error.response.data) {
                     alert(error.response.data.message);// 서버에서 반환한 에러 메시지 

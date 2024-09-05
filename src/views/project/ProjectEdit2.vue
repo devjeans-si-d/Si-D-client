@@ -236,9 +236,9 @@ export default {
   methods: {
     async removeProject(){
       try {
-        const response = await axios.delete(
+        await axios.delete(
           `${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`);
-        console.log(response)
+        
         this.$router.push({ name: 'ProjectList' });
 
       } catch (error) {

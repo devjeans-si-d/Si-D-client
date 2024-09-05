@@ -2,7 +2,7 @@
   <v-container>
     <v-row justify="center" align="center" class="line">
       <div style="position: relative; margin: 0 30px; overflow: visible;">
-        <v-avatar size="120">
+        <v-avatar class="mx-auto" size="120">
           <img :src="data.image" alt="" style="height: 120px; width: 120px; object-fit: cover;" />
           <!-- 파일 선택 인풋 -->
           <v-file-input ref="fileInput" hide-input style="position: absolute; bottom: 0; right: 0; z-index: -3;"
@@ -363,8 +363,6 @@ export default {
 }
 
 .mx-auto {
-  margin-left: auto;
-  margin-right: auto;
   margin-bottom: 60px;
 }
 

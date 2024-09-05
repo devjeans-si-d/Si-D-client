@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row justify="center" align="center" class="line">
-      <div style="margin: 0 30px;" justify="center" align="center">
+      <div style="margin: 20px 30px;" justify="center" align="center">
         <v-avatar class="mx-auto" size="120">
           <img
             :src="data.image"
@@ -282,7 +282,6 @@ export default {
 }
 
 .mx-auto {
-  padding-top: 20px;
   margin-bottom: 60px;
 }
 

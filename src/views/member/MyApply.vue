@@ -60,7 +60,6 @@ export default {
             } catch(e) {
             console.log(e);
           }
-          console.log(this.currentPage - 1);
           this.$refs.myApplyComponent.changePage(this.currentPage);
         },
 

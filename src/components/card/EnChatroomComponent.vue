@@ -180,7 +180,6 @@ export default {
 
 
             socket.onclose = function() {
-                console.log('WebSocket connection closed for user');
             }
 
             this.scrollToBottom();
@@ -193,11 +192,9 @@ export default {
                     try {
                         this.stompClient.disconnect(() => {
                         this.isConnected = false;
-                        // console.log("Disconnected from the WebSocket Connection.");
                         resolve();
                         });
                     } catch (error) {
-                        // console.log("Failed to disconnect: ", error);
                         reject(error);
                     }
             }

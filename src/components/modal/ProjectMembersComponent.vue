@@ -154,7 +154,6 @@ export default {
           `${process.env.VUE_APP_API_BASE_URL}/api/member/list`,
           { params });
         this.memberList = response.data.content;
-        console.log("memberList:" + this.memberList);
       } catch (error) {
         console.error("Error fetching members:", error);
       }

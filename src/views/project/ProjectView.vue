@@ -241,7 +241,6 @@ export default {
         groupedMembers() {
             return this.showMemberList.reduce((groups, member) => {
                 const field = member.jobfield;
-                console.log("group member check", member)
                 if (!groups[field]) {
                     groups[field] = [];
                 }
@@ -332,7 +331,7 @@ export default {
         const route = useRoute();
         this.projectId = route.params.projectId;
         const getProjectResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`)
-        console.log(getProjectResponse);
+    
         this.applyCounts = getProjectResponse?.data?.applicantsCount;
         this.scrapCount = getProjectResponse?.data?.scrapCount;
         this.views = getProjectResponse?.data?.views;
@@ -373,13 +372,11 @@ export default {
             }
         })
         this.applyJobFieldList = this.showRecruitInfoList.map((recruit) => recruit.recruitField);
-        console.log("jobfieldlist", this.applyJobFieldList)
 
         // this.isScrap = getProjectResponse?.data?.scrap;
 
         this.contents = getProjectResponse.data.recruitmentContents;
         const scrapResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/isScrap`)
-        console.log("scrap response", scrapResponse?.data)
         this.isScrap = scrapResponse?.data;
     },
     methods: {
@@ -399,7 +396,6 @@ export default {
             window.history.back();
         },
         async clickScrap() {
-            console.log(localStorage.length === 2)
             if (localStorage.length === 2) this.notMemberModal = true;
             else {
                 if (!this.isScrap) this.doScrap();
@@ -408,10 +404,8 @@ export default {
 
         },
         async doScrap() {
-
             try {
-                const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/scrap`)
-                console.log(response);
+                await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/scrap`)
                 this.isScrap = true;
                 this.scrapCount++;
                 // 스크랩수 늘리기
@@ -422,8 +416,7 @@ export default {
         },
         async unDoScrap() {
             try {
-                const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/scrap/delete`)
-                console.log(response);
+                await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/scrap/delete`)
                 this.isScrap = false;
                 this.scrapCount--;
                 // 스크랩수 줄이기
@@ -457,12 +450,9 @@ export default {
                 jobField: this.applyJobfield,
                 content: this.applyContents
             };
-            console.log(data)
+            
             try {
-                console.log(localStorage.length === 2)
-
-                const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/apply`, data)
-                console.log(response);
+                await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}/apply`, data)
 
                 this.applyConfirmModal = true;
 
@@ -472,8 +462,6 @@ export default {
 
             }
             this.closeApplyModal();
-
-
         },
 
         // member check
@@ -487,15 +475,12 @@ export default {
         },
         // 이부분 복붙
         async chatFn() {
-            console.log(localStorage.length === 2)
-
             const data = {
                 projectId: this.projectId,
                 chatStarterMemberId: localStorage.id
             }
             try {
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/chat/chatroom/create`, data)
-                console.log(response)
                 const chatroomId = response.data.chatRoomId;
                 this.closeChatModal();
                 window.location.href = `/project/${this.projectId}/chatroom/${chatroomId}`;

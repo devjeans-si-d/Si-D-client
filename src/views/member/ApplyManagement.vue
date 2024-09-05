@@ -200,16 +200,8 @@ export default{
         
         const projectRes = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`);
         this.projectInfo = projectRes.data;
-        console.log(this.projectInfo);
     },
   methods: {
-      spaMoveToProject(projectId) {
-          // 이동하는 코드 구현
-          console.log(this.projectList);
-          console.log(projectId);
-        //   alert('지금은 임시로 홈으로 이동합니다..');
-        //   this.$router.push('/member/project/apply');
-      },
       getStatusColor(title) {
         if(title === '승인 완료') {
             return 'sid_btn2';
@@ -253,7 +245,6 @@ export default{
               page: this.currentPage-1
             }
             const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/my-projects`, {params});
-            console.log(response);
             this.projectList = response.data.content;
             } catch(e) {
             console.log(e);
@@ -293,7 +284,6 @@ export default{
 
             this.currentMenu = menu;
             this.$store.dispatch('updateCurrentFilter', menu);
-            console.log('getCurrent: ', this.getCurrentFilter);
 
             const params = {
                     size: 3,

@@ -50,15 +50,13 @@
                     style="width: 40px; height: 40px; border-radius: 50%;" 
                     color="#094F08"
                     class="mr-10"
-                    @click="deleteLaunchedProject"
+                    @click="deleteModal=true"
                     >
                         <v-tooltip activator="parent" location="top">글 삭제하기</v-tooltip>
                         <v-icon>mdi-trash-can</v-icon>
                     </v-chip>
                 </v-col>
-            </v-row>
-            
-            <!-- <v-spacer :style="{ height: '50px' }"></v-spacer> -->
+            </v-row> 
 
             <v-row>
                 <v-col cols="7">
@@ -160,17 +158,36 @@
             </v-card>
         </v-dialog>
 
+        <!-- 글 삭제 모달 -->
+        <v-dialog v-model="deleteModal" max-width="500px" rounded="xl">
+            <v-card>
+              <v-card-title>삭제 확인</v-card-title>
+              <v-divider class="mb-4"></v-divider>
+              <v-card-text>삭제하시겠습니까?</v-card-text>
+              <v-card-actions>
+                <v-row justify="center">
+                  <ButtonComponent content="취소" :style="{ color: '#650101', backgroundColor: '#FFAFAF' }"
+                  @click="deleteModal = false" class="mr-1" />
+                  <v-btn rounded="xl" variant="flat" density="default" color="#A4DEC6" :style="{ color: '#FFFFFF' }"
+                    @click="deleteLaunchedProject()">확인</v-btn>
+                </v-row>
+              </v-card-actions>
+              <v-divider class="mt-2 mb-10"></v-divider>
+            </v-card>
+          </v-dialog>
     </v-container>
     
 </template>
 <script>
 import axios from 'axios';
 import MemberChip from '@/components/chip/MemberChip.vue';
+import ButtonComponent from '@/components/button/ButtonComponent.vue';
 import { useRoute } from 'vue-router';
 
 export default{
     components: {
         MemberChip,
+        ButtonComponent
     },
     data(){
         return{
@@ -194,7 +211,8 @@ export default{
             isLogin: false, // 로그인 여부
             modalTitle: "로그인",
             modalContents: "로그인 이용자만 가능한 서비스입니다. 로그인 후 이용해주세요",
-            notMemberModal: false, // 모달 상태
+            notMemberModal: false, // 비회원 스크랩금지 모달 상태
+            deleteModal: false, // 글 삭제 후 띄워줄 모달 상태
         };
     },
     async created(){
@@ -245,14 +263,11 @@ export default{
         async loadBasicInfo(){
             try{
                 const basicInfoResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/basic-info`);
-                console.log(basicInfoResponse.data);
                 this.basicInfo = basicInfoResponse.data;
 
                 // pm인지 확인
                 const pmId = basicInfoResponse.data.pmId;
-                console.log(pmId);
                 this.isPm = pmId == localStorage.getItem("id") ? true : false;
-                console.log(this.isPm);
 
                 // 완성된프로젝트 글내용
                 const contents = basicInfoResponse.data.launchedProjectContents;
@@ -264,11 +279,9 @@ export default{
                 // 완성된 프로젝트에 fk 걸린 project id
                 const projectId = basicInfoResponse.data.projectId;
                 const projectResponse = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/`+ projectId);
-                console.log(projectResponse.data);
                 this.project = projectResponse.data;
 
             }catch(error){
-                console.error("완성된 프로젝트 기본정보 API 호출 실패:", error);
                 // 에러가 발생한 경우, 서버에서 반환한 메시지를 alert로 표시
                 if (error.response && error.response.data) {
                     alert(error.response.data.message);// 서버에서 반환한 에러 메시지
@@ -281,17 +294,19 @@ export default{
             try {
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/is-scrapped/${this.launchedProjectId}`);
                 this.isScrapped = response.data; // API 응답으로 `isScrapped` 업데이트
-            } catch (error) {
-                console.error("스크랩 상태 확인 실패:", error.response ? error.response.data : error.message);
+            } catch (error) {                
+                if (error.response && error.response.data) {
+                    alert(error.response.data.message);// 서버에서 반환한 에러 메시지
+                } else {
+                    alert('An unknown error occurred. Please try again later.');
+                }
             }
         },
             async loadTechStacks(){
             try{
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/tech-stacks`);
-                console.log(response.data);
                 this.techStacks = response.data;
             }catch(error){
-                console.error("완성된 프로젝트 기술스택 API 호출 실패:", error);
                 // 에러가 발생한 경우, 서버에서 반환한 메시지를 alert로 표시
                 if (error.response && error.response.data) {
                     alert(error.response.data.message);// 서버에서 반환한 에러 메시지
@@ -303,10 +318,8 @@ export default{
         async loadMembers(){
             try{
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/detail/${this.launchedProjectId}/members`);
-                console.log(response.data);
                 this.members = response.data;
             }catch(error){
-                console.error("완성된 프로젝트 참여멤버 API 호출 실패:", error);
                 // 에러가 발생한 경우, 서버에서 반환한 메시지를 alert로 표시
                 if (error.response && error.response.data) {
                     alert(error.response.data.message);// 서버에서 반환한 에러 메시지
@@ -341,8 +354,12 @@ export default{
                 this.isScrapped = true;
                 this.basicInfo.scrapCount = response.data.scrapCount;
                 // await this.loadBasicInfo(); // 데이터 새로 로드
-            } catch (e) {
-                console.error("완성된 프로젝트 스크랩 추가 API 호출 실패:", e);
+            } catch (error) {
+                if (error.response && error.response.data) {
+                    alert(error.response.data.message);// 서버에서 반환한 에러 메시지
+                } else {
+                    alert('An unknown error occurred. Please try again later.');
+                }
             }
         },
         async unDoScrap() {
@@ -351,24 +368,31 @@ export default{
                 this.isScrapped = false;
                 this.basicInfo.scrapCount = response.data.scrapCount;
                 // await this.loadBasicInfo(); // 데이터 새로 로드
-            } catch (e) {
-                console.error("완성된 프로젝트 스크랩 삭제 API 호출 실패:", e);
+            } catch (error) {
+                if (error.response && error.response.data) {
+                    alert(error.response.data.message);// 서버에서 반환한 에러 메시지
+                } else {
+                    alert('An unknown error occurred. Please try again later.');
+                }
             }
         },
         handleClickScrap() {
             if(this.isLogin){
                 this.clickScrap();
             }else{
-                // alert('로그인 후 이용해주세요');
                 this.notMemberModal = true;
             }
         },
         async deleteLaunchedProject(){
             try{
-                const response = await axios.delete(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/delete/${this.launchedProjectId}`);
-                console.log(response.data);
-            }catch(e){
-                console.error("완성된 프로젝트 삭제 API 호출 실패:", e);
+                await axios.delete(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/delete/${this.launchedProjectId}`);
+                this.$router.push({ name: 'LaunchedProjectList' });
+            }catch(error){
+                if (error.response && error.response.data) {
+                    alert(error.response.data.message);// 서버에서 반환한 에러 메시지 
+                } else {
+                    alert('An unknown error occurred. Please try again later.');
+                }
             }
         }
     }

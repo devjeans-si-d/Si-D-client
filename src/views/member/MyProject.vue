@@ -41,7 +41,7 @@
   
   <script>
   import ProjectManagementComponent from '@/components/card/ProjectManagementComponent.vue';
-import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
+  import BasicSmallChip from '@/components/chip/BasicSmallChip.vue';
 
 
   export default {

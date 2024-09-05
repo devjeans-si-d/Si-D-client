@@ -42,9 +42,7 @@ export default{
             this.$router.push(destination);
         },
         changeMenu(menu) {
-            console.log("!!!!!!!!!!!!!!!!!!!!!!");
             this.currentMenu = menu;
-            console.log(this.currentMenu);
         }
     },
 }

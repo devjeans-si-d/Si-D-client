@@ -85,7 +85,6 @@ export default {
     this.socialId = urlParams.get("social_id");
     this.email = urlParams.get("social_email");
     history.replaceState({}, null, location.pathname);
-    console.log(this.socialId, this.email);
   },
   methods: {
     validateInput() {
@@ -119,12 +118,10 @@ export default {
           phoneNumber: this.phoneNumber,
           socialId: this.socialId,
         };
-        console.log(data);
-        const response = await axios.post(
+        await axios.post(
           `${process.env.VUE_APP_API_BASE_URL}/api/auth/register`,
           data
         );
-        console.log(response);
         localStorage.setItem('state',"first")
         window.location.href = this.KAKAO_AUTH_URI
       } catch (error) {

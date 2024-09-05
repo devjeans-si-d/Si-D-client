@@ -82,8 +82,6 @@ export default {
         return false;
       }
       if (!validPhone) {
-        console.log(this.phone);
-        
         alert('전화번호를 올바르게 입력해주세요.');
         return false;
       }

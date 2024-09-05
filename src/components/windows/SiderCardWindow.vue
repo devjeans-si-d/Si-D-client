@@ -31,7 +31,7 @@
                   <v-card-title class="d-flex justify-center align-center" style="font-weight: bold;">
                     <span>{{ sidecard.nickname }}</span>
                   </v-card-title>
-                  <v-card-text class="d-flex justify-center align-center" style="font-size: 18px;">
+                  <v-card-text class="d-flex justify-center align-center" style="font-size: 15px;">
                     <div>{{ sidecard.jobField }}</div>
                   </v-card-text>
                 </v-card-item>

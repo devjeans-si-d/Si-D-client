@@ -33,11 +33,11 @@
     },
   
       handleMembersFetched(members) {
-        console.log('Fetched members:', members);
+        // console.log('Fetched members:', members);
       },
   
       handleSelectedMembers(selectedMembers) {
-        console.log('Selected members:', selectedMembers);
+        // console.log('Selected members:', selectedMembers);
       },
     }
   };

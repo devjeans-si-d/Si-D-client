@@ -14,7 +14,6 @@ export default {
         }
     },
     created() {
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!');
         const code = new URL(window.location.href).searchParams.get('code');
         if (code) {
             // 백엔드로 인가 코드를 전송
@@ -27,7 +26,6 @@ export default {
         async sendCodeToBackend(code) {
             try {
                 const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/auth/login`, { code })
-                console.log(response);
                 const token = response.data.token;
                 const id = response.data.id;
                 localStorage.setItem('token', token)
@@ -36,10 +34,8 @@ export default {
                 window.location.href = '/'
             } catch (error) {
                 if (error.response.status == 401) {
-                    console.log(error.response.data.status_message);
                     const social_id = error.response.data.result.social_id
                     const social_email = error.response.data.result.social_email
-                    console.log(social_id, social_email);
                     window.location.href = `/signup?social_id=${social_id}&social_email=${social_email}`;
 
                 } else {

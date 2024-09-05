@@ -236,9 +236,9 @@ export default {
   methods: {
     async removeProject(){
       try {
-        const response = await axios.delete(
+        await axios.delete(
           `${process.env.VUE_APP_API_BASE_URL}/api/project/${this.projectId}`);
-        console.log(response)
+        
         this.$router.push({ name: 'ProjectList' });
 
       } catch (error) {
@@ -292,8 +292,7 @@ export default {
         },
         body: blob, // 업로드할 파일 데이터
       };
-      let response = await fetch(awsUrl.data + awsUrl.auth, options);
-      console.log(response);
+      await fetch(awsUrl.data + awsUrl.auth, options);
 
       return awsUrl.data;
     },

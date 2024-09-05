@@ -184,18 +184,12 @@ export default {
       window.location.reload();
     },
     async registerLaunchedProject() {
-      console.log("url", this.projectImageUrl)
-      console.log("projectId", this.projectId)
-      console.log("contet", this.launchedProjectContents)
-      console.log("siteUrl", this.siteUrl)
-      console.log("tech", this.techStackList)
       let members = this.showMemberList.map(member => ({
         id: member.memberId,
         jobField: member.jobField
       }));
       let techStacks = [];
       this.techStackList.map((tech) => { techStacks.push(tech.id) })
-      console.log(members)
       const body = {
         projectId: this.projectId,
         launchedProjectContents: this.launchedProjectContents,
@@ -207,7 +201,6 @@ export default {
 
       try {
         const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/launched-project/register`, body);
-        console.log('Launched Project 등록 성공:', response);
         const launchedProjectId = response?.data
         this.$router.push({ name: 'LaunchedProjectDetail', params: { launchedProjectId: launchedProjectId } });
         // 필요 시 성공 후 처리 (예: 페이지 이동)
@@ -254,13 +247,11 @@ export default {
           `${process.env.VUE_APP_API_BASE_URL}/api/member/list`,
           { params });
         this.memberList = response.data.content;
-        console.log("memberList:" + this.memberList);
       } catch (error) {
         console.error("Error fetching members:", error);
       }
     },
     selectMember(member) {
-      console.log("member정보여", member)
       this.selectedMember = member.memberId; // 멤버를 선택하면 해당 멤버의 ID를 저장
     },
     confirmMemberSelection() {
@@ -280,14 +271,11 @@ export default {
           });
         }
       }
-      console.log("confirm?" + this.showMemberList);
 
       this.memberAddDialog = false; // 모달 닫기
       this.clearMemberAddModal();
     },
     async uploadImage(blob) {
-
-      console.log(blob.name);
       const accessToken = localStorage.getItem('token');
       const body = {
         prefix: "test-prefix",
@@ -306,11 +294,9 @@ export default {
       );
 
       const urlContentType = getUrl.headers.get("content-type");
-      console.log("urlContentType" + urlContentType);
       let getUrlResult;
       if (urlContentType && urlContentType.includes("application/json")) {
         getUrlResult = await getUrl.json(); // JSON으로 파싱
-        console.log("json" + JSON.stringify(getUrlResult))
       } else {
         getUrlResult = await getUrl.text(); // 텍스트로 파싱
       }
@@ -328,15 +314,11 @@ export default {
         },
         body: blob, // 업로드할 파일 데이터
       };
-      console.log(new Date());
-      let response = await fetch(awsUrl.data + awsUrl.auth, options);
-      console.log(response);
-
+      await fetch(awsUrl.data + awsUrl.auth, options);
       return awsUrl.data;
     },
     async fileUpdate(event) {
       this.projectImageFile = event.target.files[0];
-      console.log(this.projectImageFile)
       this.projectImageUrl = await this.uploadImage(this.projectImageFile);
 
     },

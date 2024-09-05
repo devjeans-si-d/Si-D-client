@@ -139,10 +139,7 @@ export default{
         let params = {
           sorted: this.sorted
         };
-
-        console.log(params);
         const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/project/listAll`, { params });
-        console.log(response.data);
         
         this.projects = response.data;
       } catch (error) {

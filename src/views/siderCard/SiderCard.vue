@@ -241,7 +241,6 @@ export default {
       this.data.launchedProjects = data.launchedProjectRes;
       // this.data.teckStacks = data.teckStackRes
       this.$store.dispatch("updateTechStacksRes", data.teckStackRes);
-      console.log(response.data.result);
     } catch (e) {
       console.log(e.response.data);
     }

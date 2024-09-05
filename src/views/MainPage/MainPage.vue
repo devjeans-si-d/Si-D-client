@@ -176,7 +176,6 @@ export default {
     async loadLaunchedProject(){
         try {
             const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/main/top-launched-project`);
-            console.log(response.data.content);
 
            // Pageable 객체에서 content 필드만 추출하여 launched_projects에 할당
            this.launched_projects = response.data.content.map(project => {
@@ -192,8 +191,6 @@ export default {
     async loadSiderCard(){
         try {
         const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/main/top-sider-card`);
-        console.log(response.data.content);
-        
         this.siderCards = response.data.content;
       } catch (error) {
         console.error("메인페이지 SiderCard 리스트 data load 에러:", error);
@@ -202,8 +199,6 @@ export default {
     async loadProject(){
         try {
         const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/main/top-project`);
-        console.log(response.data.content);
-        
         this.projects = response.data.content;
       } catch (error) {
         console.error("메인페이지 Project 리스트 data load 에러:", error);

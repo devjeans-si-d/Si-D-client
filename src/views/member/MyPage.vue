@@ -133,7 +133,6 @@
     },
     async created() {
       const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/member`);
-      console.log(response.data);
 
       this.email = response.data.email;
       this.nickname = response.data.nickname;

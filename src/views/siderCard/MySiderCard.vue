@@ -363,6 +363,7 @@ export default {
 }
 
 .mx-auto {
+  padding-top: 20px;
   margin-bottom: 60px;
 }
 

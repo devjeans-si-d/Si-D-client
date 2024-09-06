@@ -190,7 +190,7 @@ export default {
             return new Promise((resolve, reject) => {
                 if (this.stompClient && this.stompClient.connected) {
                     this.stompClient.unsubscribe('/sub/chatroom/' + this.chatroomId);
-                    this.socket.close();
+                    // this.socket.close();
                     try {
                         this.stompClient.disconnect(() => {
                         this.isConnected = false;

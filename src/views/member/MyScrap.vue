@@ -137,15 +137,9 @@
             this.dialog = false;
             window.location.reload();
         },
-        getDay(deadline) {
-            const createdTime = new Date(deadline);
-
-            return `${createdTime.getFullYear()}년 ${createdTime.getMonth() + 1}월 ${createdTime.getDate()}일`; 
-        },
-        getTime(deadline) {
-            const createdTime = new Date(deadline);
-            let hour = createdTime.getHours();
-            let minute = createdTime.getMinutes();
+        getTime(createdAt) {
+            let hour = createdAt[3];
+            let minute = createdAt[4];
             let ampm;
             if(hour < 12) {
                 ampm = '오전'
@@ -163,6 +157,9 @@
 
             return ampm + ' ' + hour + ':' + minute;
         },
+        getDay(createdAt) {
+            return `${createdAt[0]}년 ${createdAt[1].toString().padStart(2, "0")}월 ${createdAt[2].toString().padStart(2, "0")}일`; 
+        }
 
     },
     watch: {

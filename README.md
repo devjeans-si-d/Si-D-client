@@ -55,6 +55,8 @@ chore: 코드 수정, 내부 파일 수정
 
 - [기능 및 시연영상](#기능)
 
+- [Devops Trouble Shooting](#️-devops-trouble-shooting)
+
 ## 주요 기능
 
 - [소셜로그인, 회원정보 입력](#-회원가입--카카오-소셜로그인-si-der-card-등록)

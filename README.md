@@ -117,7 +117,11 @@ Designer와 Developer를 이어주는 사이드(Side) 프로젝트 플랫폼
 
 <!-- <h2>Wire Frame</h2> -->
 ## CI/CD 아키텍처 설계서
-![architecture2](https://github.com/user-attachments/assets/e4f524d4-4894-4b03-9859-d0bf79d9359b)
+### 초기 배포 아키텍처
+<img width="1113" alt="데브서버1" src="https://github.com/user-attachments/assets/de56bf4a-c20b-4d9f-9b64-b6ef759d3179">
+
+### 최종 배포 아키텍처
+<img width="756" alt="아키텍처3" src="https://github.com/user-attachments/assets/4cd6c8b6-8f35-4169-a328-969c9d7b0c6b">
 
 ## CI/CD를 위한 구성 스크립트
 <details>
@@ -183,49 +187,58 @@ jobs:
 
 ## 테스트 결과서
 
-### 카카오 소셜 로그인 및 나의 사이더카드 조회
-<details>
+## 테스트 결과서
 
-</details>
+### 📍카카오 소셜 로그인 및 나의 사이더카드 조회
 
-### 프로젝트 모집 공고 등록
-<details>
-</details>
+  <details>
+      <summary><b>카카오 소셜 로그인 및 나의 사이더카드 조회</b></summary>
+      <img src="https://github.com/user-attachments/assets/a6ecb38f-2378-4731-a22a-77aaf5d91e0b" alt="카카오 소셜 로그인 및 나의 사이더카드 조회"/>
+  </details>
+  <br/>
 
-### 프로젝트 모집 공고 지원
+### 📍프로젝트 모집 공고 등록
+  <details>
+      <summary><b>프로젝트 모집 공고 등록</b></summary>
+      <img src="https://github.com/user-attachments/assets/213bc96c-e95f-4489-9a81-2bedb4aeb905" alt="프로젝트 모집 공고 등록"/>
+  </details>
+  <br/>
 
-    <details> 
-      <summary>PM에게 문의채팅</summary>
+### 📍프로젝트 모집 공고 지원
+  <details>
+      <summary><b>PM에게 문의채팅</b></summary>
+      <img src="https://github.com/user-attachments/assets/29d242b0-6328-4881-afcb-1c4c4b71dc92" alt="PM에게 문의채팅"/>
+  </details>
+  <br/>
+  <details>
+      <summary><b>PM 답변 채팅</b></summary>
+      <img src="https://github.com/user-attachments/assets/069e19a4-9e84-4fb3-960f-3ab8d3116132" alt="PM 답변 채팅"/>
+  </details>
+  <br/>
+  <details>
+      <summary><b>프로젝트 지원</b></summary>
+      <img src="https://github.com/user-attachments/assets/0431b94f-30cb-4617-89e1-36acad830b6d" alt="프로젝트 지원"/>
+  </details>
+  <br/>
 
-    </details>
+### 📍프로젝트 관리 (PM)
+  <details>
+      <summary><b>프로젝트 지원자 승인</b></summary>
+      <img src="https://github.com/user-attachments/assets/eb6fb10e-cef6-4f63-948c-03b2e7a625e0" alt="프로젝트 지원자 승인"/>
+  </details>
+  <br/>
+    <details>
+      <summary><b>프로젝트 마감 시 알람</b></summary>
+      <img src="https://github.com/user-attachments/assets/d9d955a2-b493-4541-b93d-1903c91dd396" alt="프로젝트 마감 시 알람"/>
+  </details>
+  <br/>
 
-    <details> 
-      <summary>PM 답변 채팅</summary>
-
-    </details>
-
-    <details> 
-      <summary>프로젝트 지원</summary>
-
-    </details>
-
-### 프로젝트 관리 (PM)
-
-    <details> 
-      <summary>프로젝트 지원자 승인하기 시연 영상</summary>
-
-    </details>
-
-    <details> 
-      <summary>프로젝트 마감 시 알람수신 시연영상</summary>
-
-    </details>
-
-### 완성된 프로젝트 등록
-    <details> 
-        <summary>런칭 프로젝트 등록 시연영상</summary>
-    </details>
-
+### 📍완성된 프로젝트 등록
+  <details>
+      <summary><b>완성된 프로젝트 등록</b></summary>
+      <img src="https://github.com/user-attachments/assets/e6f8601e-ad6d-4e65-af52-d559a107562a" alt="완성된 프로젝트 등록"/>
+  </details>
+  <br/>
     
 ## 이슈 관리
 [이슈 관리 보기](https://www.notion.so/01f6e9a772864d789a2aa5f35798e92b?v=8288992a047b499f853c24bfc5f2c1cd&pvs=4)

@@ -121,7 +121,7 @@ Designer와 Developer를 이어주는 사이드(Side) 프로젝트 플랫폼
 
 ## CI/CD를 위한 구성 스크립트
 <details>
-<summary>deploy-with-s3.yml</summary>
+<summary> <b>프론트엔드 CI/CD : deploy-with-s3.yml </b></summary>
 
 ```
 
@@ -176,7 +176,113 @@ jobs:
 
       # cloud front의 캐시를 지워주는 작업이다.
       - name: invalidate cloudfront caches
-        run: aws cloudfront create-invalidation --distribution-id E14HFSJX2ZLQKJ --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id E1O6AN1E7XTVYQ --paths "/*"
+
+```
+</details>
+
+<details>
+<summary> <b>백엔드 CI/CD : be-cicd.yml </b></summary>
+
+```
+
+name: deploy to ec2 with docker
+on:
+  push:
+    branches:
+      - dev
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout-branch
+        uses: actions/checkout@v2
+
+      - name: build image
+        working-directory: .
+        run: docker build -t clean01/sid:latest .
+
+      - name: docker hub login
+        uses: docker/login-action@v1
+        with:
+          username: ${{secrets.DOCKER_EMAIL}}
+          password: ${{secrets.DOCKER_PASSWORD}}
+
+      - name: push to dockerhub
+        run: docker push clean01/sid:latest
+
+      - name: ec2 ssh login and docker compose update
+        uses: appleboy/ssh-action@master
+        with:
+          host: ec2-3-36-130-110.ap-northeast-2.compute.amazonaws.com
+          username: ubuntu
+          key: ${{secrets.EC2_PEMKEY}}
+          script: |
+            if ! type docker > /dev/null ; then
+              sudo snap install docker || echo "docker install failed!"
+            fi
+            sudo docker login --username ${{secrets.DOCKER_EMAIL}} --password ${{secrets.DOCKER_PASSWORD}}
+            sudo docker-compose pull && sudo docker-compose up -d
+            
+            # Remove old and unused Docker images
+            sudo docker image prune -f
+
+
+```
+</details>
+<details>
+<summary> <b>데브옵스 CI/CD : k8s-cicd.yml </b></summary>
+
+```
+
+# docker build 후 ecr 업로드 및 kubectl apply 시켜주기
+name: deploy sid with k8s
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout github
+        uses: actions/checkout@v2
+
+      - name: install kubectl # 가상 컴퓨터에 kubectl 설치
+        uses: azure/setup-kubectl@v3
+        with:
+          version: "v1.25.9"
+        id: install
+
+      - name: configure aws # aws configure 해서 key값 세팅하는 부분
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{secrets.AWS_KEY}}
+          aws-secret-access-key: ${{secrets.AWS_SECRET}}
+          aws-region: ap-northeast-2
+
+      - name: update cluster information
+        run: aws eks update-kubeconfig --name 6team-cluster --region ap-northeast-2 # 원래는 6team-cluster
+
+      - name: login ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      # 이곳에서 가장 빈번한 변경이 일어남(이미지)
+      - name: build and push docker images to ecr
+        env: # 변수를 지정하는 부분
+          REGISTRY: 346903264902.dkr.ecr.ap-northeast-2.amazonaws.com
+          REPOSITORY: devjeans-sid # AWS ecr의 프라이빗 리포지토리 이름을 의미
+        run: |
+          docker build -t $REGISTRY/$REPOSITORY:latest -f ./Dockerfile .
+          docker push $REGISTRY/$REPOSITORY:latest
+      # deployment가 변경되면 반영하는 부분
+      - name: eks kubectl apply
+        run: |
+          kubectl apply -f ./k8s/sid_depl.yml
+          kubectl rollout restart deployment sid-deployment
+
+
 
 ```
 </details>
@@ -192,6 +298,11 @@ jobs:
 
 ### ✔️Back-end
 <img src="https://img.shields.io/badge/Spring-green?style=for-the-badge&logo=Spring&logoColor=white"><img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white"><img src="https://img.shields.io/badge/Sspringsecurity-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white"><img src="https://img.shields.io/badge/amazons3-569A31?style=for-the-badge&logo=amazons3&logoColor=white"><img src="https://img.shields.io/badge/redis-FF4438?style=for-the-badge&logo=redis&logoColor=white"><img src="https://img.shields.io/badge/mariadb-003545?style=for-the-badge&logo=mariadb&logoColor=white"><img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
+
+### ✔️ Devops
+<img src="https://img.shields.io/badge/amazonwebservices-232F3E?style=for-the-badge&logo=amazonwebservices&logoColor=white"><img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"><img src="https://img.shields.io/badge/kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white"><img src="https://img.shields.io/badge/amazons3-569A31?style=for-the-badge&logo=amazons3&logoColor=white"><img src="https://img.shields.io/badge/amazonrds-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white"><img src="https://img.shields.io/badge/amazonroute53-8C4FFF?style=for-the-badge&logo=amazonroute53&logoColor=white"><img src="https://img.shields.io/badge/amazonelasticache-C925D1?style=for-the-badge&logo=amazonelasticache&logoColor=white"><img src="https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white"><img src="https://img.shields.io/badge/awselasticloadbalancing-ED1965?style=for-the-badge&logo=awselasticloadbalancing&logoColor=white"><img src="https://img.shields.io/badge/amazoneks-FF9900?style=for-the-badge&logo=amazoneks&logoColor=white"><img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white"><img src="https://img.shields.io/badge/githubactions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white"><img src="https://img.shields.io/badge/ssebao-000000?style=for-the-badge&logo=foodpanda&logoColor=white"><img src="https://img.shields.io/badge/cloudfront-FF4F8B?style=for-the-badge&logo=amazoncloudwatch&logoColor=white">
+
+
 
 ### ✔️ 협업 관리
 <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white"><img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"><img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
@@ -315,6 +426,95 @@ jobs:
     </details>
 
 
+## ☄️ Devops Trouble Shooting
+<details> 
+<summary><h3> SSE(Server-Sent Events) 미작동 문제 </h3> </summary> 
+
+### 📌 이슈
+
+개발 서버 배포 시 Nginx를 사용한 환경에서 Server-Sent Events(SSE)가 작동하지 않는 문제가 발생했습니다. SSE는 HTTP/1.1 이상에서 지원되지만 Nginx가 HTTP/1.0으로 요청을 프록시 처리하면서 발생한 이슈였습니다.
+
+### 📌 원인
+
+Nginx의 기본 설정에서 HTTP/1.0을 사용하고 있었으며 SSE는 HTTP/1.1 이상의 프로토콜에서만 지원됩니다. 따라서 Nginx에서 HTTP/1.1로의 전환이 필요했습니다.
+
+### 📌 해결 방법
+
+문제를 해결하기 위해 Nginx 대신 **AWS의 Application Load Balancer(ALB)**를 사용하여 로드 밸런싱을 처리했습니다. AWS ALB는 HTTP/1.1을 기본적으로 지원하므로, 별도의 Nginx 설정 없이도 SSE가 정상적으로 동작하였습니다.
+</details>
+
+<details> 
+<summary><h3> 쿠버네티스 멀티서버 배포 시 SSE 구독 실패 문제 해결 </h3> </summary> 
+
+### 📌 이슈
+
+쿠버네티스를 사용하여 멀티서버 배포 중 알림이 간헐적으로 전달되지 않는 문제가 발생했습니다. 수천 개의 채팅 메시지를 보내는 상황에서도 알림이 일부는 도착하고, 일부는 도착하지 않는 불안정한 현상이 있었습니다.
+
+### 📌 원인
+
+문제의 원인을 파악하기 위해 Redis에 접속하여 데이터가 제대로 저장되는지 확인한 결과 redis에는 데이터가 제대로 들어왔으나 알림이 발생되지 않는 문제 확인, 코드를 확인해보니
+
+RedisMessageListenerContainer가 두 개가 존재하여 중복 구독이 발생할 가능성이 있다고 판단했습니다. 이로 인해 메시지 처리의 일관성이 깨졌을 수 있습니다. 또한 SSE 구독 요청이 실패할 때 알림이 전송되지 않는 문제도 추가적으로 발견되었습니다. 이는 프론트엔드의 구독 실패로 인한 이슈였습니다.
+
+### 📌 해결 방법
+
+RedisMessageListenerContainer 중복 문제 해결: 두 개의 RedisMessageListenerContainer가 구동 중인 것을 확인한 후, 하나를 삭제하고 관련된 qualifier를 제거하여 재배포했습니다. 이로 인해 중복 문제는 해결되었습니다.
+
+프론트엔드 구독 실패 문제 해결: SSE/subscribe 요청이 실패할 때 알림이 전송되지 않는 문제를 해결하기 위해 try-catch 문을 사용하여 실패 시 재연결 요청을 하도록 프론트엔드 코드를 수정했습니다.
+</details>
+
+<details> 
+<summary><h3> Spring Scheduler 동시성 문제 해결  </h3> </summary> 
+
+### 📌 이슈
+
+Spring Scheduler 환경에서 여러 Pod 간에 스케줄된 작업이 동시에 실행되어 동시성 문제가 발생했습니다. 이를 방지하기 위해 Redis에 락 키를 저장해봤지만, 동시성 문제는 여전히 해결되지 않았습니다.
+
+### 📌 원인
+
+Redis 락을 사용해도 스케줄 작업 간의 동시성 제어가 제대로 되지 않았던 이유는, Redis가 락을 충분히 빠르게 관리하지 못하거나, 여러 노드 간 동시성 제어에 한계가 있었기 때문입니다. Redis만으로는 여러 Pod 간 잠금을 효율적으로 관리하는 데 어려움이 있었습니다.
+
+### 📌 해결 방법
+
+ShedLock 도입: ShedLock은 여러 노드 또는 Pod에서 동일한 작업이 중복 실행되지 않도록 잠금을 제공합니다. 한 노드에서 잠금을 획득하면, 다른 노드는 동일한 작업을 실행하지 않으며 대기하지 않고 건너뜁니다.
+
+**ShedLock의 특징:**
+
+휘발성 관리: 잠금이 필요한 시간 동안만 유지되며, 작업이 완료되면 잠금이 자동 해제됩니다.
+클러스터 환경 지원: 한 노드가 잠금을 획득하면 다른 노드는 해당 잠금이 해제될 때까지 작업을 실행하지 않습니다.
+시간 기반 잠금: 노드 시간이 동기화된 환경에서만 제대로 작동합니다.
+적용 방법:
+
+@SchedulerLock 어노테이션을 사용하여 스케줄된 메서드에 잠금 로직을 적용.
+Lock Provider로 Redis를 사용하여 빠른 실시간 잠금 처리가 가능하게 설정.
+적용 환경:
+
+JDK 17 이상 및 Spring 6 이상 환경에서는 ShedLock 5.1.0 버전을 권장.
+JDK 17 미만 환경에서는 ShedLock 4.44.0 버전 사용.
+
+</details>
+
+<details> 
+<summary><h3> 배포 후 화면 깨짐 현상 </h3> </summary> 
+[증거사진]
+
+### 📌 이슈
+
+배포 후 프론트엔드 화면이 깨지는 문제가 발생하였습니다. 로컬 환경에서는 정상적으로 표시되었지만, 배포 환경에서는 CSS 우선순위가 달라져 화면이 제대로 렌더링되지 않았습니다.
+
+### 📌 원인
+
+로컬 개발 환경과 배포 환경 간의 차이로 인해 CSS 우선순위가 변경된 것이 문제의 원인이었습니다. 특히, 웹팩(Webpack) 빌드 과정에서 CSS가 예상과 다르게 처리되어, 스타일이 올바르게 적용되지 않았습니다.
+
+### 📌 해결 방법
+
+1. npm run build 명령어로 프로젝트를 빌드한 후, 배포 환경과 동일한 방식으로 로컬 서버에서 애플리케이션을 확인하기 위해 serve -s dist 명령어를 실행하여 배포환경과 동일한 환경을 로컬에서 재현할 수 있었습니다.
+
+2. 로컬 서버에서 배포 환경과 동일하게 확인하며 CSS 스타일 우선순위를 다시 맞추었습니다. 스타일 우선순위 충돌을 해결하고, 화면이 정상적으로 표시되는 것을 확인했습니다.
+
+3. 이후 수정된 CSS를 포함한 코드를 다시 빌드 및 배포하여 문제를 해결했습니다.
+
+</details>
 
 
 

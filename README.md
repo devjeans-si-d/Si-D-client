@@ -503,21 +503,28 @@ Nginx의 기본 설정에서 HTTP/1.0을 사용하고 있었으며 SSE는 HTTP/1
 <details> 
 <summary><h3> 쿠버네티스 멀티서버 배포 시 SSE 구독 실패 문제 해결 </h3> </summary> 
 
+### 오류 확인
+![sse구독실패 문제](https://github.com/user-attachments/assets/7228d6ab-bf7d-42dc-bae6-4172a5469359)
+
+### 해결 시연영상
+![redis구독은 방이랑 상관이없다 편집](https://github.com/user-attachments/assets/6a0c1a02-7547-4c01-b1d8-a9b05c55bec9)
+
+
 ### 📌 이슈
 
 쿠버네티스를 사용하여 멀티서버 배포 중 알림이 간헐적으로 전달되지 않는 문제가 발생했습니다. 수천 개의 채팅 메시지를 보내는 상황에서도 알림이 일부는 도착하고, 일부는 도착하지 않는 불안정한 현상이 있었습니다.
 
 ### 📌 원인
 
-문제의 원인을 파악하기 위해 Redis에 접속하여 데이터가 제대로 저장되는지 확인한 결과 redis에는 데이터가 제대로 들어왔으나 알림이 발생되지 않는 문제 확인, 코드를 확인해보니
+문제의 원인을 파악하기 위해 Redis에 접속하여 데이터가 제대로 저장되는지 확인한 결과, redis에는 데이터가 제대로 들어왔으나 알림이 발생되지 않는 문제를 발견하였고 코드를 확인해보니 채팅과 알림 RedisMessageListenerContainer가 두 개가 존재하여 중복 구독이 발생할 가능성이 있다고 판단했습니다. 이로 인해 메시지 처리의 일관성이 깨졌을 수 있습니다. 
 
-RedisMessageListenerContainer가 두 개가 존재하여 중복 구독이 발생할 가능성이 있다고 판단했습니다. 이로 인해 메시지 처리의 일관성이 깨졌을 수 있습니다. 또한 SSE 구독 요청이 실패할 때 알림이 전송되지 않는 문제도 추가적으로 발견되었습니다. 이는 프론트엔드의 구독 실패로 인한 이슈였습니다.
+또한, SSE 구독 요청이 실패할 때 알림이 전송되지 않는 문제도 추가적으로 발견되었습니다. 이는 프론트엔드의 구독 실패로 인한 이슈였습니다.
 
 ### 📌 해결 방법
 
 RedisMessageListenerContainer 중복 문제 해결: 두 개의 RedisMessageListenerContainer가 구동 중인 것을 확인한 후, 하나를 삭제하고 관련된 qualifier를 제거하여 재배포했습니다. 이로 인해 중복 문제는 해결되었습니다.
 
-프론트엔드 구독 실패 문제 해결: SSE/subscribe 요청이 실패할 때 알림이 전송되지 않는 문제를 해결하기 위해 try-catch 문을 사용하여 실패 시 재연결 요청을 하도록 프론트엔드 코드를 수정했습니다.
+프론트엔드 구독 실패 문제 해결: SSE/subscribe 요청이 실패할 때 알림이 전송되지 않는 문제를 해결하기 위해, try-catch 문을 사용하여 실패 시 재연결 요청을 하도록 프론트엔드 코드를 수정했습니다.
 </details>
 
 <details> 
@@ -553,7 +560,12 @@ JDK 17 미만 환경에서는 ShedLock 4.44.0 버전 사용.
 
 <details> 
 <summary><h3> 배포 후 화면 깨짐 현상 </h3> </summary> 
-[증거사진]
+	
+### 배포 후 화면 깨짐
+<img width="1002" alt="배포 후 화면깨짐" src="https://github.com/user-attachments/assets/d58a81be-0f20-447b-9e12-fc2d6e303f2a">
+
+### 배포 후 화면 수정
+<img width="957" alt="배포 후 화면수정" src="https://github.com/user-attachments/assets/bfa809ee-fa77-4581-8bf7-35bfa25fbfc3">
 
 ### 📌 이슈
 
